@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\DB;
-$site       = DB::table('konfigurasi')->first();
+$site       = DB::connection('ts3')->table('cp.konfigurasi')->first();
 ?>
 <!-- End #main --><script type="text/javascript">
   $(document).ready(function(){

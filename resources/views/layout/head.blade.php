@@ -1,5 +1,5 @@
 <?php 
-$site_config = DB::table('konfigurasi')->first();
+$site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 ?>
 <!DOCTYPE html>
 <html lang="en">

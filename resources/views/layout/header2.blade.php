@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\DB;
 use App\Models\Nav_model;
-$site                 = DB::table('konfigurasi')->first();
+$site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
 // Nav profil
 $myprofil             = new Nav_model();
 $nav_profil           = $myprofil->nav_profil();

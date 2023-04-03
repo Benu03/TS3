@@ -1,5 +1,5 @@
 <?php 
-$bg   = DB::table('heading')->where('halaman','About')->orderBy('id_heading','DESC')->first();
+$bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','About')->orderBy('id_heading','DESC')->first();
  ?>
 <!--Inner Header Start-->
 <section class="wf100 p80 inner-header" style="background-image: url('{{ asset('assets/upload/image/'.$bg->gambar) }}'); background-position: bottom center;">
@@ -29,7 +29,7 @@ $bg   = DB::table('heading')->where('halaman','About')->orderBy('id_heading','DE
    </div>
    <!--About Txt Video End--> 
 <?php 
-$bg2   = DB::table('heading')->where('halaman','Team')->orderBy('id_heading','DESC')->first();
+$bg2   = DB::connection('ts3')->table('cp.heading')->where('halaman','Team')->orderBy('id_heading','DESC')->first();
  ?>
 <!--Inner Header Start-->
 <section class="wf100 p100 inner-header" style="background-image: url('{{ asset('assets/upload/image/'.$bg2->gambar) }}'); background-position: bottom center;">
@@ -44,7 +44,7 @@ $bg2   = DB::table('heading')->where('halaman','Team')->orderBy('id_heading','DE
          <div class="row text-center  d-flex justify-content-center">
             <?php foreach($kategori_staff as $kategori_staff) { 
                $id_kategori_staff = $kategori_staff->id_kategori_staff;
-               $staff    = DB::table('staff')->where(array('status_staff'=>'Ya','id_kategori_staff'=>$id_kategori_staff))->orderBy('urutan','ASC')->get();
+               $staff    = DB::connection('ts3')->table('cp.staff')->where(array('status_staff'=>'Ya','id_kategori_staff'=>$id_kategori_staff))->orderBy('urutan','ASC')->get();
                if($staff) {
                ?>
             <div class="col-lg-12">

@@ -9,7 +9,7 @@ class User_model extends Model
     // kategori
     public function login($username,$password)
     {
-        $query = DB::table('users')
+        $query = DB::connection('ts3')->table('auth.users')
             ->select('*')
             ->where(array(  'users.username'	=> $username,
                             'users.password'    => sha1($password)))

@@ -1,5 +1,5 @@
 <?php 
-$site_config = DB::table('konfigurasi')->first();
+$site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 ?>
 <div class="wrapper home3">
    <!--Header Start-->
@@ -26,7 +26,7 @@ $site_config = DB::table('konfigurasi')->first();
                         <a href="{{ $site_config->instagram }}"><i class="fab fa-instagram"></i></a>     
                         @endif
                      </li>
-                     <li> <a class="acclink" href="{{ 'login' }}">Login</a> </li>                     
+                     <li> <a class="acclink" href="{{ 'login-cms' }}">Login</a> </li>                     
                   </ul>
                </div>
             </div>

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ComPro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
@@ -13,7 +13,7 @@ class Berita extends Controller
     public function index()
     {
         Paginator::useBootstrap();
-    	$site 	= DB::table('konfigurasi')->first();
+    	$site 	= DB::connection('ts3')->table('cp.konfigurasi')->first();
     	$model 	= new Berita_model();
 		$berita = $model->listing();
 
@@ -32,8 +32,8 @@ class Berita extends Controller
     public function kategori($slug_kategori)
     {
         Paginator::useBootstrap();
-        $site       = DB::table('konfigurasi')->first();
-        $kategori   = DB::table('kategori')->where('slug_kategori',$slug_kategori)->first();
+        $site       = DB::connection('ts3')->table('cp.konfigurasi')->first();
+        $kategori   = DB::connection('ts3')->table('cp.kategori')->where('slug_kategori',$slug_kategori)->first();
          if(!$kategori)
         {
             return redirect('berita');
@@ -58,10 +58,10 @@ class Berita extends Controller
     public function layanan($slug_berita)
     {
         Paginator::useBootstrap();
-        $site   = DB::table('konfigurasi')->first();
+        $site   = DB::connection('ts3')->table('cp.konfigurasi')->first();
         $model  = new Berita_model();
         $berita = $model->read($slug_berita);
-        $layanan = DB::table('berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
+        $layanan = DB::connection('ts3')->table('cp.berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
         if(!$berita)
         {
             return redirect('berita');
@@ -82,10 +82,10 @@ class Berita extends Controller
     public function terjadi($slug_berita)
     {
         Paginator::useBootstrap();
-        $site   = DB::table('konfigurasi')->first();
+        $site   = DB::connection('ts3')->table('cp.konfigurasi')->first();
         $model  = new Berita_model();
         $berita = $model->read($slug_berita);
-        $layanan = DB::table('berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
+        $layanan = DB::connection('ts3')->table('cp.berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
         if(!$berita)
         {
             return redirect('berita');
@@ -106,9 +106,9 @@ class Berita extends Controller
     public function read($slug_berita)
     {
         Paginator::useBootstrap();
-        $site   = DB::table('konfigurasi')->first();
-        $slider = DB::table('galeri')->where('jenis_galeri','Beritapage')->orderBy('id_galeri', 'DESC')->first();
-        // $berita = DB::table('berita')->where('status_berita','Publish')->orderBy('id_berita', 'DESC')->get();
+        $site   = DB::connection('ts3')->table('cp.konfigurasi')->first();
+        $slider = DB::connection('ts3')->table('cp.galeri')->where('jenis_galeri','Beritapage')->orderBy('id_galeri', 'DESC')->first();
+        // $berita = DB::connection('ts3')->table('berita')->where('status_berita','Publish')->orderBy('id_berita', 'DESC')->get();
         $model  = new Berita_model();
         $read   = $model->read($slug_berita);
         if(!$read)

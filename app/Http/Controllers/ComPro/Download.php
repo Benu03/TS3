@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ComPro;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ class Download extends Controller
     public function index()
     {
         Paginator::useBootstrap();
-        $kategori_download = DB::table('kategori_download')
+        $kategori_download = DB::connection('ts3')->table('cp.kategori_download')
                     ->orderBy('kategori_download.urutan','ASC')
                     ->get();
 
@@ -31,11 +31,11 @@ class Download extends Controller
     public function kategori($slug_kategori_download)
     {
         Paginator::useBootstrap();
-        $kategori   = DB::table('kategori_download')
+        $kategori   = DB::connection('ts3')->table('cp.kategori_download')
                     ->where('kategori_download.slug_kategori_download',$slug_kategori_download)
                     ->first();
-        $download = DB::table('download')
-                    ->join('kategori_download', 'kategori_download.id_kategori_download', '=', 'download.id_kategori_download','LEFT')
+        $download = DB::connection('ts3')->table('cp.download')
+                    ->join('cp.kategori_download', 'kategori_download.id_kategori_download', '=', 'download.id_kategori_download','LEFT')
                     ->select('download.*', 'kategori_download.nama_kategori_download')
                     ->where('download.id_kategori_download',$kategori->id_kategori_download)
                     ->orderBy('download.id_download','DESC')
@@ -57,7 +57,7 @@ class Download extends Controller
         $mydownload = new Download_model();
         $download   = $mydownload->detail($id_download);
         $hits       = $download->hits+1;
-        DB::table('download')->where('id_download',$download->id_download)->update([
+        DB::connection('ts3')->table('cp.download')->where('id_download',$download->id_download)->update([
             'hits'      => $hits
         ]);
         $data = array(  'title'     => $download->judul_download,
@@ -75,7 +75,7 @@ class Download extends Controller
         $mydownload = new Download_model();
         $download   = $mydownload->detail($id_download);
         $hits       = $download->hits+1;
-        DB::table('download')->where('id_download',$download->id_download)->update([
+        DB::connection('ts3')->table('cp.download')->where('id_download',$download->id_download)->update([
             'hits'      => $hits
         ]);
         $pathToFile           = './assets/upload/file/'.$download->gambar;

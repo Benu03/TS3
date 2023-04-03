@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ComPro;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User_model;
@@ -11,7 +12,8 @@ class Login extends Controller
     // Main page
     public function index()
     {
-    	$site = DB::table('konfigurasi')->first();
+    
+    	$site = DB::connection('ts3')->table('cp.konfigurasi')->first();
         $data = array(  'title'     => 'Login Administrator',
     					'site'		=> $site);
         return view('login/index',$data);
@@ -48,7 +50,7 @@ class Login extends Controller
     // Forgot password
     public function fogot()
     {
-    	$site = DB::table('konfigurasi')->first();
+    	$site = DB::connection('ts3')->table('cp.konfigurasi')->first();
        	$data = array(  'title'     => 'Lupa Password',
     					'site'		=> $site);
         return view('login/lupa',$data);

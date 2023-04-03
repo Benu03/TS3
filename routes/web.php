@@ -16,63 +16,65 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+// Route::get('/testdb', function () {
+//     try {
+//         DB::connection('ts3')->getPdo();
+//         echo "Connected successfully to: " . DB::connection('ts3')->getDatabaseName();
+//     } catch (\Exception $e) {
+//         die("Could not connect to the database. Please check your configuration. error:" . $e );
+//     }
+// });
+
 /* FRONT END */
 // Home
-Route::get('/', 'App\Http\Controllers\Home@index');
-Route::get('home', 'App\Http\Controllers\Home@index');
-Route::get('kontak', 'App\Http\Controllers\Home@kontak');
-Route::get('pemesanan', 'App\Http\Controllers\Home@pemesanan');
-Route::get('konfirmasi', 'App\Http\Controllers\Home@konfirmasi');
-Route::get('pembayaran', 'App\Http\Controllers\Home@pembayaran');
-Route::post('proses_pemesanan', 'App\Http\Controllers\Home@proses_pemesanan');
-Route::get('berhasil/{par1}', 'App\Http\Controllers\Home@berhasil');
-Route::get('cetak/{par1}', 'App\Http\Controllers\Home@cetak');
-Route::get('pusaka-abadi', 'App\Http\Controllers\Home@pusaka_abadi');
-Route::get('aksi', 'App\Http\Controllers\Aksi@index');
-Route::get('aksi/status/{par1}', 'App\Http\Controllers\Aksi@status');
+Route::get('/', 'App\Http\Controllers\ComPro\Home@index');
+Route::get('home', 'App\Http\Controllers\ComPro\Home@index');
+Route::get('kontak', 'App\Http\Controllers\ComPro\Home@kontak');
+Route::get('pemesanan', 'App\Http\Controllers\ComPro\Home@pemesanan');
+Route::get('konfirmasi', 'App\Http\Controllers\ComPro\Home@konfirmasi');
+Route::get('pembayaran', 'App\Http\Controllers\ComPro\Home@pembayaran');
+Route::post('proses_pemesanan', 'App\Http\Controllers\ComPro\Home@proses_pemesanan');
+Route::get('berhasil/{par1}', 'App\Http\Controllers\ComPro\Home@berhasil');
+Route::get('cetak/{par1}', 'App\Http\Controllers\ComPro\Home@cetak');
+Route::get('ts3', 'App\Http\Controllers\ComPro\Home@ts3');
+
 // Login
-Route::get('login', 'App\Http\Controllers\Login@index');
-Route::post('login/check', 'App\Http\Controllers\Login@check');
-Route::get('login/lupa', 'App\Http\Controllers\Login@lupa');
-Route::get('login/logout', 'App\Http\Controllers\Login@logout');
+Route::get('login', 'App\Http\Controllers\ComPro\Login@index');
+Route::post('login/check', 'App\Http\Controllers\ComPro\Login@check');
+Route::get('login/lupa', 'App\Http\Controllers\ComPro\Login@lupa');
+Route::get('login/logout', 'App\Http\Controllers\ComPro\Login@logout');
+
 // Berita
-Route::get('berita', 'App\Http\Controllers\Berita@index');
-Route::get('berita/read/{par1}', 'App\Http\Controllers\Berita@read');
-Route::get('berita/layanan/{par1}', 'App\Http\Controllers\Berita@layanan');
-Route::get('berita/terjadi/{par1}', 'App\Http\Controllers\Berita@terjadi');
-Route::get('berita/kategori/{par1}', 'App\Http\Controllers\Berita@kategori');
-// Akreditasi
-Route::get('provider-akreditasi', 'App\Http\Controllers\Akreditasi@index');
-Route::get('akreditasi/read/{par1}', 'App\Http\Controllers\Akreditasi@read');
-Route::get('layanan/{par1}', 'App\Http\Controllers\Akreditasi@layanan');
-Route::get('akreditasi/kategori/{par1}', 'App\Http\Controllers\Akreditasi@kategori');
+Route::get('berita', 'App\Http\Controllers\ComPro\Berita@index');
+Route::get('berita/read/{par1}', 'App\Http\Controllers\ComPro\Berita@read');
+Route::get('berita/layanan/{par1}', 'App\Http\Controllers\ComPro\Berita@layanan');
+Route::get('berita/terjadi/{par1}', 'App\Http\Controllers\ComPro\Berita@terjadi');
+Route::get('berita/kategori/{par1}', 'App\Http\Controllers\ComPro\Berita@kategori');
+
 // download
-Route::get('download', 'App\Http\Controllers\Download@index');
-Route::get('download/unduh/{par1}', 'App\Http\Controllers\Download@unduh');
-Route::get('download/kategori/{par1}', 'App\Http\Controllers\Download@kategori');
-Route::get('dokumen', 'App\Http\Controllers\Download@index');
-Route::get('dokumen/unduh/{par1}', 'App\Http\Controllers\Download@unduh');
-Route::get('dokumen/detail/{par1}/{par2}', 'App\Http\Controllers\Download@detail');
-Route::get('download/detail/{par1}/{par2}', 'App\Http\Controllers\Download@detail');
+Route::get('download', 'App\Http\Controllers\ComPro\Download@index');
+Route::get('download/unduh/{par1}', 'App\Http\Controllers\ComPro\Download@unduh');
+Route::get('download/kategori/{par1}', 'App\Http\Controllers\ComPro\Download@kategori');
+Route::get('dokumen', 'App\Http\Controllers\ComPro\Download@index');
+Route::get('dokumen/unduh/{par1}', 'App\Http\Controllers\ComPro\Download@unduh');
+Route::get('dokumen/detail/{par1}/{par2}', 'App\Http\Controllers\ComPro\Download@detail');
+Route::get('download/detail/{par1}/{par2}', 'App\Http\Controllers\ComPro\Download@detail');
+
 // galeri
-Route::get('galeri', 'App\Http\Controllers\Galeri@index');
-Route::get('galeri/detail/{par1}', 'App\Http\Controllers\Galeri@detail');
+Route::get('galeri', 'App\Http\Controllers\ComPro\Galeri@index');
+Route::get('galeri/detail/{par1}', 'App\Http\Controllers\ComPro\Galeri@detail');
+
 // video
-Route::get('video', 'App\Http\Controllers\Video@index');
-Route::get('video/detail/{par1}', 'App\Http\Controllers\Video@detail');
-Route::get('webinar', 'App\Http\Controllers\Video@index');
-Route::get('webinar/detail/{par1}/{par2}', 'App\Http\Controllers\Video@detail');
-// Proyek
-Route::get('proyek', 'App\Http\Controllers\Proyek@index');
-Route::get('proyek/kategori/{par1}', 'App\Http\Controllers\Proyek@kategori');
-Route::get('proyek/detail/{par1}', 'App\Http\Controllers\Proyek@detail');
-Route::get('proyek/cetak/{par1}', 'App\Http\Controllers\Proyek@cetak');
-/* END FRONT END */
-/* BACK END */
+Route::get('video', 'App\Http\Controllers\ComPro\Video@index');
+Route::get('video/detail/{par1}', 'App\Http\Controllers\ComPro\Video@detail');
+Route::get('webinar', 'App\Http\Controllers\ComPro\Video@index');
+Route::get('webinar/detail/{par1}/{par2}', 'App\Http\Controllers\ComPro\Video@detail');
+
 
 // dasbor
 Route::get('admin/dasbor', 'App\Http\Controllers\Admin\Dasbor@index');
 Route::get('admin/dasbor/konfigurasi', 'App\Http\Controllers\Admin\Dasbor@konfigurasi');
+
 // pemesanan
 Route::get('admin/pemesanan', 'App\Http\Controllers\Admin\Pemesanan@index');
 Route::get('admin/pemesanan/tambah', 'App\Http\Controllers\Admin\Pemesanan@tambah');
@@ -107,6 +109,7 @@ Route::post('admin/konfigurasi/proses_email', 'App\Http\Controllers\Admin\Konfig
 Route::post('admin/konfigurasi/proses_gambar', 'App\Http\Controllers\Admin\Konfigurasi@proses_gambar');
 Route::post('admin/konfigurasi/proses_pembayaran', 'App\Http\Controllers\Admin\Konfigurasi@proses_pembayaran');
 Route::post('admin/konfigurasi/proses_profil', 'App\Http\Controllers\Admin\Konfigurasi@proses_profil');
+
 // berita
 Route::get('admin/berita', 'App\Http\Controllers\Admin\Berita@index');
 Route::get('admin/berita/cari', 'App\Http\Controllers\Admin\Berita@cari');

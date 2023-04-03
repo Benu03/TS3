@@ -1,5 +1,5 @@
 <?php 
-$bg   = DB::table('heading')->where('halaman','Berita')->orderBy('id_heading','DESC')->first();
+$bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Berita')->orderBy('id_heading','DESC')->first();
  ?>
 <!--Inner Header Start-->
 <section class="wf100 p80 inner-header" style="background-image: url('{{ asset('assets/upload/image/'.$bg->gambar) }}'); background-position: bottom center;">

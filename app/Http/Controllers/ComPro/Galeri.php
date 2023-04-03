@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ComPro;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,12 +12,12 @@ class Galeri extends Controller
     // Main page
     public function index()
     {
-        $galeri = DB::table('galeri')
-                    ->join('kategori_galeri', 'kategori_galeri.id_kategori_galeri', '=', 'galeri.id_kategori_galeri','LEFT')
+        $galeri = DB::connection('ts3')->table('cp.galeri')
+                    ->join('cp.kategori_galeri', 'kategori_galeri.id_kategori_galeri', '=', 'galeri.id_kategori_galeri','LEFT')
                     ->select('galeri.*', 'kategori_galeri.nama_kategori_galeri')
                     ->orderBy('galeri.id_galeri','DESC')
                     ->paginate(10);
-       	$site 	= DB::table('konfigurasi')->first();
+       	$site 	= DB::connection('ts3')->table('cp.konfigurasi')->first();
 
 		$data = array(  'title'		=> 'Galeri '.$site->namaweb,
 						'deskripsi'	=> 'Galeri '.$site->namaweb,
@@ -32,14 +32,14 @@ class Galeri extends Controller
      // detail
     public function detail($id_galeri)
     {
-        $galeri = DB::table('galeri')
-                    ->join('kategori_galeri', 'kategori_galeri.id_kategori_galeri', '=', 'galeri.id_kategori_galeri','LEFT')
+        $galeri =   DB::connection('ts3')->table('cp.galeri')
+                    ->join('cp.kategori_galeri', 'kategori_galeri.id_kategori_galeri', '=', 'galeri.id_kategori_galeri','LEFT')
                     ->select('galeri.*', 'kategori_galeri.nama_kategori_galeri')
                     ->where('galeri.id_galeri',$id_galeri)
                     ->orderBy('galeri.id_galeri','DESC')
                     ->first();
         $hits       = $galeri->hits+1;
-        DB::table('galeri')->where('id_galeri',$galeri->id_galeri)->update([
+       DB::connection('ts3')->table('cp.galeri')->where('id_galeri',$galeri->id_galeri)->update([
             'hits'      => $hits
         ]);
         $data = array(  'title'		=> $galeri->judul_galeri,

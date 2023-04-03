@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ComPro;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,20 +15,22 @@ class Home extends Controller
     // Homepage
     public function index()
     {
-    	$site_config   = DB::table('konfigurasi')->first();
-        $video          = DB::table('video')->orderBy('id_video','DESC')->first();
-    	$slider         = DB::table('galeri')->where('jenis_galeri','Homepage')->limit(5)->orderBy('id_galeri', 'DESC')->get();
-        $layanan        = DB::table('berita')->where(array('jenis_berita'=>'Layanan','status_berita'=>'Publish'))->limit(3)->orderBy('urutan', 'ASC')->get();
+        
+    	$site_config   =  DB::connection('ts3')->table('cp.konfigurasi')->first();
+        $video          = DB::connection('ts3')->table('cp.video')->orderBy('id_video','DESC')->first();
+    	$slider         = DB::connection('ts3')->table('cp.galeri')->where('jenis_galeri','Homepage')->limit(5)->orderBy('id_galeri', 'DESC')->get();
+        $layanan        = DB::connection('ts3')->table('cp.berita')->where(array('jenis_berita'=>'Layanan','status_berita'=>'Publish'))->limit(3)->orderBy('urutan', 'ASC')->get();
         $news           = new Berita_model();
         $berita         = $news->home();
+
 
         $data = array(  'title'         => $site_config->namaweb.' - '.$site_config->tagline,
                         'deskripsi'     => $site_config->namaweb.' - '.$site_config->tagline,
                         'keywords'      => $site_config->namaweb.' - '.$site_config->tagline,
                         'slider'        => $slider,
                         'site_config'   => $site_config,
-                        'berita'        => $berita,
-                        'beritas'       => $berita,
+                        // 'berita'        => $berita,
+                        // 'beritas'       => $berita,
                         'layanan'       => $layanan,
                         'video'         => $video,
                         'content'       => 'home/index'
@@ -37,14 +39,14 @@ class Home extends Controller
     }
 
     // Homepage
-    public function pusaka_abadi()
+    public function ts3()
     {
-        $site_config   = DB::table('konfigurasi')->first();
+        $site_config   = DB::connection('ts3')->table('cp.konfigurasi')->first();
         $news   = new Berita_model();
         $berita = $news->home();
         // Staff
-        $kategori_staff  = DB::table('kategori_staff')->orderBy('urutan','ASC')->get();
-        $layanan = DB::table('berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
+        $kategori_staff  = DB::connection('ts3')->table('cp.kategori_staff')->orderBy('urutan','ASC')->get();
+        $layanan = DB::connection('ts3')->table('cp.berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
 
         $data = array(  'title'     => 'Tentang '.$site_config->namaweb,
                         'deskripsi' => 'Tentang '.$site_config->namaweb,
@@ -61,7 +63,7 @@ class Home extends Controller
     // kontak
     public function kontak()
     {
-        $site_config   = DB::table('konfigurasi')->first();
+        $site_config   = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
         $data = array(  'title'     => 'Menghubungi '.$site_config->namaweb,
                         'deskripsi' => 'Kontak '.$site_config->namaweb,

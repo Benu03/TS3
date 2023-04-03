@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ComPro;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +14,11 @@ class Video extends Controller
     public function index()
     {
         Paginator::useBootstrap();
-        $video = DB::table('video')
+        $video = DB::connection('ts3')->table('cp.video')
                     ->select('*')
                     ->orderBy('id_video','DESC')
                     ->paginate(10);
-       	$site 	= DB::table('konfigurasi')->first();
+       	$site 	= DB::connection('ts3')->table('cp.konfigurasi')->first();
 
 		$data = array(  'title'		=> 'Video and Webinar '.$site->namaweb,
 						'deskripsi'	=> 'Video and Webinar '.$site->namaweb,
@@ -33,14 +33,14 @@ class Video extends Controller
      // detail
     public function detail($id_video)
     {
-        $video = DB::table('video')
-                    ->join('kategori_video', 'kategori_video.id_kategori_video', '=', 'video.id_kategori_video','LEFT')
+        $video = DB::connection('ts3')->table('cp.video')
+                    ->join('cp.kategori_video', 'kategori_video.id_kategori_video', '=', 'video.id_kategori_video','LEFT')
                     ->select('video.*', 'kategori_video.nama_kategori_video')
                     ->where('video.id_video',$id_video)
                     ->orderBy('video.id_video','DESC')
                     ->first();
         $hits       = $video->hits+1;
-        DB::table('video')->where('id_video',$video->id_video)->update([
+        DB::connection('ts3')->table('cp.video')->where('id_video',$video->id_video)->update([
             'hits'      => $hits
         ]);
         $data = array(  'title'		=> $video->judul_video,

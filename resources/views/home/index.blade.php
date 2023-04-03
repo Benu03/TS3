@@ -99,7 +99,7 @@
                <hr>
             </div>
          </div>
-         <div class="row" style="background-color: white; padding-top: 20px; padding-bottom: 20px; border-radius: 5px;">
+         {{-- <div class="row" style="background-color: white; padding-top: 20px; padding-bottom: 20px; border-radius: 5px;">
             <?php foreach($berita as $berita) { ?>
             <!--Blog Small Post Start-->
             <div class="col-md-4 col-sm-6" >
@@ -118,7 +118,7 @@
             </div>
             <!--Blog Small Post End--> 
             <?php } ?>
-         </div>
+         </div> --}}
          
       </div>
    </div>

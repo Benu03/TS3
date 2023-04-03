@@ -10,8 +10,8 @@ class Nav_model extends Model
     // Main page
     public function nav_profil()
     {
-    	$query = DB::table('berita')
-            ->join('kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
+    	$query = DB::connection('ts3')->table('cp.berita')
+            ->join('cp.kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
             ->select('berita.*', 'kategori.slug_kategori', 'kategori.nama_kategori')
             ->where(array(	'berita.status_berita'	=> 'Publish',
                             'berita.jenis_berita'  => 'Profil'))
@@ -23,7 +23,7 @@ class Nav_model extends Model
     // Main page
     public function nav_berita()
     {
-        $query = DB::table('kategori')
+        $query = DB::connection('ts3')->table('cp.kategori')
             ->orderBy('kategori.urutan','DESC')
             ->get();
         return $query;
@@ -32,7 +32,7 @@ class Nav_model extends Model
     // Main page
     public function nav_materi()
     {
-        $query = DB::table('kategori_download')
+        $query = DB::connection('ts3')->table('cp.kategori_download')
             ->orderBy('kategori_download.urutan','ASC')
             ->get();
         return $query;
@@ -41,8 +41,8 @@ class Nav_model extends Model
     // Main page
     public function nav_layanan()
     {
-        $query = DB::table('berita')
-            ->join('kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
+        $query = DB::connection('ts3')->table('cp.berita')
+            ->join('cp.kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
             ->select('berita.*', 'kategori.slug_kategori', 'kategori.nama_kategori')
             ->where(array(  'berita.status_berita'  => 'Publish',
                             'berita.jenis_berita'  => 'Layanan'))
@@ -54,8 +54,8 @@ class Nav_model extends Model
     // Main page
     public function nav_terjadi()
     {
-        $query = DB::table('berita')
-            ->join('kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
+        $query = DB::connection('ts3')->table('cp.berita')
+            ->join('cp.kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
             ->select('berita.*', 'kategori.slug_kategori', 'kategori.nama_kategori')
             ->where(array(  'berita.status_berita'  => 'Publish',
                             'berita.jenis_berita'  => 'Terjadi'))
@@ -67,8 +67,8 @@ class Nav_model extends Model
     // Main page
     public function nav_jenis($jenis_berita)
     {
-        $query = DB::table('berita')
-            ->join('kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
+        $query = DB::connection('ts3')->table('cp.berita')
+            ->join('cp.kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
             ->select('berita.*', 'kategori.slug_kategori', 'kategori.nama_kategori')
             ->where(array(  'berita.status_berita'  => 'Publish',
                             'berita.jenis_berita'  => $jenis_berita))
