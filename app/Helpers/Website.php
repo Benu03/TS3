@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\DB;
 function website($perintah='')
 {
 	// Load model
-	$site = DB::table('konfigurasi')->first();
+	$site = DB::connection('ts3')->table('cp.konfigurasi')->first();
 	// User
 	if($perintah=='lengkap') {
 		$hasil = $site->namaweb.' | '.$site->tagline;

@@ -54,7 +54,7 @@ $bg2   = DB::connection('ts3')->table('cp.heading')->where('halaman','Team')->or
                   <br><br>
                </div>
             </div>
-            <?php foreach($staff as $staff) { ?>
+            <?php foreach($staff as $staff) {   ?>
             <!--Blog Post Start-->
             <div class="col-lg-3 col-md-6">
                <div class="event-post">
@@ -81,6 +81,7 @@ $bg2   = DB::connection('ts3')->table('cp.heading')->where('halaman','Team')->or
       <hr>
       <div class="row">
          <?php foreach($layanan as $layanan) { ?>
+
             <div class="col-md-4 col-sm-6">
                <div class="volbox">
                   <img src="{{ asset('assets/upload/image/thumbs/'.$layanan->gambar) }}" alt="{{ $layanan->judul_berita }}" class="img img-thumbnail img-fluid">

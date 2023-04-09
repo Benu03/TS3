@@ -44,9 +44,10 @@ class Home extends Controller
         $site_config   = DB::connection('ts3')->table('cp.konfigurasi')->first();
         $news   = new Berita_model();
         $berita = $news->home();
-        // Staff
+           // Staff
         $kategori_staff  = DB::connection('ts3')->table('cp.kategori_staff')->orderBy('urutan','ASC')->get();
         $layanan = DB::connection('ts3')->table('cp.berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
+
 
         $data = array(  'title'     => 'Tentang '.$site_config->namaweb,
                         'deskripsi' => 'Tentang '.$site_config->namaweb,

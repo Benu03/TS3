@@ -26,7 +26,7 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
                         <a href="{{ $site_config->instagram }}"><i class="fab fa-instagram"></i></a>     
                         @endif
                      </li>
-                     <li> <a class="acclink" href="{{ 'login-cms' }}">Login</a> </li>                     
+                     <li> <a class="acclink" href="{{ 'login' }}">Login</a> </li>                     
                   </ul>
                </div>
             </div>

@@ -12,7 +12,7 @@ class Staff_model extends Model
     // listing
     public function semua()
     {
-        $query = DB::table('staff')
+        $query = DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->orderBy('staff.id_staff','DESC')
@@ -23,7 +23,7 @@ class Staff_model extends Model
     // listing
     public function cari($keywords)
     {
-        $query = DB::table('staff')
+        $query = DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where('staff.nama_staff', 'LIKE', "%{$keywords}%") 
@@ -36,7 +36,7 @@ class Staff_model extends Model
     // listing
     public function listing()
     {
-    	$query = DB::table('staff')
+    	$query = DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where('status_staff','Publish')
@@ -48,7 +48,7 @@ class Staff_model extends Model
     // kategori
     public function kategori_staff($id_kategori_staff)
     {
-        $query = DB::table('staff')
+        $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where(array(  'staff.status_staff'         => 'Publish',
@@ -61,7 +61,7 @@ class Staff_model extends Model
     // Kategori
     public function kategori()
     {
-         $query = DB::table('staff')
+         $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where(array(  'staff.status_staff'         => 'Publish'))
@@ -74,7 +74,7 @@ class Staff_model extends Model
     // kategori
     public function all_kategori_staff($id_kategori_staff)
     {
-        $query = DB::table('staff')
+        $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where(array(  'staff.id_kategori_staff'    => $id_kategori_staff))
@@ -86,7 +86,7 @@ class Staff_model extends Model
     // kategori
     public function status_staff($status_staff)
     {
-        $query = DB::table('staff')
+        $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where(array(  'staff.status_staff'         => $status_staff))
@@ -98,7 +98,7 @@ class Staff_model extends Model
     // kategori
     public function detail_kategori_staff($id_kategori_staff)
     {
-        $query = DB::table('staff')
+        $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where(array(  'staff.status_staff'         => 'Publish',
@@ -111,7 +111,7 @@ class Staff_model extends Model
     // kategori
     public function detail_slug_kategori_staff($slug_kategori_staff)
     {
-        $query = DB::table('staff')
+        $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where(array(  'staff.status_staff'                  => 'Publish',
@@ -125,7 +125,7 @@ class Staff_model extends Model
     // kategori
     public function slug_kategori_staff($slug_kategori_staff)
     {
-        $query = DB::table('staff')
+        $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where(array(  'staff.status_staff'                  => 'Publish',
@@ -138,7 +138,7 @@ class Staff_model extends Model
     // detail
     public function read($slug_staff)
     {
-        $query = DB::table('staff')
+        $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where('staff.slug_staff',$slug_staff)
@@ -150,7 +150,7 @@ class Staff_model extends Model
      // detail
     public function detail($id_staff)
     {
-        $query = DB::table('staff')
+        $query =DB::connection('ts3')->table('staff')
             ->join('kategori_staff', 'kategori_staff.id_kategori_staff', '=', 'staff.id_kategori_staff','LEFT')
             ->select('staff.*', 'kategori_staff.slug_kategori_staff', 'kategori_staff.nama_kategori_staff')
             ->where('staff.id_staff',$id_staff)
@@ -162,7 +162,7 @@ class Staff_model extends Model
     // Gambar
     public function gambar($id_staff)
     {
-        $query = DB::table('gambar_staff')
+        $query =DB::connection('ts3')->table('gambar_staff')
             ->select('*')
             ->where('gambar_staff.id_staff',$id_staff)
             ->orderBy('id_staff','DESC')

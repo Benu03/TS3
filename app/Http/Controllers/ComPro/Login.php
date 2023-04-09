@@ -14,7 +14,7 @@ class Login extends Controller
     {
     
     	$site = DB::connection('ts3')->table('cp.konfigurasi')->first();
-        $data = array(  'title'     => 'Login Administrator',
+        $data = array(  'title'     => 'Login',
     					'site'		=> $site);
         return view('login/index',$data);
     }
@@ -26,12 +26,14 @@ class Login extends Controller
         $password   = $request->password;
         $model      = new User_model();
         $user       = $model->login($username,$password);
+
+
         if($user) {
             $request->session()->put('id_user', $user->id_user);
             $request->session()->put('nama', $user->nama);
             $request->session()->put('username', $user->username);
-            $request->session()->put('akses_level', $user->akses_level);
-            return redirect('admin/dasbor')->with(['sukses' => 'Anda berhasil login']);
+            $request->session()->put('id_role', $user->id_role);
+            return redirect('admin-cms/dasbor')->with(['sukses' => 'Anda berhasil login']);
         }else{
             return redirect('login')->with(['warning' => 'Mohon maaf, Username atau password salah']);
         }
