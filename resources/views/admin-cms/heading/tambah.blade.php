@@ -21,12 +21,8 @@
 			<option value="Kontak">Halaman Kontak</option>
 			<option value="About">About</option>
 			<option value="Team">Halaman Board and Team</option>
-			{{-- <option value="Aksi">Halaman Aksi</option> --}}
-			{{-- <option value="Materi">Materi</option>
-			<option value="Dokumen">Dokumen</option> --}}
+			<option value="Kontak">Kontak</option>
 			<option value="Layanan">Layanan</option>
-			{{-- <option value="Provider">Provider</option>
-			<option value="Terjadi">Apa yang terjadi?</option> --}}
 		</select>
 	</div>
 </div>

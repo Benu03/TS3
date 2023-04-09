@@ -26,7 +26,7 @@ class Heading extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
     	request()->validate([
-					        'judul_heading' => 'required|unique:heading',
+					        'judul_heading' => 'required',
                             'gambar'        => 'required|file|image|mimes:jpeg,png,jpg|max:8024',
 					        ]);
         // UPLOAD START
@@ -50,6 +50,8 @@ class Heading extends Controller
             'gambar'        => $input['nama_file'],
             'halaman'       => $request->halaman
         ]);
+
+         
         return redirect('admin-cms/heading')->with(['sukses' => 'Data telah ditambah']);
     }
 

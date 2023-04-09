@@ -47,7 +47,7 @@ if(isset($error)) {
 echo validation_errors('<div class="alert alert-success">','</div>'); 
 ?>
 
-<?php echo form_open_multipart(base_url('admin/konfigurasi/direktur')) ?>
+<?php echo form_open_multipart(base_url('admin-cms/konfigurasi/direktur')) ?>
 <div class="row">
 	<input type="hidden" name="id_konfigurasi" value="<?php echo $site->id_konfigurasi ?>">
 	

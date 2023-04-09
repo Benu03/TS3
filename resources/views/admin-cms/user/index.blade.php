@@ -8,9 +8,9 @@
     </div>
 @endif
 <p>
-  @include('admin/user/tambah')
+  @include('admin-cms/user/tambah')
 </p>
-<form action="{{ asset('admin/user/proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-cms/user/proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
 
@@ -43,7 +43,7 @@
         <th width="20%">NAMA</th>
         <th width="20%">EMAIL</th>
         <th width="20%">USERNAME</th>
-        <th width="10%">LEVEL</th>
+        <th width="10%">ROLE</th>
         <th>ACTION</th>
 </tr>
 </thead>
@@ -59,21 +59,22 @@
         <small class="text-center"><?php echo $i ?></small>
     </td>
       <td class="text-center">
-        <?php if($user->gambar != "") { ?>
-            <img src="{{ asset('assets/upload/user/thumbs/'.$user->gambar) }}" class="img img-fluid img-thumbnail">
+       
+        <?php if($user->img_user <> "NULL") { ?>
+            <img src="{{ asset('assets/upload/user/thumbs/'.$user->img_user) }}" class="img img-fluid img-thumbnail">
         <?php }else{ echo '<small class="btn btn-sm btn-warning">Tidak ada</small>'; } ?>
     </td>
 
     <td><?php echo $user->nama ?></td>
     <td><?php echo $user->email ?></td>
     <td><?php echo $user->username ?></td>
-    <td><?php echo $user->akses_level ?></td>
+    <td><?php echo $user->role ?></td>
     <td>
         <div class="btn-group">
-        <a href="{{ asset('admin/user/edit/'.$user->id_user) }}" 
+        <a href="{{ asset('admin-cms/user/edit/'.$user->id_user) }}" 
           class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 
-          <a href="{{ asset('admin/user/delete/'.$user->id_user) }}" class="btn btn-danger btn-sm  delete-link">
+          <a href="{{ asset('admin-cms/user/delete/'.$user->id_user) }}" class="btn btn-danger btn-sm  delete-link">
             <i class="fa fa-trash"></i></a>
         </div>
 

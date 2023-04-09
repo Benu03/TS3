@@ -148,7 +148,7 @@
           <li class="nav-item">
             <a href="{{ asset('admin-cms/user') }}" class="nav-link">
               <i class="nav-icon fas fa-lock"></i>
-              <p>Pengguna Web</p>
+              <p>Pengguna Sistem</p>
             </a>
           </li>
 

@@ -38,7 +38,7 @@ $(function() {
     </div>
 @endif
 
-<form action="{{ asset('admin/konfigurasi/proses_gambar') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-cms/konfigurasi/proses_gambar') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
     <input type="hidden" name="id_konfigurasi" value="<?php echo $site->id_konfigurasi ?>">

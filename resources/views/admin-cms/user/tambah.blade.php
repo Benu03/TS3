@@ -8,7 +8,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
-				<form action="{{ asset('admin/user/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+				<form action="{{ asset('admin-cms/user/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Nama lengkap</label>
@@ -40,12 +40,15 @@
 
 
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Level Hak Akses</label>
+					<label class="col-sm-3 control-label text-right">Role Akses</label>
 					<div class="col-sm-9">
-						<select name="akses_level" class="form-control">
-							<option value="Admin">Admin</option>
-							<option value="User">User</option>
-						</select>
+						<select name="role" class="form-control">
+							<?php foreach($roledata as $roles) { ?>
+							  <option value="<?php echo $roles->id ?>"><?php echo $roles->role ?></option>
+							<?php } ?>
+						  </select>
+
+
 					</div>
 				</div>
 
