@@ -1,4 +1,4 @@
-<?php $site   = DB::table('konfigurasi')->first(); ?>
+<?php $site   = DB::connection('ts3')->table('cp.konfigurasi')->first(); ?>
 <div class="row">
 
   <div class="col-md-6">
@@ -28,7 +28,7 @@
 
 <form action="{{ asset('admin-cms/agenda/proses') }}" method="post" accept-charset="utf-8">
 <input type="hidden" name="pengalihan" value="<?php echo url()->full(); ?>">
-<?php $site   = DB::table('konfigurasi')->first(); ?>
+<?php $site   = DB::connection('ts3')->table('cp.konfigurasi')->first(); ?>
 {{ csrf_field() }}
 <div class="row">
   <div class="col-md-12">
@@ -39,7 +39,7 @@
         </button> 
       <select name="id_kategori_agenda" class="form-control form-control-sm">
         <?php 
-        $site           = DB::table('kategori_agenda')->get();
+        $site           = DB::connection('ts3')->table('cp.kategori_agenda')->get();
         foreach($kategori_agenda as $kategori_agenda) { ?>
           <option value="<?php echo $kategori_agenda->id_kategori_agenda ?>"><?php echo $kategori_agenda->nama_kategori_agenda ?></option>
         <?php } ?>

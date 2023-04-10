@@ -112,7 +112,7 @@
 <div class="row form-group">
   <label class="col-md-3 text-right">Tempat pelaksanaan</label>
   <div class="col-md-6">
-    <?php $site   = DB::table('konfigurasi')->first(); ?>
+    <?php $site   = DB::connection('ts3')->table('cp.konfigurasi')->first(); ?>
     <input type="text" name="tempat" class="form-control" placeholder="Tempat pelaksanaan" required="required" value="<?php if(isset($_POST['tempat'])) { echo old('tempat'); }else{ echo $site->namaweb; } ?>">
   </div>
 </div>

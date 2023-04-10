@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\AdminCms;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +18,14 @@ class Agenda extends Controller
         Paginator::useBootstrap();
     	$myagenda 	= new Agenda_model();
 		$agenda 	= $myagenda->semua();
-		$kategori_agenda 	= DB::table('kategori_agenda')->orderBy('urutan','ASC')->get();
+		$kategori_agenda 	= DB::connection('ts3')->table('cp.kategori_agenda')->orderBy('urutan','ASC')->get();
 
 		$data = array(  'title'       => 'Data Agenda',
 						'agenda'      => $agenda,
 						'kategori_agenda'    => $kategori_agenda,
-                        'content'     => 'admin/agenda/index'
+                        'content'     => 'admin-cms/agenda/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Add
@@ -33,7 +33,7 @@ class Agenda extends Controller
     {
         $data = array(  'title'       => 'Data Agenda'
                     );
-        return view('admin/agenda/add',$data);
+        return view('admin-cms/agenda/add',$data);
     }
 
     // Cari
@@ -43,33 +43,33 @@ class Agenda extends Controller
         $myagenda           = new Agenda_model();
         $keywords           = $request->keywords;
         $agenda             = $myagenda->cari($keywords);
-        $kategori_agenda    = DB::table('kategori_agenda')->orderBy('urutan','ASC')->get();
+        $kategori_agenda    = DB::connection('ts3')->table('cp.kategori_agenda')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Data Agenda',
                         'agenda'            => $agenda,
                         'kategori_agenda'   => $kategori_agenda,
-                        'content'           => 'admin/agenda/index'
+                        'content'           => 'admin-cms/agenda/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Proses
     public function proses(Request $request)
     {
-        $site           = DB::table('konfigurasi')->first();
+        $site           = DB::connection('ts3')->table('konfigurasi')->first();
         $pengalihan     = $request->pengalihan;
         // PROSES HAPUS MULTIPLE
         if(isset($_POST['hapus'])) {
             $id_agendanya       = $request->id_agenda;
             for($i=0; $i < sizeof($id_agendanya);$i++) {
-                DB::table('agenda')->where('id_agenda',$id_agendanya[$i])->delete();
+                DB::connection('ts3')->table('cp.agenda')->where('id_agenda',$id_agendanya[$i])->delete();
             }
             return redirect($pengalihan)->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }elseif(isset($_POST['draft'])) {
             $id_agendanya       = $request->id_agenda;
             for($i=0; $i < sizeof($id_agendanya);$i++) {
-                DB::table('agenda')->where('id_agenda',$id_agendanya[$i])->update([
+                DB::connection('ts3')->table('cp.agenda')->where('id_agenda',$id_agendanya[$i])->update([
                         'id_user'       => Session()->get('id_user'),
                         'status_agenda' => 'Draft'
                     ]);
@@ -79,7 +79,7 @@ class Agenda extends Controller
         }elseif(isset($_POST['publish'])) {
             $id_agendanya       = $request->id_agenda;
             for($i=0; $i < sizeof($id_agendanya);$i++) {
-                DB::table('agenda')->where('id_agenda',$id_agendanya[$i])->update([
+                DB::connection('ts3')->table('cp.agenda')->where('id_agenda',$id_agendanya[$i])->update([
                         'id_user'       => Session()->get('id_user'),
                         'status_agenda' => 'Publish'
                     ]);
@@ -88,7 +88,7 @@ class Agenda extends Controller
         }elseif(isset($_POST['update'])) {
             $id_agendanya       = $request->id_agenda;
             for($i=0; $i < sizeof($id_agendanya);$i++) {
-                DB::table('agenda')->where('id_agenda',$id_agendanya[$i])->update([
+                DB::connection('ts3')->table('cp.agenda')->where('id_agenda',$id_agendanya[$i])->update([
                         'id_user'        => Session()->get('id_user'),
                         'id_kategori_agenda'    => $request->id_kategori_agenda
                     ]);
@@ -104,14 +104,14 @@ class Agenda extends Controller
         Paginator::useBootstrap();
         $myagenda    = new Agenda_model();
         $agenda      = $myagenda->status_agenda($status_agenda);
-        $kategori_agenda    = DB::table('kategori_agenda')->orderBy('urutan','ASC')->get();
+        $kategori_agenda    = DB::connection('ts3')->table('cp.kategori_agenda')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Status Agenda: '.$status_agenda,
                         'agenda'            => $agenda,
                         'kategori_agenda'   => $kategori_agenda,
-                        'content'           => 'admin/agenda/index'
+                        'content'           => 'admin-cms/agenda/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     //Status
@@ -121,14 +121,14 @@ class Agenda extends Controller
         Paginator::useBootstrap();
         $myagenda    = new Agenda_model();
         $agenda      = $myagenda->jenis_agenda($jenis_agenda);
-        $kategori_agenda    = DB::table('kategori_agenda')->orderBy('urutan','ASC')->get();
+        $kategori_agenda    = DB::connection('ts3')->table('cp.kategori_agenda')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Jenis Agenda: '.$jenis_agenda,
                         'agenda'            => $agenda,
                         'kategori_agenda'   => $kategori_agenda,
-                        'content'           => 'admin/agenda/index'
+                        'content'           => 'admin-cms/agenda/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     //Status
@@ -138,15 +138,15 @@ class Agenda extends Controller
         Paginator::useBootstrap();
         $myagenda           = new Agenda_model();
         $agenda             = $myagenda->author($id_user);
-        $kategori_agenda    = DB::table('kategori_agenda')->orderBy('urutan','ASC')->get();
-        $author    = DB::table('users')->where('id_user',$id_user)->orderBy('id_user','ASC')->first();
+        $kategori_agenda    = DB::connection('ts3')->table('cp.kategori_agenda')->orderBy('urutan','ASC')->get();
+        $author    = DB::connection('ts3')->table('users')->where('id_user',$id_user)->orderBy('id_user','ASC')->first();
 
         $data = array(  'title'             => 'Data Agenda dengan Penulis: '.$author->nama,
                         'agenda'            => $agenda,
                         'kategori_agenda'   => $kategori_agenda,
-                        'content'           => 'admin/agenda/index'
+                        'content'           => 'admin-cms/agenda/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     //Kategori
@@ -156,27 +156,27 @@ class Agenda extends Controller
         Paginator::useBootstrap();
         $myagenda    = new Agenda_model();
         $agenda      = $myagenda->all_kategori_agenda($id_kategori_agenda);
-        $kategori_agenda    = DB::table('kategori_agenda')->orderBy('urutan','ASC')->get();
-        $detail      = DB::table('kategori_agenda')->where('id_kategori_agenda',$id_kategori_agenda)->first();
+        $kategori_agenda    = DB::connection('ts3')->table('cp.kategori_agenda')->orderBy('urutan','ASC')->get();
+        $detail      = DB::connection('ts3')->table('cp.kategori_agenda')->where('id_kategori_agenda',$id_kategori_agenda)->first();
         $data = array(  'title'             => 'Kategori: '.$detail->nama_kategori_agenda,
                         'agenda'            => $agenda,
                         'kategori_agenda'   => $kategori_agenda,
-                        'content'           => 'admin/agenda/index'
+                        'content'           => 'admin-cms/agenda/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Tambah
     public function tambah()
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-        $kategori_agenda    = DB::table('kategori_agenda')->orderBy('urutan','ASC')->get();
+        $kategori_agenda    = DB::connection('ts3')->table('cp.kategori_agenda')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Tambah Agenda',
                         'kategori_agenda'   => $kategori_agenda,
-                        'content'           => 'admin/agenda/tambah'
+                        'content'           => 'admin-cms/agenda/tambah'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // edit
@@ -185,14 +185,14 @@ class Agenda extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $myagenda           = new Agenda_model();
         $agenda             = $myagenda->detail($id_agenda);
-        $kategori_agenda    = DB::table('kategori_agenda')->orderBy('urutan','ASC')->get();
+        $kategori_agenda    = DB::connection('ts3')->table('cp.kategori_agenda')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Edit Agenda',
                         'agenda'            => $agenda,
                         'kategori_agenda'   => $kategori_agenda,
-                        'content'           => 'admin/agenda/edit'
+                        'content'           => 'admin-cms/agenda/edit'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // tambah
@@ -200,7 +200,7 @@ class Agenda extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         request()->validate([
-                            'judul_agenda'  => 'required|unique:agenda',
+                            'judul_agenda'  => 'required|unique:ts3.cp.agenda',
                             'isi'           => 'required',
                             'gambar'        => 'file|image|mimes:jpeg,png,jpg|max:8024',
                             ]);
@@ -221,7 +221,7 @@ class Agenda extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_agenda = Str::slug($request->judul_agenda, '-');
-            DB::table('agenda')->insert([
+            DB::connection('ts3')->table('cp.agenda')->insert([
                 'id_kategori_agenda'       => $request->id_kategori_agenda,
                 'id_user'           => Session()->get('id_user'),
                 'slug_agenda'       => $slug_agenda,
@@ -242,7 +242,7 @@ class Agenda extends Controller
             ]);
         }else{
             $slug_agenda = Str::slug($request->judul_agenda, '-');
-            DB::table('agenda')->insert([
+            DB::connection('ts3')->table('cp.agenda')->insert([
                 'id_kategori_agenda'       => $request->id_kategori_agenda,
                 'id_user'           => Session()->get('id_user'),
                 'slug_agenda'       => $slug_agenda,
@@ -262,7 +262,7 @@ class Agenda extends Controller
                 'tanggal_post'      => date('Y-m-d H:i:s')
             ]);
         }
-        return redirect('admin/agenda')->with(['sukses' => 'Data telah ditambah']);
+        return redirect('admin-cms/agenda')->with(['sukses' => 'Data telah ditambah']);
     }
 
     // edit
@@ -291,7 +291,7 @@ class Agenda extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_agenda = Str::slug($request->judul_agenda, '-');
-            DB::table('agenda')->where('id_agenda',$request->id_agenda)->update([
+            DB::connection('ts3')->table('cp.agenda')->where('id_agenda',$request->id_agenda)->update([
                 'id_kategori_agenda'       => $request->id_kategori_agenda,
                 'id_user'           => Session()->get('id_user'),
                 'slug_agenda'       => $slug_agenda,
@@ -311,7 +311,7 @@ class Agenda extends Controller
             ]);
         }else{
             $slug_agenda = Str::slug($request->judul_agenda, '-');
-            DB::table('agenda')->where('id_agenda',$request->id_agenda)->update([
+            DB::connection('ts3')->table('cp.agenda')->where('id_agenda',$request->id_agenda)->update([
                 'id_kategori_agenda'       => $request->id_kategori_agenda,
                 'id_user'           => Session()->get('id_user'),
                 'slug_agenda'       => $slug_agenda,
@@ -330,14 +330,14 @@ class Agenda extends Controller
                 'tanggal_publish'   => date('Y-m-d',strtotime($request->tanggal_publish)).' '.$request->jam_publish
                 ]);
         }
-        return redirect('admin/agenda')->with(['sukses' => 'Data telah ditambah']);
+        return redirect('admin-cms/agenda')->with(['sukses' => 'Data telah ditambah']);
     }
 
     // Delete
     public function delete($id_agenda)
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-        DB::table('agenda')->where('id_agenda',$id_agenda)->delete();
-        return redirect('admin/agenda')->with(['sukses' => 'Data telah dihapus']);
+        DB::connection('ts3')->table('cp.agenda')->where('id_agenda',$id_agenda)->delete();
+        return redirect('admin-cms/agenda')->with(['sukses' => 'Data telah dihapus']);
     }
 }

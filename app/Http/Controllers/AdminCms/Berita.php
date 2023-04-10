@@ -201,7 +201,7 @@ class Berita extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         request()->validate([
-                            'judul_berita'  => 'required|unique:berita',
+                            'judul_berita'  => 'required|unique:ts3.cp.berita',
                             'isi'           => 'required',
                             'gambar'        => 'file|image|mimes:jpeg,png,jpg|max:8024',
                             ]);

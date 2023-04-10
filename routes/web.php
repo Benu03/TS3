@@ -75,18 +75,7 @@ Route::get('webinar/detail/{par1}/{par2}', 'App\Http\Controllers\ComPro\Video@de
 Route::get('admin-cms/dasbor', 'App\Http\Controllers\AdminCms\Dasbor@index');
 Route::get('admin-cms/dasbor/konfigurasi', 'App\Http\Controllers\AdminCms\Dasbor@konfigurasi');
 
-// pemesanan
-Route::get('admin-cms/pemesanan', 'App\Http\Controllers\AdminCms\Pemesanan@index');
-Route::get('admin-cms/pemesanan/tambah', 'App\Http\Controllers\AdminCms\Pemesanan@tambah');
-Route::get('admin-cms/pemesanan/detail/{par1}', 'App\Http\Controllers\AdminCms\Pemesanan@detail');
-Route::get('admin-cms/pemesanan/status_pemesanan/{par1}', 'App\Http\Controllers\AdminCms\Pemesanan@status_pemesanan');
-Route::get('admin-cms/pemesanan/cetak/{par1}', 'App\Http\Controllers\AdminCms\Pemesanan@cetak');
-Route::get('admin-cms/pemesanan/edit/{par1}', 'App\Http\Controllers\AdminCms\Pemesanan@edit');
-Route::get('admin-cms/pemesanan/filter/{par1}/{par2}/{par3}', 'App\Http\Controllers\AdminCms\Pemesanan@filter');
-Route::get('admin-cms/pemesanan/cari', 'App\Http\Controllers\AdminCms\Pemesanan@cari');
-Route::post('admin-cms/pemesanan/proses', 'App\Http\Controllers\AdminCms\Pemesanan@proses');
-Route::post('admin-cms/pemesanan/tambah_proses', 'App\Http\Controllers\AdminCms\Pemesanan@tambah_proses');
-Route::post('admin-cms/pemesanan/edit_proses', 'App\Http\Controllers\AdminCms\Pemesanan@edit_proses');
+
 // user
 Route::get('admin-cms/user', 'App\Http\Controllers\AdminCms\User@index');
 Route::post('admin-cms/user/tambah', 'App\Http\Controllers\AdminCms\User@tambah');
@@ -150,21 +139,15 @@ Route::get('admin-cms/kategori', 'App\Http\Controllers\AdminCms\Kategori@index')
 Route::post('admin-cms/kategori/tambah', 'App\Http\Controllers\AdminCms\Kategori@tambah');
 Route::post('admin-cms/kategori/edit', 'App\Http\Controllers\AdminCms\Kategori@edit');
 Route::get('admin-cms/kategori/delete/{par1}', 'App\Http\Controllers\AdminCms\Kategori@delete');
-// status
-Route::get('admin-cms/status_site', 'App\Http\Controllers\AdminCms\Status_site@index');
-Route::post('admin-cms/status_site/tambah', 'App\Http\Controllers\AdminCms\Status_site@tambah');
-Route::post('admin-cms/status_site/edit', 'App\Http\Controllers\AdminCms\Status_site@edit');
-Route::get('admin-cms/status_site/delete/{par1}', 'App\Http\Controllers\AdminCms\Status_site@delete');
+
+
 // status
 Route::get('admin-cms/heading', 'App\Http\Controllers\AdminCms\Heading@index');
 Route::post('admin-cms/heading/tambah', 'App\Http\Controllers\AdminCms\Heading@tambah');
 Route::post('admin-cms/heading/edit', 'App\Http\Controllers\AdminCms\Heading@edit');
 Route::get('admin-cms/heading/delete/{par1}', 'App\Http\Controllers\AdminCms\Heading@delete');
-// status
-Route::get('admin-cms/status_proyek', 'App\Http\Controllers\AdminCms\Status_proyek@index');
-Route::post('admin-cms/status_proyek/tambah', 'App\Http\Controllers\AdminCms\Status_proyek@tambah');
-Route::post('admin-cms/status_proyek/edit', 'App\Http\Controllers\AdminCms\Status_proyek@edit');
-Route::get('admin-cms/status_proyek/delete/{par1}', 'App\Http\Controllers\AdminCms\Status_proyek@delete');
+
+
 // video
 Route::get('admin-cms/video', 'App\Http\Controllers\AdminCms\Video@index');
 Route::get('admin-cms/video/edit/{par1}', 'App\Http\Controllers\AdminCms\Video@edit');
@@ -172,11 +155,8 @@ Route::post('admin-cms/video/tambah', 'App\Http\Controllers\AdminCms\Video@tamba
 Route::post('admin-cms/video/proses_edit', 'App\Http\Controllers\AdminCms\Video@proses_edit');
 Route::get('admin-cms/video/delete/{par1}', 'App\Http\Controllers\AdminCms\Video@delete');
 Route::post('admin-cms/video/proses', 'App\Http\Controllers\AdminCms\Video@proses');
-// kategori_proyek
-Route::get('admin-cms/kategori_proyek', 'App\Http\Controllers\AdminCms\Kategori_proyek@index');
-Route::post('admin-cms/kategori_proyek/tambah', 'App\Http\Controllers\AdminCms\Kategori_proyek@tambah');
-Route::post('admin-cms/kategori_proyek/edit', 'App\Http\Controllers\AdminCms\Kategori_proyek@edit');
-Route::get('admin-cms/kategori_proyek/delete/{par1}', 'App\Http\Controllers\AdminCms\Kategori_proyek@delete');
+
+
 // kategori_download
 Route::get('admin-cms/kategori_download', 'App\Http\Controllers\AdminCms\Kategori_download@index');
 Route::post('admin-cms/kategori_download/tambah', 'App\Http\Controllers\AdminCms\Kategori_download@tambah');
@@ -197,11 +177,8 @@ Route::get('admin-cms/kategori_agenda', 'App\Http\Controllers\AdminCms\Kategori_
 Route::post('admin-cms/kategori_agenda/tambah', 'App\Http\Controllers\AdminCms\Kategori_agenda@tambah');
 Route::post('admin-cms/kategori_agenda/edit', 'App\Http\Controllers\AdminCms\Kategori_agenda@edit');
 Route::get('admin-cms/kategori_agenda/delete/{par1}', 'App\Http\Controllers\AdminCms\Kategori_agenda@delete');
-// kategori_akreditasi
-Route::get('admin-cms/kategori_akreditasi', 'App\Http\Controllers\AdminCms\Kategori_akreditasi@index');
-Route::post('admin-cms/kategori_akreditasi/tambah', 'App\Http\Controllers\AdminCms\Kategori_akreditasi@tambah');
-Route::post('admin-cms/kategori_akreditasi/edit', 'App\Http\Controllers\AdminCms\Kategori_akreditasi@edit');
-Route::get('admin-cms/kategori_akreditasi/delete/{par1}', 'App\Http\Controllers\AdminCms\Kategori_akreditasi@delete');
+
+
 // galeri
 Route::get('admin-cms/galeri', 'App\Http\Controllers\AdminCms\Galeri@index');
 Route::get('admin-cms/galeri/cari', 'App\Http\Controllers\AdminCms\Galeri@cari');
@@ -225,44 +202,8 @@ Route::get('admin-cms/staff/delete/{par1}', 'App\Http\Controllers\AdminCms\Staff
 Route::post('admin-cms/staff/tambah_proses', 'App\Http\Controllers\AdminCms\Staff@tambah_proses');
 Route::post('admin-cms/staff/edit_proses', 'App\Http\Controllers\AdminCms\Staff@edit_proses');
 Route::post('admin-cms/staff/proses', 'App\Http\Controllers\AdminCms\Staff@proses');
-// site
-Route::get('admin-cms/site', 'App\Http\Controllers\AdminCms\Site@index');
-Route::get('admin-cms/site/cari', 'App\Http\Controllers\AdminCms\Site@cari');
-Route::get('admin-cms/site/status_site/{par1}', 'App\Http\Controllers\AdminCms\Site@status_site');
-Route::get('admin-cms/site/kategori/{par1}', 'App\Http\Controllers\AdminCms\Site@kategori');
-Route::get('admin-cms/site/detail/{par1}', 'App\Http\Controllers\AdminCms\Site@detail');
-Route::get('admin-cms/site/tambah', 'App\Http\Controllers\AdminCms\Site@tambah');
-Route::get('admin-cms/site/edit/{par1}', 'App\Http\Controllers\AdminCms\Site@edit');
-Route::get('admin-cms/site/status/{par1}', 'App\Http\Controllers\AdminCms\Site@status');
-Route::get('admin-cms/site/delete/{par1}', 'App\Http\Controllers\AdminCms\Site@delete');
-Route::post('admin-cms/site/tambah_proses', 'App\Http\Controllers\AdminCms\Site@tambah_proses');
-Route::post('admin-cms/site/edit_proses', 'App\Http\Controllers\AdminCms\Site@edit_proses');
-Route::post('admin-cms/site/proses', 'App\Http\Controllers\AdminCms\Site@proses');
-// proyek
-Route::get('admin-cms/proyek', 'App\Http\Controllers\AdminCms\Proyek@index');
-Route::get('admin-cms/proyek/cari', 'App\Http\Controllers\AdminCms\Proyek@cari');
-Route::get('admin-cms/proyek/status_proyek/{par1}', 'App\Http\Controllers\AdminCms\Proyek@status_proyek');
-Route::get('admin-cms/proyek/kategori/{par1}', 'App\Http\Controllers\AdminCms\Proyek@kategori');
-Route::get('admin-cms/proyek/detail/{par1}', 'App\Http\Controllers\AdminCms\Proyek@detail');
-Route::get('admin-cms/proyek/tambah', 'App\Http\Controllers\AdminCms\Proyek@tambah');
-Route::get('admin-cms/proyek/edit/{par1}', 'App\Http\Controllers\AdminCms\Proyek@edit');
-Route::get('admin-cms/proyek/status/{par1}', 'App\Http\Controllers\AdminCms\Proyek@status');
-Route::get('admin-cms/proyek/delete/{par1}', 'App\Http\Controllers\AdminCms\Proyek@delete');
-Route::post('admin-cms/proyek/tambah_proses', 'App\Http\Controllers\AdminCms\Proyek@tambah_proses');
-Route::post('admin-cms/proyek/edit_proses', 'App\Http\Controllers\AdminCms\Proyek@edit_proses');
-Route::post('admin-cms/proyek/proses', 'App\Http\Controllers\AdminCms\Proyek@proses');
-// akreditasi
-Route::get('admin-cms/akreditasi', 'App\Http\Controllers\AdminCms\Akreditasi@index');
-Route::get('admin-cms/akreditasi/cari', 'App\Http\Controllers\AdminCms\Akreditasi@cari');
-Route::get('admin-cms/akreditasi/status_akreditasi/{par1}', 'App\Http\Controllers\AdminCms\Akreditasi@status_akreditasi');
-Route::get('admin-cms/akreditasi/kategori/{par1}', 'App\Http\Controllers\AdminCms\Akreditasi@kategori');
-Route::get('admin-cms/akreditasi/detail/{par1}', 'App\Http\Controllers\AdminCms\Akreditasi@detail');
-Route::get('admin-cms/akreditasi/tambah', 'App\Http\Controllers\AdminCms\Akreditasi@tambah');
-Route::get('admin-cms/akreditasi/edit/{par1}', 'App\Http\Controllers\AdminCms\Akreditasi@edit');
-Route::get('admin-cms/akreditasi/delete/{par1}', 'App\Http\Controllers\AdminCms\Akreditasi@delete');
-Route::post('admin-cms/akreditasi/tambah_proses', 'App\Http\Controllers\AdminCms\Akreditasi@tambah_proses');
-Route::post('admin-cms/akreditasi/edit_proses', 'App\Http\Controllers\AdminCms\Akreditasi@edit_proses');
-Route::post('admin-cms/akreditasi/proses', 'App\Http\Controllers\AdminCms\Akreditasi@proses');
+
+
 // download
 Route::get('admin-cms/download', 'App\Http\Controllers\AdminCms\Download@index');
 Route::get('admin-cms/download/cari', 'App\Http\Controllers\AdminCms\Download@cari');
