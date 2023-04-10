@@ -2,13 +2,13 @@
 <div class="row">
 
   <div class="col-md-6">
-    <form action="{{ asset('admin/staff/cari') }}" method="get" accept-charset="utf-8">
+    <form action="{{ asset('admin-cms/staff/cari') }}" method="get" accept-charset="utf-8">
     <br>
     <div class="input-group">                  
       <input type="text" name="keywords" class="form-control" placeholder="Ketik kata kunci pencarian staff...." value="<?php if(isset($_GET['keywords'])) { echo strip_tags($_GET['keywords']); } ?>" required>
       <span class="input-group-btn btn-flat">
         <button type="submit" class="btn btn-info"><i class="fa fa-search"></i> Cari</button>
-        <a href="{{ asset('admin/staff/tambah') }}" class="btn btn-success">
+        <a href="{{ asset('admin-cms/staff/tambah') }}" class="btn btn-success">
         <i class="fa fa-plus"></i> Tambah Baru</a>
       </span>
     </div>
@@ -20,7 +20,7 @@
 </div>
 
 <div class="clearfix"><hr></div>
-<form action="{{ asset('admin/staff/proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-cms/staff/proses') }}" method="post" accept-charset="utf-8">
   {{ csrf_field() }}
 <div class="row">
   <div class="col-md-4">
@@ -91,16 +91,16 @@
                   <br>Telepon: <?php echo $staff->telepon ?>
                 </small>
               </td>
-              <td><a href="{{ asset('admin/staff/kategori/'.$staff->id_kategori_staff) }}"><?php echo $staff->nama_kategori_staff ?></a></td>
-              <td><a href="{{ asset('admin/staff/status_staff/'.$staff->status_staff) }}">
+              <td><a href="{{ asset('admin-cms/staff/kategori/'.$staff->id_kategori_staff) }}"><?php echo $staff->nama_kategori_staff ?></a></td>
+              <td><a href="{{ asset('admin-cms/staff/status_staff/'.$staff->status_staff) }}">
                   <?php echo $staff->status_staff ?></a></td>
               <td><?php echo $staff->urutan ?></td>
               <td><div class="btn-group">
-                  <a href="{{ asset('admin/staff/detail/'.$staff->id_staff) }}" 
+                  <a href="{{ asset('admin-cms/staff/detail/'.$staff->id_staff) }}" 
                     class="btn btn-success btn-sm"><i class="fa fa-eye"></i> Detail</a>
-                  <a href="{{ asset('admin/staff/edit/'.$staff->id_staff) }}" 
+                  <a href="{{ asset('admin-cms/staff/edit/'.$staff->id_staff) }}" 
                     class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                    <a href="{{ asset('admin/staff/delete/'.$staff->id_staff) }}" class="btn btn-danger btn-sm delete-link"><i class="fa fa-trash"></i></a>
+                    <a href="{{ asset('admin-cms/staff/delete/'.$staff->id_staff) }}" class="btn btn-danger btn-sm delete-link"><i class="fa fa-trash"></i></a>
                   </div>
                 </td>
               </tr>

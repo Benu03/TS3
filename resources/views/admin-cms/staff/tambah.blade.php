@@ -1,5 +1,5 @@
 <p class="text-right">
-  <a href="{{ asset('admin/staff') }}" 
+  <a href="{{ asset('admin-cms/staff') }}" 
   class="btn btn-success btn-sm"><i class="fa fa-backward"></i> Kembali</a>
 </p>
 <hr>
@@ -14,7 +14,7 @@
     </div>
 @endif
 
-<form action="{{ asset('admin/staff/tambah_proses') }}" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+<form action="{{ asset('admin-cms/staff/tambah_proses') }}" method="post" enctype="multipart/form-data" accept-charset="utf-8">
 {{ csrf_field() }}
 
 <div class="row form-group">

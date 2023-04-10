@@ -60,8 +60,8 @@
     </td>
       <td class="text-center">
        
-        <?php if($user->img_user <> "NULL") { ?>
-            <img src="{{ asset('assets/upload/user/thumbs/'.$user->img_user) }}" class="img img-fluid img-thumbnail">
+        <?php if($user->gambar <> "NULL") { ?>
+            <img src="{{ asset('assets/upload/user/thumbs/'.$user->gambar) }}" class="img img-fluid img-thumbnail">
         <?php }else{ echo '<small class="btn btn-sm btn-warning">Tidak ada</small>'; } ?>
     </td>
 

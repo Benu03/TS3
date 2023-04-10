@@ -27,9 +27,10 @@ class User extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $user   =DB::connection('ts3')->table('auth.users')->where('id_user',$id_user)->orderBy('id_user','DESC')->first();
-
+        $role 	= DB::connection('ts3')->table('auth.user_roles')->where('id', '!=' , 1)->get();
         $data = array(  'title'     => 'Edit Pengguna Website',
                         'user'      => $user,
+                        'roledata'     => $role,
                         'content'   => 'admin-cms/user/edit'
                     );
         return view('admin-cms/layout/wrapper',$data);
@@ -38,7 +39,7 @@ class User extends Controller
     // Proses
     public function proses(Request $request)
     {
-        $site   =DB::connection('ts3')->table('konfigurasi')->first();
+        $site   =DB::connection('ts3')->table('cp.konfigurasi')->first();
         // PROSES HAPUS MULTIPLE
         if(isset($_POST['hapus'])) {
             $id_usernya       = $request->id_user;
@@ -56,7 +57,7 @@ class User extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
     	request()->validate([
                             'nama'     => 'required',
-					        'username' => 'required',
+					        'username' => 'required|unique:ts3.auth.users',
 					        'password' => 'required',
                             'email'    => 'required',
                             'gambar'   => 'file|image|mimes:jpeg,png,jpg|max:8024',
@@ -133,13 +134,16 @@ class User extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_user = Str::slug($request->nama, '-');
+        
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
                 'username'      => $request->username,
                 'password'      => sha1($request->password),
-                'id_role'   => $request->id_role,
-                'gambar'        => $input['nama_file']
+                'id_role'       => $request->role,
+                'gambar'        => $input['nama_file'],
+                'updated_at'    => date("Y-m-d h:i:sa"),
+                'update_by'     => $request->session()->get('username')
             ]);
         }else{
             $slug_user = Str::slug($request->nama, '-');
@@ -148,7 +152,9 @@ class User extends Controller
                 'email'         => $request->email,
                 'username'      => $request->username,
                 'password'      => sha1($request->password),
-                'id_role'   => $request->id_role
+                'id_role'       => $request->role,
+                'updated_at'    => date("Y-m-d h:i:sa"),
+                'update_by'     => $request->session()->get('username')
             ]);
         }
         return redirect('admin-cms/user')->with(['sukses' => 'Data telah diupdate']);

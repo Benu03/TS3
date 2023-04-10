@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\AdminCms;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,14 +16,14 @@ class Staff extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
     	$mystaff 			= new Staff_model();
 		$staff 			= $mystaff->semua();
-		$kategori_staff 	= DB::table('kategori_staff')->orderBy('urutan','ASC')->get();
+		$kategori_staff 	= DB::connection('ts3')->table('cp.kategori_staff')->orderBy('urutan','ASC')->get();
 
 		$data = array(  'title'				=> 'Data Staff (Board and Team)',
 						'staff'			=> $staff,
 						'kategori_staff'	=> $kategori_staff,
-                        'content'			=> 'admin/staff/index'
+                        'content'			=> 'admin-cms/staff/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Main page
@@ -35,9 +35,9 @@ class Staff extends Controller
 
         $data = array(  'title'             => $staff->nama_staff,
                         'staff'             => $staff,
-                        'content'           => 'admin/staff/detail'
+                        'content'           => 'admin-cms/staff/detail'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Cari
@@ -47,37 +47,37 @@ class Staff extends Controller
         $mystaff           = new Staff_model();
         $keywords           = $request->keywords;
         $staff             = $mystaff->cari($keywords);
-        $kategori_staff    = DB::table('kategori_staff')->orderBy('urutan','ASC')->get();
+        $kategori_staff    = DB::connection('ts3')->table('cp.kategori_staff')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Data Staff (Board and Team)',
                         'staff'            => $staff,
                         'kategori_staff'   => $kategori_staff,
-                        'content'           => 'admin/staff/index'
+                        'content'           => 'admin-cms/staff/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Proses
     public function proses(Request $request)
     {
-        $site   = DB::table('konfigurasi')->first();
+        $site   = DB::connection('ts3')->table('cp.konfigurasi')->first();
         // PROSES HAPUS MULTIPLE
         if(isset($_POST['hapus'])) {
             $id_staffnya       = $request->id_staff;
             for($i=0; $i < sizeof($id_staffnya);$i++) {
-                DB::table('staff')->where('id_staff',$id_staffnya[$i])->delete();
+                DB::connection('ts3')->table('cp.staff')->where('id_staff',$id_staffnya[$i])->delete();
             }
-            return redirect('admin/staff')->with(['sukses' => 'Data telah dihapus']);
+            return redirect('admin-cms/staff')->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }elseif(isset($_POST['update'])) {
             $id_staffnya       = $request->id_staff;
             for($i=0; $i < sizeof($id_staffnya);$i++) {
-                DB::table('staff')->where('id_staff',$id_staffnya[$i])->update([
+                DB::connection('ts3')->table('cp.staff')->where('id_staff',$id_staffnya[$i])->update([
                         'id_user'               => Session()->get('id_user'),
                         'id_kategori_staff'    => $request->id_kategori_staff
                     ]);
             }
-            return redirect('admin/staff')->with(['sukses' => 'Data kategori telah diubah']);
+            return redirect('admin-cms/staff')->with(['sukses' => 'Data kategori telah diubah']);
         }
     }
 
@@ -87,14 +87,14 @@ class Staff extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $mystaff           = new Staff_model();
         $staff             = $mystaff->status_staff($status_staff);
-        $kategori_staff    = DB::table('kategori_staff')->orderBy('urutan','ASC')->get();
+        $kategori_staff    = DB::connection('ts3')->table('cp.kategori_staff')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Data Staff (Board and Team)',
                         'staff'            => $staff,
                         'kategori_staff'   => $kategori_staff,
-                        'content'           => 'admin/staff/index'
+                        'content'           => 'admin-cms/staff/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     //Kategori
@@ -103,27 +103,27 @@ class Staff extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $mystaff           = new Staff_model();
         $staff             = $mystaff->all_kategori_staff($id_kategori_staff);
-        $kategori_staff    = DB::table('kategori_staff')->orderBy('urutan','ASC')->get();
+        $kategori_staff    = DB::connection('ts3')->table('cp.kategori_staff')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Data Staff (Board and Team)',
                         'staff'            => $staff,
                         'kategori_staff'   => $kategori_staff,
-                        'content'           => 'admin/staff/index'
+                        'content'           => 'admin-cms/staff/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Tambah
     public function tambah()
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-        $kategori_staff    = DB::table('kategori_staff')->orderBy('urutan','ASC')->get();
+        $kategori_staff    =DB::connection('ts3')->table('cp.kategori_staff')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Tambah Staff (Board and Team)',
                         'kategori_staff'   => $kategori_staff,
-                        'content'           => 'admin/staff/tambah'
+                        'content'           => 'admin-cms/staff/tambah'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // edit
@@ -132,14 +132,14 @@ class Staff extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $mystaff           = new Staff_model();
         $staff             = $mystaff->detail($id_staff);
-        $kategori_staff    = DB::table('kategori_staff')->orderBy('urutan','ASC')->get();
+        $kategori_staff    = DB::connection('ts3')->table('cp.kategori_staff')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Edit Staff (Board and Team)',
                         'staff'            => $staff,
                         'kategori_staff'   => $kategori_staff,
-                        'content'           => 'admin/staff/edit'
+                        'content'           => 'admin-cms/staff/edit'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // tambah
@@ -147,7 +147,7 @@ class Staff extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         request()->validate([
-                            'nama_staff'  => 'required|unique:staff',
+                            'nama_staff'  => 'required|unique:ts3.cp.staff',
                             'gambar'        => 'required|file|image|mimes:jpeg,png,jpg|max:8024',
                             ]);
         // UPLOAD START
@@ -167,7 +167,7 @@ class Staff extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_staff = Str::slug($request->nama_staff.'-'.$request->jabatan, '-');
-            DB::table('staff')->insert([
+            DB::connection('ts3')->table('cp.staff')->insert([
                 'id_user'               => Session()->get('id_user'),
                 'id_kategori_staff'     => $request->id_kategori_staff,
                 'nama_staff'            => $request->nama_staff,
@@ -185,7 +185,7 @@ class Staff extends Controller
             ]);
         }else{
             $slug_staff = Str::slug($request->nama_staff.'-'.$request->jabatan, '-'); 
-            DB::table('staff')->insert([
+           DB::connection('ts3')->table('cp.staff')->insert([
                 'id_user'               => Session()->get('id_user'),
                 'id_kategori_staff'     => $request->id_kategori_staff,
                 'nama_staff'            => $request->nama_staff,
@@ -201,7 +201,7 @@ class Staff extends Controller
                 'urutan'                => $request->urutan
             ]);
         }
-        return redirect('admin/staff')->with(['sukses' => 'Data telah ditambah']);
+        return redirect('admin-cms/staff')->with(['sukses' => 'Data telah ditambah']);
     }
 
     // edit
@@ -229,7 +229,7 @@ class Staff extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_staff = Str::slug($request->nama_staff.'-'.$request->jabatan, '-');
-            DB::table('staff')->where('id_staff',$request->id_staff)->update([
+           DB::connection('ts3')->table('cp.staff')->where('id_staff',$request->id_staff)->update([
                 'id_user'               => Session()->get('id_user'),
                 'id_kategori_staff'     => $request->id_kategori_staff,
                 'nama_staff'            => $request->nama_staff,
@@ -247,7 +247,7 @@ class Staff extends Controller
             ]);
         }else{
             $slug_staff = Str::slug($request->nama_staff.'-'.$request->jabatan, '-');
-            DB::table('staff')->where('id_staff',$request->id_staff)->update([
+           DB::connection('ts3')->table('cp.staff')->where('id_staff',$request->id_staff)->update([
                 'id_user'               => Session()->get('id_user'),
                 'id_kategori_staff'     => $request->id_kategori_staff,
                 'nama_staff'            => $request->nama_staff,
@@ -264,14 +264,14 @@ class Staff extends Controller
                 'urutan'                => $request->urutan
             ]);
         }
-        return redirect('admin/staff')->with(['sukses' => 'Data telah ditambah']);
+        return redirect('admin-cms/staff')->with(['sukses' => 'Data telah ditambah']);
     }
 
     // Delete
     public function delete($id_staff)
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-        DB::table('staff')->where('id_staff',$id_staff)->delete();
-        return redirect('admin/staff')->with(['sukses' => 'Data telah dihapus']);
+       DB::connection('ts3')->table('cp.staff')->where('id_staff',$id_staff)->delete();
+        return redirect('admin-cms/staff')->with(['sukses' => 'Data telah dihapus']);
     }
 }

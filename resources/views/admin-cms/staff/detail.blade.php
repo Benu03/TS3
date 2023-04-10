@@ -1,8 +1,8 @@
 <p class="text-right">
-	<a href="{{ asset('admin/staff/edit/'.$staff->id_staff) }}" class="btn btn-warning btn-sm">
+	<a href="{{ asset('admin-cms/staff/edit/'.$staff->id_staff) }}" class="btn btn-warning btn-sm">
 		<i class="fa fa-edit"></i> Edit
 	</a>
-	<a href="{{ asset('admin/staff') }}" class="btn btn-success btn-sm">
+	<a href="{{ asset('admin-cms/staff') }}" class="btn btn-success btn-sm">
 		<i class="fa fa-backward"></i> Kembali
 	</a>
 </p>

@@ -8,7 +8,7 @@
     </div>
 @endif
 
-<form action="{{ asset('admin/user/proses_edit') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-cms/user/proses_edit') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <input type="hidden" name="id_user" value="<?php echo $user->id_user ?>">
 <div class="form-group row">
@@ -40,12 +40,15 @@
 </div>
 
 <div class="form-group row">
-	<label class="col-sm-3 control-label text-right">Level Hak Akses</label>
+	<label class="col-sm-3 control-label text-right">Role Akses</label>
 	<div class="col-sm-9">
-		<select name="akses_level" class="form-control">
-			<option value="Admin">Admin</option>
-			<option value="User" <?php if($user->akses_level=="User") { echo 'selected'; } ?>>User</option>
-		</select>
+	
+		<select name="role" class="form-control">
+			<?php foreach($roledata as $roles) { ?>
+			  <option value="<?php echo $roles->id ?>" <?php if($user->id_role==$roles->id) { echo 'selected'; } ?>><?php echo $roles->role ?></option>
+			<?php } ?>
+		  </select>
+
 	</div>
 </div>
 
@@ -62,7 +65,7 @@
 		<div class="form-group pull-right btn-group">
 			<input type="submit" name="submit" class="btn btn-primary " value="Simpan Data">
 			<input type="reset" name="reset" class="btn btn-success " value="Reset">
-			<a href="{{ asset('admin/user') }}" class="btn btn-danger">Kembali</a>
+			<a href="{{ asset('admin-cms/user') }}" class="btn btn-danger">Kembali</a>
 		</div>
 	</div>
 	<div class="clearfix"></div>

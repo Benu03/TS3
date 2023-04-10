@@ -28,7 +28,7 @@
 
 <form action="{{ asset('admin-cms/berita/proses') }}" method="post" accept-charset="utf-8">
 <input type="hidden" name="pengalihan" value="<?php echo url()->full(); ?>">
-<?php $site   = DB::table('konfigurasi')->first(); ?>
+<?php $site   = DB::connection('ts3')->table('cp.konfigurasi')->first(); ?>
 {{ csrf_field() }}
 <div class="row">
   <div class="col-md-12">
@@ -39,7 +39,7 @@
         </button> 
       <select name="id_kategori" class="form-control form-control-sm">
         <?php 
-        $site           = DB::table('kategori')->get();
+        $site           = DB::connection('ts3')->table('cp.kategori')->get();
         foreach($kategori as $kategori) { ?>
           <option value="<?php echo $kategori->id_kategori ?>"><?php echo $kategori->nama_kategori ?></option>
         <?php } ?>
@@ -94,7 +94,7 @@
       </div>
     </td>
     <td class="text-center">
-    <?php $site   = DB::table('konfigurasi')->first(); if($berita->gambar!="") { ?>
+    <?php $site   = DB::connection('ts3')->table('cp.konfigurasi')->first(); if($berita->gambar!="") { ?>
       <img src="{{ asset('assets/upload/image/thumbs/'.$berita->gambar) }}" class="img-thumbnail img-size-50 mr-2" >
       <?php }else{ ?>
       <img src="{{ asset('assets/upload/image/thumbs/'.$site->icon) }}" class="img-thumbnail img-size-50 mr-2" >

@@ -27,7 +27,7 @@ class Berita_model extends Model
     {
         $query = DB::connection('ts3')->table('cp.berita')
             ->join('cp.kategori', 'kategori.id_kategori', '=', 'berita.id_kategori','LEFT')
-            ->join('users', 'users.id_user', '=', 'berita.id_user','LEFT')
+            ->join('auth.users', 'users.id_user', '=', 'berita.id_user','LEFT')
             ->where('jenis_berita','Berita')
             ->select('berita.*', 'kategori.slug_kategori', 'kategori.nama_kategori','users.nama')
             ->orderBy('id_berita','DESC')

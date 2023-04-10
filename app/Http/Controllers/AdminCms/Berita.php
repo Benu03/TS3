@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\AdminCms;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,15 +18,15 @@ class Berita extends Controller
         Paginator::useBootstrap();
     	$myberita 	= new Berita_model();
 		$berita 	= $myberita->berita_update();
-		$kategori 	= DB::table('kategori')->orderBy('urutan','ASC')->get();
+		$kategori 	=  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
 
 		$data = array(  'title'       => 'Data Berita',
 						'berita'      => $berita,
                         'beritas'      => $berita,
 						'kategori'    => $kategori,
-                        'content'     => 'admin/berita/index'
+                        'content'     => 'admin-cms/berita/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Add
@@ -34,7 +34,7 @@ class Berita extends Controller
     {
         $data = array(  'title'       => 'Data Berita'
                     );
-        return view('admin/berita/add',$data);
+        return view('admin-cms/berita/add',$data);
     }
 
     // Cari
@@ -44,33 +44,33 @@ class Berita extends Controller
         $myberita           = new Berita_model();
         $keywords           = $request->keywords;
         $berita             = $myberita->cari($keywords);
-        $kategori           = DB::table('kategori')->orderBy('urutan','ASC')->get();
+        $kategori           =  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Data Berita',
                         'berita'            => $berita,
                         'kategori'   => $kategori,
-                        'content'           => 'admin/berita/index'
+                        'content'           => 'admin-cms/berita/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Proses
     public function proses(Request $request)
     {
-        $site           = DB::table('konfigurasi')->first();
+        $site           = DB::connection('ts3')->table('cp.konfigurasi')->first();
         $pengalihan     = $request->pengalihan;
         // PROSES HAPUS MULTIPLE
         if(isset($_POST['hapus'])) {
             $id_beritanya       = $request->id_berita;
             for($i=0; $i < sizeof($id_beritanya);$i++) {
-                DB::table('berita')->where('id_berita',$id_beritanya[$i])->delete();
+                DB::connection('ts3')->table('cp.berita')->where('id_berita',$id_beritanya[$i])->delete();
             }
             return redirect($pengalihan)->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }elseif(isset($_POST['draft'])) {
             $id_beritanya       = $request->id_berita;
             for($i=0; $i < sizeof($id_beritanya);$i++) {
-                DB::table('berita')->where('id_berita',$id_beritanya[$i])->update([
+                DB::connection('ts3')->table('cp.berita')->where('id_berita',$id_beritanya[$i])->update([
                         'id_user'       => Session()->get('id_user'),
                         'status_berita' => 'Draft'
                     ]);
@@ -80,7 +80,7 @@ class Berita extends Controller
         }elseif(isset($_POST['publish'])) {
             $id_beritanya       = $request->id_berita;
             for($i=0; $i < sizeof($id_beritanya);$i++) {
-                DB::table('berita')->where('id_berita',$id_beritanya[$i])->update([
+                DB::connection('ts3')->table('cp.berita')->where('id_berita',$id_beritanya[$i])->update([
                         'id_user'       => Session()->get('id_user'),
                         'status_berita' => 'Publish'
                     ]);
@@ -89,7 +89,7 @@ class Berita extends Controller
         }elseif(isset($_POST['update'])) {
             $id_beritanya       = $request->id_berita;
             for($i=0; $i < sizeof($id_beritanya);$i++) {
-                DB::table('berita')->where('id_berita',$id_beritanya[$i])->update([
+                DB::connection('ts3')->table('cp.berita')->where('id_berita',$id_beritanya[$i])->update([
                         'id_user'        => Session()->get('id_user'),
                         'id_kategori'    => $request->id_kategori
                     ]);
@@ -105,14 +105,14 @@ class Berita extends Controller
         Paginator::useBootstrap();
         $myberita    = new Berita_model();
         $berita      = $myberita->status_berita($status_berita);
-        $kategori    = DB::table('kategori')->orderBy('urutan','ASC')->get();
+        $kategori    =  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Status Berita: '.$status_berita,
                         'berita'            => $berita,
                         'kategori'   => $kategori,
-                        'content'           => 'admin/berita/index'
+                        'content'           => 'admin-cms/berita/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     //Status
@@ -122,14 +122,14 @@ class Berita extends Controller
         Paginator::useBootstrap();
         $myberita    = new Berita_model();
         $berita      = $myberita->jenis_berita($jenis_berita);
-        $kategori    = DB::table('kategori')->orderBy('urutan','ASC')->get();
+        $kategori    =  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Jenis Berita: '.$jenis_berita,
                         'berita'            => $berita,
                         'kategori'   => $kategori,
-                        'content'           => 'admin/berita/index'
+                        'content'           => 'admin-cms/berita/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     //Status
@@ -139,15 +139,15 @@ class Berita extends Controller
         Paginator::useBootstrap();
         $myberita           = new Berita_model();
         $berita             = $myberita->author($id_user);
-        $kategori    = DB::table('kategori')->orderBy('urutan','ASC')->get();
-        $author    = DB::table('users')->where('id_user',$id_user)->orderBy('id_user','ASC')->first();
+        $kategori    =  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
+        $author    = DB::connection('ts3')->table('auth.users')->where('id_user',$id_user)->orderBy('id_user','ASC')->first();
 
         $data = array(  'title'             => 'Data Berita dengan Penulis: '.$author->nama,
                         'berita'            => $berita,
                         'kategori'   => $kategori,
-                        'content'           => 'admin/berita/index'
+                        'content'           => 'admin-cms/berita/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     //Kategori
@@ -157,27 +157,27 @@ class Berita extends Controller
         Paginator::useBootstrap();
         $myberita    = new Berita_model();
         $berita      = $myberita->all_kategori($id_kategori);
-        $kategori    = DB::table('kategori')->orderBy('urutan','ASC')->get();
-        $detail      = DB::table('kategori')->where('id_kategori',$id_kategori)->first();
+        $kategori    =  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
+        $detail      =  DB::connection('ts3')->table('cp.kategori')->where('id_kategori',$id_kategori)->first();
         $data = array(  'title'             => 'Kategori: '.$detail->nama_kategori,
                         'berita'            => $berita,
                         'kategori'   => $kategori,
-                        'content'           => 'admin/berita/index'
+                        'content'           => 'admin-cms/berita/index'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // Tambah
     public function tambah()
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-        $kategori    = DB::table('kategori')->orderBy('urutan','ASC')->get();
+        $kategori    =  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Tambah Berita',
                         'kategori'   => $kategori,
-                        'content'           => 'admin/berita/tambah'
+                        'content'           => 'admin-cms/berita/tambah'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // edit
@@ -186,14 +186,14 @@ class Berita extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $myberita           = new Berita_model();
         $berita             = $myberita->detail($id_berita);
-        $kategori    = DB::table('kategori')->orderBy('urutan','ASC')->get();
+        $kategori    =  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Edit Berita',
                         'berita'            => $berita,
                         'kategori'   => $kategori,
-                        'content'           => 'admin/berita/edit'
+                        'content'           => 'admin-cms/berita/edit'
                     );
-        return view('admin/layout/wrapper',$data);
+        return view('admin-cms/layout/wrapper',$data);
     }
 
     // tambah
@@ -222,7 +222,7 @@ class Berita extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_berita = Str::slug($request->judul_berita, '-');
-            DB::table('berita')->insert([
+            DB::connection('ts3')->table('cp.berita')->insert([
                 'id_kategori'       => $request->id_kategori,
                 'id_user'           => Session()->get('id_user'),
                 'slug_berita'       => $slug_berita,
@@ -239,7 +239,7 @@ class Berita extends Controller
             ]);
         }else{
             $slug_berita = Str::slug($request->judul_berita, '-');
-            DB::table('berita')->insert([
+            DB::connection('ts3')->table('cp.berita')->insert([
                 'id_kategori'       => $request->id_kategori,
                 'id_user'           => Session()->get('id_user'),
                 'slug_berita'       => $slug_berita,
@@ -255,9 +255,9 @@ class Berita extends Controller
             ]);
         }
         if($request->jenis_berita=="Berita") {
-            return redirect('admin/berita')->with(['sukses' => 'Data telah ditambah']);
+            return redirect('admin-cms/berita')->with(['sukses' => 'Data telah ditambah']);
         }else{
-            return redirect('admin/berita/jenis_berita/'.$request->jenis_berita)->with(['sukses' => 'Data telah ditambah']);
+            return redirect('admin-cms/berita/jenis_berita/'.$request->jenis_berita)->with(['sukses' => 'Data telah ditambah']);
         }
     }
 
@@ -287,7 +287,7 @@ class Berita extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_berita = Str::slug($request->judul_berita, '-');
-            DB::table('berita')->where('id_berita',$request->id_berita)->update([
+            DB::connection('ts3')->table('cp.berita')->where('id_berita',$request->id_berita)->update([
                 'id_kategori'       => $request->id_kategori,
                 'id_user'           => Session()->get('id_user'),
                 'slug_berita'       => $slug_berita,
@@ -303,7 +303,7 @@ class Berita extends Controller
             ]);
         }else{
             $slug_berita = Str::slug($request->judul_berita, '-');
-            DB::table('berita')->where('id_berita',$request->id_berita)->update([
+            DB::connection('ts3')->table('cp.berita')->where('id_berita',$request->id_berita)->update([
                 'id_kategori'       => $request->id_kategori,
                 'id_user'           => Session()->get('id_user'),
                 'slug_berita'       => $slug_berita,
@@ -318,9 +318,9 @@ class Berita extends Controller
             ]);
         }
         if($request->jenis_berita=="Berita") {
-            return redirect('admin/berita')->with(['sukses' => 'Data telah ditambah']);
+            return redirect('admin-cms/berita')->with(['sukses' => 'Data telah ditambah']);
         }else{
-            return redirect('admin/berita/jenis_berita/'.$request->jenis_berita)->with(['sukses' => 'Data telah ditambah']);
+            return redirect('admin-cms/berita/jenis_berita/'.$request->jenis_berita)->with(['sukses' => 'Data telah ditambah']);
         }
     }
 
@@ -328,7 +328,7 @@ class Berita extends Controller
     public function delete($id_berita,$jenis_berita)
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-        DB::table('berita')->where('id_berita',$id_berita)->delete();
-        return redirect('admin/berita/jenis_berita/'.$jenis_berita)->with(['sukses' => 'Data telah dihapus']);
+        DB::connection('ts3')->table('cp.berita')->where('id_berita',$id_berita)->delete();
+        return redirect('admin-cms/berita/jenis_berita/'.$jenis_berita)->with(['sukses' => 'Data telah dihapus']);
     }
 }
