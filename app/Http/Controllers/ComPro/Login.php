@@ -26,15 +26,25 @@ class Login extends Controller
         $password   = $request->password;
         $model      = new User_model();
         $user       = $model->login($username,$password);
-
-
-        if($user) {
+        if($user->id_role == 1) 
+        {
             $request->session()->put('id_user', $user->id_user);
             $request->session()->put('nama', $user->nama);
             $request->session()->put('username', $user->username);
             $request->session()->put('id_role', $user->id_role);
             return redirect('admin-cms/dasbor')->with(['sukses' => 'Anda berhasil login']);
-        }else{
+        }
+        if($user->id_role == 2) 
+        {
+            $request->session()->put('id_user', $user->id_user);
+            $request->session()->put('nama', $user->nama);
+            $request->session()->put('username', $user->username);
+            $request->session()->put('id_role', $user->id_role);
+            return redirect('admin-ts3/dasbor')->with(['sukses' => 'Anda berhasil login']);
+
+        }
+        else
+        {
             return redirect('login')->with(['warning' => 'Mohon maaf, Username atau password salah']);
         }
     }

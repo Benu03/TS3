@@ -18,4 +18,16 @@ class User_model extends Model
             ->first();
         return $query;
     }
+
+    public function check_user($username)
+    {
+ 
+        $query = DB::connection('ts3')->table('auth.users')
+            ->select('*')
+            ->where(array(  'username'	=> $username))
+            ->orderBy('id_user','DESC')
+            ->first();
+        return $query;
+    }
+
 }

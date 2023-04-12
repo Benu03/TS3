@@ -24,7 +24,7 @@ class Home extends Controller
         $berita         = $news->home();
 
 
-        $data = array(  'title'         => $site_config->namaweb.' - '.$site_config->tagline,
+        $data = array(  'title'         => $site_config->namaweb,
                         'deskripsi'     => $site_config->namaweb.' - '.$site_config->tagline,
                         'keywords'      => $site_config->namaweb.' - '.$site_config->tagline,
                         'slider'        => $slider,

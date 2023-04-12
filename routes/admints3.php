@@ -14,6 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function (Request $request) {
-    return 'weee';
-});
+Route::get('admin-ts3/dasbor', 'App\Http\Controllers\AdminTs3\Dasbor@index');
