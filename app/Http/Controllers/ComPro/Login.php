@@ -34,13 +34,40 @@ class Login extends Controller
             $request->session()->put('id_role', $user->id_role);
             return redirect('admin-cms/dasbor')->with(['sukses' => 'Anda berhasil login']);
         }
-        if($user->id_role == 2) 
+        elseif($user->id_role == 2) 
         {
             $request->session()->put('id_user', $user->id_user);
             $request->session()->put('nama', $user->nama);
             $request->session()->put('username', $user->username);
             $request->session()->put('id_role', $user->id_role);
             return redirect('admin-ts3/dasbor')->with(['sukses' => 'Anda berhasil login']);
+
+        }
+        elseif($user->id_role == 3) 
+        {
+            $request->session()->put('id_user', $user->id_user);
+            $request->session()->put('nama', $user->nama);
+            $request->session()->put('username', $user->username);
+            $request->session()->put('id_role', $user->id_role);
+            return redirect('admin-client/dasbor')->with(['sukses' => 'Anda berhasil login']);
+
+        }
+        elseif($user->id_role == 4) 
+        {
+            $request->session()->put('id_user', $user->id_user);
+            $request->session()->put('nama', $user->nama);
+            $request->session()->put('username', $user->username);
+            $request->session()->put('id_role', $user->id_role);
+            return redirect('bengkel/dasbor')->with(['sukses' => 'Anda berhasil login']);
+
+        }
+        elseif($user->id_role == 5) 
+        {
+            $request->session()->put('id_user', $user->id_user);
+            $request->session()->put('nama', $user->nama);
+            $request->session()->put('username', $user->username);
+            $request->session()->put('id_role', $user->id_role);
+            return redirect('pic/dasbor')->with(['sukses' => 'Anda berhasil login']);
 
         }
         else

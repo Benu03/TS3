@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => ['admints3']],function(){
-    Route::get('admin-ts3/dasbor', 'App\Http\Controllers\AdminTs3\Dasbor@index');
+Route::group(['middleware' => ['adminclient']],function(){
+
+    Route::get('admin-client/dasbor', 'App\Http\Controllers\AdminClient\Dasbor@index');
 
 });

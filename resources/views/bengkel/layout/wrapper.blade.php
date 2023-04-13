@@ -4,8 +4,8 @@ if(Session()->get('username')=="") {
     return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
 }
 ?>
-@include('admin-cms/layout/head')
-@include('admin-cms/layout/header')
-@include('admin-cms/layout/menu')
+@include('bengkel/layout/head')
+@include('bengkel/layout/header')
+@include('bengkel/layout/menu')
 @include($content)
-@include('admin-cms/layout/footer')
+@include('bengkel/layout/footer')

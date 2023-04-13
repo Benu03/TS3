@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\AdminTs3;
+namespace App\Http\Controllers\Pic;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,8 +24,8 @@ class Dasbor extends Controller
 		$site 	= $mysite->listing();
        
 		$data = array(  'title'     => $site->namaweb,
-                        'content'   => 'bengkel/dasbor/index'
+                        'content'   => 'pic/dasbor/index'
                     );
-        return view('bengkel/layout/wrapper',$data);
+        return view('pic/layout/wrapper',$data);
     }
 }

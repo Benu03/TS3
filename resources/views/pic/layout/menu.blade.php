@@ -12,7 +12,7 @@
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ asset('bengkel/dasbor') }}" class="brand-link">
+    <a href="{{ asset('pic/dasbor') }}" class="brand-link">
       <img src="{{ asset('assets/upload/image/'.website('icon')) }}"
          alt="{{ website('namaweb') }}"
          class="brand-image img-circle elevation-3"
@@ -28,7 +28,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- DASHBOARD -->
           <li class="nav-item">
-            <a href="{{ asset('bengkel/dasbor') }}" class="nav-link">
+            <a href="{{ asset('pic/dasbor') }}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -45,11 +45,11 @@
               <p>Berita &amp; Update<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="{{ asset('bengkel/berita') }}" class="nav-link"><i class="fas fa-newspaper nav-icon"></i><p>Data Berita &amp; Update</p></a>
+              <li class="nav-item"><a href="{{ asset('pic/berita') }}" class="nav-link"><i class="fas fa-newspaper nav-icon"></i><p>Data Berita &amp; Update</p></a>
               </li>
-              <li class="nav-item"><a href="{{ asset('bengkel/berita/tambah') }}" class="nav-link"><i class="fa fa-plus nav-icon"></i><p>Tambah Berita/Update</p></a>
+              <li class="nav-item"><a href="{{ asset('pic/berita/tambah') }}" class="nav-link"><i class="fa fa-plus nav-icon"></i><p>Tambah Berita/Update</p></a>
               </li>
-              <li class="nav-item"><a href="{{ asset('bengkel/kategori') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Kategori berita</p></a>
+              <li class="nav-item"><a href="{{ asset('pic/kategori') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Kategori berita</p></a>
               </li>
             </ul>
           </li>
