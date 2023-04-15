@@ -12,7 +12,7 @@ $nav_layananf = $myprofil->nav_layanan();
    <div class="container">
       <div class="row">
          <!--Footer Widget Start-->
-         <div class="col-md-7 col-sm-6">
+         <div class="col-md-6 col-sm-6">
             <div class="footer-widget">
                <h3>{{ $site_config->namaweb }}</h3>
                <p>{{ $site_config->deskripsi }}</p>
@@ -27,50 +27,25 @@ $nav_layananf = $myprofil->nav_layanan();
          </div>
          <!--Footer Widget End--> 
          <!--Footer Widget Start-->
-         <div class="col-md-5 col-sm-6">
+         <div class="col-md-6 col-sm-6">
             <div class="footer-widget">
                <h3>Layanan</h3>
+
                <ul class="lastest-products">
                   <?php foreach($nav_layananf as $nav_layananf) { ?>
-                  <li><img src="{{ asset('assets/upload/image/thumbs/'.$nav_layananf->gambar) }}" alt="{{ $nav_layananf->judul_berita }}"> <strong><a href="{{ asset('berita/layanan/'.$nav_layananf->slug_berita) }}">{{ $nav_layananf->judul_berita }}</a></strong> <span class="pdate"><i>Updated:</i> <?php echo tanggal('tanggal_id',$nav_layananf->tanggal_post) ?></span> </li>
+                  <li class="list-item col-sm-6"><img src="{{ asset('assets/upload/image/thumbs/'.$nav_layananf->gambar) }}" alt="{{ $nav_layananf->judul_berita }}"> <strong><a href="{{ asset('berita/layanan/'.$nav_layananf->slug_berita) }}">{{ $nav_layananf->judul_berita }}</a></strong> <span class="pdate"><i>Updated:</i> <?php echo tanggal('tanggal_id',$nav_layananf->tanggal_post) ?></span> </li>
                   <?php } ?>
                </ul>
             </div>
          </div>
-         <!--Footer Widget End--> 
-         <!--Footer Widget Start-->
-         {{-- <div class="col-md-3 col-sm-12">
-            <div class="footer-widget">
-               <h3>Tetap Update</h3>
-               <div class="newsletter">
-                  <ul>
-                     <li>
-                        <input type="text" placeholder="Your Name">
-                     </li>
-                     <li>
-                        <input type="text" placeholder="Your Email">
-                     </li>
-                     <li>
-                        <input type="submit" value="Subscribe Now">
-                     </li>
-                  </ul>
-               </div>
-               <div class="footer-social">
-                  <a href="#"><i class="fab fa-facebook-f"></i></a> 
-                  <a href="#"><i class="fab fa-twitter"></i></a> 
-                  <a href="#"><i class="fab fa-linkedin-in"></i></a> 
-                  <a href="#"><i class="fab fa-instagram"></i></a> 
-                  <a href="#"><i class="fab fa-youtube"></i></a> </div>
-            </div>
-         </div> --}}
-         <!--Footer Widget End--> 
+        
       </div>
-      {{-- <div class="row footer-copyr">
-         <div class="col-md-4 col-sm-4"> <img src="{{ asset('assets/upload/image/'.$site_config->logo) }}" alt="" style="max-height: 50px; width: auto;"> </div>
+      <div class="row footer-copyr">
+         <div class="col-md-4 col-sm-4"> <img src="{{ asset('assets/upload/image/'.$site_config->logo) }}" alt="" style="max-height: 35px; width: auto;"> </div>
          <div class="col-md-8 col-sm-8">
-               <p><a target="_blank" href="https://pusaka-abadi.com">{{ $site_config->namaweb }}</a></p>
+               <p><a target="_blank" href="{{ asset('/') }}">Copyright &copy;<?= date('Y'); ?> {{ website('namaweb') }} Indonesia</a></p>
             </div>
-      </div> --}}
+      </div>
    </div>
 </footer>
 <!--Footer End--> 
