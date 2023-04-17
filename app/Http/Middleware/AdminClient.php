@@ -24,6 +24,13 @@ class AdminClient
          $username =  $request->session()->get('username');
          $model      = new User_model();
          $user       = $model->check_user($username);
+
+         if($username == null)
+         {
+            return redirect('/login')->with(['warning' => 'Mohon maaf, Sesi Anda Berakhir']);
+         }
+         else   
+         {
      
          if($user->id_role <> 3) 
          {
@@ -42,6 +49,8 @@ class AdminClient
             else{
                 return redirect('/')->with(['warning' => 'Mohon maaf, Anda Tidak Memiliki Akses']);
             }         
+         }
+
          }
              
         return $next($request);

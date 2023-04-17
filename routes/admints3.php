@@ -15,5 +15,94 @@ use Illuminate\Support\Facades\Route;
 */
 Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/dasbor', 'App\Http\Controllers\AdminTs3\Dasbor@index');
+    Route::get('admin-ts3/user', 'App\Http\Controllers\AdminTs3\User@index');
+    Route::post('admin-ts3/user/tambah', 'App\Http\Controllers\AdminTs3\User@tambah');
+    Route::get('admin-ts3/user/edit/{par1}', 'App\Http\Controllers\AdminTs3\User@edit');
+    Route::post('admin-ts3/user/proses_edit', 'App\Http\Controllers\AdminTs3\User@proses_edit');
+    Route::get('admin-ts3/user/delete/{par1}', 'App\Http\Controllers\AdminTs3\User@delete');
+    Route::post('admin-ts3/user/proses', 'App\Http\Controllers\AdminTs3\User@proses');
+
+    Route::get('admin-ts3/customer-product', 'App\Http\Controllers\AdminTs3\CustomerProduct@index');
+  
+    Route::get('admin-ts3/heading', 'App\Http\Controllers\AdminTs3\Heading@index');
+    Route::post('admin-ts3/heading/tambah', 'App\Http\Controllers\AdminTs3\Heading@tambah');
+    Route::post('admin-ts3/heading/edit', 'App\Http\Controllers\AdminTs3\Heading@edit');
+    Route::get('admin-ts3/heading/delete/{par1}', 'App\Http\Controllers\AdminTs3\Heading@delete');
+    
+    Route::get('admin-ts3/konfigurasi', 'App\Http\Controllers\AdminTs3\Konfigurasi@index');
+    Route::get('admin-ts3/konfigurasi/logo', 'App\Http\Controllers\AdminTs3\Konfigurasi@logo');
+    Route::get('admin-ts3/konfigurasi/profil', 'App\Http\Controllers\AdminTs3\Konfigurasi@profil');
+    Route::get('admin-ts3/konfigurasi/icon', 'App\Http\Controllers\AdminTs3\Konfigurasi@icon');
+    Route::get('admin-ts3/konfigurasi/email', 'App\Http\Controllers\AdminTs3\Konfigurasi@email');
+    Route::get('admin-ts3/konfigurasi/gambar', 'App\Http\Controllers\AdminTs3\Konfigurasi@gambar');
+    Route::get('admin-ts3/konfigurasi/pembayaran', 'App\Http\Controllers\AdminTs3\Konfigurasi@pembayaran');
+    Route::post('admin-ts3/konfigurasi/proses', 'App\Http\Controllers\AdminTs3\Konfigurasi@proses');
+    Route::post('admin-ts3/konfigurasi/proses_logo', 'App\Http\Controllers\AdminTs3\Konfigurasi@proses_logo');
+    Route::post('admin-ts3/konfigurasi/proses_icon', 'App\Http\Controllers\AdminTs3\Konfigurasi@proses_icon');
+    Route::post('admin-ts3/konfigurasi/proses_email', 'App\Http\Controllers\AdminTs3\Konfigurasi@proses_email');
+    Route::post('admin-ts3/konfigurasi/proses_gambar', 'App\Http\Controllers\AdminTs3\Konfigurasi@proses_gambar');
+    Route::post('admin-ts3/konfigurasi/proses_pembayaran', 'App\Http\Controllers\AdminTs3\Konfigurasi@proses_pembayaran');
+    Route::post('admin-ts3/konfigurasi/proses_profil', 'App\Http\Controllers\AdminTs3\Konfigurasi@proses_profil');
+
+    Route::get('admin-ts3/galeri', 'App\Http\Controllers\AdminTs3\Galeri@index');
+    Route::get('admin-ts3/galeri/cari', 'App\Http\Controllers\AdminTs3\Galeri@cari');
+    Route::get('admin-ts3/galeri/status_galeri/{par1}', 'App\Http\Controllers\AdminTs3\Galeri@status_galeri');
+    Route::get('admin-ts3/galeri/kategori/{par1}', 'App\Http\Controllers\AdminTs3\Galeri@kategori');
+    Route::get('admin-ts3/galeri/tambah', 'App\Http\Controllers\AdminTs3\Galeri@tambah');
+    Route::get('admin-ts3/galeri/edit/{par1}', 'App\Http\Controllers\AdminTs3\Galeri@edit');
+    Route::get('admin-ts3/galeri/delete/{par1}', 'App\Http\Controllers\AdminTs3\Galeri@delete');
+    Route::post('admin-ts3/galeri/tambah_proses', 'App\Http\Controllers\AdminTs3\Galeri@tambah_proses');
+    Route::post('admin-ts3/galeri/edit_proses', 'App\Http\Controllers\AdminTs3\Galeri@edit_proses');
+    Route::post('admin-ts3/galeri/proses', 'App\Http\Controllers\AdminTs3\Galeri@proses');
+
+    Route::get('admin-ts3/kategori_galeri', 'App\Http\Controllers\AdminTs3\Kategori_galeri@index');
+    Route::post('admin-ts3/kategori_galeri/tambah', 'App\Http\Controllers\AdminTs3\Kategori_galeri@tambah');
+    Route::post('admin-ts3/kategori_galeri/edit', 'App\Http\Controllers\AdminTs3\Kategori_galeri@edit');
+    Route::get('admin-ts3/kategori_galeri/delete/{par1}', 'App\Http\Controllers\AdminTs3\Kategori_galeri@delete');
+
+    Route::get('admin-ts3/berita', 'App\Http\Controllers\AdminTs3\Berita@index');
+    Route::get('admin-ts3/berita/cari', 'App\Http\Controllers\AdminTs3\Berita@cari');
+    Route::get('admin-ts3/berita/status_berita/{par1}', 'App\Http\Controllers\AdminTs3\Berita@status_berita');
+    Route::get('admin-ts3/berita/kategori/{par1}', 'App\Http\Controllers\AdminTs3\Berita@kategori');
+    Route::get('admin-ts3/berita/jenis_berita/{par1}', 'App\Http\Controllers\AdminTs3\Berita@jenis_berita');
+    Route::get('admin-ts3/berita/author/{par1}', 'App\Http\Controllers\AdminTs3\Berita@author');
+    Route::get('admin-ts3/berita/tambah', 'App\Http\Controllers\AdminTs3\Berita@tambah');
+    Route::get('admin-ts3/berita/edit/{par1}', 'App\Http\Controllers\AdminTs3\Berita@edit');
+    Route::get('admin-ts3/berita/delete/{par1}/{par2}', 'App\Http\Controllers\AdminTs3\Berita@delete');
+    Route::post('admin-ts3/berita/tambah_proses', 'App\Http\Controllers\AdminTs3\Berita@tambah_proses');
+    Route::post('admin-ts3/berita/edit_proses', 'App\Http\Controllers\AdminTs3\Berita@edit_proses');
+    Route::post('admin-ts3/berita/proses', 'App\Http\Controllers\AdminTs3\Berita@proses');
+    Route::get('admin-ts3/berita/add', 'App\Http\Controllers\AdminTs3\Berita@add');
+
+
+
+    Route::get('admin-ts3/staff', 'App\Http\Controllers\AdminTs3\Staff@index');
+    Route::get('admin-ts3/staff/cari', 'App\Http\Controllers\AdminTs3\Staff@cari');
+    Route::get('admin-ts3/staff/status_staff/{par1}', 'App\Http\Controllers\AdminTs3\Staff@status_staff');
+    Route::get('admin-ts3/staff/kategori/{par1}', 'App\Http\Controllers\AdminTs3\Staff@kategori');
+    Route::get('admin-ts3/staff/detail/{par1}', 'App\Http\Controllers\AdminTs3\Staff@detail');
+    Route::get('admin-ts3/staff/tambah', 'App\Http\Controllers\AdminTs3\Staff@tambah');
+    Route::get('admin-ts3/staff/edit/{par1}', 'App\Http\Controllers\AdminTs3\Staff@edit');
+    Route::get('admin-ts3/staff/delete/{par1}', 'App\Http\Controllers\AdminTs3\Staff@delete');
+    Route::post('admin-ts3/staff/tambah_proses', 'App\Http\Controllers\AdminTs3\Staff@tambah_proses');
+    Route::post('admin-ts3/staff/edit_proses', 'App\Http\Controllers\AdminTs3\Staff@edit_proses');
+    Route::post('admin-ts3/staff/proses', 'App\Http\Controllers\AdminTs3\Staff@proses');
+
+
+
+    Route::get('admin-ts3/kategori_staff', 'App\Http\Controllers\AdminTs3\Kategori_staff@index');
+    Route::post('admin-ts3/kategori_staff/tambah', 'App\Http\Controllers\AdminTs3\Kategori_staff@tambah');
+    Route::post('admin-ts3/kategori_staff/edit', 'App\Http\Controllers\AdminTs3\Kategori_staff@edit');
+    Route::get('admin-ts3/kategori_staff/delete/{par1}', 'App\Http\Controllers\AdminTs3\Kategori_staff@delete');
+
+
+
+
+
+
+
+
+
+
 
 });

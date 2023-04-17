@@ -25,6 +25,12 @@ class Pic
          $model      = new User_model();
          $user       = $model->check_user($username);
      
+         if($username == null)
+         {
+            return redirect('/login')->with(['warning' => 'Mohon maaf, Sesi Anda Berakhir']);
+         }
+         else   
+         {
          if($user->id_role <> 5) 
          {
             if($user->id_role == 3){
@@ -43,6 +49,7 @@ class Pic
                 return redirect('/')->with(['warning' => 'Mohon maaf, Anda Tidak Memiliki Akses']);
             }         
          }
+        }
              
         return $next($request);
     }
