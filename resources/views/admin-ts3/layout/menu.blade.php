@@ -54,9 +54,9 @@
               </li>
 
               <li class="nav-item ml-4">
-                <a href="{{ asset('admin-ts3/customer-product') }}" class="nav-link">
+                <a href="{{ asset('admin-ts3/client-product') }}" class="nav-link">
                   <i class="nav-icon fas fa-hands"></i>
-                  <p>Customer &amp; Product</p>
+                  <p>Client &amp; Product</p>
                 </a>
               </li>
     
@@ -148,7 +148,36 @@
           <!-- Website Content -->
           <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Motor Vehicle Maintenace</span></li>
           <li class="batas"><hr></li>
-
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>Master Data<i class="fas fa-angle-left right"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/bengkel') }}" class="nav-link"><i class="fas fa-tags nav-icon"></i><p>Bengkel</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/price') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Price Service</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/regional') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Regional</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/area') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Area</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/branch') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Branch</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/vehicle') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Vehicle</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spare-part') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Spare Part</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/pekerjaan') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Pekerjaan</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/user-cliet') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>User Client</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/user-bengkel') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>User Bengkel</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/general') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>General</p></a>
+              </li>
+            </ul>
+          </li>
          
           
 

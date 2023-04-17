@@ -22,8 +22,20 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/user/delete/{par1}', 'App\Http\Controllers\AdminTs3\User@delete');
     Route::post('admin-ts3/user/proses', 'App\Http\Controllers\AdminTs3\User@proses');
 
-    Route::get('admin-ts3/customer-product', 'App\Http\Controllers\AdminTs3\CustomerProduct@index');
-  
+    Route::get('admin-ts3/client-product', 'App\Http\Controllers\AdminTs3\ClientProduct@index');
+    Route::post('admin-ts3/client-product/tambah', 'App\Http\Controllers\AdminTs3\ClientProduct@tambah');
+    Route::post('admin-ts3/client-product/proses', 'App\Http\Controllers\AdminTs3\ClientProduct@proses');
+    Route::get('admin-ts3/client-product/edit/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@edit');
+    Route::post('admin-ts3/client-product/proses_edit', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_edit');
+    Route::get('admin-ts3/client-product/delete/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@delete');
+
+
+    Route::post('admin-ts3/client-product/tambah_product', 'App\Http\Controllers\AdminTs3\ClientProduct@tambah_product');
+    Route::post('admin-ts3/client-product/proses_product', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_product');
+    Route::get('admin-ts3/client-product/edit_product/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@edit_product');
+    Route::post('admin-ts3/client-product/proses_edit_product', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_edit_product');
+    Route::get('admin-ts3/client-product/delete_product/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@delete_product');
+
     Route::get('admin-ts3/heading', 'App\Http\Controllers\AdminTs3\Heading@index');
     Route::post('admin-ts3/heading/tambah', 'App\Http\Controllers\AdminTs3\Heading@tambah');
     Route::post('admin-ts3/heading/edit', 'App\Http\Controllers\AdminTs3\Heading@edit');
@@ -95,9 +107,12 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/kategori_staff/edit', 'App\Http\Controllers\AdminTs3\Kategori_staff@edit');
     Route::get('admin-ts3/kategori_staff/delete/{par1}', 'App\Http\Controllers\AdminTs3\Kategori_staff@delete');
 
-
-
-
+    Route::get('admin-ts3/regional', 'App\Http\Controllers\AdminTs3\Regional@index');
+    Route::post('admin-ts3/regional/tambah', 'App\Http\Controllers\AdminTs3\Regional@tambah');
+    Route::post('admin-ts3/regional/proses', 'App\Http\Controllers\AdminTs3\Regional@proses');
+    Route::get('admin-ts3/regional/edit/{par1}', 'App\Http\Controllers\AdminTs3\Regional@edit');
+    Route::post('admin-ts3/regional/proses_edit', 'App\Http\Controllers\AdminTs3\Regional@proses_edit');
+    Route::get('admin-ts3/regional/delete/{par1}', 'App\Http\Controllers\AdminTs3\Regional@delete');
 
 
 

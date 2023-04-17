@@ -53,12 +53,12 @@
 
 
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Customer Entity</label>
+					<label class="col-sm-3 control-label text-right">Client Entity</label>
 					<div class="col-sm-9">
 						<select name="customer" id="customer" class="form-control">
 							<option hidden>Option</option>
 							<?php foreach($customerdata as $cus) { ?>
-							  <option value="<?php echo $cus->id ?>"><?php echo $cus->customer_name.'-'.$cus->customer_type ?></option>
+							  <option value="<?php echo $cus->id ?>"><?php echo $cus->client_name.'-'.$cus->client_type ?></option>
 							<?php } ?>
 						  </select>
 					</div>

@@ -14,7 +14,7 @@ class User extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 		$user 	= DB::connection('ts3')->table('auth.v_list_user')->orderBy('id_user','DESC')->get();
         $role 	= DB::connection('ts3')->table('auth.user_roles')->where('id', '!=' , 1)->get();
-        $customer 	= DB::connection('ts3')->table('mst.mst_customer')->get();
+        $customer 	= DB::connection('ts3')->table('mst.mst_client')->get();
 		$data = array(  'title'     => 'Pengguna Sistem',
 						'user'      => $user,
                         'roledata'      => $role,
@@ -30,13 +30,13 @@ class User extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $user   =   DB::connection('ts3')->table('auth.users')->where('id_user',$id_user)->orderBy('id_user','DESC')->first();
         $role 	=   DB::connection('ts3')->table('auth.user_roles')->where('id', '!=' , 1)->get();
-        $customer 	= DB::connection('ts3')->table('mst.mst_customer')->get();
-        $usercustomer   =   DB::connection('ts3')->table('mst.mst_user_customer')->where('username',$user->username)->first();
+        $customer 	= DB::connection('ts3')->table('mst.mst_client')->get();
+        $usercustomer   =   DB::connection('ts3')->table('mst.mst_user_client')->where('username',$user->username)->first();
 
         if(empty($usercustomer)){
             $data  = [
                 'username' => '',
-                'mst_customer_id' => ''
+                'mst_client_id' => ''
             ];
             $usercustomer =  json_decode(json_encode($data), FALSE);
         }
@@ -65,7 +65,7 @@ class User extends Controller
             for($i=0; $i < sizeof($id_usernya);$i++) {
                 $user   =   DB::connection('ts3')->table('auth.users')->where('id_user',$id_usernya[$i])->first();
        
-               DB::connection('ts3')->table('mst.mst_user_customer')->where('username',$user->username)->delete();
+               DB::connection('ts3')->table('mst.mst_user_client')->where('username',$user->username)->delete();
                DB::connection('ts3')->table('auth.users')->where('id_user',$id_usernya[$i])->delete();
             }
         
@@ -113,9 +113,12 @@ class User extends Controller
                 'create_by'     => $request->session()->get('username'),
                 'is_active'     => true
             ]);
-            DB::connection('ts3')->table('mst.mst_user_customer')->insert([
+
+            // if di sini
+
+            DB::connection('ts3')->table('mst.mst_user_client')->insert([
                 'username'   	=> $request->username,
-                'mst_customer_id'   	=> $request->customer,
+                'mst_client_id'   	=> $request->customer,
                 'created_date'    => date("Y-m-d h:i:sa"),
                 'create_by'     => $request->session()->get('username')
             ]);
@@ -133,9 +136,10 @@ class User extends Controller
                 'is_active'     => true
             ]);
 
+            // if di sini
             DB::connection('ts3')->table('mst.mst_user_customer')->insert([
                 'username'   	=> $request->username,
-                'mst_customer_id'   	=> $request->customer,
+                'mst_client_id'   	=> $request->customer,
                 'created_date'    => date("Y-m-d h:i:sa"),
                 'create_by'     => $request->session()->get('username')
             ]);
@@ -184,8 +188,8 @@ class User extends Controller
                 'update_by'     => $request->session()->get('username')
             ]);
 
-            DB::connection('ts3')->table('mst.mst_user_customer')->where('username',$request->username)->update([
-                'mst_customer_id'    => $request->customer,
+            DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->update([
+                'mst_client_id'    => $request->customer,
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'     => $request->session()->get('username')
             ]);
@@ -202,8 +206,8 @@ class User extends Controller
                 'update_by'     => $request->session()->get('username')
             ]);
 
-            DB::connection('ts3')->table('mst.mst_user_customer')->where('username',$request->username)->update([
-                'mst_customer_id'    => $request->customer,
+            DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->update([
+                'mst_client_id'    => $request->customer,
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'     => $request->session()->get('username')
             ]);
@@ -217,7 +221,7 @@ class User extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
-        DB::connection('ts3')->table('mst.mst_user_customer')->where('username',$username)->delete();
+        DB::connection('ts3')->table('mst.mst_user_client')->where('username',$username)->delete();
     	DB::connection('ts3')->table('auth.users')->where('username',$username)->delete();
 
 
