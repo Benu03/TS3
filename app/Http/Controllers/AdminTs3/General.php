@@ -54,7 +54,6 @@ class General extends Controller
                             'general'          => $general,
                             'content'       => 'admin-ts3/general/edit'
                     );
-        
              return view('admin-ts3/layout/wrapper',$data);
     }
     
