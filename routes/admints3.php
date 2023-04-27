@@ -138,7 +138,6 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/branch/proses_edit', 'App\Http\Controllers\AdminTs3\branch@proses_edit');
     Route::get('admin-ts3/branch/delete/{par1}', 'App\Http\Controllers\AdminTs3\branch@delete');
 
-
     Route::get('admin-ts3/general', 'App\Http\Controllers\AdminTs3\general@index');
     Route::post('admin-ts3/general/tambah', 'App\Http\Controllers\AdminTs3\general@tambah');
     Route::post('admin-ts3/general/proses', 'App\Http\Controllers\AdminTs3\general@proses');
