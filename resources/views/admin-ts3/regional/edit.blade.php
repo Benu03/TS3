@@ -16,8 +16,8 @@
 	<label class="col-sm-3 control-label text-right">Client</label>
 	<div class="col-sm-9">
 	
-		<select name="client" class="form-control">
-			<option hidden>Option</option>
+		<select name="client" class="form-control select2">
+			
 			<?php foreach($client as $cl) { ?>
 			  <option value="<?php echo $cl->id ?>" <?php if($regional->mst_client_id==$cl->id) { echo 'selected'; } ?>><?php echo $cl->client_name ?></option>
 			<?php } ?>

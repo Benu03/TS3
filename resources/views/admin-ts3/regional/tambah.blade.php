@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="Tambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="Tambah"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -14,8 +14,8 @@
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Client</label>
 					<div class="col-sm-9">
-						<select name="mst_client_id" id="mst_client_id" class="form-control">
-							<option hidden>Option</option>
+						<select name="mst_client_id" id="mst_client_id" class="form-control select2">
+
 							<?php foreach($client as $cl) { ?>
 							  <option value="<?php echo $cl->id ?>"><?php echo $cl->client_name ?></option>
 							<?php } ?>

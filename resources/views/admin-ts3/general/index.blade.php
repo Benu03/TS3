@@ -8,9 +8,9 @@
     </div>
 @endif
 <p>
-  @include('admin-ts3/branch/tambah')
+  @include('admin-ts3/general/tambah')
 </p>
-<form action="{{ asset('admin-ts3/branch/proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-ts3/general/proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
 
@@ -39,30 +39,32 @@
                 </button>
             </div>
         </th>
-        <th width="30%">Area</th>
-        <th width="40%">Branch</th>    
+        <th width="30%">Name</th>
+        <th width="20%">Value 1</th>  
+        <th width="20%">Value 2</th>    
         <th>ACTION</th>
 </tr>
 </thead>
 <tbody>
 
-    <?php $i=1; foreach($branch as $br) { ?>
+    <?php $i=1; foreach($general as $gr) { ?>
 
     <td class="text-center">
         <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $br->id ?>" id="check<?php echo $i ?>">
+                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $gr->id ?>" id="check<?php echo $i ?>">
                    <label for="check<?php echo $i ?>"></label>
         </div>
         {{-- <small class="text-center"><?php echo $i ?></small> --}}
     </td>
-    <td><?php echo $br->area_slug ?></td>
-    <td><?php echo $br->branch ?></td>
+    <td><?php echo $gr->name ?></td>
+    <td><?php echo $gr->value_1 ?></td>
+    <td><?php echo $gr->value_2 ?></td>
     <td>
         <div class="btn-group">
-        <a href="{{ asset('admin-ts3/branch/edit/'.$br->id) }}" 
+        <a href="{{ asset('admin-ts3/general/edit/'.$gr->id) }}" 
           class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 
-          <a href="{{ asset('admin-ts3/branch/delete/'.$br->id) }}" class="btn btn-danger btn-sm  delete-link">
+          <a href="{{ asset('admin-ts3/general/delete/'.$gr->id) }}" class="btn btn-danger btn-sm  delete-link">
             <i class="fa fa-trash"></i></a>
         </div>
 

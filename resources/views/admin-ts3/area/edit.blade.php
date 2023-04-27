@@ -14,12 +14,10 @@
  
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right">Regional</label>
-	<div class="col-sm-9">
-	
-		<select name="mst_regional_id" class="form-control">
-			<option hidden>Option</option>
+	<div class="col-sm-9">	
+		<select name="mst_regional_id" class="form-control select2">			
 			<?php foreach($regional as $rg) { ?>
-			  <option value="<?php echo $rg->id ?>" <?php if($area->mst_regional_id==$rg->id) { echo 'selected'; } ?>><?php echo $rg->regional ?></option>
+			  <option value="<?php echo $rg->id ?>" <?php if($area->mst_regional_id==$rg->id) { echo 'selected'; } ?>><?php echo $rg->regional_slug ?></option>
 			<?php } ?>
 		  </select>
 

@@ -14,7 +14,7 @@ class Area extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
       
         $area 	= DB::connection('ts3')->table('mst.v_area')->get();
-        $regional 	= DB::connection('ts3')->table('mst.mst_regional')->get();
+        $regional 	= DB::connection('ts3')->table('mst.v_regional')->get();
 
 		$data = array(  'title'     => 'Area',
                         'area'      => $area,
@@ -49,7 +49,7 @@ class Area extends Controller
             if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         
             $area 	= DB::connection('ts3')->table('mst.v_area')->where('id',$id)->first();
-            $regional 	= DB::connection('ts3')->table('mst.mst_regional')->get();
+            $regional 	= DB::connection('ts3')->table('mst.v_regional')->get();
 
            
            

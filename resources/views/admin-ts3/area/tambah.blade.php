@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="Tambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="Tambah"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -14,10 +14,10 @@
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Regional</label>
 					<div class="col-sm-9">
-						<select name="mst_regional_id" id="mst_regional_id" class="form-control">
-							<option hidden>Option</option>
+						<select name="mst_regional_id" id="mst_regional_id" class="form-control select2" width="100%">
+							
 							<?php foreach($regional as $rg) { ?>
-							  <option value="<?php echo $rg->id ?>"><?php echo $rg->regional ?></option>
+							  <option value="<?php echo $rg->id ?>"><?php echo $rg->regional_slug ?></option>
 							<?php } ?>
 						  </select>
 					</div>

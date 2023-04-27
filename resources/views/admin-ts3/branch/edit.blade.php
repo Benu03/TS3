@@ -16,10 +16,10 @@
 	<label class="col-sm-3 control-label text-right">Area</label>
 	<div class="col-sm-9">
 	
-		<select name="mst_area_id" class="form-control">
-			<option hidden>Option</option>
+		<select name="mst_area_id" class="form-control select2">
+
 			<?php foreach($area as $rg) { ?>
-			  <option value="<?php echo $rg->id ?>" <?php if($branch->mst_area_id==$rg->id) { echo 'selected'; } ?>><?php echo $rg->area ?></option>
+			  <option value="<?php echo $rg->id ?>" <?php if($branch->mst_area_id==$rg->id) { echo 'selected'; } ?>><?php echo $rg->area_slug ?></option>
 			<?php } ?>
 		  </select>
 

@@ -55,7 +55,7 @@
         </div>
         {{-- <small class="text-center"><?php echo $i ?></small> --}}
     </td>
-    <td><?php echo $ar->regional ?></td>
+    <td><?php echo $ar->regional_slug ?></td>
     <td><?php echo $ar->area ?></td>
     <td>
         <div class="btn-group">

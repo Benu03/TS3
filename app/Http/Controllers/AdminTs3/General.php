@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
 
-class Branch extends Controller
+class General extends Controller
 {
     // Index
     public function index()
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
       
-        $branch 	= DB::connection('ts3')->table('mst.v_branch')->get();
-        $area 	= DB::connection('ts3')->table('mst.v_area')->get();
-
-		$data = array(  'title'     => 'Branch',
-                        'area'      => $area,
-                        'branch'      => $branch,
-                        'content'   => 'admin-ts3/branch/index'
+        $general 	= DB::connection('ts3')->table('mst.mst_general')->get();
+       
+		$data = array(  'title'     => 'General',
+                        'general'      => $general,
+                        'content'   => 'admin-ts3/general/index'
                     );
         
         return view('admin-ts3/layout/wrapper',$data);
@@ -29,33 +27,32 @@ class Branch extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
     	request()->validate([
-					        'mst_area_id' => 'required',
-					        'branch' 	   => 'required|unique:ts3.mst.mst_branch',
+					        'name' => 'required',
+					        'value_1' 	   => 'required',
 					        ]);
 
 
-        DB::connection('ts3')->table('mst.mst_branch')->insert([
-            'mst_area_id'   => $request->mst_area_id,
-            'branch'	=> $request->branch,
+        DB::connection('ts3')->table('mst.mst_general')->insert([
+            'name'   => $request->name,
+            'value_1'	=> $request->value_1,
+            'value_2'	=> $request->value_2,
+            'desc'	=> $request->desc,            
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
-        return redirect('admin-ts3/branch')->with(['sukses' => 'Data telah ditambah']);
+        return redirect('admin-ts3/general')->with(['sukses' => 'Data telah ditambah']);
     }
 
    
     public function edit($id)
     {
             if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-        
-            $branch 	= DB::connection('ts3')->table('mst.v_branch')->where('id',$id)->first();
-            $area 	= DB::connection('ts3')->table('mst.v_area')->get();
+            $general 	= DB::connection('ts3')->table('mst.mst_general')->where('id',$id)->first();
+          
 
-     
-		    $data = array(  'title'         => 'Edit Branch',
-                            'area'          => $area,
-                            'branch'        => $branch,
-                            'content'       => 'admin-ts3/branch/edit'
+		    $data = array(  'title'         => 'Edit General',
+                            'general'          => $general,
+                            'content'       => 'admin-ts3/general/edit'
                     );
         
              return view('admin-ts3/layout/wrapper',$data);
@@ -65,17 +62,19 @@ class Branch extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
     	request()->validate([
-					        'mst_area_id'     => 'required',
-                            'branch' => 'required',
+					        'name'     => 'required',
+                            'value_1' => 'required',
 					        ]);
 
-                            DB::connection('ts3')->table('mst.mst_branch')->where('id',$request->id)->update([
-                                'mst_area_id'   => $request->mst_area_id,
-                                'branch'	    => $request->branch,
+                            DB::connection('ts3')->table('mst.mst_general')->where('id',$request->id)->update([
+                                'name'   => $request->name,
+                                'value_1'	=> $request->value_1,
+                                'value_2'	=> $request->value_2,
+                                'desc'	=> $request->desc,          
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   
-        return redirect('admin-ts3/branch')->with(['sukses' => 'Data telah diupdate']);                                             
+        return redirect('admin-ts3/general')->with(['sukses' => 'Data telah diupdate']);                                             
     }
 
   
@@ -83,8 +82,8 @@ class Branch extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
-        DB::connection('ts3')->table('mst.mst_branch')->where('id',$id)->delete();
-        return redirect('admin-ts3/branch')->with(['sukses' => 'Data telah dihapus']);
+        DB::connection('ts3')->table('mst.mst_general')->where('id',$id)->delete();
+        return redirect('admin-ts3/general')->with(['sukses' => 'Data telah dihapus']);
     }
 
        
@@ -99,11 +98,11 @@ class Branch extends Controller
      
             for($i=0; $i < sizeof($id);$i++) {
                       
-               DB::connection('ts3')->table('mst.mst_branch')->where('id',$id[$i])->delete();
+               DB::connection('ts3')->table('mst.mst_general')->where('id',$id[$i])->delete();
              
             }
         
-            return redirect('admin-ts3/branch')->with(['sukses' => 'Data telah dihapus']);
+            return redirect('admin-ts3/general')->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }
     }

@@ -8,25 +8,36 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
-				<form action="{{ asset('admin-ts3/branch/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+				<form action="{{ asset('admin-ts3/general/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 				{{ csrf_field() }}
 				
+				
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Area</label>
+					<label class="col-sm-3 control-label text-right">Name</label>
 					<div class="col-sm-9">
-						<select name="mst_area_id" id="mst_area_id" class="form-control select2">
-						
-							<?php foreach($area as $rg) { ?>
-							  <option value="<?php echo $rg->id ?>"><?php echo $rg->area_slug ?></option>
-							<?php } ?>
-						  </select>
+						<input type="text" name="name" class="form-control" placeholder="Name" value="{{ old('name') }}" required>
 					</div>
 				</div>
 
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Branch</label>
+					<label class="col-sm-3 control-label text-right">Value 1</label>
 					<div class="col-sm-9">
-						<input type="text" name="branch" class="form-control" placeholder="branch" value="{{ old('branch') }}" required>
+						<input type="text" name="value_1" class="form-control" placeholder="Value 1" value="{{ old('value_1') }}" required>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Value 2</label>
+					<div class="col-sm-9">
+						<input type="text" name="value_2" class="form-control" placeholder="Value 2" value="{{ old('value_2') }}" required>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Description</label>
+					<div class="col-sm-9">
+						<textarea name="desc" id="desc" class="form-control" id="desc" placeholder="Description">{{ old('desc') }}</textarea>
+
 					</div>
 				</div>
 
