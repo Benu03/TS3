@@ -115,6 +115,29 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/regional/delete/{par1}', 'App\Http\Controllers\AdminTs3\Regional@delete');
 
 
+    Route::get('admin-ts3/bengkel', 'App\Http\Controllers\AdminTs3\bengkel@index');
+    Route::post('admin-ts3/bengkel/tambah', 'App\Http\Controllers\AdminTs3\bengkel@tambah');
+    Route::post('admin-ts3/bengkel/proses', 'App\Http\Controllers\AdminTs3\bengkel@proses');
+    Route::get('admin-ts3/bengkel/edit/{par1}', 'App\Http\Controllers\AdminTs3\bengkel@edit');
+    Route::post('admin-ts3/bengkel/proses_edit', 'App\Http\Controllers\AdminTs3\bengkel@proses_edit');
+    Route::get('admin-ts3/bengkel/delete/{par1}', 'App\Http\Controllers\AdminTs3\bengkel@delete');
+
+
+    Route::get('admin-ts3/area', 'App\Http\Controllers\AdminTs3\area@index');
+    Route::post('admin-ts3/area/tambah', 'App\Http\Controllers\AdminTs3\area@tambah');
+    Route::post('admin-ts3/area/proses', 'App\Http\Controllers\AdminTs3\area@proses');
+    Route::get('admin-ts3/area/edit/{par1}', 'App\Http\Controllers\AdminTs3\area@edit');
+    Route::post('admin-ts3/area/proses_edit', 'App\Http\Controllers\AdminTs3\area@proses_edit');
+    Route::get('admin-ts3/area/delete/{par1}', 'App\Http\Controllers\AdminTs3\area@delete');
+
+    
+    Route::get('admin-ts3/branch', 'App\Http\Controllers\AdminTs3\branch@index');
+    Route::post('admin-ts3/branch/tambah', 'App\Http\Controllers\AdminTs3\branch@tambah');
+    Route::post('admin-ts3/branch/proses', 'App\Http\Controllers\AdminTs3\branch@proses');
+    Route::get('admin-ts3/branch/edit/{par1}', 'App\Http\Controllers\AdminTs3\branch@edit');
+    Route::post('admin-ts3/branch/proses_edit', 'App\Http\Controllers\AdminTs3\branch@proses_edit');
+    Route::get('admin-ts3/branch/delete/{par1}', 'App\Http\Controllers\AdminTs3\branch@delete');
+
 
 
 

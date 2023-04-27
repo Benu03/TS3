@@ -8,9 +8,9 @@
     </div>
 @endif
 <p>
-  @include('admin-ts3/regional/tambah')
+  @include('admin-ts3/bengkel/tambah')
 </p>
-<form action="{{ asset('admin-ts3/regional/proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-ts3/bengkel/proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
 
@@ -39,30 +39,35 @@
                 </button>
             </div>
         </th>
-        <th width="30%">Client</th>
-        <th width="40%">Regional</th>    
+        <th width="40%">Bengkel</th>
+        <th width="20%">PIC Bengkel</th>    
+        <th width="20%">Phone</th>    
         <th>ACTION</th>
 </tr>
 </thead>
 <tbody>
 
-    <?php $i=1; foreach($regional as $rg) { ?>
+    <?php $i=1; foreach($bengkel as $bk) { ?>
 
     <td class="text-center">
         <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $rg->id ?>" id="check<?php echo $i ?>">
+                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $bk->id ?>" id="check<?php echo $i ?>">
                    <label for="check<?php echo $i ?>"></label>
         </div>
         {{-- <small class="text-center"><?php echo $i ?></small> --}}
     </td>
-    <td><?php echo $rg->client_name ?></td>
-    <td><?php echo $rg->regional ?></td>
+    <td><?php echo $bk->bengkel_name ?></td>
+    <td><?php echo $bk->pic_bengkel ?></td>
+    <td><?php echo $bk->phone ?></td>
+
+
+
     <td>
         <div class="btn-group">
-        <a href="{{ asset('admin-ts3/regional/edit/'.$rg->id) }}" 
+        <a href="{{ asset('admin-ts3/bengkel/edit/'.$bk->id) }}" 
           class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 
-          <a href="{{ asset('admin-ts3/regional/delete/'.$rg->id) }}" class="btn btn-danger btn-sm  delete-link">
+          <a href="{{ asset('admin-ts3/bengkel/delete/'.$bk->id) }}" class="btn btn-danger btn-sm  delete-link">
             <i class="fa fa-trash"></i></a>
         </div>
 
