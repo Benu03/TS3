@@ -54,6 +54,7 @@
                                     </button>
                                 </div>
                             </th>
+                            <th width="10%">Client</th>
                             <th width="10%">Nopol</th>
                             <th width="15%">No Rangka</th>
                             <th width="15%">No Mesin</th>
@@ -74,6 +75,7 @@
             
                     
                     </td>
+                    <td><?php echo $vc->client_name ?></td>
                     <td><?php echo $vc->nopol ?></td>
                     <td><?php echo $vc->norangka ?></td>
                     <td><?php echo $vc->nomesin ?></td>

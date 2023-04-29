@@ -15,6 +15,7 @@ class Vehicle extends Controller
 
       
         $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->get();
+        $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
         $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
         $group_vehicle 	= DB::connection('ts3')->table('mst.mst_general')->where('name','Group Vehicle')->where('value_1','Motor')->get();
 
@@ -22,6 +23,7 @@ class Vehicle extends Controller
                         'vehicle'      => $vehicle,
                         'vehicle_type'      => $vehicle_type,
                         'group_vehicle'      => $group_vehicle,
+                        'client'      => $client,
                         'content'   => 'admin-ts3/vehicle/index'
                     );
         
@@ -31,7 +33,7 @@ class Vehicle extends Controller
     public function tambah(Request $request)
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-    	request()->validate([
+    	request()->validate(['mst_client_id' 	   => 'required',
 					        'nopol' => 'required|unique:ts3.mst.mst_vehicle',
 					        'norangka' => 'required|unique:ts3.mst.mst_vehicle',
                             'nomesin' => 'required|unique:ts3.mst.mst_vehicle',
@@ -40,6 +42,7 @@ class Vehicle extends Controller
 
                       
         DB::connection('ts3')->table('mst.mst_vehicle')->insert([
+            'mst_client_id'	=> $request->mst_client_id,
             'nopol'   => strtoupper(str_replace(' ', '', $request->nopol)),
             'norangka'   => strtoupper(str_replace(' ', '', $request->norangka)),
             'nomesin'   => strtoupper(str_replace(' ', '', $request->norangka)),
@@ -93,12 +96,13 @@ class Vehicle extends Controller
     {
             if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
            
-   
+            $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
             $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->where('id',$id)->first();
             $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
 		    $data = array(  'title'     => 'Edit Vehicle',						
                         'vehicle'      => $vehicle,
                         'vehicle_type'      => $vehicle_type,
+                        'client'      => $client,
                         'content'   => 'admin-ts3/vehicle/edit'
                     );
         
@@ -108,7 +112,7 @@ class Vehicle extends Controller
     public function proses_edit(Request $request)
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-    	request()->validate([
+    	request()->validate(['mst_client_id' 	   => 'required',
                             'nopol' => 'required',
                             'norangka' => 'required',
                             'nomesin' => 'required',
@@ -116,6 +120,7 @@ class Vehicle extends Controller
 					        ]);
 
                             DB::connection('ts3')->table('mst.mst_vehicle')->where('id',$request->id)->update([
+                                'mst_client_id'	=> $request->mst_client_id,
                                 'nopol'   => strtoupper(str_replace(' ', '', $request->nopol)),
                                 'norangka'   => strtoupper(str_replace(' ', '', $request->norangka)),
                                 'nomesin'   => strtoupper(str_replace(' ', '', $request->norangka)),

@@ -11,6 +11,19 @@
 <form action="{{ asset('admin-ts3/vehicle/proses_edit') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <input type="hidden" name="id" value="<?php echo $vehicle->id ?>">
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Client</label>
+	<div class="col-sm-9">
+		<select name="mst_client_id" id="mst_client_id" class="form-control select2">
+		
+			<?php foreach($client as $cl) { ?>
+			  <option value="<?php echo $cl->id ?>" <?php if($vehicle->mst_client_id==$cl->id) { echo 'selected'; } ?> ><?php echo $cl->client_name ?></option>
+			<?php } ?>
+		  </select>
+	</div>
+</div>
+
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right">Nopol</label>
 	<div class="col-sm-9">

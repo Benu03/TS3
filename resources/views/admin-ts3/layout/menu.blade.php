@@ -170,10 +170,6 @@
               </li>
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/pekerjaan') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Pekerjaan</p></a>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/user-cliet') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>User Client</p></a>
-              </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/user-bengkel') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>User Bengkel</p></a>
-              </li>
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/general') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>General</p></a>
               </li>
             </ul>
