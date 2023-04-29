@@ -115,7 +115,7 @@ class User extends Controller
             ]);
 
             
-            if($request->role == 3) {
+            if($request->role == 3  || $request->role == 5) {
             DB::connection('ts3')->table('mst.mst_user_client')->insert([
                 'username'   	=> $request->username,
                 'mst_client_id'   	=> $request->customer,
@@ -137,7 +137,7 @@ class User extends Controller
                 'is_active'     => true
             ]);
 
-            if($request->role == 3) {
+            if($request->role == 3  || $request->role == 5) {
             DB::connection('ts3')->table('mst.mst_user_customer')->insert([
                 'username'   	=> $request->username,
                 'mst_client_id'   	=> $request->customer,
@@ -190,7 +190,7 @@ class User extends Controller
                 'update_by'     => $request->session()->get('username')
             ]);
 
-            if($request->role == 3) {
+            if($request->role == 3  || $request->role == 5) {
             DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->update([
                 'mst_client_id'    => $request->customer,
                 'updated_at'    => date("Y-m-d h:i:sa"),
@@ -209,7 +209,7 @@ class User extends Controller
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'     => $request->session()->get('username')
             ]);
-            if($request->role == 3) {
+            if($request->role == 3  || $request->role == 5) {
             DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->update([
                 'mst_client_id'    => $request->customer,
                 'updated_at'    => date("Y-m-d h:i:sa"),
