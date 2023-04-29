@@ -39,9 +39,10 @@
                 </button>
             </div>
         </th>
-        <th width="40%">Bengkel</th>
-        <th width="20%">PIC Bengkel</th>    
-        <th width="20%">Phone</th>    
+        <th width="20%">Bengkel</th>
+        <th width="15%">PIC Bengkel</th>    
+        <th width="15%">Phone</th>    
+        <th width="35%">Alamat</th>    
         <th>ACTION</th>
 </tr>
 </thead>
@@ -59,6 +60,7 @@
     <td><?php echo $bk->bengkel_name ?></td>
     <td><?php echo $bk->pic_bengkel ?></td>
     <td><?php echo $bk->phone ?></td>
+    <td><?php echo $bk->address ?></td>
 
 
 

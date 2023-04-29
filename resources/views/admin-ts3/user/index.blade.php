@@ -92,3 +92,19 @@
 </div>
 </div>
 </form>
+
+<script>
+     $('#div_customer').hide();
+   $('document').ready(function () {
+                        $("#role").change(function () {
+                        var data = $(this).val();
+                        if (data == "3" || data == "5" ) {
+                        $('#div_customer').show();
+                        } 
+                        else {
+                        $('#div_customer').hide();
+                        }
+                        });
+                        });
+
+</script>

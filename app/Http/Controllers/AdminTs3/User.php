@@ -114,8 +114,8 @@ class User extends Controller
                 'is_active'     => true
             ]);
 
-            // if di sini
-
+            
+            if($request->role == 3) {
             DB::connection('ts3')->table('mst.mst_user_client')->insert([
                 'username'   	=> $request->username,
                 'mst_client_id'   	=> $request->customer,
@@ -123,6 +123,7 @@ class User extends Controller
                 'create_by'     => $request->session()->get('username')
             ]);
 
+        }
 
         }else{
             DB::connection('ts3')->table('auth.users')->insert([
@@ -136,13 +137,14 @@ class User extends Controller
                 'is_active'     => true
             ]);
 
-            // if di sini
+            if($request->role == 3) {
             DB::connection('ts3')->table('mst.mst_user_customer')->insert([
                 'username'   	=> $request->username,
                 'mst_client_id'   	=> $request->customer,
                 'created_date'    => date("Y-m-d h:i:sa"),
                 'create_by'     => $request->session()->get('username')
             ]);
+         }
         }
         return redirect('admin-ts3/user')->with(['sukses' => 'Data telah ditambah']);
     }
@@ -188,11 +190,13 @@ class User extends Controller
                 'update_by'     => $request->session()->get('username')
             ]);
 
+            if($request->role == 3) {
             DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->update([
                 'mst_client_id'    => $request->customer,
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'     => $request->session()->get('username')
             ]);
+        }
 
         }else{
             $slug_user = Str::slug($request->nama, '-');
@@ -205,12 +209,13 @@ class User extends Controller
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'     => $request->session()->get('username')
             ]);
-
+            if($request->role == 3) {
             DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->update([
                 'mst_client_id'    => $request->customer,
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'     => $request->session()->get('username')
             ]);
+        }
 
         }
         return redirect('admin-ts3/user')->with(['sukses' => 'Data telah diupdate']);

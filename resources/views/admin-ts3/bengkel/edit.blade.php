@@ -24,8 +24,8 @@
 	<label class="col-sm-3 control-label text-right">PIC Bengkel</label>
 	<div class="col-sm-9">
 	
-		<select name="pic_bengkel" class="form-control">
-			<option hidden>Option</option>
+		<select name="pic_bengkel" class="form-control select2">
+			
 			<?php foreach($userbengkel as $ub) { ?>
 			  <option value="<?php echo $ub->username ?>" <?php if($bengkel->pic_bengkel==$ub->nama) { echo 'selected'; } ?>><?php echo $ub->nama ?></option>
 			<?php } ?>

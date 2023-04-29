@@ -43,7 +43,7 @@
 	<label class="col-sm-3 control-label text-right">Role Akses</label>
 	<div class="col-sm-9">
 	
-		<select name="role" class="form-control">
+		<select name="role" class="form-control" id="role">
 			<option hidden>Option</option>
 			<?php foreach($roledata as $roles) { ?>
 			  <option value="<?php echo $roles->id ?>" <?php if($user->id_role==$roles->id) { echo 'selected'; } ?>><?php echo $roles->role_title ?></option>
@@ -53,12 +53,11 @@
 	</div>
 </div>
 
-<div class="form-group row">
+<div class="form-group row" id="div_customer">
 	<label class="col-sm-3 control-label text-right">Client Entity</label>
 	<div class="col-sm-9">
-	
-		<select name="customer" class="form-control">
-			<option hidden>Option</option>
+		<select name="customer" class="form-control select2">
+
 			<?php foreach($customerdata as $cus) { ?>
 			  <option value="<?php echo $cus->id ?>" <?php if($usercustomer->mst_client_id==$cus->id) { echo 'selected'; } ?>><?php echo $cus->client_name.'-'.$cus->client_type ?></option>
 			<?php } ?>
@@ -87,3 +86,39 @@
 </div>
 </form>
 
+
+<script>
+	
+
+
+
+
+						var select = document.getElementById('role');
+						var datarole = select.options[select.selectedIndex].value;
+								console.log(datarole);
+								if (datarole == "3" || datarole == "5" ) {
+									$('#div_customer').show();
+									} 
+									else {
+									$('#div_customer').hide();
+									}
+
+
+  					$('document').ready(function () {
+						
+
+
+
+					   			$("#role").change(function () {
+										var data = $(this).val();
+										
+											if (data == "3" || data == "5" ) {
+											$('#div_customer').show();
+											} 
+											else {
+											$('#div_customer').hide();
+											}
+								});
+					   });
+
+</script>
