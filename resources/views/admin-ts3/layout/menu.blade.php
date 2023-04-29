@@ -156,7 +156,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/bengkel') }}" class="nav-link"><i class="fas fa-tags nav-icon"></i><p>Bengkel</p></a>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/price') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Price Service</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/price-service') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Price Service</p></a>
               </li>
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/regional') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Regional</p></a>
               </li>

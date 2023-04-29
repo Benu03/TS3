@@ -146,7 +146,28 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/general/delete/{par1}', 'App\Http\Controllers\AdminTs3\General@delete');
 
 
+    Route::get('admin-ts3/price-service', 'App\Http\Controllers\AdminTs3\PriceService@index');
+    Route::post('admin-ts3/price-service/tambah', 'App\Http\Controllers\AdminTs3\PriceService@tambah');
+    Route::post('admin-ts3/price-service/proses', 'App\Http\Controllers\AdminTs3\PriceService@proses');
+    Route::get('admin-ts3/price-service/edit/{par1}', 'App\Http\Controllers\AdminTs3\PriceService@edit');
+    Route::post('admin-ts3/price-service/proses_edit', 'App\Http\Controllers\AdminTs3\PriceService@proses_edit');
+    Route::get('admin-ts3/price-service/delete/{par1}', 'App\Http\Controllers\AdminTs3\PriceService@delete');
 
+
+    Route::get('admin-ts3/vehicle', 'App\Http\Controllers\AdminTs3\Vehicle@index');
+    Route::post('admin-ts3/vehicle/tambah', 'App\Http\Controllers\AdminTs3\Vehicle@tambah');
+    Route::post('admin-ts3/vehicle/proses', 'App\Http\Controllers\AdminTs3\Vehicle@proses');
+    Route::get('admin-ts3/vehicle/edit/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@edit');
+    Route::post('admin-ts3/vehicle/proses_edit', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit');
+    Route::get('admin-ts3/vehicle/delete/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete');
+    Route::get('admin-ts3/vehicle/detail/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@detail');
+
+
+    Route::post('admin-ts3/vehicle/tambah-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@tambah_vehicle_type');
+    Route::post('admin-ts3/vehicle/proses-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@proses_vehicle_type');
+    Route::get('admin-ts3/vehicle/edit-vehicle-type/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@edit_vehicle_type');
+    Route::post('admin-ts3/vehicle/proses-edit-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit_vehicle_type');
+    Route::get('admin-ts3/vehicle/delete-vehicle-type/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete_vehicle_type');
 
 
 });

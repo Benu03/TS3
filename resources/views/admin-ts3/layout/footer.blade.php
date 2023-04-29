@@ -1,4 +1,14 @@
 <script>
+  function isNumber(evt) {
+   evt = (evt) ? evt : window.event;
+   var charCode = (evt.which) ? evt.which : evt.keyCode;
+   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+       return false;
+   }
+   return true;
+}
+</script>
+<script>
 tinymce.init({
   selector: '.simple',
   menubar: false,
@@ -292,6 +302,7 @@ CKEDITOR.replace( 'kontenku',
 <script>
   $(function () {
     $("#example1").DataTable();
+    $("#example3").DataTable();
     $('#example2').DataTable({
       "paging": false,
       "lengthChange": false,

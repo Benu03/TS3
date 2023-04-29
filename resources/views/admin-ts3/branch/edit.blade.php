@@ -34,6 +34,34 @@
 </div>
 
 
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">PIC Branch</label>
+	<div class="col-sm-9">
+		<select name="pic_branch" id="pic_branch" class="form-control select2">
+			
+			<?php foreach($userbranch as $ub) { ?>
+			  <option value="<?php echo $ub->username ?>"  <?php if($branch->pic_branch==$ub->username) { echo 'selected'; } ?>><?php echo $ub->nama ?></option>
+			<?php } ?>
+		  </select>
+	</div>
+</div>
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Phone</label>
+	<div class="col-sm-9">
+		<input type="text" name="phone" class="form-control" placeholder="Phone" value="<?php echo $branch->phone ?>"  onkeypress="return isNumber(event)">
+	</div>
+</div>
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Address</label>
+	<div class="col-sm-9">
+		<textarea name="address" id="address" class="form-control" id="address" placeholder="Address"><?php echo $branch->address ?></textarea>
+
+	</div>
+</div>
+
+
 
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right"></label>

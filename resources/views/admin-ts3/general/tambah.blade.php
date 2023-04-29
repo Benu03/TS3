@@ -29,7 +29,7 @@
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Value 2</label>
 					<div class="col-sm-9">
-						<input type="text" name="value_2" class="form-control" placeholder="Value 2" value="{{ old('value_2') }}" required>
+						<input type="text" name="value_2" class="form-control" placeholder="Value 2" value="{{ old('value_2') }}" >
 					</div>
 				</div>
 

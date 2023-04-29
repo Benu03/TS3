@@ -15,10 +15,12 @@ class Branch extends Controller
       
         $branch 	= DB::connection('ts3')->table('mst.v_branch')->get();
         $area 	= DB::connection('ts3')->table('mst.v_area')->get();
+        $user_branch 	= DB::connection('ts3')->table('auth.users')->where('id_role','5')->get();
 
 		$data = array(  'title'     => 'Branch',
                         'area'      => $area,
                         'branch'      => $branch,
+                        'userbranch'      => $user_branch,
                         'content'   => 'admin-ts3/branch/index'
                     );
         
@@ -31,12 +33,16 @@ class Branch extends Controller
     	request()->validate([
 					        'mst_area_id' => 'required',
 					        'branch' 	   => 'required|unique:ts3.mst.mst_branch',
+                            'pic_branch' => 'required',
 					        ]);
 
 
         DB::connection('ts3')->table('mst.mst_branch')->insert([
             'mst_area_id'   => $request->mst_area_id,
             'branch'	=> $request->branch,
+            'pic_branch'	=> $request->pic_branch,
+            'phone'	=> $request->phone,
+            'address'	=> $request->address,
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
@@ -50,11 +56,12 @@ class Branch extends Controller
         
             $branch 	= DB::connection('ts3')->table('mst.v_branch')->where('id',$id)->first();
             $area 	= DB::connection('ts3')->table('mst.v_area')->get();
-
+            $user_branch 	= DB::connection('ts3')->table('auth.users')->where('id_role','5')->get();
      
 		    $data = array(  'title'         => 'Edit Branch',
                             'area'          => $area,
                             'branch'        => $branch,
+                            'userbranch'      => $user_branch,
                             'content'       => 'admin-ts3/branch/edit'
                     );
         
@@ -67,11 +74,15 @@ class Branch extends Controller
     	request()->validate([
 					        'mst_area_id'     => 'required',
                             'branch' => 'required',
+                            'pic_branch' => 'required',
 					        ]);
 
                             DB::connection('ts3')->table('mst.mst_branch')->where('id',$request->id)->update([
                                 'mst_area_id'   => $request->mst_area_id,
                                 'branch'	    => $request->branch,
+                                'pic_branch'	=> $request->pic_branch,
+                                'phone'	=> $request->phone,
+                                'address'	=> $request->address,
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   

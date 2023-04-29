@@ -127,7 +127,7 @@
         <div class="clearfix"><hr></div>
         <div class="table-responsive mailbox-messages">
             <div class="table-responsive mailbox-messages">
-        <table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+        <table id="example3" class="display table table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr class="bg-info">
                 <th width="5%">
