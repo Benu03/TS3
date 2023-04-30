@@ -39,9 +39,9 @@
                 </button>
             </div>
         </th>
-        <th width="45%">Client Name</th>
-        <th width="20%">Type</th>
-        <th width="20%">Create Date</th>
+        <th width="25%">Client Name</th>
+        <th width="10%">Type</th>
+        <th width="35%">Product</th>
         <th>ACTION</th>
 </tr>
 </thead>
@@ -59,7 +59,14 @@
 </td>
 <td><?php echo $cl->client_name ?></td>
 <td><?php echo $cl->client_type ?></td>
-<td><?php echo $cl->created_date ?></td>
+<td><?php     
+    $str = $cl->product_name;
+    $delimiter = ',';
+    $products = explode($delimiter, $str);
+    foreach ($products as $pds) {
+        echo "<span class='badge badge-pill badge-primary mr-2 mb-1'>$pds </span>" ;
+    }
+ ?></td>
 <td>
     <div class="btn-group">
     <a href="{{ asset('admin-ts3/client/edit/'.$cl->id) }}" 

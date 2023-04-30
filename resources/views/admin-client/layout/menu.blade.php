@@ -22,6 +22,19 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
+    
+    <?php
+      use Illuminate\Support\Facades\DB;
+
+      $user       = DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
+      $menu        = DB::connection('ts3')->table('auth.v_user_client_product')->where('mst_client_id',$user->mst_client_id)->get();
+      
+      $product = [];
+      foreach ($menu as $val) {
+        $product[] = $val->product_name;
+      }
+      
+      ?>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -35,24 +48,68 @@
               </p>
             </a>
           </li>
-          
-          <!-- Website Content -->
-          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Berita &amp; Updates</span></li>
+
+
+
+          @if (in_array("Motor Vehicle Maintenance", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Motor Vehicle Maintenace</span></li>
           <li class="batas"><hr></li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item ml-4"><a href="{{ asset('admin-client/spk') }}" class="nav-link"><i class="fa fa-file-contract nav-icon"></i><p>SPK Proses</p></a>
+
+          <li class="nav-item ml-4"><a href="{{ asset('admin-client/invoice') }}" class="nav-link"><i class="fa fa-file-invoice nav-icon"></i><p>Invoice</p></a>
+
+          <li class="nav-item ml-4"><a href="{{ asset('admin-client/approval') }}" class="nav-link"><i class="fas fa-thumbs-up nav-icon"></i><p>Approval</p></a>
+
+          <li class="nav-item ml-4"><a href="{{ asset('admin-client/vehicle') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>Vehicle</p></a>
+          </li>
+
+          <li class="nav-item ml-4 has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-newspaper"></i>
-              <p>Berita &amp; Update<i class="fas fa-angle-left right"></i></p>
+              <i class="fas fa-paste nav-icon"></i>
+              <p>Report<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="{{ asset('admin-client/berita') }}" class="nav-link"><i class="fas fa-newspaper nav-icon"></i><p>Data Berita &amp; Update</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-client/report') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>Report A</p></a>
               </li>
-              <li class="nav-item"><a href="{{ asset('admin-client/berita/tambah') }}" class="nav-link"><i class="fa fa-plus nav-icon"></i><p>Tambah Berita/Update</p></a>
-              </li>
-              <li class="nav-item"><a href="{{ asset('admin-client/kategori') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Kategori berita</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-client/report') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>Report B</p></a>
               </li>
             </ul>
-          </li>
+          </li>              
+
+          @endif
+
+
+          @if (in_array("Building Maintenance Service", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Building Maintenance Service</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("Cleaning Service", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Cleaning Service</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("Security Services", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Security Services</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("Car Vehicle Maintenace", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Car Vehicle Maintenace</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("Parking Services", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Parking Services</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("HR Provider", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> HR Provider</span></li>
+          <li class="batas"><hr></li>
+          @endif
+        
+       
 
           
           
