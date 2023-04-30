@@ -33,6 +33,30 @@
 	</div>
 </div>
 
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Product</label>
+	<div class="col-sm-9">
+
+		<select name="mst_product_id[]" id="mst_product_id" class="form-control select2" multiple="multiple">
+		
+			<?php foreach($product as $rg) { ?>
+			  <option value="<?php echo $rg->id ?>" 
+				<?php     
+				$str = $clientdata->mst_product_id;
+				$delimiter = ',';
+				$product_id = explode($delimiter, $str);
+				foreach ($product_id as $rgg) {
+						if($rgg==$rg->id) { echo 'selected'; } 
+				}
+				?>			
+				><?php echo $rg->product_name ?></option>
+			<?php } ?>
+		  </select>
+	</div>
+</div>
+
+
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right"></label>
 	<div class="col-sm-9">

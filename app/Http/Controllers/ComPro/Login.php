@@ -30,12 +30,18 @@ class Login extends Controller
         
         if(isset($user) == true){
 
+                DB::connection('ts3')->table('auth.users')->where('username',$user->username)->update([
+                'is_login'     => true
+                ]);  
                 if($user->id_role == 1) 
                 {
                     $request->session()->put('id_user', $user->id_user);
                     $request->session()->put('nama', $user->nama);
                     $request->session()->put('username', $user->username);
                     $request->session()->put('id_role', $user->id_role);
+                 
+                    
+
                     return redirect('admin-cms/dasbor')->with(['sukses' => 'Anda berhasil login']);
                 }
                 elseif($user->id_role == 2) 
@@ -88,6 +94,9 @@ class Login extends Controller
     // Homepage
     public function logout()
     {
+        DB::connection('ts3')->table('auth.users')->where('username',Session()->get('username'))->update([
+            'is_login'     => false
+            ]);  
         Session()->forget('id_user');
         Session()->forget('nama');
         Session()->forget('username');

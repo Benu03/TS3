@@ -14,11 +14,11 @@ class ClientProduct extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
       
-        $client 	= DB::connection('ts3')->table('mst.mst_client')->get();
+        $client 	= DB::connection('ts3')->table('mst.v_client_product')->get();
       
-
+        $product 	= DB::connection('ts3')->table('mst.mst_product')->get();
 		$data = array(  'title'     => 'Client',
-                      
+                        'product'      => $product,
                         'clientdata'      => $client,
                         'content'   => 'admin-ts3/client_product/index'
                     );
@@ -49,15 +49,31 @@ class ClientProduct extends Controller
     	request()->validate([
 					        'client_name' => 'required|unique:ts3.mst.mst_client',
 					        'client_type' 	   => 'required',
+                            'mst_product_id' 	   => 'required',
 					        ]);
 
-
-        DB::connection('ts3')->table('mst.mst_client')->insert([
+        $id_client = DB::connection('ts3')->table('mst.mst_client')->insertGetId([
             'client_name'   => $request->client_name,
             'client_type'	=> $request->client_type,
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
+
+
+        foreach($request->mst_product_id as $val){
+            $datasets = [
+                'mst_client_id' => $id_client,
+                'mst_product_id' => $val,
+                'created_date'    => date("Y-m-d h:i:sa"),
+                'create_by'     => $request->session()->get('username')
+            ];
+
+            DB::connection('ts3')->table('mst.mst_client_product')->insert($datasets);
+        }
+
+
+
+
         return redirect('admin-ts3/client')->with(['sukses' => 'Data telah ditambah']);
     }
 
@@ -101,10 +117,10 @@ class ClientProduct extends Controller
     {
             if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
            
-            $client   =   DB::connection('ts3')->table('mst.mst_client')->where('id',$id)->first();
-           
+            $client   =   DB::connection('ts3')->table('mst.v_client_product')->where('id',$id)->first();
+            $product 	= DB::connection('ts3')->table('mst.mst_product')->get();
 		    $data = array(  'title'     => 'Edit Client',
-						
+                        'product'      => $product,
                         'clientdata'      => $client,
                         'content'   => 'admin-ts3/client_product/edit'
                     );
@@ -118,6 +134,7 @@ class ClientProduct extends Controller
     	request()->validate([
 					        'client_name'     => 'required',
                             'client_type' => 'required',
+                            'mst_product_id' 	   => 'required',
 					        ]);
 
                             DB::connection('ts3')->table('mst.mst_client')->where('id',$request->id)->update([
@@ -126,6 +143,19 @@ class ClientProduct extends Controller
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   
+
+                            DB::connection('ts3')->table('mst.mst_client_product')->where('mst_client_id',$request->id)->delete();
+                            foreach($request->mst_product_id as $val){
+                                $datasets = [
+                                    'mst_client_id' => $request->id,
+                                    'mst_product_id' => $val,
+                                    'created_date'    => date("Y-m-d h:i:sa"),
+                                    'create_by'     => $request->session()->get('username')
+                                ];
+                    
+                                DB::connection('ts3')->table('mst.mst_client_product')->insert($datasets);
+                            }
+
         return redirect('admin-ts3/client')->with(['sukses' => 'Data telah diupdate']);                                             
     }
 
@@ -151,6 +181,7 @@ class ClientProduct extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         DB::connection('ts3')->table('mst.mst_client')->where('id',$id)->delete();
+        DB::connection('ts3')->table('mst.mst_client_product')->where('mst_client_id',$id)->delete();
         return redirect('admin-ts3/client')->with(['sukses' => 'Data telah dihapus']);
     }
 
@@ -174,6 +205,7 @@ class ClientProduct extends Controller
             for($i=0; $i < sizeof($id);$i++) {
                       
                DB::connection('ts3')->table('mst.mst_client')->where('id',$id[$i])->delete();
+               DB::connection('ts3')->table('mst.mst_client_product')->where('mst_client_id',$id)->delete();
              
             }
         

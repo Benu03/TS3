@@ -12,7 +12,7 @@
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ asset('pic/dasbor') }}" class="brand-link">
+    <a href="{{ asset('admin-client/dasbor') }}" class="brand-link">
       <img src="{{ asset('assets/upload/image/'.website('icon')) }}"
          alt="{{ website('namaweb') }}"
          class="brand-image img-circle elevation-3"
@@ -22,37 +22,71 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
+    
+    <?php
+      use Illuminate\Support\Facades\DB;
+
+      $user       = DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
+      $menu        = DB::connection('ts3')->table('auth.v_user_client_product')->where('mst_client_id',$user->mst_client_id)->get();
+      
+      $product = [];
+      foreach ($menu as $val) {
+        $product[] = $val->product_name;
+      }
+      
+      ?>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- DASHBOARD -->
           <li class="nav-item">
-            <a href="{{ asset('pic/dasbor') }}" class="nav-link">
+            <a href="{{ asset('admin-client/dasbor') }}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
-          
-          <!-- Website Content -->
-          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Berita &amp; Updates</span></li>
+
+
+
+          @if (in_array("Motor Vehicle Maintenance", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Motor Vehicle Maintenace</span></li>
           <li class="batas"><hr></li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-newspaper"></i>
-              <p>Berita &amp; Update<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="{{ asset('pic/berita') }}" class="nav-link"><i class="fas fa-newspaper nav-icon"></i><p>Data Berita &amp; Update</p></a>
-              </li>
-              <li class="nav-item"><a href="{{ asset('pic/berita/tambah') }}" class="nav-link"><i class="fa fa-plus nav-icon"></i><p>Tambah Berita/Update</p></a>
-              </li>
-              <li class="nav-item"><a href="{{ asset('pic/kategori') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Kategori berita</p></a>
-              </li>
-            </ul>
-          </li>
+          @endif
+
+          @if (in_array("Building Maintenance Service", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Building Maintenance Service</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("Cleaning Service", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Cleaning Service</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("Security Services", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Security Services</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("Car Vehicle Maintenace", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Car Vehicle Maintenace</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("Parking Services", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Parking Services</span></li>
+          <li class="batas"><hr></li>
+          @endif
+
+          @if (in_array("HR Provider", $product))
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> HR Provider</span></li>
+          <li class="batas"><hr></li>
+          @endif
+        
+       
 
           
           
