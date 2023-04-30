@@ -17,13 +17,14 @@ class PriceService extends Controller
         $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
         $regional 	= DB::connection('ts3')->table('mst.mst_regional')->get();        
         $kode_max 	= DB::connection('ts3')->table('mst.v_price_service')->selectRaw("concat('TS3-',max(ltrim(kode, 'TS3-'))::int + 1) as kode")->first();
-
+        $price_type = DB::connection('ts3')->table('mst.mst_general')->where('name','price_service_type')->get();
 
 		$data = array(  'title'     => 'Price Service',
                         'kode_max'   => $kode_max,
                         'price'      => $price,
                         'client'      => $client,
                         'regional'      => $regional,
+                        'price_type'      => $price_type,
                         'content'   => 'admin-ts3/price_service/index');
         
         return view('admin-ts3/layout/wrapper',$data);
@@ -39,6 +40,7 @@ class PriceService extends Controller
                             'mst_client_id' 	   => 'required',
                             'price_ts3_to_client' 	   => 'required',
                             'mst_regional_id' 	   => 'required',
+                            'price_service_type' 	   => 'required',
 					        ]);
         
 
@@ -50,6 +52,7 @@ class PriceService extends Controller
             'price_bengkel_to_ts3'	=> $request->price_bengkel_to_ts3,
             'mst_client_id'	=> $request->mst_client_id,
             'price_ts3_to_client'	=> $request->price_ts3_to_client,
+            'price_service_type' 	   =>  $request->price_service_type,
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
@@ -76,11 +79,13 @@ class PriceService extends Controller
             $price 	= DB::connection('ts3')->table('mst.v_price_service')->where('id',$id)->first();
             $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
             $regional 	= DB::connection('ts3')->table('mst.mst_regional')->get();        
-            
+            $price_type = DB::connection('ts3')->table('mst.mst_general')->where('name','price_service_type')->get();
+
 		    $data = array(  'title'         => 'Edit Price Service',
                             'price'         => $price,
                             'client'        => $client,
                             'regional'      => $regional,
+                            'price_type'      => $price_type,
                             'content'   => 'admin-ts3/price_service/edit');
                    
         
@@ -95,6 +100,7 @@ class PriceService extends Controller
                                 'price_bengkel_to_ts3' 	   => 'required',
                                 'mst_client_id' 	   => 'required',
                                 'price_ts3_to_client' 	   => 'required',
+                                'price_service_type' 	   => 'required',
 					        ]);
 
                             DB::connection('ts3')->table('mst.mst_price_service')->where('id',$request->id)->update([
@@ -102,6 +108,7 @@ class PriceService extends Controller
                                 'price_bengkel_to_ts3'	=> $request->price_bengkel_to_ts3,
                                 'mst_client_id'	=> $request->mst_client_id,
                                 'price_ts3_to_client'	=> $request->price_ts3_to_client,
+                                'price_service_type' 	   =>  $request->price_service_type,
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);            

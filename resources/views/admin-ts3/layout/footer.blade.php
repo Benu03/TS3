@@ -239,13 +239,13 @@ $(document).on("click", ".approval-link", function(e){
     
 // Replace the <textarea id="editor1"> with a CKEditor 4
 // instance, using default configuration.
-CKEDITOR.replace( 'kontenku',
-      {
-        filebrowserBrowseUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=") }}',
-        filebrowserUploadUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=") }}',
-        filebrowserImageBrowseUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr==") }}'
-  } 
-);
+// CKEDITOR.replace( 'kontenku',
+//       {
+//         filebrowserBrowseUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=") }}',
+//         filebrowserUploadUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=") }}',
+//         filebrowserImageBrowseUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr==") }}'
+//   } 
+// );
 </script>
 <!-- Page Script -->
 <script>

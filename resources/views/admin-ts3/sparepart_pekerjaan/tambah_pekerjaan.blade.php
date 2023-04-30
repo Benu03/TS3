@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="Tambah_vehicle_type" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="Tambah_Pekerjaan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -8,7 +8,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
-				<form action="{{ asset('admin-ts3/vehicle-type/tambah-vehicle-type') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+				<form action="{{ asset('admin-ts3/pekerjaan/tambah-pekerjaan') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 				{{ csrf_field() }}
 
 
@@ -24,30 +24,23 @@
 					</div>
 				</div>
 
+				
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Type</label>
+					<label class="col-sm-3 control-label text-right">Name</label>
 					<div class="col-sm-9">
-						<input type="text" name="type" class="form-control" placeholder="Type" value="{{ old('type') }}" required>
+						<input type="text" name="name" class="form-control" placeholder="Name" value="{{ old('name') }}" required>
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Tahun</label>
-					<div class="col-sm-9">
-						<input type="text" name="tahun_pembuatan" class="form-control" placeholder="Tahun" value="{{ old('tahun_pembuatan') }}"  onkeypress="return isNumber(event)" required>
-					</div>
-				</div>
-
+			
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Deskripsi</label>
 					<div class="col-sm-9">
-						<textarea name="desc" id="address" class="form-control" id="desc" placeholder="Deskripsi">{{ old('desc') }}</textarea>
+						<textarea name="desc" class="form-control" id="desc" placeholder="Deskripsi">{{ old('desc') }}</textarea>
 
 					</div>
 				</div>
 
-
-		
 
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right"></label>

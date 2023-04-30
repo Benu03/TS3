@@ -8,24 +8,36 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
-				<form action="{{ asset('admin-ts3/client/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
-{{ csrf_field() }}
+				<form action="{{ asset('admin-ts3/spare-part/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+			{{ csrf_field() }}
+				 
+			<div class="form-group row">
+				<label class="col-sm-3 control-label text-right">Group</label>
+				<div class="col-sm-9">
+					<select name="group_vehicle" id="group_vehicle" class="form-control select2">
+					
+						<?php foreach($group_vehicle as $gv) { ?>
+						  <option value="<?php echo $gv->value_1 ?>"><?php echo $gv->value_1 ?></option>
+						<?php } ?>
+					  </select>
+				</div>
+			</div>
+
+
+
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Client Name</label>
+					<label class="col-sm-3 control-label text-right">Name</label>
 					<div class="col-sm-9">
-						<input type="text" name="client_name" class="form-control" placeholder="Client Name" value="{{ old('client_name') }}" required>
+						<input type="text" name="name" class="form-control" placeholder="Name" value="{{ old('name') }}" required>
 					</div>
 				</div>
 
-
+			
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Client Type</label>
+					<label class="col-sm-3 control-label text-right">Deskripsi</label>
 					<div class="col-sm-9">
-						<select name="client_type" id="client_type" class="form-control">
-							<option hidden>Option</option>
-							<option value="B2B">B2B</option>
-							<option value="B2C">B2C</option>
-						  </select>
+						<textarea name="desc" class="form-control" id="desc" placeholder="Deskripsi">{{ old('desc') }}</textarea>
+
 					</div>
 				</div>
 

@@ -8,7 +8,7 @@
     </div>
 @endif
 
-<form action="{{ asset('admin-ts3/vehicle/proses_edit') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-ts3/vehicle/proses-edit') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <input type="hidden" name="id" value="<?php echo $vehicle->id ?>">
 

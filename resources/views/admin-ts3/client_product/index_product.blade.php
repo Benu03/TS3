@@ -8,9 +8,9 @@
 </div>
 @endif
 <p>
-@include('admin-ts3/client_product/tambah')
+@include('admin-ts3/client_product/tambah_product')
 </p>
-<form action="{{ asset('admin-ts3/client/proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-ts3/product/proses-product') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
 
@@ -19,7 +19,7 @@
     <button class="btn btn-danger" type="submit" name="hapus" onClick="check();" >
         <i class="fa fa-trash"></i>
     </button> 
-        <button type="button" class="btn btn-success " data-toggle="modal" data-target="#Tambah">
+        <button type="button" class="btn btn-success " data-toggle="modal" data-target="#Tambah_product">
             <i class="fa fa-plus"></i> Tambah Baru
         </button>
 </div>
@@ -29,7 +29,7 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+<table id="example3" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
         <th width="5%">
@@ -39,33 +39,33 @@
                 </button>
             </div>
         </th>
-        <th width="45%">Client Name</th>
-        <th width="20%">Type</th>
+        <th width="45%">Product Name</th>
+        <th width="20%">Scheme</th>
         <th width="20%">Create Date</th>
         <th>ACTION</th>
 </tr>
 </thead>
 <tbody>
 
-<?php $i=1; foreach($clientdata as $cl) { ?>
+<?php $i=1; foreach($product as $pd) { ?>
 
     <td class="text-center">
     <div class="icheck-primary">
-              <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $cl->id ?>" id="check<?php echo $i ?>">
+              <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $pd->id ?>" id="check<?php echo $i ?>">
                <label for="check<?php echo $i ?>"></label>
     </div>
     {{-- <small class="text-center"><?php echo $i ?></small> --}}
 
 </td>
-<td><?php echo $cl->client_name ?></td>
-<td><?php echo $cl->client_type ?></td>
-<td><?php echo $cl->created_date ?></td>
+<td><?php echo $pd->product_name ?></td>
+<td><?php echo $pd->scheme_db ?></td>
+<td><?php echo $pd->created_date ?></td>
 <td>
     <div class="btn-group">
-    <a href="{{ asset('admin-ts3/client/edit/'.$cl->id) }}" 
+    <a href="{{ asset('admin-ts3/product/edit-product/'.$pd->id) }}" 
       class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 
-      <a href="{{ asset('admin-ts3/client/delete/'.$cl->id) }}" class="btn btn-danger btn-sm  delete-link">
+      <a href="{{ asset('admin-ts3/product/delete-product/'.$pd->id) }}" class="btn btn-danger btn-sm  delete-link">
         <i class="fa fa-trash"></i></a>
     </div>
 

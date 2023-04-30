@@ -15,12 +15,29 @@ class ClientProduct extends Controller
 
       
         $client 	= DB::connection('ts3')->table('mst.mst_client')->get();
-        $product 	= DB::connection('ts3')->table('mst.mst_product')->get();
+      
 
-		$data = array(  'title'     => 'Client & Product',
-                        'product'      => $product,
+		$data = array(  'title'     => 'Client',
+                      
                         'clientdata'      => $client,
                         'content'   => 'admin-ts3/client_product/index'
+                    );
+        
+        return view('admin-ts3/layout/wrapper',$data);
+    }
+
+    public function index_product()
+    {
+    	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+      
+
+        $product 	= DB::connection('ts3')->table('mst.mst_product')->get();
+
+		$data = array(  'title'     => 'Product',
+                        'product'      => $product,
+                
+                        'content'   => 'admin-ts3/client_product/index_product'
                     );
         
         return view('admin-ts3/layout/wrapper',$data);
@@ -41,7 +58,7 @@ class ClientProduct extends Controller
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
-        return redirect('admin-ts3/client-product')->with(['sukses' => 'Data telah ditambah']);
+        return redirect('admin-ts3/client')->with(['sukses' => 'Data telah ditambah']);
     }
 
     public function tambah_product(Request $request)
@@ -59,7 +76,7 @@ class ClientProduct extends Controller
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
-        return redirect('admin-ts3/client-product')->with(['sukses' => 'Data telah ditambah']);
+        return redirect('admin-ts3/product')->with(['sukses' => 'Data telah ditambah']);
     }
 
 
@@ -109,7 +126,7 @@ class ClientProduct extends Controller
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   
-        return redirect('admin-ts3/client-product')->with(['sukses' => 'Data telah diupdate']);                                             
+        return redirect('admin-ts3/client')->with(['sukses' => 'Data telah diupdate']);                                             
     }
 
     public function proses_edit_product(Request $request)
@@ -126,7 +143,7 @@ class ClientProduct extends Controller
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   
-        return redirect('admin-ts3/client-product')->with(['sukses' => 'Data telah diupdate']);                                             
+        return redirect('admin-ts3/product')->with(['sukses' => 'Data telah diupdate']);                                             
     }
 
     public function delete($id)
@@ -134,7 +151,7 @@ class ClientProduct extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         DB::connection('ts3')->table('mst.mst_client')->where('id',$id)->delete();
-        return redirect('admin-ts3/client-product')->with(['sukses' => 'Data telah dihapus']);
+        return redirect('admin-ts3/client')->with(['sukses' => 'Data telah dihapus']);
     }
 
     public function delete_product($id)
@@ -142,7 +159,7 @@ class ClientProduct extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         DB::connection('ts3')->table('mst.mst_product')->where('id',$id)->delete();
-        return redirect('admin-ts3/client-product')->with(['sukses' => 'Data telah dihapus']);
+        return redirect('admin-ts3/product')->with(['sukses' => 'Data telah dihapus']);
     }
        
 
@@ -160,7 +177,7 @@ class ClientProduct extends Controller
              
             }
         
-            return redirect('admin-ts3/client-product')->with(['sukses' => 'Data telah dihapus']);
+            return redirect('admin-ts3/client')->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }
     }
@@ -179,7 +196,7 @@ class ClientProduct extends Controller
              
             }
         
-            return redirect('admin-ts3/client-product')->with(['sukses' => 'Data telah dihapus']);
+            return redirect('admin-ts3/product')->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }
     }

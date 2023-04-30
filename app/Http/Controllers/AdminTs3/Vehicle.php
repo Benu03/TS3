@@ -17,14 +17,33 @@ class Vehicle extends Controller
         $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->get();
         $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
         $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
-        $group_vehicle 	= DB::connection('ts3')->table('mst.mst_general')->where('name','Group Vehicle')->where('value_1','Motor')->get();
 
-		$data = array(  'title'     => 'Vehicle & Vehicle Type',
+		$data = array(  'title'     => 'Vehicle',
                         'vehicle'      => $vehicle,
                         'vehicle_type'      => $vehicle_type,
-                        'group_vehicle'      => $group_vehicle,
                         'client'      => $client,
                         'content'   => 'admin-ts3/vehicle/index'
+                    );
+        
+        return view('admin-ts3/layout/wrapper',$data);
+    }
+
+
+    public function index_vehicle_type()
+    {
+    	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+      
+     
+        $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
+        $group_vehicle 	= DB::connection('ts3')->table('mst.mst_general')->where('name','Group Vehicle')->where('value_1','Motor')->get();
+
+		$data = array(  'title'     => 'Vehicle Type',
+                        
+                        'vehicle_type'      => $vehicle_type,
+                        'group_vehicle'      => $group_vehicle,
+                     
+                        'content'   => 'admin-ts3/vehicle/index_vehicle_type'
                     );
         
         return view('admin-ts3/layout/wrapper',$data);
@@ -72,7 +91,7 @@ class Vehicle extends Controller
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
-        return redirect('admin-ts3/vehicle')->with(['sukses' => 'Data telah ditambah']);
+        return redirect('admin-ts3/vehicle-type')->with(['sukses' => 'Data telah ditambah']);
     }
 
         // Index
@@ -149,7 +168,7 @@ class Vehicle extends Controller
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   
-        return redirect('admin-ts3/vehicle')->with(['sukses' => 'Data telah diupdate']);                                             
+        return redirect('admin-ts3/vehicle-type')->with(['sukses' => 'Data telah diupdate']);                                             
     }
 
     public function delete($id)
@@ -165,7 +184,7 @@ class Vehicle extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         DB::connection('ts3')->table('mst.mst_vehicle_type')->where('id',$id)->delete();
-        return redirect('admin-ts3/vehicle')->with(['sukses' => 'Data telah dihapus']);
+        return redirect('admin-ts3/vehicle-type')->with(['sukses' => 'Data telah dihapus']);
     }
        
 
@@ -202,7 +221,7 @@ class Vehicle extends Controller
              
             }
         
-            return redirect('admin-ts3/vehicle')->with(['sukses' => 'Data telah dihapus']);
+            return redirect('admin-ts3/vehicle-type')->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }
     }

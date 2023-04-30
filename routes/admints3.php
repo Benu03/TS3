@@ -22,19 +22,19 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/user/delete/{par1}', 'App\Http\Controllers\AdminTs3\User@delete');
     Route::post('admin-ts3/user/proses', 'App\Http\Controllers\AdminTs3\User@proses');
 
-    Route::get('admin-ts3/client-product', 'App\Http\Controllers\AdminTs3\ClientProduct@index');
-    Route::post('admin-ts3/client-product/tambah', 'App\Http\Controllers\AdminTs3\ClientProduct@tambah');
-    Route::post('admin-ts3/client-product/proses', 'App\Http\Controllers\AdminTs3\ClientProduct@proses');
-    Route::get('admin-ts3/client-product/edit/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@edit');
-    Route::post('admin-ts3/client-product/proses_edit', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_edit');
-    Route::get('admin-ts3/client-product/delete/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@delete');
+    Route::get('admin-ts3/client', 'App\Http\Controllers\AdminTs3\ClientProduct@index');
+    Route::post('admin-ts3/client/tambah', 'App\Http\Controllers\AdminTs3\ClientProduct@tambah');
+    Route::post('admin-ts3/client/proses', 'App\Http\Controllers\AdminTs3\ClientProduct@proses');
+    Route::get('admin-ts3/client/edit/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@edit');
+    Route::post('admin-ts3/client/proses_edit', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_edit');
+    Route::get('admin-ts3/client/delete/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@delete');
 
-
-    Route::post('admin-ts3/client-product/tambah_product', 'App\Http\Controllers\AdminTs3\ClientProduct@tambah_product');
-    Route::post('admin-ts3/client-product/proses_product', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_product');
-    Route::get('admin-ts3/client-product/edit_product/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@edit_product');
-    Route::post('admin-ts3/client-product/proses_edit_product', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_edit_product');
-    Route::get('admin-ts3/client-product/delete_product/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@delete_product');
+    Route::get('admin-ts3/product', 'App\Http\Controllers\AdminTs3\ClientProduct@index_product');
+    Route::post('admin-ts3/product/tambah-product', 'App\Http\Controllers\AdminTs3\ClientProduct@tambah_product');
+    Route::post('admin-ts3/product/proses-product', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_product');
+    Route::get('admin-ts3/product/edit-product/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@edit_product');
+    Route::post('admin-ts3/product/proses-edit-product', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_edit_product');
+    Route::get('admin-ts3/product/delete-product/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@delete_product');
 
     Route::get('admin-ts3/heading', 'App\Http\Controllers\AdminTs3\Heading@index');
     Route::post('admin-ts3/heading/tambah', 'App\Http\Controllers\AdminTs3\Heading@tambah');
@@ -158,16 +158,31 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/vehicle/tambah', 'App\Http\Controllers\AdminTs3\Vehicle@tambah');
     Route::post('admin-ts3/vehicle/proses', 'App\Http\Controllers\AdminTs3\Vehicle@proses');
     Route::get('admin-ts3/vehicle/edit/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@edit');
-    Route::post('admin-ts3/vehicle/proses_edit', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit');
+    Route::post('admin-ts3/vehicle/proses-edit', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit');
     Route::get('admin-ts3/vehicle/delete/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete');
     Route::get('admin-ts3/vehicle/detail/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@detail');
+    
+    Route::get('admin-ts3/vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@index_vehicle_type');
+    Route::post('admin-ts3/vehicle-type/tambah-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@tambah_vehicle_type');
+    Route::post('admin-ts3/vehicle-type/proses-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@proses_vehicle_type');
+    Route::get('admin-ts3/vehicle-type/edit-vehicle-type/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@edit_vehicle_type');
+    Route::post('admin-ts3/vehicle-type/proses-edit-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit_vehicle_type');
+    Route::get('admin-ts3/vehicle-type/delete-vehicle-type/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete_vehicle_type');
 
 
-    Route::post('admin-ts3/vehicle/tambah-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@tambah_vehicle_type');
-    Route::post('admin-ts3/vehicle/proses-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@proses_vehicle_type');
-    Route::get('admin-ts3/vehicle/edit-vehicle-type/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@edit_vehicle_type');
-    Route::post('admin-ts3/vehicle/proses-edit-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit_vehicle_type');
-    Route::get('admin-ts3/vehicle/delete-vehicle-type/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete_vehicle_type');
+    Route::get('admin-ts3/spare-part', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@index');
+    Route::post('admin-ts3/spare-part/tambah', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@tambah');
+    Route::post('admin-ts3/spare-part/proses', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@proses');
+    Route::get('admin-ts3/spare-part/edit/{par1}', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@edit');
+    Route::post('admin-ts3/spare-part/proses_edit', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@proses_edit');
+    Route::get('admin-ts3/spare-part/delete/{par1}', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@delete');
+
+    Route::get('admin-ts3/pekerjaan', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@index_pekerjaan');
+    Route::post('admin-ts3/pekerjaan/tambah-pekerjaan', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@tambah_pekerjaan');
+    Route::post('admin-ts3/pekerjaan/proses-pekerjaan', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@proses_pekerjaan');
+    Route::get('admin-ts3/pekerjaan/edit-pekerjaan/{par1}', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@edit_pekerjaan');
+    Route::post('admin-ts3/pekerjaan/proses-edit-pekerjaan', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@proses_edit_pekerjaan');
+    Route::get('admin-ts3/pekerjaan/delete-pekerjaan/{par1}', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@delete_pekerjaan');
 
 
 });

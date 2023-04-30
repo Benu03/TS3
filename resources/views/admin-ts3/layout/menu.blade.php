@@ -53,12 +53,18 @@
                 </a>
               </li>
 
-              <li class="nav-item ml-4">
-                <a href="{{ asset('admin-ts3/client-product') }}" class="nav-link">
-                  <i class="nav-icon fas fa-hands"></i>
-                  <p>Client &amp; Product</p>
+              <li class="nav-item ml-4 has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="fas fa-hands nav-icon"></i>
+                  <p>Client &amp; Product<i class="fas fa-angle-left right"></i></p>
                 </a>
-              </li>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/client') }}" class="nav-link"><i class="fa fa-user-tie nav-icon"></i><p>Client</p></a>
+                  </li>
+                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/product') }}" class="nav-link"><i class="fa fa-handshake nav-icon"></i><p>Product</p></a>
+                  </li>
+                </ul>
+              </li>   
     
 
               <li class="nav-item ml-4">
@@ -163,13 +169,35 @@
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/area') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Area</p></a>
               </li>
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/branch') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Branch</p></a>
+              </li>             
+
+              <li class="nav-item ml-4 has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="fa fa-tags nav-icon"></i>
+                  <p>Vehicle<i class="fas fa-angle-left right"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/vehicle') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Vehicle List</p></a>
+                  </li>
+                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/vehicle-type') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Vehicle Type</p></a>
+                  </li>
+                </ul>
+              </li>              
+
+              <li class="nav-item ml-4 has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="fa fa-tags nav-icon"></i>
+                  <p>Part &amp; Pekerjaan<i class="fas fa-angle-left right"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spare-part') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Spare Part</p></a>
+                  </li>
+                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/pekerjaan') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Pekerjaan</p></a>
+                  </li>
+                </ul>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/vehicle') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Vehicle</p></a>
-              </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spare-part') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Spare Part</p></a>
-              </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/pekerjaan') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Pekerjaan</p></a>
-              </li>
+
+             
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/general') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>General</p></a>
               </li>
             </ul>

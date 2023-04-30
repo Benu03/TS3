@@ -85,6 +85,18 @@
 
 
 <div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Type</label>
+	<div class="col-sm-9">
+		<select name="price_service_type" id="price_service_type" class="form-control select2">
+		
+			<?php foreach($price_type as $pt) { ?>
+			  <option value="<?php echo $pt->value_1 ?>"  <?php if($price->price_service_type==$pt->value_1) { echo 'selected'; } ?>><?php echo $pt->value_1 ?></option>
+			<?php } ?>
+		  </select>
+	</div>
+</div>
+
+<div class="form-group row">
 	<label class="col-sm-3 control-label text-right"></label>
 	<div class="col-sm-9">
 		<div class="form-group pull-right btn-group">
