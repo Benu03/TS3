@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User_model;
 use App\Helpers\Website;
+use App\Http\Controllers\Feature\EmailContoller;
 
 class Login extends Controller
 {
@@ -40,8 +41,7 @@ class Login extends Controller
                     $request->session()->put('username', $user->username);
                     $request->session()->put('id_role', $user->id_role);
                  
-                    
-
+                
                     return redirect('admin-cms/dasbor')->with(['sukses' => 'Anda berhasil login']);
                 }
                 elseif($user->id_role == 2) 
@@ -112,4 +112,44 @@ class Login extends Controller
     					'site'		=> $site);
         return view('login/lupa',$data);
     }
+
+
+    public function forgot_process(Request $request)
+    {
+        $email   = $request->email;
+        $model      = new User_model();
+        $user       = $model->check_user_email(trim($email));
+       
+        if(isset($user))
+        {
+            $token = base64_encode(random_bytes(32));
+            DB::connection('ts3')->table('auth.user_token')->insert([
+                'email'	=> $email,
+                'token'   => $token,
+                'created_date'    => date("Y-m-d h:i:sa")
+            ]);
+
+            DB::connection('ts3')->table('auth.user_mail')->insert([
+                'type_request' => 'RESET PASSWORD',
+                'from' => env('MAIL_FROM_ADDRESS', 'no-reply@ts3.co.id'),
+                'to' => $email,
+                'cc' => null,
+                'bcc' => null,
+                'subject' => 'Reset Password TS3',
+                'body' => 'Reset Password TS3',
+                'attachment' => null
+            ]);
+
+
+        }
+        else{
+           return redirect('login')->with(['warning' => 'Mohon maaf, Email Anda Tidak Terdaftar']);
+        }
+
+
+        return redirect('login')->with(['sukses' => 'Silakan Check email Anda Untuk Reset Password..!!']);
+    }
+
+
+    
 }

@@ -63,7 +63,7 @@
 
 
                                     </label>
-                                    <span class="ml-auto"><a href="javascript:void(0)" onclick="location.href='{{ '/' }}'" class="forgot-pass">Forgot Password</a></span>
+                                    <span class="ml-auto"><a href="javascript:void(0)" onclick="location.href='{{ 'login/lupa' }}'" class="forgot-pass">Forgot Password</a></span>
                                 </div>
                                 <button type="submit" class="btn btn-light btn-block"><i class="fas fa-sign-in-alt" style="color: #32af81;"></i> Sign In</button>
                                 {{-- <input type="submit" value="Log In" class="btn btn-block btn-light" /> --}}
@@ -84,9 +84,9 @@
                 Copyright &copy;<?= date('Y'); ?> PT TS3 Indonesia
             </strong>
     </div> -->
-    <script src="{{ asset('assets/auth//js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('assets/auth//js/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/auth//js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/auth/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('assets/auth/js/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/auth/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/auth/js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets/auth/js/main.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/jquery/jquery.min.js') }}"></script>

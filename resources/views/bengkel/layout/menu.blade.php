@@ -37,25 +37,29 @@
           </li>
           
           <!-- Website Content -->
-          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Berita &amp; Updates</span></li>
+          <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Motor Vehicle Maintenace</span></li>
           <li class="batas"><hr></li>
+
+
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-newspaper"></i>
-              <p>Berita &amp; Update<i class="fas fa-angle-left right"></i></p>
+              <i class="fas fa-paste nav-icon"></i>
+              <p>Service<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="{{ asset('bengkel/berita') }}" class="nav-link"><i class="fas fa-newspaper nav-icon"></i><p>Data Berita &amp; Update</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('bengkel/list-service') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>List Service</p></a>
               </li>
-              <li class="nav-item"><a href="{{ asset('bengkel/berita/tambah') }}" class="nav-link"><i class="fa fa-plus nav-icon"></i><p>Tambah Berita/Update</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('bengkel/direct-service') }}" class="nav-link"><i class="fas fa-directions nav-icon"></i><p>Direct Service</p></a>
               </li>
-              <li class="nav-item"><a href="{{ asset('bengkel/kategori') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Kategori berita</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('bengkel/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
               </li>
             </ul>
-          </li>
+          </li>    
+          <li class="nav-item"><a href="{{ asset('bengkel/over-budget') }}" class="nav-link"><i class="fas fa-money-check-alt nav-icon"></i><p>Over Budget</p></a>
+          <li class="nav-item"><a href="{{ asset('bengkel/invoice') }}" class="nav-link"><i class="fas fa-money-check nav-icon"></i><p>Invoice</p></a>
 
           
-          
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

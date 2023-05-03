@@ -3,16 +3,16 @@
 <div class="row">
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box">
-      <span class="info-box-icon bg-info elevation-1"><i class="fas fa-newspaper"></i></span>
+      <span class="info-box-icon bg-info elevation-1"><i class="fas fa-hands"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text">Artikel &amp; Berita</span>
+        <span class="info-box-text">List Service</span>
         <span class="info-box-number">
           <?php 
           $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Berita')->get(); 
           echo $berita->count();
           ?>
-          <small>Sudah dibuat</small>
+          {{-- <small>Sudah dibuat</small> --}}
         </span>
       </div>
       <!-- /.info-box-content -->
@@ -22,18 +22,18 @@
   <!-- /.col -->
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box mb-3">
-      <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-book"></i></span>
+      <span class="info-box-icon bg-success elevation-1"><i class="fas fa-directions"></i></span>
 
       <div class="info-box-content">
         <span class="info-box-text">
-          Layanan
+          Direct Service
         </span>
         <span class="info-box-number">
         <?php 
           $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
           echo $berita->count();
           ?>
-          <small>Sudah Dipublikasikan</small>
+          {{-- <small>Sudah Dipublikasikan</small> --}}
         </span>
       </div>
       <!-- /.info-box-content -->
@@ -42,40 +42,18 @@
   </div>
   <!-- /.col -->
 
-  <!-- fix for small devices only -->
-  {{-- <div class="clearfix hidden-md-up"></div> --}}
-
-  {{-- <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-success elevation-1"><i class="fas fa-download"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">File &amp; Dokumen</span>
-        <span class="info-box-number">
-        <?php 
-          $download = DB::connection('ts3')->table('cp.berita')->get(); 
-          echo $download->count();
-          ?>
-          <small>File</small>
-        </span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div> --}}
-  <!-- /.col -->
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box mb-3">
-      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-image"></i></span>
+      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-hand-point-up"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text">Galeri</span>
+        <span class="info-box-text">Service Advisor</span>
         <span class="info-box-number">
         	<?php 
           $galeri = DB::connection('ts3')->table('cp.galeri')->get(); 
           echo $galeri->count();
           ?>
-          <small>Gambar</small>
+          {{-- <small>Gambar</small> --}}
         </span>
       </div>
       <!-- /.info-box-content -->
@@ -85,18 +63,18 @@
   <!-- /.col -->
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box mb-3">
-      <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
+      <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-motorcycle"></i></span>
   
       <div class="info-box-content">
         <span class="info-box-text">
-          Staff dan Team
+          Jumlah Kendaraan
         </span>
         <span class="info-box-number">
         <?php 
           $staff = DB::connection('ts3')->table('cp.staff')->get(); 
           echo $staff->count();
           ?>
-          <small>Orang</small>
+          {{-- <small>Orang</small> --}}
         </span>
       </div>
       <!-- /.info-box-content -->

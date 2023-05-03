@@ -41,9 +41,11 @@ Route::get('ts3', 'App\Http\Controllers\ComPro\Home@ts3');
 // Login
 Route::get('login', 'App\Http\Controllers\ComPro\Login@index');
 Route::post('login/check', 'App\Http\Controllers\ComPro\Login@check');
-Route::get('login/lupa', 'App\Http\Controllers\ComPro\Login@lupa');
+Route::get('login/lupa', 'App\Http\Controllers\ComPro\Login@fogot');
 Route::get('login/logout', 'App\Http\Controllers\ComPro\Login@logout');
-
+Route::post('login/forgot-process', 'App\Http\Controllers\ComPro\Login@forgot_process');
+Route::post('login/new-password', 'App\Http\Controllers\ComPro\Login@new_password');
+Route::post('login/new-password-process', 'App\Http\Controllers\ComPro\Login@new_password_process');
 // Berita
 Route::get('berita', 'App\Http\Controllers\ComPro\Berita@index');
 Route::get('berita/read/{par1}', 'App\Http\Controllers\ComPro\Berita@read');
