@@ -65,13 +65,27 @@ class EmailContoller extends Controller
                     }
                     else
                     {
-
                         $body = $resultArray['body'];
                         $to   = $resultArray['to'];
                         $cc   = $resultArray['cc'];
                         $subject = $resultArray['subject'];
                         // $path = $resultArray['attachment'];
                         $sender = $resultArray['from'];
+
+                            Mail::mailer('smtp')->send([], [], function ($message) use ($body,$to,$cc,$subject) {
+                            $message->to($to); 
+                            if (isset($cc)){ $message->cc($cc); 
+                            if (isset($bcc)){ $message->bcc($bcc); }    }    
+                            $message->subject($subject);
+                            $message->from('ts3.notif@gmail.com','TS3 Indonesia');
+                            // $message->attach(storage_path($path));
+                            $message->setBody($body, 'text/html');});
+                            $msgCounter++;
+                           
+                            DB::connection('ts3')->table('auth.user_mail')->where('id',$emailid)->update([
+                                'is_send'   => true,
+                                'send_date'	    => date("Y-m-d h:i:sa")
+                            ]);   
 
 
 
