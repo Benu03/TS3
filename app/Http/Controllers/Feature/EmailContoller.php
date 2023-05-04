@@ -26,8 +26,7 @@ class EmailContoller extends Controller
       if(isset($request['type']))
       {
 
-        if($request['type'] == 'SendEmailAutomatic')
-        {
+        if($request['type'] == 'SendEmailAutomatic')        {
 
              $dataMail = DB::connection('ts3')->table('auth.user_mail')->where('is_send',null)->get();
              $msgCounter = 0;
