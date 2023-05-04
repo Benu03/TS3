@@ -12,7 +12,7 @@
 <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ asset('admin-client/dasbor') }}" class="brand-link">
+    <a href="{{ asset('pic/dasbor') }}" class="brand-link">
       <img src="{{ asset('assets/upload/image/'.website('icon')) }}"
          alt="{{ website('namaweb') }}"
          class="brand-image img-circle elevation-3"
@@ -27,6 +27,7 @@
       use Illuminate\Support\Facades\DB;
 
       $user       = DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
+
       $menu        = DB::connection('ts3')->table('auth.v_user_client_product')->where('mst_client_id',$user->mst_client_id)->get();
       
       $product = [];
@@ -41,7 +42,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- DASHBOARD -->
           <li class="nav-item">
-            <a href="{{ asset('admin-client/dasbor') }}" class="nav-link">
+            <a href="{{ asset('pic/dasbor') }}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -54,6 +55,19 @@
           @if (in_array("Motor Vehicle Maintenance", $product))
           <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Motor Vehicle Maintenace</span></li>
           <li class="batas"><hr></li>
+
+          <li class="nav-item"><a href="{{ asset('pic/list-service') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>List Service</p></a>
+          </li>
+          <li class="nav-item"><a href="{{ asset('pic/direct-service') }}" class="nav-link"><i class="fas fa-directions nav-icon"></i><p>Direct Service</p></a>
+          </li>
+          <li class="nav-item"><a href="{{ asset('pic/advisor-service') }}" class="nav-link"><i class="fas fa-hand-point-up nav-icon"></i><p>Service Advisor</p></a>
+          </li>
+          <li class="nav-item"><a href="{{ asset('pic/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
+          </li>
+          
+
+
+
           @endif
 
           @if (in_array("Building Maintenance Service", $product))

@@ -43,6 +43,7 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+        
     ];
 
     /**
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'adminclient' => \App\Http\Middleware\AdminClient::class,
         'bengkel' => \App\Http\Middleware\Bengkel::class,
         'pic' => \App\Http\Middleware\Pic::class,
+        'feature' => \App\Http\Middleware\Feature::class,
     ];
 }

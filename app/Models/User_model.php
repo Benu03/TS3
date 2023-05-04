@@ -30,4 +30,15 @@ class User_model extends Model
         return $query;
     }
 
+    public function check_user_email($email)
+    {
+ 
+        $query = DB::connection('ts3')->table('auth.users')
+            ->select('*')
+            ->where(array(  'email'	=> $email))
+            ->orderBy('id_user','DESC')
+            ->first();
+        return $query;
+    }
+
 }

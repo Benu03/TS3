@@ -24,8 +24,8 @@ class Dasbor extends Controller
 		$site 	= $mysite->listing();
        
 		$data = array(  'title'     => $site->namaweb,
-                        'content'   => 'admin-ts3/dasbor/index'
+                        'content'   => 'bengkel/dasbor/index'
                     );
-        return view('admin-ts3/layout/wrapper',$data);
+        return view('bengkel/layout/wrapper',$data);
     }
 }

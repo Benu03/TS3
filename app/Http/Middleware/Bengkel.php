@@ -21,6 +21,8 @@ class Bengkel
     public function handle(Request $request, Closure $next)
     {
       
+
+        
          $username =  $request->session()->get('username');
          $model      = new User_model();
          $user       = $model->check_user($username);

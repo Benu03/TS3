@@ -1,72 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{ $title }}</title>
-  <link rel="shortcut icon" href="{{ asset('assets/upload/image/'.website('icon')) }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/admin/dist/css/adminlte.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ asset('assets/auth/fonts/icomoon/style.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset('assets/auth/css/owl.carousel.min.css') }}" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/auth/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Style -->
+    <link rel="stylesheet" href="{{ asset('assets/auth/css/style.css') }}" />
+
+    <title>{{ $title }}</title>
+    <link rel="shortcut icon" href="{{ asset('assets/upload/image/'.website('icon')) }}">
+    <script src="{{ asset('assets/sweetalert/js/sweetalert.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/sweetalert/css/sweetalert.css') }}">
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-  
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-    	<div class="login-logo">
-		    <a href="{{ '/' }}" style="color: orange;">
-            <img src="{{ asset('assets/upload/image/'.website('logo')) }}" class="img img-responsive" style="width: auto; max-width: 50%;">
-        </a>
-		  </div>
-      <div class="text-center">
-          <hr>
-        <h4>SISTEM INFORMASI PEGAWAI RSUI</h4>
-          <p>SISTEM INFORMASI PETA KOMPETENSI (SIMRSUI)</p>
-          <hr>
-        </div>
-      <p class="login-box-msg">Lupa password? Masukkan alamat email Anda.<br>Atau hubungi Administrator website kami.</p>
 
-      <form action="../../index3.html" method="post">
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+<body>
+    <div class="content">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-md-6 contents">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="mb-4 text-center">
+                                <a href="{{ '/' }}">
+                                    <img src="{{ asset('assets/upload/image/'.website('logo')) }}" alt="Image" class="img-fluid" width="200" height="200" />
+                                    <!-- <p class="mb-4">Belife Apps Change Your Life Become Better</p> -->
+                                </a>
+                            </div>
+                          
+                            <form action="{{ asset('login/forgot-process') }}" method="post" accept-charset="utf-8">
+                            {{ csrf_field() }}
+                                <div class="form-group first last mb-4">
+                                    <label for="email">Masukan Email</label>
+                                    <input type="text" class="form-control" id="email" name="email"  autocomplete="off" required />
+                                </div>
+                                {{-- <div class="form-group last mb-4">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required />
+                                </div> --}}
+
+                                {{-- <div class="d-flex mb-2 align-items-center">
+                                    <label class="control control--checkbox mb-0">
+
+
+                                        <span class="caption">Show Password</span>
+                                        <input type="checkbox" onclick="showpassword()" />
+                                        <div class="control__indicator"></div>
+
+
+                                    </label>
+                           
+                                </div> --}}
+                                <button type="submit" class="btn btn-light btn-block"><i class="fas fa-paper-plane" style="color: #32af81;"></i> Reset Password</button>
+
+                                <span class="ml-auto"><a href="javascript:void(0)" onclick="location.href='{{ '/login' }}'" class="forgot-pass">Back to Login</a></span>
+                                {{-- <input type="submit" value="Log In" class="btn btn-block btn-light" /> --}}
+
+
+                               
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{ '/' }}">
+                    <img src="{{ asset('assets/auth/images/2.svg')}}" alt="Image" class="img-fluid" />
+                  </a>
+                  <span class="d-block text-left my-4 text-center text-white">Copyright &copy;<?= date('Y'); ?> {{ website('namaweb') }} Indonesia</span>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="row">
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-key"></i> Reset Password</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
-
-      <hr>
-
-      <p class="text-center link-bawah">
-        <a href="{{ asset('/') }}">Back to Homepage</a> | <a href="{{ asset('login') }}">Login</a>
-      </p>
-      
     </div>
-    <!-- /.login-card-body -->
-  </div>
-</div>
-<!-- /.login-box -->
 
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+    <!-- <div class="card card-footer text-center">
+            <strong class="text-center">
+                Copyright &copy;<?= date('Y'); ?> PT TS3 Indonesia
+            </strong>
+    </div> -->
+    <script src="{{ asset('assets/auth/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('assets/auth/js/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/auth/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/auth/js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets/auth/js/main.js') }}"></script>
+    <script src="{{ asset('assets/admin/plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('assets/admin/dist/js/adminlte.min.js') }}"></script>
+    <script>
+        function showpassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+    <script>
+    @if ($message = Session::get('warning'))
+    // Notifikasi
+    swal ( "Mohon maaf" ,  "<?php echo $message ?>" ,  "warning" )
+    @endif
 
+    @if ($message = Session::get('sukses'))
+    // Notifikasi
+    swal ( "Berhasil" ,  "<?php echo $message ?>" ,  "success" )
+    @endif
+    </script>
 </body>
+
+
 </html>

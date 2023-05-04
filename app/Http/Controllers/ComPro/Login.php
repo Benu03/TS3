@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User_model;
 use App\Helpers\Website;
+use App\Http\Controllers\Feature\EmailContoller;
 
 class Login extends Controller
 {
@@ -40,8 +41,7 @@ class Login extends Controller
                     $request->session()->put('username', $user->username);
                     $request->session()->put('id_role', $user->id_role);
                  
-                    
-
+                
                     return redirect('admin-cms/dasbor')->with(['sukses' => 'Anda berhasil login']);
                 }
                 elseif($user->id_role == 2) 
@@ -112,4 +112,112 @@ class Login extends Controller
     					'site'		=> $site);
         return view('login/lupa',$data);
     }
+
+
+    public function forgot_process(Request $request)
+    {
+        $email   = $request->email;
+        $model      = new User_model();
+        $user       = $model->check_user_email(trim($email));
+       
+        if(isset($user))
+        {
+            $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
+      
+            $token = hash('sha256',random_bytes(64).$site->namaweb);
+      
+             DB::connection('ts3')->table('auth.user_token')->insert([
+                'email'	=> $email,
+                'token'   => $token,
+                'created_date'    => date("Y-m-d h:i:sa")
+            ]);
+            $url_img = 'http://34.101.109.41:8080/assets/upload/image/2.png';
+            $url_verify = 'http://localhost:8080/login/verify/'.$token;
+
+            $body = '<b>Dear Rekan TS3</b><br><br>Silakan Klik Link Untuk Mereset Password : <a class="btn btn-info" href="'.$url_verify.'"  >Reset Password</a><br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Imam Bonjol No 47-48, Ruko Metro Square Blok B8, Semarang Kel Pandansari, <br>Kec Semarang Tengah 50139</b>';
+            
+             
+
+            DB::connection('ts3')->table('auth.user_mail')->insert([
+                'type_request' => 'RESET PASSWORD',
+                'from' => $site->smtp_user,
+                'to' => $email,
+                'cc' => null,
+                'bcc' => null,
+                'subject' => 'Reset Password TS3',
+                'body' => $body,
+                'attachment' => null
+            ]);
+
+
+        }
+        else{
+           return redirect('login')->with(['warning' => 'Mohon maaf, Email Anda Tidak Terdaftar']);
+        }
+
+
+        return redirect('login')->with(['sukses' => 'Silakan Check email Anda Untuk Reset Password..!!']);
+    }
+
+    
+
+    public function verify_process(Request $request)
+    {
+
+        
+        if($request->password1 <> $request->password2){
+
+            return redirect('login/verify/'.$request->token)->with(['warning' => 'Password Tidak sama']);
+        }
+        else
+        {
+            DB::connection('ts3')->table('auth.users')->where('email',$request->email)->update([
+                'password'      => sha1($request->password1),
+                'updated_at'    => date("Y-m-d h:i:sa"),
+                'update_by'     => $request->email
+            ]);
+        return redirect('login')->with(['sukses' => 'Password berhasil Di Update']);  
+        }
+        
+
+             
+
+    }
+
+    public function verify($token)
+    {
+        $checkToken = DB::connection('ts3')->table('auth.user_token')->where('token',$token)->first();
+    	$site = DB::connection('ts3')->table('cp.konfigurasi')->first();
+       	$data = array(  'title'     => 'Verify Password',
+    					'site'		=> $site,
+                         'token'   => $token,
+                        'email' => $checkToken->email,  );
+        
+       
+       if(isset($checkToken))
+       {
+            $interval = strtotime(date("Y-m-d h:i:sa"))-strtotime($checkToken->created_date);
+           //15 menit
+            if($interval <= 900)
+            {
+                return view('login/verify',$data)->with(['sukses' => 'Silakan Masukan Password Baru Anda.!!']);;
+
+            }
+            else{
+
+                return redirect('login')->with(['warning' => 'Mohon maaf, Token anda Expired']);
+            }
+
+       }
+       else
+       {
+        return redirect('login')->with(['warning' => 'Mohon maaf, Token anda Tidak ada']);
+       }
+        
+
+       
+    }
+
+
+    
 }
