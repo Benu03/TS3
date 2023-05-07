@@ -15,11 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 Route::group(['middleware' => ['bengkel']],function(){
 
+    Route::get('bengkel/profile', 'App\Http\Controllers\Bengkel\Profile@index');
     Route::get('bengkel/dasbor', 'App\Http\Controllers\Bengkel\Dasbor@index');
     Route::get('bengkel/list-service', 'App\Http\Controllers\Bengkel\Service@index');
-    Route::get('bengkel/direct-service', 'App\Http\Controllers\Bengkel\DirectService@index');
-    Route::get('bengkel/history-service', 'App\Http\Controllers\Bengkel\HistoryService@index');
-    Route::get('bengkel/over-budget', 'App\Http\Controllers\Bengkel\OverBudget@index');
+    Route::get('bengkel/direct-service', 'App\Http\Controllers\Bengkel\Service@direct_service');
+    Route::get('bengkel/history-service', 'App\Http\Controllers\Bengkel\Service@history_service');
     Route::get('bengkel/invoice', 'App\Http\Controllers\Bengkel\Invoice@index');
+    Route::get('bengkel/summary-bengkel', 'App\Http\Controllers\Bengkel\Invoice@summary_bengkel');
 
 });

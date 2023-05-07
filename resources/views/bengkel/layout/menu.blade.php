@@ -51,14 +51,28 @@
               </li>
               <li class="nav-item ml-4"><a href="{{ asset('bengkel/direct-service') }}" class="nav-link"><i class="fas fa-directions nav-icon"></i><p>Direct Service</p></a>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('bengkel/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
-              </li>
+             
             </ul>
           </li>    
-          <li class="nav-item"><a href="{{ asset('bengkel/over-budget') }}" class="nav-link"><i class="fas fa-money-check-alt nav-icon"></i><p>Over Budget</p></a>
+  
           <li class="nav-item"><a href="{{ asset('bengkel/invoice') }}" class="nav-link"><i class="fas fa-money-check nav-icon"></i><p>Invoice</p></a>
 
-          
+             {{-- report  --}}
+             <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="fas fa-paste nav-icon"></i>
+                <p>Report<i class="fas fa-angle-left right"></i></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item ml-4"><a href="{{ asset('bengkel/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
+                </li>
+                <li class="nav-item ml-4"><a href="{{ asset('bengkel/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
+                </li>
+  
+  
+               
+              </ul>
+            </li>             
 
         </ul>
       </nav>

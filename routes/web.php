@@ -72,7 +72,7 @@ Route::get('video', 'App\Http\Controllers\ComPro\Video@index');
 Route::get('video/detail/{par1}', 'App\Http\Controllers\ComPro\Video@detail');
 Route::get('webinar', 'App\Http\Controllers\ComPro\Video@index');
 Route::get('webinar/detail/{par1}/{par2}', 'App\Http\Controllers\ComPro\Video@detail');
-
+Route::get('profile', 'App\Http\Controllers\ComPro\Profile@index');
 
 Route::group(['middleware' => ['admincms']],function(){
    // dasbor
@@ -224,4 +224,6 @@ Route::group(['middleware' => ['admincms']],function(){
     Route::post('admin-cms/download/proses', 'App\Http\Controllers\AdminCms\Download@proses');
 
     /* END BACK END*/
+
+   
 });
