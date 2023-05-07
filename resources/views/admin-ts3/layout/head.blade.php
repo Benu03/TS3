@@ -54,6 +54,9 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   
   <!-- Viewer js -->
   <script src="{{ asset('assets/viewerjs/pdf.js') }}"></script>
+  <script src="{{ asset('assets/admin/plugins/chart.js/Chart.bundle.js') }}"></script>
+
+  
   <!-- TIMEPICKER -->
   <script src="{{ asset('assets/timepicker/timepicker.min.js') }}"></script>
   <link href="{{ asset('assets/timepicker/timepicker.min.css') }}" rel="stylesheet"/>
@@ -175,6 +178,10 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
       position: absolute;
       width: 1px;
     }
+    .container {
+                width: 50%;
+                margin: 15px auto;
+            }
   </style>
 
   
