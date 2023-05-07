@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['adminclient']],function(){
 
     Route::get('admin-client/dasbor', 'App\Http\Controllers\AdminClient\Dasbor@index');
-
+    Route::get('admin-client/profile', 'App\Http\Controllers\AdminClient\Profile@index');
 
     Route::get('admin-client/spk', 'App\Http\Controllers\AdminClient\Spk@index');
     Route::get('admin-client/template-upload', 'App\Http\Controllers\AdminClient\Spk@template_upload');

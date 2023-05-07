@@ -1,119 +1,89 @@
+<p class="text-right">
+	<a href="{{ asset('admin-ts3/vehicle/edit/'.$vehicle->id) }}" class="btn btn-warning btn-sm">
+		<i class="fa fa-edit"></i> Edit
+	</a>
+	<a href="{{ asset('admin-ts3/vehicle') }}" class="btn btn-success btn-sm">
+		<i class="fa fa-backward"></i> Kembali
+	</a>
+</p>
+<hr>
 
-<!-- Info boxes -->
 <div class="row">
-  <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box">
-      <span class="info-box-icon bg-info elevation-1"><i class="fas fa-motorcycle"></i></span>
+  <div class="col-md-3">
+    <!-- Profile Image -->
+    <div class="card card-primary card-outline">
+      <div class="card-body box-profile">
+        <div class="text-center">
+          <img class="img img-thumbnail img-fluid" src="{{ asset('assets/upload/image/thumbs/motor.png') }}" >
+        </div>
 
-      <div class="info-box-content">
-        <span class="info-box-text">List Service</span>
-        <span class="info-box-number">
-          <?php 
-          $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Berita')->get(); 
-          echo $berita->count();
-          ?>
-          <small>Waiting</small>
-        </span>
+        <h3 class="profile-username text-center">{{ $vehicle->nopol }}</h3>
+		<h3 class="profile-username text-center">{{ $vehicle->gambar_unit }}</h3>
       </div>
-      <!-- /.info-box-content -->
+      <!-- /.card-body -->
     </div>
-    <!-- /.info-box -->
-  </div>
-  <!-- /.col -->
-  <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-success elevation-1"><i class="fa fa-certificate"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">
-          Jumlah Service Perbulan
-        </span>
-        <span class="info-box-number">
-        <?php 
-          $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-          echo $berita->count();
-          ?>
-          {{-- <small>Sudah Dipublikasikan</small> --}}
-        </span>
-      </div>
-      <!-- /.info-box-content -->
+    <!-- /.card -->
     </div>
-    <!-- /.info-box -->
-  </div>
-  <!-- /.col -->
-
-  <!-- fix for small devices only -->
-  {{-- <div class="clearfix hidden-md-up"></div> --}}
-
-  {{-- <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-success elevation-1"><i class="fas fa-download"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">File &amp; Dokumen</span>
-        <span class="info-box-number">
-        <?php 
-          $download = DB::connection('ts3')->table('cp.berita')->get(); 
-          echo $download->count();
-          ?>
-          <small>File</small>
-        </span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div> --}}
-  <!-- /.col -->
-  <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-directions"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Direct Service</span>
-        <span class="info-box-number">
-        	<?php 
-          $galeri = DB::connection('ts3')->table('cp.galeri')->get(); 
-          echo $galeri->count();
-          ?>
-          {{-- <small>Gambar</small> --}}
-        </span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-  <!-- /.col -->
-  <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-money-check"></i></span>
-  
-      <div class="info-box-content">
-        <span class="info-box-text">
-          Invoice
-        </span>
-        <span class="info-box-number">
-        <?php 
-          $staff = DB::connection('ts3')->table('cp.staff')->get(); 
-          echo $staff->count();
-          ?>
-          {{-- <small>Orang</small> --}}
-        </span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-  
+    <div class="col-md-9">
+    	<div class="card card-primary">
+    	<div class="card-header">
+                <h3 class="card-title">Detail Data Motor  {{  $vehicle->client_name }}</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+    	<table class="table table-bordered">
+    		<thead>
+    			<tr>
+    				<th width="25%">Nopol</th>
+    				<th>{{  $vehicle->nopol }}</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr>
+    				<td>No Rangka</td>
+    				<td>{{ $vehicle->norangka }}</td>
+    			</tr>
+    			<tr>
+    				<td>No Mesin</td>
+    				<td>{{ $vehicle->nomesin  }}</td>
+    			</tr>
+    			<tr>
+    				<td>Type</td>
+    				<td>{{ $vehicle->type }}</td>
+    			</tr>
+    			<tr>
+    				<td>Tahun Pembuatan</td>
+    				<td>{{ $vehicle->tahun_pembuatan }}</td>
+    			</tr>
+    			<tr>
+    				<td>Tanggal Last Service</td>
+    				<td>{{ $vehicle->tgl_last_service }}</td>
+    			</tr>
+    			
+    			<tr>
+    				<td>Create Date</td>
+    				<td>{{ $vehicle->created_date }}</td>
+    			</tr>
+    			<tr>
+    				<td>Create By</td>
+    				<td>{{ $vehicle->create_by }}</td>
+    			</tr>
+    			<tr>
+    				<td>Update Date</td>
+    				<td>{{ $vehicle->updated_at }}</td>
+    			</tr>
+    			<tr>
+    				<td>Update By</td>
+    				<td>{{ $vehicle->update_by }}</td>
+    			</tr>
+				<tr>
+    				<td>Remark</td>
+    				<td>{{ $vehicle->remark }}</td>
+    			</tr>
+    		</tbody>
+    	</table>
 </div>
-<!-- /.row -->
-
-
-
-<!-- Info boxes -->
-<div class="row">
- 
-
-
-
 </div>
-<!-- /.row -->
+</div>
+    </div>
+</div>
