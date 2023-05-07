@@ -202,30 +202,27 @@
               </li>
               </ul>
           </li>
-
+       
            {{-- SPK  --}}
            <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="fas fa-paste nav-icon"></i>
-              <p>SPK Proses<i class="fas fa-angle-left right"></i></p>s
+              <i class="fas fa-file-signature nav-icon"></i>
+              <p>SPK Proses<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spk-list') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>SPK List</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spk-list') }}" class="nav-link"><i class="fas fa-list-alt nav-icon"></i><p>SPK List</p></a>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spk-mapping') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>SPK Mapping</p></a>
-              </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spk-invoice') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>SPK Invoice</p></a>
-              </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/special-case') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>Spesial Case</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spk-status') }}" class="nav-link"><i class="fas fa-map-signs nav-icon"></i><p>SPK Status</p></a>
               </li>
             </ul>
           </li>        
 
+          <li class="nav-item"><a href="{{ asset('admin-ts3/invoice') }}" class="nav-link"><i class="fas fa-file-invoice nav-icon"></i><p>Invoice</p></a>
+          </li>
+          <li class="nav-item"><a href="{{ asset('admin-ts3/direct-service') }}" class="nav-link"><i class="fas fa-hands nav-icon"></i><p>Direct Service</p></a>
+        
 
-
-
-
-
+        
 
           {{-- report  --}}
           <li class="nav-item has-treeview">
@@ -234,19 +231,26 @@
               <p>Report<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>History Service</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>Summary Bengkel</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
+              </li>
+
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/rekap-invoice') }}" class="nav-link"><i class="fas fa-calculator nav-icon"></i><p>Rekap Invoice</p></a>
+              </li>
+
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/due-date-service') }}" class="nav-link"><i class="far fa-calendar-times nav-icon"></i><p>Service Due Date</p></a>
+              </li>
+
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/ar') }}" class="nav-link"><i class="fas fa-industry nav-icon"></i><p>Report AR </p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/laba-rugi') }}" class="nav-link"><i class="fas fa-chart-line nav-icon"></i><p>Laba Rugi</p></a>
               </li>
             </ul>
           </li>             
+    
          
-          
 
-        
-
-       
-          
           
         </ul>
       </nav>

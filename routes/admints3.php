@@ -185,4 +185,18 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/pekerjaan/delete-pekerjaan/{par1}', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@delete_pekerjaan');
 
 
+    Route::get('admin-ts3/spk-list', 'App\Http\Controllers\AdminTs3\Spk@spk_list');
+    Route::get('admin-ts3/spk-status', 'App\Http\Controllers\AdminTs3\Spk@spk_status');
+    Route::get('admin-ts3/invoice', 'App\Http\Controllers\AdminTs3\Invoice@index');
+    Route::get('admin-ts3/direct-service', 'App\Http\Controllers\AdminTs3\Service@direct_service');
+
+
+    Route::get('admin-ts3/report/history-service', 'App\Http\Controllers\AdminTs3\Report@history_service');
+    Route::get('admin-ts3/report/summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@summary_bengkel');
+    Route::get('admin-ts3/report/rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@rekap_invoice');
+    Route::get('admin-ts3/report/due-date-service', 'App\Http\Controllers\AdminTs3\Report@due_date_service');
+    Route::get('admin-ts3/report/ar', 'App\Http\Controllers\AdminTs3\Report@ar');
+    Route::get('admin-ts3/report/laba-rugi', 'App\Http\Controllers\AdminTs3\Report@laba_rugi');
+    Route::get('admin-ts3/report/export-laba-rugi', 'App\Http\Controllers\AdminTs3\Report@export_laba_rugi');
+    Route::get('admin-ts3/report/export-ar', 'App\Http\Controllers\AdminTs3\Report@export_ar');
 });

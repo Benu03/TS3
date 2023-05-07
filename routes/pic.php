@@ -16,5 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['pic']],function(){
 
     Route::get('pic/dasbor', 'App\Http\Controllers\Pic\Dasbor@index');
+    Route::get('pic/list-service', 'App\Http\Controllers\Pic\Service@index');
+    Route::get('pic/direct-service', 'App\Http\Controllers\Pic\Service@direct');
+    Route::get('pic/advisor-service', 'App\Http\Controllers\Pic\Service@advisor');
+    Route::get('pic/history-service', 'App\Http\Controllers\Pic\Service@history_service');
+    
+    Route::post('pic/service/tambah-direct-service', 'App\Http\Controllers\Pic\Service@tambah_direct_service');
+    Route::get('pic/service/edit-direct-service/{par1}', 'App\Http\Controllers\Pic\Service@edit_direct_service');
+    Route::post('pic/service/proses-direct-service', 'App\Http\Controllers\Pic\Service@proses_direct_service');
 
 });

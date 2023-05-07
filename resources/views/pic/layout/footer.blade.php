@@ -243,7 +243,8 @@ CKEDITOR.replace( 'kontenku',
      //Initialize Select2 Elements
     //Initialize Select2 Elements
     $('.select2').select2({
-      theme: 'bootstrap4'
+      theme: 'bootstrap4',
+      width: '100%'
     })
     
     $('.mselect2').select2({
