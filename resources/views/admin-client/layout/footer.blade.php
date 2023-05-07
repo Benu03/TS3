@@ -28,6 +28,8 @@ $awal = $sek-100;
     yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
   });
 
+  
+
   $( ".tanggal" ).datepicker({
     inline: true,
     changeYear: true,
