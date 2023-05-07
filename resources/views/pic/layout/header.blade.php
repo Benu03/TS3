@@ -21,7 +21,7 @@
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item">
-        <a class="nav-link text-success" href="{{ asset('pic/dasbor') }}">
+        <a class="nav-link text-success" href="{{ asset('profile') }}">
           <i class="fa fa-lock"></i> <?php echo Session()->get('nama'); ?>
         </a>
       </li>
