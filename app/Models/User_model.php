@@ -41,4 +41,14 @@ class User_model extends Model
         return $query;
     }
 
+
+    public function pic_cabang($email)
+    { 
+
+        $query = DB::connection('ts3')->select( DB::raw("SELECT * from mst.mst_branch mb  where mst_area_id in (select id from mst.mst_area ma where mst_regional_id in (select id from mst.mst_regional where mst_client_id = (select distinct mst_client_id from mst.mst_user_client where username ='$email')))"));
+        return $query;
+
+    }
+
+
 }

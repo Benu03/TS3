@@ -17,4 +17,31 @@ Route::group(['middleware' => ['adminclient']],function(){
 
     Route::get('admin-client/dasbor', 'App\Http\Controllers\AdminClient\Dasbor@index');
 
+
+    Route::get('admin-client/spk', 'App\Http\Controllers\AdminClient\Spk@index');
+    Route::get('admin-client/template-upload', 'App\Http\Controllers\AdminClient\Spk@template_upload');
+    Route::get('admin-client/spk-posting', 'App\Http\Controllers\AdminClient\Spk@spk_posting');
+    Route::get('admin-client/spk-detail/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_detail');
+
+
+    Route::get('admin-client/invoice', 'App\Http\Controllers\AdminClient\Invoice@index');
+    Route::get('admin-client/invoice-detail', 'App\Http\Controllers\AdminClient\Invoice@invoice_detail');
+
+
+    Route::get('admin-client/pic-cabang', 'App\Http\Controllers\AdminClient\pic_cabang@index');
+    Route::get('admin-client/pic-cabang-update', 'App\Http\Controllers\AdminClient\pic_cabang@pic_update');
+    Route::get('admin-client/pic-cabang/detail/{par1}', 'App\Http\Controllers\AdminClient\pic_cabang@detail');
+
+   
+
+    Route::get('admin-client/vehicle', 'App\Http\Controllers\AdminClient\vehicle@index');
+    Route::get('admin-client/vehicle/detail/{par1}', 'App\Http\Controllers\AdminClient\vehicle@detail');
+
+
+    Route::get('admin-client/report/spk-history', 'App\Http\Controllers\AdminClient\report@spk_history');
+    Route::get('admin-client/report/vehicle-service', 'App\Http\Controllers\AdminClient\report@vehicle_service');
+
+
+
+
 });
