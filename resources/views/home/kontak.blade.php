@@ -41,26 +41,29 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Kontak')->o
       <div class="row">
          <div class="col-md-6">
             <div class="contact-form">
+               <form action="{{ asset('kirim-kontak') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                  {{ csrf_field() }}
                <ul class="cform">
                   <li class="half pr-15">
-                     <input type="text" class="form-control" placeholder="Full Name">
+                     <input type="text" name="fullname" class="form-control" placeholder="Full Name">
                   </li>
                   <li class="half pl-15">
-                     <input type="text" class="form-control" placeholder="Email">
+                     <input type="text" name="email" class="form-control" placeholder="Email">
                   </li>
                   <li class="half pr-15">
-                     <input type="text" class="form-control" placeholder="Contact">
+                     <input type="text" name="contact" class="form-control" placeholder="Contact">
                   </li>
                   <li class="half pl-15">
-                     <input type="text" class="form-control" placeholder="Subject">
+                     <input type="text"  name="subject" class="form-control" placeholder="Subject">
                   </li>
                   <li class="full">
-                     <textarea class="textarea-control" placeholder="Message"></textarea>
+                     <textarea name="pesan" class="textarea-control" placeholder="Message"></textarea>
                   </li>
                   <li class="full">
                      <input type="submit" value="Contact us" class="btn btn-info btn-lg btn-block">
                   </li>
                </ul>
+            </form>
             </div>
          </div>
          <div class="col-md-6">

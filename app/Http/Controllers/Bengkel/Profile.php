@@ -22,11 +22,18 @@ class Profile extends Controller
         }
     	$mysite = new Konfigurasi_model();
 		$site 	= $mysite->listing();
+
         
-       
-		$data = array(  'title'     => 'Profile',
-                        'content'   => 'bengkel/dasbor/profile'
-                    );
+                    $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->get();
+                    $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
+                    $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
+            
+                    $data = array(  'title'     => 'Vehicle',
+                                    'vehicle'      => $vehicle,
+                                    'vehicle_type'      => $vehicle_type,
+                                    'client'      => $client,
+                                    'content'   => 'bengkel/dasbor/profile'
+                                );            
         return view('bengkel/layout/wrapper',$data);
     }
 }

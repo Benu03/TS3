@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'App\Http\Controllers\ComPro\Home@index');
 Route::get('home', 'App\Http\Controllers\ComPro\Home@index');
 Route::get('kontak', 'App\Http\Controllers\ComPro\Home@kontak');
+Route::post('kirim-kontak', 'App\Http\Controllers\ComPro\Home@kirim_kontak');
 Route::get('pemesanan', 'App\Http\Controllers\ComPro\Home@pemesanan');
 Route::get('konfirmasi', 'App\Http\Controllers\ComPro\Home@konfirmasi');
 Route::get('pembayaran', 'App\Http\Controllers\ComPro\Home@pembayaran');
@@ -72,11 +73,12 @@ Route::get('video', 'App\Http\Controllers\ComPro\Video@index');
 Route::get('video/detail/{par1}', 'App\Http\Controllers\ComPro\Video@detail');
 Route::get('webinar', 'App\Http\Controllers\ComPro\Video@index');
 Route::get('webinar/detail/{par1}/{par2}', 'App\Http\Controllers\ComPro\Video@detail');
-Route::get('profile', 'App\Http\Controllers\ComPro\Profile@index');
+
 
 Route::group(['middleware' => ['admincms']],function(){
    // dasbor
     Route::get('admin-cms/dasbor', 'App\Http\Controllers\AdminCms\Dasbor@index');
+    Route::get('admin-cms/profile', 'App\Http\Controllers\AdminCms\Profile@index');
     Route::get('admin-cms/dasbor/konfigurasi', 'App\Http\Controllers\AdminCms\Dasbor@konfigurasi');
 
     // user
