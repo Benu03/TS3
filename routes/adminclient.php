@@ -17,10 +17,11 @@ Route::group(['middleware' => ['adminclient']],function(){
 
     Route::get('admin-client/dasbor', 'App\Http\Controllers\AdminClient\Dasbor@index');
     Route::get('admin-client/profile', 'App\Http\Controllers\AdminClient\Profile@index');
+    Route::post('admin-client/profile/ubah-password', 'App\Http\Controllers\AdminClient\Profile@ubah_password');
 
     Route::get('admin-client/spk', 'App\Http\Controllers\AdminClient\Spk@index');
     Route::get('admin-client/template-upload', 'App\Http\Controllers\AdminClient\Spk@template_upload');
-    Route::get('admin-client/spk-posting', 'App\Http\Controllers\AdminClient\Spk@spk_posting');
+    Route::post('admin-client/spk-posting', 'App\Http\Controllers\AdminClient\Spk@spk_posting');
     Route::get('admin-client/spk-detail/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_detail');
 
 

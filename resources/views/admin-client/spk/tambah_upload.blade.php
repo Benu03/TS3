@@ -25,7 +25,7 @@
 
 				</div>
 
-				<form action="{{ asset('admin-client/spk/spk-posting') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+				<form action="{{ asset('admin-client/spk-posting') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 				{{ csrf_field() }}
 				
 				
@@ -33,7 +33,7 @@
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">SPK Nomor</label>
 					<div class="col-sm-9">
-						<input type="text" name="spkno" class="form-control" placeholder="SPK Nomor" value="{{ old('spkno') }}" required>
+						<input type="text" name="spk_no" class="form-control" placeholder="SPK Nomor" value="{{ old('spk_no') }}" required>
 					</div>
 				</div>
 
@@ -58,12 +58,6 @@
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Status</label>
-					<div class="col-sm-9">
-						<input type="text" name="status" class="form-control" placeholder="Status" value="{{ old('status') }}" required>
-					</div>
-				</div>
 
 				<div class="row form-group">
 					<label class="col-md-3 control-label text-right">Upload File SPK</label>

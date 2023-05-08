@@ -23,17 +23,35 @@ class Profile extends Controller
     	$mysite = new Konfigurasi_model();
 		$site 	= $mysite->listing();
 
+        $user = DB::connection('ts3')->table('auth.v_list_user')->where('email',Session()->get('username'))->first();
+        $user_m = DB::connection('ts3')->table('auth.users')->where('email',Session()->get('username'))->first();
         
-                    $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->get();
-                    $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
-                    $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
-            
-                    $data = array(  'title'     => 'Vehicle',
-                                    'vehicle'      => $vehicle,
-                                    'vehicle_type'      => $vehicle_type,
-                                    'client'      => $client,
-                                    'content'   => 'bengkel/dasbor/profile'
-                                );            
+       
+		$data = array(  'title'     => 'Profile',
+                        'user'     =>  $user,
+                        'user_m'     => $user_m,
+                        'content'   => 'bengkel/dasbor/profile'
+                    );
         return view('bengkel/layout/wrapper',$data);
     }
+
+    public function ubah_password(Request $request)
+    {
+
+        if($request->password1 <> $request->password2){
+
+            return redirect('bengkel/profile')->with(['warning' => 'Password Tidak sama']);
+        }
+        else
+        {
+            DB::connection('ts3')->table('auth.users')->where('username',$request->username)->update([
+                'password'      => sha1($request->password1),
+                'updated_at'    => date("Y-m-d h:i:sa"),
+                'update_by'     => Session()->get('username')
+            ]);
+        return redirect('bengkel/profile')->with(['sukses' => 'Password berhasil Di Update']);  
+        }
+
+    }
+
 }

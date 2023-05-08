@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['bengkel']],function(){
 
     Route::get('bengkel/profile', 'App\Http\Controllers\Bengkel\Profile@index');
+    Route::post('bengkel/profile/ubah-password', 'App\Http\Controllers\Bengkel\Profile@ubah_password');
     Route::get('bengkel/dasbor', 'App\Http\Controllers\Bengkel\Dasbor@index');
     Route::get('bengkel/list-service', 'App\Http\Controllers\Bengkel\Service@index');
     Route::get('bengkel/direct-service', 'App\Http\Controllers\Bengkel\Service@direct_service');

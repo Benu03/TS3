@@ -1,119 +1,103 @@
-
-<!-- Info boxes -->
-<div class="row">
-  <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box">
-      <span class="info-box-icon bg-info elevation-1"><i class="fas fa-motorcycle"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">List Service</span>
-        <span class="info-box-number">
-          <?php 
-          $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Berita')->get(); 
-          echo $berita->count();
-          ?>
-          <small>Waiting</small>
-        </span>
-      </div>
-      <!-- /.info-box-content -->
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
-    <!-- /.info-box -->
-  </div>
-  <!-- /.col -->
-  <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-success elevation-1"><i class="fa fa-certificate"></i></span>
+@endif
 
-      <div class="info-box-content">
-        <span class="info-box-text">
-          Jumlah Service Perbulan
-        </span>
-        <span class="info-box-number">
-        <?php 
-          $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-          echo $berita->count();
-          ?>
-          {{-- <small>Sudah Dipublikasikan</small> --}}
-        </span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-  <!-- /.col -->
+<p>
+  @include('admin-ts3/dasbor/change_password')
+</p>
+<p class="text-right">
 
-  <!-- fix for small devices only -->
-  {{-- <div class="clearfix hidden-md-up"></div> --}}
-
-  {{-- <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-success elevation-1"><i class="fas fa-download"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">File &amp; Dokumen</span>
-        <span class="info-box-number">
-        <?php 
-          $download = DB::connection('ts3')->table('cp.berita')->get(); 
-          echo $download->count();
-          ?>
-          <small>File</small>
-        </span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div> --}}
-  <!-- /.col -->
-  <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-directions"></i></span>
-
-      <div class="info-box-content">
-        <span class="info-box-text">Direct Service</span>
-        <span class="info-box-number">
-        	<?php 
-          $galeri = DB::connection('ts3')->table('cp.galeri')->get(); 
-          echo $galeri->count();
-          ?>
-          {{-- <small>Gambar</small> --}}
-        </span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-  <!-- /.col -->
-  <div class="col-12 col-sm-6 col-md-3">
-    <div class="info-box mb-3">
-      <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-money-check"></i></span>
+  <button type="button" class="btn btn-warning " data-toggle="modal" data-target="#Change">
+    <i class="fas fa-key"></i> Ubah Password
+  </button>
   
-      <div class="info-box-content">
-        <span class="info-box-text">
-          Invoice
-        </span>
-        <span class="info-box-number">
-        <?php 
-          $staff = DB::connection('ts3')->table('cp.staff')->get(); 
-          echo $staff->count();
-          ?>
-          {{-- <small>Orang</small> --}}
-        </span>
-      </div>
-      <!-- /.info-box-content -->
-    </div>
-    <!-- /.info-box -->
-  </div>
-  
-</div>
-<!-- /.row -->
+	<a href="{{ asset('admin-ts3/dasbor') }}" class="btn btn-success">
+		<i class="fa fa-backward"></i> Kembali
+	</a>
+</p>
 
+<hr>
 
-
-<!-- Info boxes -->
 <div class="row">
- 
+  <div class="col-md-3">
+    <!-- Profile Image -->
+    <div class="card card-primary card-outline">
+      <div class="card-body box-profile">
+        <div class="text-center">
+          <img class="img img-thumbnail img-fluid" src="{{ asset('assets/upload/user/thumbs/'.$user->gambar) }}" >
+        </div>
 
+        <h3 class="profile-username text-center">{{ $user->username }}</h3>
+		{{-- <h3 class="profile-username text-center">{{ $user->username }}</h3> --}}
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    </div>
+    <div class="col-md-9">
+    	<div class="card card-primary">
+    	<div class="card-header">
+                <h3 class="card-title">Detail Data Profile  {{  $user->nama }}</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+    	<table class="table table-bordered">
+    		<thead>
+    			<tr>
+    				<th width="25%">Nama</th>
+    				<th>{{  $user->nama }}</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+          <tr>
+    				<td width="25%">Email</td>
+    				<td>{{  $user->email }}</td>
+    			</tr>
+          <tr>
+    				<td width="25%">Role</td>
+    				<td>{{  $user->role_title }}</td>
+    			</tr>
+    			<tr>
+    				<td>Created Date</td>
+    				<td>{{ $user_m->created_at }}</td>
+    			</tr>
+          <tr>
+    				<td>Created By</td>
+    				<td>{{ $user_m->create_by }}</td>
+    			</tr>
 
+          <tr>
+    				<td>Update Date</td>
+    				<td>{{ $user_m->updated_at }}</td>
+    			</tr>
 
+          <tr>
+    				<td>Update By</td>
+    				<td>{{ $user_m->update_by }}</td>
+    			</tr>
+
+          <tr>
+    				<td>Status</td>
+    				<td>
+              <?php if($user_m->is_active == 1 ) { 
+                echo 'Active';               
+              }else {
+                echo 'Non Active'; 
+              } ?>
+            
+        </td>
+    			</tr>
+    		
+    		</tbody>
+    	</table>
 </div>
-<!-- /.row -->
+</div>
+</div>
+    </div>
+</div>
