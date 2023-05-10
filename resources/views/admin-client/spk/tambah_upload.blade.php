@@ -4,28 +4,22 @@
 		<div class="modal-content">
 			<div class="modal-header">
 
-				<h4 class="modal-title" id="myModalLabel">Tambah SPK?</h4>
+				<h4 class="modal-title mr-4" id="myModalLabel">Tambah SPK?</h4>
+				<div class="btn-group">						  
+					<a href="{{ asset('admin-client/template-upload') }}"class="btn btn-primary">
+						<i class="far fa-file-excel"></i> Downlod Template File Upload
+					</a>
+				
+			   </div>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 
 
 			<div class="modal-body">
 
-				<div class="row mb-4">
-					<div class="col-md-12 text-right">
-						<div class="btn-group ">						  
-							<a href="{{ asset('admin-client/template-upload') }}"class="btn btn-primary">
-								<i class="far fa-file-excel"></i> Downlod Template File Upload
-							</a>
-						
-					   </div>
-					</div>
+				
 
-			  
-
-				</div>
-
-				<form action="{{ asset('admin-client/spk/spk-posting') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+				<form action="{{ asset('admin-client/spk-upload') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8" id="fileUploadForm">
 				{{ csrf_field() }}
 				
 				
@@ -33,14 +27,14 @@
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">SPK Nomor</label>
 					<div class="col-sm-9">
-						<input type="text" name="spkno" class="form-control" placeholder="SPK Nomor" value="{{ old('spkno') }}" required>
+						<input type="text" name="spk_no" class="form-control" placeholder="SPK Nomor" value="{{ old('spk_no') }}" required>
 					</div>
 				</div>
 
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Jumlah Kendaraan</label>
 					<div class="col-sm-9">
-						<input type="text" name="count_vehicle" class="form-control" placeholder="Jumlah Kendaraan" value="{{ old('count_vehicle') }}" required>
+						<input type="text" name="count_vehicle" class="form-control" placeholder="Jumlah Kendaraan" value="{{ old('count_vehicle') }}"  onkeypress="return isNumber(event)" required>
 					</div>
 				</div>
 
@@ -58,17 +52,16 @@
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Status</label>
-					<div class="col-sm-9">
-						<input type="text" name="status" class="form-control" placeholder="Status" value="{{ old('status') }}" required>
-					</div>
-				</div>
 
 				<div class="row form-group">
 					<label class="col-md-3 control-label text-right">Upload File SPK</label>
 					<div class="col-md-9">
 					  <input type="file" name="spk_file" class="form-control" placeholder="Upload File SPK">
+					  <div class="form-group">
+						<div class="progress">
+							<div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+						</div>
+					</div>
 					</div>
 					
 				  </div>

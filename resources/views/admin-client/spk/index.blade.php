@@ -81,3 +81,44 @@
 </div>
 </div>
 </form>
+
+<script>
+    function isNumber(evt) {
+     evt = (evt) ? evt : window.event;
+     var charCode = (evt.which) ? evt.which : evt.keyCode;
+     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+         return false;
+     }
+     return true;
+  }
+  </script>
+
+<script>
+    $(function () {
+        $(document).ready(function () {
+            
+            var message = $('.success__msg');
+            $('#fileUploadForm').ajaxForm({
+                beforeSend: function () {
+                    var percentage = '0';
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentage = percentComplete;
+                    $('.progress .progress-bar').css("width", percentage+'%', function() {
+                        return $(this).attr("aria-valuenow", percentage) + "%";
+                    })
+                },
+                complete: function (xhr) {
+                    console.log('File has uploaded');
+                    message.fadeIn().removeClass('alert-danger').addClass('alert-success');
+                    message.text("Uploaded File successfully.");
+                    setTimeout(function () {
+                        message.fadeOut();
+                    }, 2000);
+                    form.find('input:not([type="submit"]), textarea').val('');
+                    var percentage = '0';
+                }
+            });
+        });
+    });
+</script>

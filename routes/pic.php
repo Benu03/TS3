@@ -17,6 +17,7 @@ Route::group(['middleware' => ['pic']],function(){
 
     Route::get('pic/dasbor', 'App\Http\Controllers\Pic\Dasbor@index');
     Route::get('pic/profile', 'App\Http\Controllers\Pic\Profile@index');
+    Route::post('pic/profile/ubah-password', 'App\Http\Controllers\Pic\Profile@ubah_password');
     Route::get('pic/list-service', 'App\Http\Controllers\Pic\Service@index');
     Route::get('pic/direct-service', 'App\Http\Controllers\Pic\Service@direct');
     Route::get('pic/advisor-service', 'App\Http\Controllers\Pic\Service@advisor');
