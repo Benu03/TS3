@@ -14,21 +14,21 @@
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right">Nama lengkap</label>
 	<div class="col-sm-9">
-		<input type="text" name="nama" class="form-control" placeholder="Nama lengkap" value="<?php echo $user->nama ?>" required>
+		<input type="text" name="nama" class="form-control" placeholder="Nama lengkap" value="<?php echo $user->nama ?>" required readonly>
 	</div>
 </div>
 
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right">Email</label>
 	<div class="col-sm-9">
-		<input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo $user->email ?>" required>
+		<input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo $user->email ?>" required readonly>
 	</div>
 </div>
 
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right">Username</label>
 	<div class="col-sm-9">
-		<input type="text" name="username" class="form-control" placeholder="Username" value="<?php echo $user->username ?>" required>
+		<input type="text" name="username" class="form-control" placeholder="Username" value="<?php echo $user->username ?>" required readonly>
 	</div>
 </div>
 
