@@ -86,6 +86,10 @@ $(document).on("click", ".delete-link", function(e){
     return false;
   });
 });
+
+
+
+
 // Popup disable
 $(document).on("click", ".disable-link", function(e){
   e.preventDefault();

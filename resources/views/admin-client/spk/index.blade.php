@@ -91,34 +91,37 @@
      }
      return true;
   }
-  </script>
+ 
 
-<script>
-    $(function () {
-        $(document).ready(function () {
-            
-            var message = $('.success__msg');
-            $('#fileUploadForm').ajaxForm({
-                beforeSend: function () {
-                    var percentage = '0';
-                },
-                uploadProgress: function (event, position, total, percentComplete) {
-                    var percentage = percentComplete;
-                    $('.progress .progress-bar').css("width", percentage+'%', function() {
-                        return $(this).attr("aria-valuenow", percentage) + "%";
-                    })
-                },
-                complete: function (xhr) {
-                    console.log('File has uploaded');
-                    message.fadeIn().removeClass('alert-danger').addClass('alert-success');
-                    message.text("Uploaded File successfully.");
-                    setTimeout(function () {
-                        message.fadeOut();
-                    }, 2000);
-                    form.find('input:not([type="submit"]), textarea').val('');
-                    var percentage = '0';
-                }
-            });
-        });
-    });
+
+ 
+// Popup upload
+$(document).on("click", ".upload-link", function(e){
+  e.preventDefault();
+  url = $(this).attr("href");
+  swal({
+    title:"Yakin akan Posting data ini?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-success',
+    buttonsStyling: false,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+    closeOnConfirm: false,
+    showLoaderOnConfirm: true,
+  },
+  function(isConfirm){
+    if(isConfirm){
+      $.ajax({
+        url: url,
+        success: function(resp){
+          window.location.href = url;
+        }
+      });
+    }
+    return false;
+  });
+});
+
 </script>

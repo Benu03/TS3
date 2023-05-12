@@ -5,15 +5,22 @@ namespace App\Imports;
 use App\Models\Spk;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\withHeadingRow;
+use Illuminate\Support\Facades\DB;
 
 
-class SPKTempImport implements ToModel, WithStartRow
+class SPKTempImport implements ToModel, WithStartRow 
 {
     /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+  
+ 
+
+
     public function startRow(): int
     {
         return 2;
@@ -22,6 +29,9 @@ class SPKTempImport implements ToModel, WithStartRow
     public function model(array $row)
     {
    
+      
+    
+
         return new Spk([
             'user_upload' => Session()->get('username'),
             'nopol' => $row[0],
@@ -31,6 +41,8 @@ class SPKTempImport implements ToModel, WithStartRow
             'type' => $row[4], 
             'branch' => $row[5], 
             'remark' => $row[6],
+            'status'	   => 'Review',
+            'upload_date'	=> date("Y-m-d h:i:sa")      
         ]);
     }
 }

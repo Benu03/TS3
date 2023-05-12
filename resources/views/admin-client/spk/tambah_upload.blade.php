@@ -57,11 +57,7 @@
 					<label class="col-md-3 control-label text-right">Upload File SPK</label>
 					<div class="col-md-9">
 					  <input type="file" name="spk_file" class="form-control" placeholder="Upload File SPK">
-					  <div class="form-group">
-						<div class="progress">
-							<div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-						</div>
-					</div>
+					 
 					</div>
 					
 				  </div>

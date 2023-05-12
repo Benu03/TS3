@@ -56,14 +56,19 @@
               </div>
             <div class="card-body">
                 <div class="row">
+                    <form action="{{ asset('admin-client/spk-posting') }}" method="post" accept-charset="utf-8">
+                        {{ csrf_field() }}
                     <div class="col-md-6 text-center">
-                
-                  <a href="{{ asset('admin-client/spk-posting/'.$spk->spk_no) }}" 
-                    class="btn btn-warning btn-md "><i class="fas fa-upload"></i> Posting Data</a>
+                        <button class="btn btn-warning btn-md posting-link" type="submit" name="posting" onClick="check();" >
+                            <i class="fas fa-upload"></i> Posting Data
+                        </button>  
                 </div>
+                </form>
+
+
                 <div class="col-md-6 text-center">
                     <a href="{{ asset('admin-client/spk-reset/'.$spk->spk_no) }}" 
-                        class="btn btn-danger btn-md"><i class="fas fa-trash-alt"></i> Reset Data</a>
+                        class="btn btn-danger btn-md delete-link"><i class="fas fa-trash-alt"></i> Reset Data</a>
                     </div>
                     </div>
             </div>
@@ -144,31 +149,33 @@
   </script>
 
 <script>
-    $(function () {
-        $(document).ready(function () {
-            
-            var message = $('.success__msg');
-            $('#fileUploadForm').ajaxForm({
-                beforeSend: function () {
-                    var percentage = '0';
-                },
-                uploadProgress: function (event, position, total, percentComplete) {
-                    var percentage = percentComplete;
-                    $('.progress .progress-bar').css("width", percentage+'%', function() {
-                        return $(this).attr("aria-valuenow", percentage) + "%";
-                    })
-                },
-                complete: function (xhr) {
-                    console.log('File has uploaded');
-                    message.fadeIn().removeClass('alert-danger').addClass('alert-success');
-                    message.text("Uploaded File successfully.");
-                    setTimeout(function () {
-                        message.fadeOut();
-                    }, 2000);
-                    form.find('input:not([type="submit"]), textarea').val('');
-                    var percentage = '0';
-                }
-            });
-        });
-    });
+
+// Popup Posting
+$(document).on("click", ".posting-link", function(e){
+  e.preventDefault();
+  url = $(this).attr("href");
+  swal({
+    title:"Yakin akan Posting data ini?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-success',
+    buttonsStyling: false,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+    closeOnConfirm: false,
+    showLoaderOnConfirm: true,
+  },
+  function(isConfirm){
+    if(isConfirm){
+      $.ajax({
+        url: url,
+        success: function(resp){
+          window.location.href = url;
+        }
+      });
+    }
+    return false;
+  });
+});
 </script>

@@ -26,14 +26,26 @@ class Spk extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-    
-        $spk = DB::connection('ts3')->table('mst.v_regional')->get();
-		       
-		$data = array(   'title'     => 'SPK Proses',
-                         'spk'      => $spk,
-                        'content'   => 'admin-client/spk/index'
-                    );
-        return view('admin-client/layout/wrapper',$data);
+
+        $spk_detail = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('user_upload', Session()->get('username'))->get();
+       
+       
+        if(count($spk_detail) > 0)
+        {
+            $result = json_decode(json_encode($spk_detail), true);
+            $spkno  = $result[0]['spk_no']; 
+            return redirect('admin-client/spk-temp-detail/'.$spkno)->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
+        }
+        else
+        {
+            $spk = DB::connection('ts3')->table('mst.v_regional')->get();
+                
+            $data = array(   'title'     => 'SPK Proses',
+                            'spk'      => $spk,
+                            'content'   => 'admin-client/spk/index'
+                        );
+            return view('admin-client/layout/wrapper',$data);
+        }
     }
 
 
@@ -66,56 +78,36 @@ class Spk extends Controller
 
         $nama_file = rand().'_'.$spk_file->getClientOriginalName();
  
-        $DirFile ='data/spk/'.date("Y").'/'.date("m").'/';
+        $dir_file ='data/spk/';
         // $DirFile ='data/spk/';
-        if (!file_exists(storage_path($DirFile))) {
-          File::makeDirectory(storage_path($DirFile),0777,true);
+        if (!file_exists(storage_path($dir_file))) {
+          File::makeDirectory(storage_path($dir_file),0777,true);
           }
         
-        File::put(storage_path($DirFile.$nama_file), $spk_file); 
+        File::put(storage_path($dir_file.$nama_file), $spk_file); 
         Log::info('done upload '.$nama_file);
-        Excel::import(new SPKTempImport, $spk_file);
-
-        // Excel::import(new AccountStatementsImport, $request->file('file')->store('temp'));
-        // return back();
-
-
         $userclient = DB::connection('ts3')->table('mst.v_user_client')->where('username', Session()->get('username'))->first();
+        Excel::import(new SPKTempImport(), $spk_file);
+       
 
+        
         DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('user_upload',Session()->get('username'))->update([
-            'mst_client_id'	        => $userclient->mst_client_id,
+            'mst_client_id'         => $userclient->mst_client_id,
             'spk_no'	            => $request->spk_no,
             'count_vehicle'	        => $request->count_vehicle,
             'tanggal_pengerjaan'    => $request->tanggal_pengerjaan,
             'tanggal_last_spk'      => $request->tanggal_last_spk,
             'status'	            => 'Review',
-            'upload_date'	         => date("Y-m-d h:i:sa")            
+            'upload_date'	        => date("Y-m-d h:i:sa"),
+            'nama_file'             => $nama_file
+            
         ]);  
 
-        return redirect('admin-client/spk-temp-detail/'.$request->spk_no)->with(['sukses' => 'File berhasil Di Upload,ohon Untuk Di Review']);  
+        return redirect('admin-client/spk-temp-detail/'.$request->spk_no)->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
 
     }
 
-
-    public function spk_posting(Request $request)
-    {
-
-        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-    	request()->validate([
-                            'spk_no'     => 'required',
-                            'count_vehicle' => 'required',
-					        'tanggal_pengerjaan' => 'required',
-                            'tanggal_last_spk' => 'required',
-                            'spk_file'   => 'file|mimes:xlsx,xls|max:8024|required',
-					        ]);
-
-        $spk_file       = $request->file('spk_file');
-        
-
-    }
-    
-    
-
+ 
     public function spk_temp_detail($spk_no)
     {
         if(Session()->get('username')=="") {
@@ -123,6 +115,13 @@ class Spk extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
 
+        $spk_detail = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('user_upload', Session()->get('username'))->get();
+       
+       
+        if(count($spk_detail) == 0)
+        {           
+            return redirect('admin-client/spk')->with(['sukses' => 'File berhasil Di Upload, Tidak ada']);  
+        }
         $spk = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_no', $spk_no)->first();
         $spk_detail = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_no', $spk_no)->get();
 		       
@@ -132,6 +131,52 @@ class Spk extends Controller
                         'content'   => 'admin-client/spk/spk_review'
                     );
         return view('admin-client/layout/wrapper',$data);
+    }
+
+    public function spk_temp_reset($spk_no)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $spk = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_no', $spk_no)->first();
+        $dir_file ='data/spk/';
+        if(File::exists(storage_path($dir_file.$spk->nama_file))){
+            File::delete(storage_path($dir_file.$spk->nama_file));
+        }else{
+            return redirect('admin-client/spk')->with(['sukses' => 'File does not exists.']);  
+        }
+
+        DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_no',$spk_no)->where('user_upload',Session()->get('username'))->delete();
+
+
+        return redirect('admin-client/spk')->with(['sukses' => 'Data Upload Berhasil Di Hapus']);  
+
+    }
+    
+
+    
+    public function spk_posting($spk_no)
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $spk_detail = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('user_upload', Session()->get('username'))->get();
+       
+       
+        if(count($spk_detail) == 0)
+        {
+            return redirect('admin-client/spk')->with(['sukses' => 'File berhasil Di Upload, Tidak ada']);  
+        }
+
+       
+        
+
+        return redirect('admin-client/spk')->with(['sukses' => 'Posting Data Upload Berhasil']);  
     }
 
 
