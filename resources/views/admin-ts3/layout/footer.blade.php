@@ -252,10 +252,18 @@ $(document).on("click", ".approval-link", function(e){
   $(function () {
      //Initialize Select2 Elements
     //Initialize Select2 Elements
-    $('.select2').select2({
-      theme: 'bootstrap4',
-      width: '100%'
-    })
+    // $('.select2').select2({
+    //   theme: 'bootstrap4',
+    //   width: '100%'
+    // })
+    $('select:not(.normal)').each(function () {
+                $(this).select2({
+                    dropdownParent: $(this).parent(),
+                    theme: 'bootstrap4',
+                    width: '100%'
+                });
+            });
+
     
     $('.mselect2').select2({
       dropdownParent: $('.Tambah')

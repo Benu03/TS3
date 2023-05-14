@@ -67,8 +67,8 @@
 
 
                 <div class="col-md-6 text-center">
-                    <a href="{{ asset('admin-client/spk-reset/'.$spk->spk_no) }}" 
-                        class="btn btn-danger btn-md delete-link"><i class="fas fa-trash-alt"></i> Reset Data</a>
+                    <a href="{{ asset('admin-client/spk-reset/'.$spk->spk_seq) }}" 
+                        class="btn btn-danger btn-md reset-link"><i class="fas fa-trash-alt"></i> Reset Data</a>
                     </div>
                     </div>
             </div>
@@ -107,26 +107,45 @@
         <th width="15%">NORANGKA</th>  
         <th width="12%">TAHUN_BEMBUATAN</th>  
         <th width="17%">TYPE</th>  
-        <th width="17%">NAMA_CABANG</th>  
-        <th width="20%">KETERANGAN</th>  
+        <th width="17%">NAMA_CABANG</th>   
+        <th width="10%">INFO</th>  
       
 </tr>
 </thead>
 <tbody>
 
     <?php $i=1; foreach($spk_detail as $sp) { ?>
-
-
     <td><?php echo $sp->nopol ?></td>
     <td><?php echo $sp->nomesin ?></td>
     <td><?php echo $sp->norangka ?></td>
     <td><?php echo $sp->tahun_pembuatan ?></td>
     <td><?php echo $sp->type ?></td>
     <td><?php echo $sp->branch ?></td>
-    <td><?php echo $sp->remark ?></td>
-    
+    <td><?php 
+ 
+   
+        $vehicle = DB::connection('ts3')->table('mst.v_vehicle')->where('nopol',$sp->nopol)->first();
+        $branch = DB::connection('ts3')->table('mst.v_branch')->where('branch',$sp->branch)->first();
+  
+        if(empty($vehicle))
+        {          
+          echo '<button type="button" class="btn btn-outline-warning btn-xs mr-1" data-toggle="tooltip" data-html="true" 
+                title="Data Vehicle belum terdaftar">
+                <i class="fas fa-info-circle"></i>
+                </button>';
+        }
+        if(empty($branch))
+        {        
+          echo '<button type="button" class="btn btn-outline-secondary btn-xs mr-1" data-toggle="tooltip" data-html="true" 
+                title="Data Branch belum terdaftar">
+                <i class="fas fa-info-circle"></i>
+                </button>';
+               
+        }
+          
 
-    
+    ?></td>
+       
 </tr>
 
 <?php $i++; } ?> 
@@ -172,6 +191,38 @@ $(document).on("click", ".posting-link", function(e){
         url: url,
         success: function(resp){
           window.location.href = url;
+        }
+      });
+    }
+    return false;
+  });
+});
+
+
+
+// Popup Posting
+$(document).on("click", ".reset-link", function(e){
+  e.preventDefault();
+  url = $(this).attr("href");
+  spk = 
+  swal({
+    title:"Yakin akan reset data ini?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-success',
+    buttonsStyling: false,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+    closeOnConfirm: false,
+    showLoaderOnConfirm: true,
+  },
+  function(isConfirm){
+    if(isConfirm){
+      $.ajax({
+        url: url,
+        success: function(resp){
+          window.location.href = "{{ asset('admin-client/spk')}}";
         }
       });
     }

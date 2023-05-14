@@ -33,8 +33,8 @@ class Spk extends Controller
         if(count($spk_detail) > 0)
         {
             $result = json_decode(json_encode($spk_detail), true);
-            $spkno  = $result[0]['spk_no']; 
-            return redirect('admin-client/spk-temp-detail/'.$spkno)->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
+            $spk_seq  = $result[0]['spk_seq']; 
+            return redirect('admin-client/spk-temp-detail/'.$spk_seq)->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
         }
         else
         {
@@ -90,25 +90,26 @@ class Spk extends Controller
         Excel::import(new SPKTempImport(), $spk_file);
        
 
-        
+        $spk_seq = $userclient->client_name.'-'.date("his");
         DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('user_upload',Session()->get('username'))->update([
+            'spk_seq'               => $spk_seq,
             'mst_client_id'         => $userclient->mst_client_id,
             'spk_no'	            => $request->spk_no,
             'count_vehicle'	        => $request->count_vehicle,
             'tanggal_pengerjaan'    => $request->tanggal_pengerjaan,
             'tanggal_last_spk'      => $request->tanggal_last_spk,
-            'status'	            => 'Review',
+            'status'	            => 'REVIEW',
             'upload_date'	        => date("Y-m-d h:i:sa"),
             'nama_file'             => $nama_file
             
         ]);  
 
-        return redirect('admin-client/spk-temp-detail/'.$request->spk_no)->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
+        return redirect('admin-client/spk-temp-detail/'.$spk_seq)->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
 
     }
 
  
-    public function spk_temp_detail($spk_no)
+    public function spk_temp_detail($spk_seq)
     {
         if(Session()->get('username')=="") {
             $last_page = url()->full();
@@ -122,8 +123,8 @@ class Spk extends Controller
         {           
             return redirect('admin-client/spk')->with(['sukses' => 'File berhasil Di Upload, Tidak ada']);  
         }
-        $spk = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_no', $spk_no)->first();
-        $spk_detail = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_no', $spk_no)->get();
+        $spk = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_seq', $spk_seq)->first();
+        $spk_detail = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq', $spk_seq)->get();
 		       
 		$data = array(   'title'     => 'SPK Review',
                          'spk'      => $spk,
@@ -133,22 +134,22 @@ class Spk extends Controller
         return view('admin-client/layout/wrapper',$data);
     }
 
-    public function spk_temp_reset($spk_no)
+    public function spk_temp_reset($spk_seq)
     {
         if(Session()->get('username')=="") {
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
 
-        $spk = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_no', $spk_no)->first();
-        $dir_file ='data/spk/';
-        if(File::exists(storage_path($dir_file.$spk->nama_file))){
-            File::delete(storage_path($dir_file.$spk->nama_file));
+        $spk = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_seq', $spk_seq)->first();
+          
+        if(File::exists(storage_path('data/spk/'.$spk->nama_file))){
+            File::delete(storage_path('data/spk/'.$spk->nama_file));
         }else{
             return redirect('admin-client/spk')->with(['sukses' => 'File does not exists.']);  
         }
 
-        DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_no',$spk_no)->where('user_upload',Session()->get('username'))->delete();
+        DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq',$spk_seq)->where('user_upload',Session()->get('username'))->delete();
 
 
         return redirect('admin-client/spk')->with(['sukses' => 'Data Upload Berhasil Di Hapus']);  
@@ -157,7 +158,7 @@ class Spk extends Controller
     
 
     
-    public function spk_posting($spk_no)
+    public function spk_posting($spk_seq)
     {
 
         if(Session()->get('username')=="") {

@@ -6,7 +6,7 @@
 
 				<h4 class="modal-title mr-4" id="myModalLabel">Tambah SPK?</h4>
 				<div class="btn-group">						  
-					<a href="{{ asset('admin-client/template-upload') }}"class="btn btn-primary">
+					<a href="{{ asset('admin-client/template-upload') }}"class="btn btn-secondary">
 						<i class="far fa-file-excel"></i> Downlod Template File Upload
 					</a>
 				
@@ -17,8 +17,7 @@
 
 			<div class="modal-body">
 
-				
-
+			
 				<form action="{{ asset('admin-client/spk-upload') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8" id="fileUploadForm">
 				{{ csrf_field() }}
 				
@@ -27,7 +26,7 @@
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">SPK Nomor</label>
 					<div class="col-sm-9">
-						<input type="text" name="spk_no" class="form-control" placeholder="SPK Nomor" value="{{ old('spk_no') }}" required>
+						<input type="text" name="spk_no" class="form-control" placeholder="SPK Nomor" style="text-transform: uppercase" value="{{ old('spk_no') }}" required>
 					</div>
 				</div>
 
@@ -41,14 +40,14 @@
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Tanggal Pengerjaan</label>
 					<div class="col-sm-9">
-						<input type="text" name="tanggal_pengerjaan" class="form-control tanggal" placeholder="Tanggal Pengerjaan" value="<?php if(isset($_POST['tanggal_pengerjaan'])) { echo old('tanggal_pengerjaan'); }else{ echo date('d-m-Y'); } ?>" data-date-format="dd-mm-yyyy">	
+						<input type="text" name="tanggal_pengerjaan" class="form-control tanggal" placeholder="Tanggal Pengerjaan" value="<?php if(isset($_POST['tanggal_pengerjaan'])) { echo old('tanggal_pengerjaan'); }else{ echo date('Y-m-d'); } ?>" data-date-format="yyyy-mm-dd">	
 					</div>
 				</div>
 
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Tanggal Berlaku SPK Terakhir</label>
 					<div class="col-sm-9">
-						<input type="text" name="tanggal_last_spk" class="form-control tanggal" placeholder="Tanggal Berlaku SPK Terakhir" value="<?php if(isset($_POST['tanggal_last_spk'])) { echo old('tanggal_last_spk'); }else{ echo date('d-m-Y'); } ?>" data-date-format="dd-mm-yyyy">	
+						<input type="text" name="tanggal_last_spk" class="form-control tanggal" placeholder="Tanggal Berlaku SPK Terakhir" value="<?php if(isset($_POST['tanggal_last_spk'])) { echo old('tanggal_last_spk'); }else{ echo date('Y-m-d'); } ?>" data-date-format="yyyy-mm-dd">	
 					</div>
 				</div>
 

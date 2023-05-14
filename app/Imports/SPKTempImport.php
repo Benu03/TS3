@@ -30,11 +30,11 @@ class SPKTempImport implements ToModel, WithStartRow
     {
    
       
-    
+       
 
         return new Spk([
             'user_upload' => Session()->get('username'),
-            'nopol' => $row[0],
+            'nopol' => strtoupper(str_replace(' ', '', $row[0])),
             'nomesin' => $row[1], 
             'norangka' => $row[2], 
             'tahun_pembuatan' => $row[3], 
