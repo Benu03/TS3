@@ -22,9 +22,10 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/spk', 'App\Http\Controllers\AdminClient\Spk@index');
     Route::get('admin-client/template-upload', 'App\Http\Controllers\AdminClient\Spk@template_upload');
     Route::post('admin-client/spk-upload', 'App\Http\Controllers\AdminClient\Spk@spk_upload');
-    Route::post('admin-client/spk-posting', 'App\Http\Controllers\AdminClient\Spk@spk_posting');
+    Route::get('admin-client/spk-detail/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_detail');
     Route::get('admin-client/spk-temp-detail/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_temp_detail');
     Route::get('admin-client/spk-reset/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_temp_reset');
+    Route::get('admin-client/spk-posting/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_posting');
 
 
     Route::get('admin-client/invoice', 'App\Http\Controllers\AdminClient\Invoice@index');
@@ -45,6 +46,27 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/report/vehicle-service', 'App\Http\Controllers\AdminClient\report@vehicle_service');
 
 
+    Route::get('admin-client/area', 'App\Http\Controllers\AdminClient\Area@index');
+    Route::post('admin-client/area/tambah', 'App\Http\Controllers\AdminClient\Area@tambah');
+    Route::post('admin-client/area/proses', 'App\Http\Controllers\AdminClient\Area@proses');
+    Route::get('admin-client/area/edit/{par1}', 'App\Http\Controllers\AdminClient\Area@edit');
+    Route::post('admin-client/area/proses_edit', 'App\Http\Controllers\AdminClient\Area@proses_edit');
+    Route::get('admin-client/area/delete/{par1}', 'App\Http\Controllers\AdminClient\Area@delete');
+
+    
+    Route::get('admin-client/branch', 'App\Http\Controllers\AdminClient\Branch@index');
+    Route::post('admin-client/branch/tambah', 'App\Http\Controllers\AdminClient\Branch@tambah');
+    Route::post('admin-client/branch/proses', 'App\Http\Controllers\AdminClient\Branch@proses');
+    Route::get('admin-client/branch/edit/{par1}', 'App\Http\Controllers\AdminClient\Branch@edit');
+    Route::post('admin-client/branch/proses_edit', 'App\Http\Controllers\AdminClient\Branch@proses_edit');
+    Route::get('admin-client/branch/delete/{par1}', 'App\Http\Controllers\AdminClient\Branch@delete');
+
+    Route::get('admin-client/regional', 'App\Http\Controllers\AdminClient\Regional@index');
+    Route::post('admin-client/regional/tambah', 'App\Http\Controllers\AdminClient\Regional@tambah');
+    Route::post('admin-client/regional/proses', 'App\Http\Controllers\AdminClient\Regional@proses');
+    Route::get('admin-client/regional/edit/{par1}', 'App\Http\Controllers\AdminClient\Regional@edit');
+    Route::post('admin-client/regional/proses_edit', 'App\Http\Controllers\AdminClient\Regional@proses_edit');
+    Route::get('admin-client/regional/delete/{par1}', 'App\Http\Controllers\AdminClient\Regional@delete');
 
 
 });

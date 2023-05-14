@@ -38,7 +38,7 @@ class Spk extends Controller
         }
         else
         {
-            $spk = DB::connection('ts3')->table('mst.v_regional')->get();
+            $spk = DB::connection('ts3')->table('mvm.mvm_spk_h')->get();
                 
             $data = array(   'title'     => 'SPK Proses',
                             'spk'      => $spk,
@@ -60,7 +60,6 @@ class Spk extends Controller
         $file_path = storage_path('data/template/SPK_LIST_TEMPLATE.xlsx');
         return response()->download($file_path);
     }
-
 
     public function spk_upload(Request $request)
     {
@@ -108,7 +107,6 @@ class Spk extends Controller
 
     }
 
- 
     public function spk_temp_detail($spk_seq)
     {
         if(Session()->get('username')=="") {
@@ -156,8 +154,6 @@ class Spk extends Controller
 
     }
     
-
-    
     public function spk_posting($spk_seq)
     {
 
@@ -165,22 +161,75 @@ class Spk extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-
-        $spk_detail = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('user_upload', Session()->get('username'))->get();
        
-       
-        if(count($spk_detail) == 0)
-        {
-            return redirect('admin-client/spk')->with(['sukses' => 'File berhasil Di Upload, Tidak ada']);  
-        }
+        $spk_detail_temp_h = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_seq', $spk_seq)->first();
+               
+            DB::connection('ts3')->table('mvm.mvm_spk_h')->insert([
+            'spk_seq'   => $spk_seq,
+            'spk_no'	=> $spk_detail_temp_h->spk_no,
+            'count_vehicle'	=> $spk_detail_temp_h->count_vehicle,
+            'tanggal_pengerjaan'	=> $spk_detail_temp_h->tanggal_pengerjaan,
+            'tanggal_last_spk'	=> $spk_detail_temp_h->tanggal_last_spk,
+            'status'	=> 'ONPROGRESS',
+            'upload_date'	=> $spk_detail_temp_h->upload_date,
+            'user_upload'	=> $spk_detail_temp_h->user_upload,
+            'user_posting'     => Session()->get('username'),
+            'posting_date'    => date("Y-m-d h:i:sa"),
+            'nama_file'    =>  $spk_detail_temp_h->nama_file
+            ]);
 
-       
-        
 
+
+            $spk_detail_temp_d = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq', $spk_seq)->get();
+
+            foreach($spk_detail_temp_d as $x => $val) {
+                $resultArray = json_decode(json_encode($val), true);
+                
+                $branch_id = DB::connection('ts3')->table('mst.v_branch')->where('branch', $resultArray['branch'])->first();
+              
+                try {
+                    if(isset($branch_id)){
+                        DB::connection('ts3')->table('mvm.mvm_spk_d')->insert([
+                        'spk_seq'   => $spk_seq,
+                        'spk_no'	=> $spk_detail_temp_h->spk_no,
+                        'nopol'	    => $resultArray['nopol'],
+                        'mst_branch_id'	=> $branch_id->id,
+                        'status_service'	=> 'PLANING',
+                        'remark'        => $resultArray['remark'],
+                        'created_date'     => date("Y-m-d h:i:sa"),
+                        'create_by'     => Session()->get('username')
+                         ]); 
+                    }
+                  
+                  } catch (\Exception $e) {
+                    DB::connection('ts3')->table('mvm.mvm_spk_h')->where('spk_seq',$spk_seq)->where('user_upload',Session()->get('username'))->delete();  
+                    DB::connection('ts3')->table('mvm.mvm_spk_d')->where('spk_seq',$spk_seq)->delete();  
+                      return $e->getMessage();
+                  }
+
+            }    
+            DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq',$spk_seq)->where('user_upload',Session()->get('username'))->delete();
         return redirect('admin-client/spk')->with(['sukses' => 'Posting Data Upload Berhasil']);  
     }
 
+    public function spk_detail($spk_seq)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
 
+
+        $spk_h = DB::connection('ts3')->table('mvm.mvm_spk_h')->where('spk_seq',$spk_seq)->first();
+        $spk_d = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_seq',$spk_seq)->get();
+                
+        $data = array(   'title'     => 'SPK Detail',
+                        'spk_h'      => $spk_h,
+                        'spk_d'      => $spk_d,
+                        'content'   => 'admin-client/spk/spk_detail'
+                    );
+        return view('admin-client/layout/wrapper',$data);
+    }
 
 
 

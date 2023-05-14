@@ -32,15 +32,15 @@
 <table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
-        {{-- <th width="5%">
+        <th width="5%">
           <div class="mailbox-controls">
                 <!-- Check all button -->
                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
                 </button>
             </div>
-        </th> --}}
+        </th>
         <th width="15%">SPK Nomor</th>
-        <th width="15%">Jumlah Kendaraan</th>   
+        <th width="10%">Jumlah Kendaraan</th>   
         <th width="15%">Tanggal Pengerjaan</th> 
         <th width="15%">Tanggal Berlaku SPK Terakhir</th>  
         <th width="10%">Status</th>  
@@ -50,31 +50,32 @@
 </tr>
 </thead>
 <tbody>
-{{-- 
-    {{-- <?php $i=1; foreach($area as $ar) { ?> --}}
+<?php $i=1; foreach($spk as $dt) { ?> 
 
-    {{-- <td class="text-center">
+    <td class="text-center">
         <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $ar->id ?>" id="check<?php echo $i ?>">
+                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $dt->id ?>" id="check<?php echo $i ?>">
                    <label for="check<?php echo $i ?>"></label>
-        </div> --}}
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    {{-- </td>
-    <td><?php echo $ar->regional_slug ?></td>
-    <td><?php echo $ar->area ?></td>
+        </div>
+    
+    </td>
+    <td><?php echo $dt->spk_no ?></td>
+    <td><?php echo $dt->count_vehicle ?></td>
+    <td><?php echo $dt->tanggal_pengerjaan ?></td>
+    <td><?php echo $dt->tanggal_last_spk ?></td>
+    <td><?php echo $dt->status ?></td>
+    <td><?php echo $dt->user_posting ?></td>
+    <td><?php echo $dt->posting_date ?></td>
     <td>
         <div class="btn-group">
-        <a href="{{ asset('admin-ts3/area/edit/'.$ar->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
-          <a href="{{ asset('admin-ts3/area/delete/'.$ar->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
+          <a href="{{ asset('admin-client/spk-detail/'.$dt->spk_seq) }}" 
+            class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
         </div>
 
     </td>
-</tr> --}}
-{{-- 
-<?php $i++; } ?>  --}}
+</tr>
+
+<?php $i++; } ?>  
 
 </tbody>
 </table>
@@ -94,13 +95,13 @@
  
 
 
- 
-// Popup upload
+
+// Popup Posting
 $(document).on("click", ".upload-link", function(e){
   e.preventDefault();
   url = $(this).attr("href");
   swal({
-    title:"Yakin akan Posting data ini?",
+    title:"Apakah Data Sudah Sesuai?",
     type: "warning",
     showCancelButton: true,
     confirmButtonClass: 'btn btn-danger',
@@ -114,14 +115,17 @@ $(document).on("click", ".upload-link", function(e){
   function(isConfirm){
     if(isConfirm){
       $.ajax({
-        url: url,
+        headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+        url: "{{ asset('admin-client/spk-upload')}}",
+        type: "POST",
         success: function(resp){
-          window.location.href = url;
+          window.location.href = "{{ asset('admin-client/spk')}}";
         }
       });
     }
     return false;
   });
 });
+
 
 </script>
