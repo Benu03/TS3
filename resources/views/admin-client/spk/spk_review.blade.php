@@ -56,14 +56,19 @@
               </div>
             <div class="card-body">
                 <div class="row">
+                    <form action="{{ asset('admin-client/spk-posting') }}" method="post" accept-charset="utf-8">
+                        {{ csrf_field() }}
                     <div class="col-md-6 text-center">
-                
-                  <a href="{{ asset('admin-client/spk-posting/'.$spk->spk_no) }}" 
-                    class="btn btn-warning btn-md "><i class="fas fa-upload"></i> Posting Data</a>
+                        <button class="btn btn-warning btn-md posting-link" type="submit" name="posting" onClick="check();" >
+                            <i class="fas fa-upload"></i> Posting Data
+                        </button>  
                 </div>
+                </form>
+
+
                 <div class="col-md-6 text-center">
-                    <a href="{{ asset('admin-client/spk-reset/'.$spk->spk_no) }}" 
-                        class="btn btn-danger btn-md"><i class="fas fa-trash-alt"></i> Reset Data</a>
+                    <a href="{{ asset('admin-client/spk-reset/'.$spk->spk_seq) }}" 
+                        class="btn btn-danger btn-md reset-link"><i class="fas fa-trash-alt"></i> Reset Data</a>
                     </div>
                     </div>
             </div>
@@ -102,26 +107,45 @@
         <th width="15%">NORANGKA</th>  
         <th width="12%">TAHUN_BEMBUATAN</th>  
         <th width="17%">TYPE</th>  
-        <th width="17%">NAMA_CABANG</th>  
-        <th width="20%">KETERANGAN</th>  
+        <th width="17%">NAMA_CABANG</th>   
+        <th width="10%">INFO</th>  
       
 </tr>
 </thead>
 <tbody>
 
     <?php $i=1; foreach($spk_detail as $sp) { ?>
-
-
     <td><?php echo $sp->nopol ?></td>
     <td><?php echo $sp->nomesin ?></td>
     <td><?php echo $sp->norangka ?></td>
     <td><?php echo $sp->tahun_pembuatan ?></td>
     <td><?php echo $sp->type ?></td>
     <td><?php echo $sp->branch ?></td>
-    <td><?php echo $sp->remark ?></td>
-    
+    <td><?php 
+ 
+   
+        $vehicle = DB::connection('ts3')->table('mst.v_vehicle')->where('nopol',$sp->nopol)->first();
+        $branch = DB::connection('ts3')->table('mst.v_branch')->where('branch',$sp->branch)->first();
+  
+        if(empty($vehicle))
+        {          
+          echo '<button type="button" class="btn btn-outline-warning btn-xs mr-1" data-toggle="tooltip" data-html="true" 
+                title="Data Vehicle belum terdaftar">
+                <i class="fas fa-info-circle"></i>
+                </button>';
+        }
+        if(empty($branch))
+        {        
+          echo '<button type="button" class="btn btn-outline-secondary btn-xs mr-1" data-toggle="tooltip" data-html="true" 
+                title="Data Branch belum terdaftar">
+                <i class="fas fa-info-circle"></i>
+                </button>';
+               
+        }
+          
 
-    
+    ?></td>
+       
 </tr>
 
 <?php $i++; } ?> 
@@ -144,31 +168,65 @@
   </script>
 
 <script>
-    $(function () {
-        $(document).ready(function () {
-            
-            var message = $('.success__msg');
-            $('#fileUploadForm').ajaxForm({
-                beforeSend: function () {
-                    var percentage = '0';
-                },
-                uploadProgress: function (event, position, total, percentComplete) {
-                    var percentage = percentComplete;
-                    $('.progress .progress-bar').css("width", percentage+'%', function() {
-                        return $(this).attr("aria-valuenow", percentage) + "%";
-                    })
-                },
-                complete: function (xhr) {
-                    console.log('File has uploaded');
-                    message.fadeIn().removeClass('alert-danger').addClass('alert-success');
-                    message.text("Uploaded File successfully.");
-                    setTimeout(function () {
-                        message.fadeOut();
-                    }, 2000);
-                    form.find('input:not([type="submit"]), textarea').val('');
-                    var percentage = '0';
-                }
-            });
-        });
-    });
+
+// Popup Posting
+$(document).on("click", ".posting-link", function(e){
+  e.preventDefault();
+  url = $(this).attr("href");
+  swal({
+    title:"Yakin akan Posting data ini?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-success',
+    buttonsStyling: false,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+    closeOnConfirm: false,
+    showLoaderOnConfirm: true,
+  },
+  function(isConfirm){
+    if(isConfirm){
+      $.ajax({
+        url: url,
+        success: function(resp){
+          window.location.href = url;
+        }
+      });
+    }
+    return false;
+  });
+});
+
+
+
+// Popup Posting
+$(document).on("click", ".reset-link", function(e){
+  e.preventDefault();
+  url = $(this).attr("href");
+  spk = 
+  swal({
+    title:"Yakin akan reset data ini?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-success',
+    buttonsStyling: false,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+    closeOnConfirm: false,
+    showLoaderOnConfirm: true,
+  },
+  function(isConfirm){
+    if(isConfirm){
+      $.ajax({
+        url: url,
+        success: function(resp){
+          window.location.href = "{{ asset('admin-client/spk')}}";
+        }
+      });
+    }
+    return false;
+  });
+});
 </script>

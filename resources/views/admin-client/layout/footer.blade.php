@@ -34,7 +34,7 @@ $awal = $sek-100;
     inline: true,
     changeYear: true,
     changeMonth: true,
-    dateFormat: "dd-mm-yy",
+    dateFormat: "yy-mm-dd",
     yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
   });
 
@@ -86,6 +86,10 @@ $(document).on("click", ".delete-link", function(e){
     return false;
   });
 });
+
+
+
+
 // Popup disable
 $(document).on("click", ".disable-link", function(e){
   e.preventDefault();
@@ -244,9 +248,17 @@ CKEDITOR.replace( 'kontenku',
   $(function () {
      //Initialize Select2 Elements
     //Initialize Select2 Elements
-    $('.select2').select2({
-      theme: 'bootstrap4'
-    })
+    // $('.select2').select2({
+    //   theme: 'bootstrap4'
+    // })
+
+    $('select:not(.normal)').each(function () {
+                $(this).select2({
+                    dropdownParent: $(this).parent(),
+                    theme: 'bootstrap4',
+                    width: '100%'
+                });
+            });
     
     $('.mselect2').select2({
       dropdownParent: $('.Tambah')
