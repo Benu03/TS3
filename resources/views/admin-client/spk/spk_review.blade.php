@@ -56,17 +56,15 @@
               </div>
             <div class="card-body">
                 <div class="row">
-                    <form action="{{ asset('admin-client/spk-posting') }}" method="post" accept-charset="utf-8">
-                        {{ csrf_field() }}
-                    <div class="col-md-6 text-center">
-                        <button class="btn btn-warning btn-md posting-link" type="submit" name="posting" onClick="check();" >
-                            <i class="fas fa-upload"></i> Posting Data
-                        </button>  
-                </div>
-                </form>
-
+                    
 
                 <div class="col-md-6 text-center">
+                  <a href="{{ asset('admin-client/spk-posting/'.$spk->spk_seq) }}" 
+                      class="btn btn-warning btn-md"><i class="fas fa-upload"></i> Posting Data</a>
+                  </div>
+
+
+                  <div class="col-md-6 text-center">
                     <a href="{{ asset('admin-client/spk-reset/'.$spk->spk_seq) }}" 
                         class="btn btn-danger btn-md reset-link"><i class="fas fa-trash-alt"></i> Reset Data</a>
                     </div>
@@ -190,7 +188,7 @@ $(document).on("click", ".posting-link", function(e){
       $.ajax({
         url: url,
         success: function(resp){
-          window.location.href = url;
+          window.location.href = "{{ asset('admin-client/spk')}}";
         }
       });
     }

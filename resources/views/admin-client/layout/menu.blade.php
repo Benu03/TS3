@@ -54,24 +54,41 @@
           @if (in_array("Motor Vehicle Maintenance", $product))
           <li class="batas"><hr> <span class="infoku"><i class="fa fa-certificate"></i> Motor Vehicle Maintenace</span></li>
           <li class="batas"><hr></li>
-          <li class="nav-item ml-4"><a href="{{ asset('admin-client/spk') }}" class="nav-link"><i class="fa fa-file-contract nav-icon"></i><p>SPK Proses</p></a>
+          <li class="nav-item"><a href="{{ asset('admin-client/spk') }}" class="nav-link"><i class="fa fa-file-contract nav-icon"></i><p>SPK Proses</p></a>
 
-          <li class="nav-item ml-4"><a href="{{ asset('admin-client/invoice') }}" class="nav-link"><i class="fa fa-file-invoice nav-icon"></i><p>Invoice</p></a>
+          <li class="nav-item"><a href="{{ asset('admin-client/invoice') }}" class="nav-link"><i class="fa fa-file-invoice nav-icon"></i><p>Invoice</p></a>
 
-          <li class="nav-item ml-4"><a href="{{ asset('admin-client/pic-cabang') }}" class="nav-link"><i class="fas fa-thumbs-up nav-icon"></i><p>PIC Cabang</p></a>
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>Master Data<i class="fas fa-angle-left right"></i></p>
+              </a>
+                <ul class="nav nav-treeview">               
+                <li class="nav-item ml-4"><a href="{{ asset('admin-client/regional') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Regional</p></a>
+                </li>
+                <li class="nav-item ml-4"><a href="{{ asset('admin-client/area') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Area</p></a>
+                </li>
+                <li class="nav-item ml-4"><a href="{{ asset('admin-client/branch') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Branch</p></a>
+                </li>  
+        
+  
+                </ul>
+            </li>
 
-          <li class="nav-item ml-4"><a href="{{ asset('admin-client/vehicle') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>Vehicle</p></a>
+         
+
+          <li class="nav-item"><a href="{{ asset('admin-client/vehicle') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>Vehicle</p></a>
           </li>
 
-          <li class="nav-item ml-4 has-treeview">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="fas fa-paste nav-icon"></i>
               <p>Report<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item ml-4"><a href="{{ asset('admin-client/report/spk-history') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>SPK History</p></a>
+              <li class="nav-item"><a href="{{ asset('admin-client/report/spk-history') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>SPK History</p></a>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-client/report/vehicle-service') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>Vehicle Service</p></a>
+              <li class="nav-item"><a href="{{ asset('admin-client/report/vehicle-service') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>Vehicle Service</p></a>
               </li>
             </ul>
           </li>              
