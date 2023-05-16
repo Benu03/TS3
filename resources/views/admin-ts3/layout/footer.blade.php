@@ -42,7 +42,7 @@ $awal = $sek-100;
     inline: true,
     changeYear: true,
     changeMonth: true,
-    dateFormat: "dd-mm-yy",
+    dateFormat: "yy-mm-dd",
     yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
   });
 

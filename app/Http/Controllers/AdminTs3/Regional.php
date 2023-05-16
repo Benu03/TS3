@@ -93,6 +93,12 @@ class Regional extends Controller
         $site   =DB::connection('ts3')->table('cp.konfigurasi')->first();
         // PROSES HAPUS MULTIPLE
 
+     
+        if($request->id == null)
+        {
+            return redirect('admin-ts3/regional')->with(['sukses' => 'Data Tidak Ada Yang Di pilih']);
+        }
+
         if(isset($_POST['hapus'])) {
             $id       = $request->id;
      

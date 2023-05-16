@@ -188,10 +188,16 @@ Route::group(['middleware' => ['admints3']],function(){
 
 
     Route::get('admin-ts3/spk-list', 'App\Http\Controllers\AdminTs3\Spk@spk_list');
+    Route::get('admin-ts3/spk-file/{par1}', 'App\Http\Controllers\AdminTs3\Spk@spk_file');
+    Route::post('admin-ts3/spk-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_proses');
     Route::get('admin-ts3/spk-status', 'App\Http\Controllers\AdminTs3\Spk@spk_status');
     Route::get('admin-ts3/invoice', 'App\Http\Controllers\AdminTs3\Invoice@index');
     Route::get('admin-ts3/direct-service', 'App\Http\Controllers\AdminTs3\Service@direct_service');
-
+    Route::post('admin-ts3/spk-service-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_service_proses');
+    Route::get('admin-ts3/spk-service-edit/{par1}', 'App\Http\Controllers\AdminTs3\Spk@spk_service_edit');
+    Route::post('admin-ts3/spk-service-edit-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_service_edit_proses');
+  
+    
 
     Route::get('admin-ts3/report/history-service', 'App\Http\Controllers\AdminTs3\Report@history_service');
     Route::get('admin-ts3/report/summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@summary_bengkel');
