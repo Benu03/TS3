@@ -170,7 +170,7 @@ class Spk extends Controller
             'count_vehicle'	=> $spk_detail_temp_h->count_vehicle,
             'tanggal_pengerjaan'	=> $spk_detail_temp_h->tanggal_pengerjaan,
             'tanggal_last_spk'	=> $spk_detail_temp_h->tanggal_last_spk,
-            'status'	=> 'ONPROGRESS',
+            'status'	=> 'WAITING',
             'upload_date'	=> $spk_detail_temp_h->upload_date,
             'user_upload'	=> $spk_detail_temp_h->user_upload,
             'user_posting'     => Session()->get('username'),
@@ -197,7 +197,8 @@ class Spk extends Controller
                         'status_service'	=> 'PLANING',
                         'remark'        => $resultArray['remark'],
                         'created_date'     => date("Y-m-d h:i:sa"),
-                        'create_by'     => Session()->get('username')
+                        'create_by'     => Session()->get('username'),
+                        'source'        => 'SPK UPLOAD'
                          ]); 
                     }
                   
