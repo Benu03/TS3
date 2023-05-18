@@ -298,6 +298,11 @@ CKEDITOR.replace( 'kontenku',
 <script>
   $(function () {
     $("#example1").DataTable();
+    $("#sevicebengkel").DataTable({
+      "order": [6, 'asc'],
+    });
+
+
     $('#example2').DataTable({
       "paging": false,
       "lengthChange": false,

@@ -21,9 +21,9 @@ class Spk extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-    
-        $countspk = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')->count();
-        $spkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')->orderby('created_date')->get();
+        $countspk = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')->wherein('status_service',['PLANING', 'ONSCHEDULE'])->count();
+        $spkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')
+        ->wherein('status_service',['PLANING', 'ONSCHEDULE'])->orderByRaw('tanggal_schedule')->get();
         $bengkel 	= DB::connection('ts3')->table('mst.v_bengkel')->get();
 		$data = array(   'title'     => 'SPK List Service',
                          'countspk'      => $countspk,

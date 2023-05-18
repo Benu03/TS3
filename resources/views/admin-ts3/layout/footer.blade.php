@@ -310,6 +310,11 @@ $(document).on("click", ".approval-link", function(e){
 <script>
   $(function () {
     $("#example1").DataTable();
+
+    $("#spklist").DataTable({
+      "order": [6, 'asc'],
+    });
+
     $("#example3").DataTable();
     $('#example2').DataTable({
       "paging": false,
