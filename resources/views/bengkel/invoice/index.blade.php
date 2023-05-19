@@ -15,14 +15,6 @@
 <div class="row">
 
 
-    {{-- <div class="btn-group">
-      {{-- <button class="btn btn-danger" type="submit" name="hapus" onClick="check();" >
-          <i class="fa fa-trash"></i>
-      </button>  --}}
-        {{-- <button type="button" class="btn btn-success " data-toggle="modal" data-target="#Tambah">
-            <i class="fa fa-plus"></i> Tambah SPK Baru
-        </button>
-   </div>  --}}
 
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box mb-3">
@@ -30,7 +22,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">
-                        Jumlah Invoice
+                        Request
                         </span>
                         <span class="info-box-number">
                         <?php 
@@ -51,13 +43,10 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">
-                        Total Invoice
+                        Proses
                         </span>
                         <span class="info-box-number">
-                        <?php 
-                        $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-                        echo $berita->count();
-                        ?>
+                        
                         {{-- <small>Sudah Dipublikasikan</small> --}}
                         </span>
                     </div>

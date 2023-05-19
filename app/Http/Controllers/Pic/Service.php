@@ -21,15 +21,16 @@ class Service extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
         
-        $user_branch = DB::connection('ts3')->table('mst.v_branch_client')->where('pic_branch',Session()->get('username'))->get();
+        $user_branch = DB::connection('ts3')->table('mst.v_branch')->where('pic_branch',Session()->get('username'))->get();
         $branch_id = [];
-        
+
         foreach($user_branch  as $key => $val){
             $branch_id[] = $val->id;
         }
 
+
         $countservice = DB::connection('ts3')->table('mvm.v_service_pic_branch')->wherein('mst_branch_id',$branch_id )->where('status_service','SERVICE')->count();
-        $service = DB::connection('ts3')->table('mvm.v_service_pic_branch')->wherein('mst_branch_id',$branch_id )->where('status_service','SERVICE')->get();
+        $service = DB::connection('ts3')->table('mvm.v_service_pic_branch')->wherein('mst_branch_id',$branch_id )->get();
 
 		$data = array(   'title'     => 'List Service',
                          'service'      => $service,
@@ -102,8 +103,17 @@ class Service extends Controller
         }
 
         $id       = $request->id;
+
+
+    
        
         for($i=0; $i < sizeof($id);$i++) {
+
+            if($id[$i] == null)
+            {
+                return redirect('pic/list-service')->with(['warning' => 'Data Menunggu Proses Service Terlebih Dahulu']);
+            }
+
             $id_spk_d =  DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id[$i])->first();
 
 

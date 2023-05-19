@@ -84,8 +84,7 @@ class Spk extends Controller
         }
          request()->validate([
             'tanggal_proses' => 'required',
-            'mst_bengkel_id' => 'required',
-            'remark' 	   => 'required',
+            'remark' 	   => 'required'
             ]);
 
 

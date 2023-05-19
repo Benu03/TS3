@@ -22,11 +22,15 @@ class Invoice extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
     
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
-
-		$data = array(   'title'     => 'Invoice',
-                         'nopol'      => $nopol,
-                        'content'   => 'bengkel/invoice/index'
+        
+        $count_req = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('create_by',Session()->get('username'))->where('status','REQUEST')->count();
+        $count_pro = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('create_by',Session()->get('username'))->where('status','PROSES')->count();
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('create_by',Session()->get('username'))->get();
+		$data = array(   'title'        => 'Invoice',
+                         'invoice'      => $invoice,
+                         'count_req'    => $count_req,
+                         'count_pro'    => $count_pro,
+                        'content'       => 'bengkel/invoice/index'
                     );
         return view('bengkel/layout/wrapper',$data);
     }
@@ -47,6 +51,10 @@ class Invoice extends Controller
                     );
         return view('bengkel/layout/wrapper',$data);
     }
+
+
+
+
 
 
    
