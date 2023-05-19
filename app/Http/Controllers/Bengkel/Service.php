@@ -113,8 +113,10 @@ class Service extends Controller
                 'mekanik'	=> $request->mekanik,
                 'created_date'    => date("Y-m-d h:i:sa"),
                 'user_created'     => $request->session()->get('username'),
-                'service_no'	=> $service_no
-            ]);
+                'service_no'	=> $service_no,
+                'remark_driver' => $request->remark_driver,
+                'pic_branch' => $request->pic_branch
+            ]); 
 
 
 

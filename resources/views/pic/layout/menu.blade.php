@@ -60,8 +60,8 @@
           </li>
           <li class="nav-item"><a href="{{ asset('pic/direct-service') }}" class="nav-link"><i class="fas fa-directions nav-icon"></i><p>Direct Service</p></a>
           </li>
-          <li class="nav-item"><a href="{{ asset('pic/advisor-service') }}" class="nav-link"><i class="fas fa-hand-point-up nav-icon"></i><p>Service Advisor</p></a>
-          </li>
+          {{-- <li class="nav-item"><a href="{{ asset('pic/advisor-service') }}" class="nav-link"><i class="fas fa-hand-point-up nav-icon"></i><p>Service Advisor</p></a>
+          </li> --}}
           <li class="nav-item"><a href="{{ asset('pic/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
           </li>
           
