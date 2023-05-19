@@ -10,7 +10,7 @@
 {{-- <p>
   @include('admin-client/spk/tambah_upload')
 </p> --}}
-<form action="{{ asset('admin-client/spk/proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('pic/service/service-remark') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
 
@@ -30,14 +30,10 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">
-                        Jumlah Service
+                        Service
                         </span>
                         <span class="info-box-number">
-                        <?php 
-                        $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-                        echo $berita->count();
-                        ?>
-                        {{-- <small>Sudah Dipublikasikan</small> --}}
+                            {{ $countservice }}
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -52,55 +48,73 @@
 
 
 </div>
+<div class="clearfix"><hr></div>
 
+
+<p>
+    <button type="button" class="btn btn-warning" name="service_pic" onClick="check();"   data-toggle="modal" data-target="#servicepic" >
+        <i class="fa fa-edit"> </i> Remark Service
+    </button> 
+    
+
+</p>
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
 <table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
-        {{-- <th width="5%">
-          <div class="mailbox-controls">
-                <!-- Check all button -->
-               <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
-            </div>
-        </th> --}}
-        <th width="15%">SPK Nomor</th>
-        <th width="15%">Nopol</th>
-        <th width="15%">No Mesin</th>   
-        <th width="15%">No Rangka</th> 
-        <th width="15%">Tanggal Service</th> 
-        <th width="15%">Status</th> 
-        <th>ACTION</th>
+        <th width="5%">
+            <div class="mailbox-controls">
+                  <!-- Check all button -->
+                 <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+                  </button>
+              </div>
+          </th>
+          <th width="15%">Service no</th>
+          <th width="12%">NOPOL</th>
+          <th width="12%">Tanggal Service</th>   
+          <th width="12%">Status Service</th> 
+          <th width="12%">PIC Cabang Service</th>  
+          <th width="15%">Nama Driver</th>    
+          <th width="15%">Mekanik</th> 
+          <th>ACTION</th>
 </tr>
 </thead>
 <tbody>
-{{-- 
-    {{-- <?php $i=1; foreach($area as $ar) { ?> --}}
+ <?php $i=1; foreach($service as $dt) { ?> 
 
-    {{-- <td class="text-center">
+    <td class="text-center">
         <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $ar->id ?>" id="check<?php echo $i ?>">
+                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $dt->id ?>" id="check<?php echo $i ?>">
                    <label for="check<?php echo $i ?>"></label>
-        </div> --}}
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    {{-- </td>
-    <td><?php echo $ar->regional_slug ?></td>
-    <td><?php echo $ar->area ?></td>
+        </div>
+    
+    </td>
+    <td><?php echo $dt->service_no ?></td>
+    <td><?php echo $dt->nopol ?></td>
+    <td><?php echo $dt->tanggal_service ?></td>
+    <td><?php echo $dt->status_service ?></td>
+    <td><?php echo $dt->pic_branch_service ?></td>
+    <td><?php echo $dt->nama_driver ?></td>
+    <td><?php echo $dt->mekanik ?></td>
     <td>
         <div class="btn-group">
-        <a href="{{ asset('admin-ts3/area/edit/'.$ar->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+        {{-- <a href="{{ asset('pic/service/service-advisor/'.$dt->id) }}" 
+          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a> --}}
 
-          <a href="{{ asset('admin-ts3/area/delete/'.$ar->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Detail<?php echo $dt->service_no ?>">
+                <i class="fa fa-eye"></i> 
+             </button>   
+
+             @include('pic/service/service_detail') 
+
         </div>
 
     </td>
-</tr> --}}
-{{-- 
-<?php $i++; } ?>  --}}
+</tr> 
+@include('pic/service/service_remark') 
+<?php $i++; } ?>  
 
 </tbody>
 </table>

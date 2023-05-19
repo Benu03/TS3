@@ -142,7 +142,7 @@ class Spk extends Controller
              
             }
         
-            return redirect('admin-ts3/spk-list')->with(['sukses' => 'Data telah dihapus']);
+            return redirect('admin-ts3/spk-list')->with(['sukses' => 'Data telah Proses']);
        
         
     }

@@ -90,7 +90,7 @@
 
                         <a href="{{ asset('bengkel/service-proses-page/'.$dt->id) }}" 
                             class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
+                            
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Detail<?php echo $dt->nopol ?>">
                             <i class="fa fa-eye"></i> 
                          </button>     

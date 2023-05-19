@@ -10,7 +10,8 @@
 
 <form action="{{ asset('bengkel/service-proses') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
-	<input type="hidden" name="id" value="<?php echo $service->id ?>">
+		<input type="hidden" name="id" value="<?php echo $service->id ?>">
+		<input type="hidden" name="pic_branch" value="<?php echo $service->pic_branch ?>">
 	
 			<div class="form-group row">
 				<div class="col-sm-6">
@@ -109,7 +110,9 @@
 
 					
 				</div>
+				
 			</div>
+		
 			<div class="clearfix"><hr></div>
 			<div class="form-group row">
 						<div class="col-sm-6">
@@ -194,7 +197,7 @@
 			<div class="clearfix"><hr></div>
 
 			<div class="form-group row">
-					<div class="col-sm-12">
+					<div class="col-sm-8">
 
 							<div class="card card-secondary">
 								<div class="card-header">
@@ -220,6 +223,25 @@
 								</div>	
 							</div>	
 					</div>
+					<div class="col-sm-4">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Remark Driver</h3>
+								</div>
+							<div class="card-body">
+						<div class="row form-group">
+							
+							<div class="col-md-12">
+								<textarea name="remark_driver" id="remark_driver" class="form-control" placeholder="Remark Driver">{{ old('remark_driver') }}</textarea>
+						
+							</div>
+						</div>
+						</div>
+					</div>
+
+					</div>
+
+
 			</div>
 
 		<div class="clearfix"><hr></div>
