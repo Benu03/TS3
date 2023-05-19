@@ -18,14 +18,50 @@
 
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box mb-3">
+        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tools"></i></span>
+        
+        <div class="info-box-content">
+            <span class="info-box-text">
+                PLAN
+            </span>
+            <span class="info-box-number">
+                {{ $countspkplan }} 
+            {{-- <small>Sudah Dipublikasikan</small> --}}
+            </span>
+        </div>
+        <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-tools"></i></span>
+        
+        <div class="info-box-content">
+            <span class="info-box-text">
+                ON SCHEDULE
+            </span>
+            <span class="info-box-number">
+                {{ $countspkonchecldule }} 
+            {{-- <small>Sudah Dipublikasikan</small> --}}
+            </span>
+        </div>
+        <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
         <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-tools"></i></span>
         
         <div class="info-box-content">
             <span class="info-box-text">
-                SPK Service
+                SERVICE
             </span>
             <span class="info-box-number">
-                {{ $countspk }} 
+                {{ $countspkservice }} 
             {{-- <small>Sudah Dipublikasikan</small> --}}
             </span>
         </div>
@@ -96,10 +132,11 @@
                 <td><?php echo $dt->tanggal_service ?></td>
                 <td>
                     <div class="btn-group">
-
+                        @if ($dt->status_service != 'SERVICE')
                         <a href="{{ asset('admin-ts3/spk-service-edit/'.$dt->id) }}" 
                             class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
+                        @endif
+                                             
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Detail<?php echo $dt->nopol ?>">
                             <i class="fa fa-eye"></i> 
                          </button>     

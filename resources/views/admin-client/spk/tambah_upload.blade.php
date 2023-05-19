@@ -55,8 +55,7 @@
 				<div class="row form-group">
 					<label class="col-md-3 control-label text-right">Upload File SPK</label>
 					<div class="col-md-9">
-					  <input type="file" name="spk_file" class="form-control" placeholder="Upload File SPK">
-					 
+					  <input type="file" name="spk_file" class="form-control" placeholder="Upload File SPK">	 
 					</div>
 					
 				  </div>
