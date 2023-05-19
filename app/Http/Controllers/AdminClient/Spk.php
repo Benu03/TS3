@@ -188,6 +188,7 @@ class Spk extends Controller
                 $branch_id = DB::connection('ts3')->table('mst.v_branch')->where('branch', $resultArray['branch'])->first();
               
                 try {
+                    $serviceType = DB::connection('ts3')->table('mst.mst_general')->where('id', 13)->first();
                     if(isset($branch_id)){
                         DB::connection('ts3')->table('mvm.mvm_spk_d')->insert([
                         'spk_seq'   => $spk_seq,
@@ -198,7 +199,7 @@ class Spk extends Controller
                         'remark'        => $resultArray['remark'],
                         'created_date'     => date("Y-m-d h:i:sa"),
                         'create_by'     => Session()->get('username'),
-                        'source'        => 'SPK UPLOAD'
+                        'source'        => $serviceType->value_1
                          ]); 
                     }
                   
