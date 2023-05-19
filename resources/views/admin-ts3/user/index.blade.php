@@ -55,9 +55,9 @@
         <td class="text-center">
         <div class="icheck-primary">
                   <input type="checkbox" class="icheckbox_flat-blue " name="id_user[]" value="<?php echo $user->id_user ?>" id="check<?php echo $i ?>">
-                   <label for="check<?php echo $i ?>"></label>
+                   {{-- <label for="check<?php echo $i ?>"></label> --}}
         </div>
-        <small class="text-center"><?php echo $i ?></small>
+        {{-- <small class="text-center"><?php echo $i ?></small> --}}
     </td>
       <td class="text-center">
        
