@@ -21,14 +21,11 @@
 
         <div class="info-box-content">
             <span class="info-box-text">
-            Jumlah Service
+            Direct Service
             </span>
             <span class="info-box-number">
-            <?php 
-            $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-            echo $berita->count();
-            ?>
-            {{-- <small>Sudah Dipublikasikan</small> --}}
+           
+                {{ $countdirect }}
             </span>
         </div>
         <!-- /.info-box-content -->
@@ -36,10 +33,7 @@
         <!-- /.info-box -->
     </div>
 
-            
-
-
-              
+   
 
 
 </div>
@@ -67,31 +61,39 @@
 </tr>
 </thead>
 <tbody>
-{{-- 
-    {{-- <?php $i=1; foreach($area as $ar) { ?> --}}
+    <?php $i=1; foreach($direct as $dt) { ?> 
 
-    {{-- <td class="text-center">
-        <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $ar->id ?>" id="check<?php echo $i ?>">
-                   <label for="check<?php echo $i ?>"></label>
-        </div> --}}
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    {{-- </td>
-    <td><?php echo $ar->regional_slug ?></td>
-    <td><?php echo $ar->area ?></td>
-    <td>
-        <div class="btn-group">
-        <a href="{{ asset('admin-ts3/area/edit/'.$ar->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+        <td class="text-center">
 
-          <a href="{{ asset('admin-ts3/area/delete/'.$ar->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
-        </div>
+        
+            <?php echo $i ?>
+        </td>
+        <td><?php echo $dt->nopol ?></td>
+        <td><?php echo $dt->status ?></td>
+        <td><?php echo $dt->branch ?></td>
+        <td><?php echo $dt->tanggal_pengerjaan ?></td>
+        <td><?php echo $dt->create_by ?></td>
+        <td><?php echo $dt->created_date ?></td>
+        <td>
+            <div class="btn-group">
+                @if ($dt->status == 'ESTIMATE')
+                <a href="{{ asset('bengkel/direct_service_estimate/'.$dt->id) }}" 
+                    class="btn btn-warning btn-sm mr-1"><i class="fa fa-edit"></i></a>
+            @endif           
+    
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailDirect<?php echo $dt->id ?>">
+                    <i class="fa fa-eye"></i> 
+                 </button>   
 
-    </td>
-</tr> --}}
-{{-- 
-<?php $i++; } ?>  --}}
+    
+                 @include('bengkel/service/service_direct_detail') 
+    
+            </div>
+    
+        </td>
+    </tr> 
+
+    <?php $i++; } ?>  
 
 </tbody>
 </table>

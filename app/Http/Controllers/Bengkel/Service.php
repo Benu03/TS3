@@ -46,10 +46,14 @@ class Service extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
     
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
-
+        $bengkel 	= DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
+        $countdirect = DB::connection('ts3')->table('mvm.v_service_direct')->where('mst_bengkel_id',$bengkel->id)->where('status','ESTIMATE')->count();
+  
+        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('mst_bengkel_id',$bengkel->id)->where('status','ESTIMATE')->get();
+       
 		$data = array(   'title'     => 'Direct Service',
-                         'nopol'      => $nopol,
+                         'direct'      => $direct,
+                         'countdirect'      => $countdirect,
                         'content'   => 'bengkel/service/direct_service'
                     );
         return view('bengkel/layout/wrapper',$data);
@@ -205,8 +209,45 @@ class Service extends Controller
 
 
     }
-    
 
+
+    public function get_image_direct($id)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
+
+       
+        $storagePath =  storage_path('data/direct/'). $direct->foto_kendaraan;
+        return response()->file($storagePath);
+
+    }
+
+    public function direct_service_estimate($id)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
+    
+        $part 	= DB::connection('ts3')->table('mst.mst_spare_part')->orderby('id')->get();
+        $jobs 	= DB::connection('ts3')->table('mst.mst_pekerjaan')->where('group_vehicle','Motor')->orderby('id')->get();
+
+        $data = array(   'title'     => 'Direct Service Estimate '. $direct->nopol,
+                         'direct'     => $direct,
+                         'part'      => $part,
+                         'jobs'      => $jobs,
+                        'content'   => 'bengkel/service/direct_service_estimate'
+                    );
+        return view('bengkel/layout/wrapper',$data);
+
+
+    }
+    
 
 
 

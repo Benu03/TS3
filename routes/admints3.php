@@ -213,7 +213,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/service/get-image_direct/{par1}', 'App\Http\Controllers\AdminTs3\Service@get_image_direct');
     Route::post('admin-ts3/direct-service-proses', 'App\Http\Controllers\AdminTs3\Service@direct_service_proses');
     Route::get('admin-ts3/direct_service_edit/{par1}', 'App\Http\Controllers\AdminTs3\Service@direct_service_edit');
-    Route::post('admin-ts3/direct-service-edit-proses', 'App\Http\Controllers\AdminTs3\Service@direct_service_edit_proses');
+    
     
     
 });
