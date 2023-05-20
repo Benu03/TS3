@@ -192,7 +192,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/spk-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_proses');
     Route::get('admin-ts3/spk-status', 'App\Http\Controllers\AdminTs3\Spk@spk_status');
     Route::get('admin-ts3/invoice', 'App\Http\Controllers\AdminTs3\Invoice@index');
-    Route::get('admin-ts3/direct-service', 'App\Http\Controllers\AdminTs3\Service@direct_service');
+
     Route::post('admin-ts3/spk-service-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_service_proses');
     Route::get('admin-ts3/spk-service-edit/{par1}', 'App\Http\Controllers\AdminTs3\Spk@spk_service_edit');
     Route::post('admin-ts3/spk-service-edit-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_service_edit_proses');
@@ -207,4 +207,13 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/report/laba-rugi', 'App\Http\Controllers\AdminTs3\Report@laba_rugi');
     Route::get('admin-ts3/report/export-laba-rugi', 'App\Http\Controllers\AdminTs3\Report@export_laba_rugi');
     Route::get('admin-ts3/report/export-ar', 'App\Http\Controllers\AdminTs3\Report@export_ar');
+
+
+    Route::get('admin-ts3/direct-service', 'App\Http\Controllers\AdminTs3\Service@direct_service');
+    Route::get('admin-ts3/service/get-image_direct/{par1}', 'App\Http\Controllers\AdminTs3\Service@get_image_direct');
+    Route::post('admin-ts3/direct-service-proses', 'App\Http\Controllers\AdminTs3\Service@direct_service_proses');
+    Route::get('admin-ts3/direct_service_edit/{par1}', 'App\Http\Controllers\AdminTs3\Service@direct_service_edit');
+    Route::post('admin-ts3/direct-service-edit-proses', 'App\Http\Controllers\AdminTs3\Service@direct_service_edit_proses');
+    
+    
 });

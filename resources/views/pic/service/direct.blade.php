@@ -16,9 +16,9 @@
 
 
      <div class="btn-group">
-       <button class="btn btn-danger" type="submit" name="hapus" onClick="check();" >
+       {{-- <button class="btn btn-danger" type="submit" name="hapus" onClick="check();" >
           <i class="fa fa-trash"></i>
-      </button>  
+      </button>   --}}
          <button type="button" class="btn btn-success " data-toggle="modal" data-target="#Tambah">
             <i class="fa fa-plus"></i> Form Request Service
         </button>
@@ -39,47 +39,55 @@
 <thead>
     <tr class="bg-info">
          <th width="5%">
-          <div class="mailbox-controls">
-                <!-- Check all button -->
-               <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
-            </div>
+         No
         </th> 
-        <th width="15%">Request No</th>
         <th width="15%">Nopol</th>
-        <th width="15%">No Mesin</th>   
-        <th width="15%">No Rangka</th> 
-        <th width="15%">Tanggal Service</th> 
         <th width="15%">Status</th> 
+        <th width="15%">Cabang</th> 
+        <th width="15%">Tanggal Pengerjaan</th> 
+        <th width="15%">User Request</th> 
+        <th width="15%">Date Request</th> 
         <th>ACTION</th>
 </tr>
 </thead>
 <tbody>
-{{-- 
-    {{-- <?php $i=1; foreach($area as $ar) { ?> --}}
 
-    {{-- <td class="text-center">
-        <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $ar->id ?>" id="check<?php echo $i ?>">
-                   <label for="check<?php echo $i ?>"></label>
-        </div> --}}
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    {{-- </td>
-    <td><?php echo $ar->regional_slug ?></td>
-    <td><?php echo $ar->area ?></td>
-    <td>
-        <div class="btn-group">
-        <a href="{{ asset('admin-ts3/area/edit/'.$ar->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+    <?php $i=1; foreach($direct as $dt) { ?> 
 
-          <a href="{{ asset('admin-ts3/area/delete/'.$ar->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
-        </div>
+        <td class="text-center">
 
-    </td>
-</tr> --}}
-{{-- 
-<?php $i++; } ?>  --}}
+        
+            <?php echo $i ?>
+        </td>
+        <td><?php echo $dt->nopol ?></td>
+        <td><?php echo $dt->status ?></td>
+        <td><?php echo $dt->branch ?></td>
+        <td><?php echo $dt->tanggal_pengerjaan ?></td>
+        <td><?php echo $dt->create_by ?></td>
+        <td><?php echo $dt->created_date ?></td>
+        <td>
+            <div class="btn-group">
+                @if ($dt->status == 'REQUEST')
+                <a href="{{ asset('pic/service/delete-direct-service/'.$dt->id) }}" 
+                    class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+            @endif           
+    
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailDirect<?php echo $dt->id ?>">
+                    <i class="fa fa-eye"></i> 
+                 </button>   
+
+    
+                 @include('pic/service/service_direct_detail') 
+    
+            </div>
+    
+        </td>
+    </tr> 
+    @include('pic/service/service_remark') 
+    <?php $i++; } ?>  
+    
+
+
 
 </tbody>
 </table>

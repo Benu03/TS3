@@ -55,7 +55,7 @@
             </ul>
           </li>    
   
-          <li class="nav-item"><a href="{{ asset('bengkel/invoice') }}" class="nav-link"><i class="fas fa-money-check nav-icon"></i><p>Invoice</p></a>
+          <li class="nav-item"><a href="{{ asset('bengkel/invoice') }}" class="nav-link"><i class="fas fa-money-check nav-icon"></i><p> Invoice</p></a>
 
              {{-- report  --}}
              <li class="nav-item has-treeview">

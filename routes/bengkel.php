@@ -25,6 +25,7 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::get('bengkel/service-proses-page/{par1}', 'App\Http\Controllers\Bengkel\Service@service_proses_page');
     Route::post('bengkel/service-proses', 'App\Http\Controllers\Bengkel\Service@service_proses');
     Route::get('bengkel/invoice', 'App\Http\Controllers\Bengkel\Invoice@index');
+    Route::get('bengkel/invoice-create', 'App\Http\Controllers\Bengkel\Invoice@invoice_create');
     
 
 

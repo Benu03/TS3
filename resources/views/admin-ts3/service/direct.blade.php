@@ -10,8 +10,8 @@
 {{-- <p>
   @include('pic/service/tambah_direct_service')
 </p> --}}
-{{-- <form action="{{ asset('pic/service/proses-direct-service') }}" method="post" accept-charset="utf-8">
-{{ csrf_field() }} --}}
+<form action="{{ asset('admin-ts3/direct-service-proses') }}" method="post" accept-charset="utf-8">
+{{ csrf_field() }}
 <div class="row">
 
 
@@ -21,14 +21,46 @@
 
         <div class="info-box-content">
             <span class="info-box-text">
-            Jumlah Service
+            REQUEST
             </span>
             <span class="info-box-number">
-            <?php 
-            $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-            echo $berita->count();
-            ?>
-            {{-- <small>Sudah Dipublikasikan</small> --}}
+            {{ $countreq }}
+            </span>
+        </div>
+        <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-motorcycle"></i></span>
+
+        <div class="info-box-content">
+            <span class="info-box-text">
+            ESTIMATE
+            </span>
+            <span class="info-box-number">
+            {{ $countestimate }}
+            </span>
+        </div>
+        <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+        <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-motorcycle"></i></span>
+
+        <div class="info-box-content">
+            <span class="info-box-text">
+            PROSES
+            </span>
+            <span class="info-box-number">
+            {{ $countproses }}
             </span>
         </div>
         <!-- /.info-box-content -->
@@ -43,7 +75,18 @@
 
 
 </div>
+<div class="clearfix"><hr></div>
 
+
+<p>
+    <button type="button" class="btn btn-warning" name="proses_mapping_direct" onClick="check();"   data-toggle="modal" data-target="#ProsesMappingDirect" >
+        <i class="fa fa-edit"> </i> Proses Mapping
+    </button> 
+
+
+      
+
+</p>
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
@@ -57,41 +100,59 @@
                 </button>
             </div>
         </th> 
-        <th width="15%">Request No</th>
-        <th width="15%">Nopol</th>
-        <th width="15%">No Mesin</th>   
-        <th width="15%">No Rangka</th> 
-        <th width="15%">Tanggal Service</th> 
-        <th width="15%">Status</th> 
+        <th width="12%">Nopol</th>
+        <th width="12%">Status</th> 
+        <th width="15%">Cabang</th> 
+        <th width="12%">Tanggal Pengerjaan</th> 
+        <th width="12%">User Request</th> 
+        <th width="12%">Date Request</th> 
         <th>ACTION</th>
 </tr>
 </thead>
 <tbody>
-{{-- 
-    {{-- <?php $i=1; foreach($area as $ar) { ?> --}}
 
-    {{-- <td class="text-center">
-        <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $ar->id ?>" id="check<?php echo $i ?>">
-                   <label for="check<?php echo $i ?>"></label>
-        </div> --}}
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    {{-- </td>
-    <td><?php echo $ar->regional_slug ?></td>
-    <td><?php echo $ar->area ?></td>
-    <td>
-        <div class="btn-group">
-        <a href="{{ asset('admin-ts3/area/edit/'.$ar->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+    <?php $i=1; foreach($direct as $dt) { ?> 
 
-          <a href="{{ asset('admin-ts3/area/delete/'.$ar->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
-        </div>
+        <td class="text-center">
 
-    </td>
-</tr> --}}
-{{-- 
-<?php $i++; } ?>  --}}
+            <div class="icheck-primary">
+                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $dt->id ?>" id="check<?php echo $i ?>">
+                 <label for="check<?php echo $i ?>"></label>
+      </div>
+        </td>
+        <td><?php echo $dt->nopol ?></td>
+        <td><?php echo $dt->status ?></td>
+        <td><?php echo $dt->branch ?></td>
+        <td><?php echo $dt->tanggal_pengerjaan ?></td>
+        <td><?php echo $dt->create_by ?></td>
+        <td><?php echo $dt->created_date ?></td>
+        <td>
+            <div class="btn-group">
+                        @if ($dt->status == 'REQUEST')
+                        <a href="{{ asset('admin-ts3/direct_service_edit/'.$dt->id) }}" 
+                            class="btn btn-warning btn-sm mr-1"><i class="fa fa-edit"></i></a>
+                        @elseif($dt->status == 'PROSES')
+                        <a href="{{ asset('admin-ts3/direct_service_estimate/'.$dt->id) }}" 
+                            class="btn btn-primary btn-sm mr-1"><i class="fas fa-dollar-sign"></i></a>
+                        @endif      
+    
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailDirect<?php echo $dt->id ?>">
+                    <i class="fa fa-eye"></i> 
+                 </button>   
+
+     
+
+
+    
+                 @include('admin-ts3/service/service_direct_detail') 
+    
+            </div>
+    
+        </td>
+    </tr> 
+    @include('admin-ts3/service/service_direct_mapping') 
+
+    <?php $i++; } ?>  
 
 </tbody>
 </table>

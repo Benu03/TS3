@@ -83,10 +83,6 @@
         <i class="fa fa-edit"> </i> Proses Mapping Service
     </button> 
 
-   
-
-      
-
 </p>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
