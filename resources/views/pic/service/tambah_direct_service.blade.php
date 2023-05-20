@@ -135,7 +135,7 @@
 <script>
 	var loadDataVehicle = function(){
 	const nopol = $("#nopol").val();
-	// console.log(nopol);
+	console.log(nopol);
 	
 	 $.ajax({    
 		headers: {
