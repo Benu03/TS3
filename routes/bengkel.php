@@ -28,5 +28,8 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::get('bengkel/invoice-create', 'App\Http\Controllers\Bengkel\Invoice@invoice_create');
     
 
-
+    Route::get('bengkel/service/get-image_direct/{par1}', 'App\Http\Controllers\Bengkel\Service@get_image_direct');
+    Route::get('bengkel/direct_service_estimate/{par1}', 'App\Http\Controllers\Bengkel\Service@direct_service_estimate');
+    Route::post('bengkel/direct-service-estimate-proses', 'App\Http\Controllers\Bengkel\Service@direct_service_estimate_proses');
+    
 });
