@@ -14,8 +14,6 @@
 {{ csrf_field() }}
 <div class="row">
 
-
-
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box mb-3">
                     <span class="info-box-icon bg-success elevation-1"><i class="fa fa-file-contract"></i></span>
@@ -25,11 +23,7 @@
                         Request
                         </span>
                         <span class="info-box-number">
-                        <?php 
-                        $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-                        echo $berita->count();
-                        ?>
-                        {{-- <small>Sudah Dipublikasikan</small> --}}
+                       {{ $count_req }}
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -46,8 +40,7 @@
                         Proses
                         </span>
                         <span class="info-box-number">
-                        
-                        {{-- <small>Sudah Dipublikasikan</small> --}}
+                            {{ $count_pro }}
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -60,6 +53,13 @@
 
 
 </div>
+<div class="clearfix"><hr></div>
+
+<div class="btn-group">
+    <a href="{{ asset('bengkel/invoice-create') }}" 
+      class="btn btn-warning"><i class="fas fa-receipt"></i> Create Invoice</a>
+
+    </div>
 
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">

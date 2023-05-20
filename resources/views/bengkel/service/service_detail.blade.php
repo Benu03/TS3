@@ -89,7 +89,7 @@
 									</tr>
 									<tr>
 										  <th>PIC Bengkel</th>
-										  <td>{{ $dt->bengkel_name }}</td>
+										  <td>{{ $dt->pic_bengkel }}</td>
 									  </tr>
 
 									  <tr>

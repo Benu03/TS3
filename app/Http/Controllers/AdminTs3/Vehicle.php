@@ -64,7 +64,7 @@ class Vehicle extends Controller
             'mst_client_id'	=> $request->mst_client_id,
             'nopol'   => strtoupper(str_replace(' ', '', $request->nopol)),
             'norangka'   => strtoupper(str_replace(' ', '', $request->norangka)),
-            'nomesin'   => strtoupper(str_replace(' ', '', $request->norangka)),
+            'nomesin'   => strtoupper(str_replace(' ', '', $request->nomesin)),
             'mst_vehicle_type_id'   => $request->mst_vehicle_type_id,
             'remark'   => $request->remark,
             'created_date'    => date("Y-m-d h:i:sa"),

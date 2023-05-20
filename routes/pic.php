@@ -27,8 +27,11 @@ Route::group(['middleware' => ['pic']],function(){
     Route::get('pic/service/edit-direct-service/{par1}', 'App\Http\Controllers\Pic\Service@edit_direct_service');
     Route::post('pic/service/proses-direct-service', 'App\Http\Controllers\Pic\Service@proses_direct_service');
 
-    Route::post('pic/service/service-remark/', 'App\Http\Controllers\Pic\Service@service_remark');
+    Route::post('pic/service/service-remark', 'App\Http\Controllers\Pic\Service@service_remark');
+    Route::post('pic/service/get-vehicle', 'App\Http\Controllers\Pic\Service@get_vehicle');
+    Route::get('pic/service/delete-direct-service/{par1}', 'App\Http\Controllers\Pic\Service@delete_direct_service');
 
+    Route::get('pic/service/get-image_direct/{par1}', 'App\Http\Controllers\Pic\Service@get_image_direct');
 
 
 
