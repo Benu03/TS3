@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Konfigurasi_model;
 use Image;
 use PDF;
+use Log;
 
 class Invoice extends Controller
 {
@@ -61,7 +62,7 @@ class Invoice extends Controller
 
         $usebengkel = DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
         $serviceinvoice = DB::connection('ts3')->table('mvm.v_service_oninvoice')->where('mst_bengkel_id',$usebengkel->id)->get();
-       
+      
         $regional_id = [];
         $client_id = [];
 
@@ -87,12 +88,16 @@ class Invoice extends Controller
                     ->groupBy('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
                     ->get();            
 
-        $invoice_no   = 'INV-'.date("Ymd").'-'.date("i");      
+
+        $invoice_no   = 'INV-'.date("Ymd").'-'.date("i");   
+
+        $invoicedtl = DB::connection('ts3')->table('mvm.v_invoice_detail_prepare')->where('invoice_no',$invoice_no)->get(); 
         $data = array(   'title'        => 'Invoice',
                          'usebengkel'      => $usebengkel,
                          'serviceinvoice'    => $serviceinvoice,
                          'priceJobs'    => $priceJobs,
                          'pricePart'    => $pricePart,
+                         'invoicedtl'    => $invoicedtl,
                          'invoice_no'    => $invoice_no,
                         'content'       => 'bengkel/invoice/invoice_create'
                     );
@@ -100,6 +105,35 @@ class Invoice extends Controller
 
 
     }
+
+    
+    public function invoice_create_detail(Request $request)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+        dd($request);
+
+        return redirect('bengkel/invoice_create')->with(['sukses' => 'Data Berhasil Di Tambahkan']);
+    }
+
+
+    public function get_service(){
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $service_no = $_POST['service_no'];
+        log::info($service_no);
+
+        $service = DB::connection('ts3')->table('mvm.v_service_oninvoice')->where('service_no',$service_no)->first();  
+        return response()->json($service);
+     
+    }
+    
 
     
 
