@@ -26,7 +26,7 @@ class Invoice extends Controller
         
         $count_req = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('create_by',Session()->get('username'))->where('status','REQUEST')->count();
         $count_pro = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('create_by',Session()->get('username'))->where('status','PROSES')->count();
-        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('create_by',Session()->get('username'))->get();
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('create_by',Session()->get('username'))->whereIn('status',['PROSES','REQUEST'])->get();
 		$data = array(   'title'        => 'Invoice',
                          'invoice'      => $invoice,
                          'count_req'    => $count_req,
@@ -35,7 +35,6 @@ class Invoice extends Controller
                     );
         return view('bengkel/layout/wrapper',$data);
     }
-
 
     public function summary_bengkel()
     {
@@ -88,10 +87,20 @@ class Invoice extends Controller
                     ->groupBy('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
                     ->get();            
 
-
-        $invoice_no   = 'INV-'.date("Ymd").'-'.date("i");   
+ 
+        $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','DRAFT')->where('create_by',Session()->get('username'))->first();
+    
+        if(isset($checkInvoice) == false){
+            $invoice_no   = 'INV-'.date("Ymd").'-'.date("i"); 
+        }
+        else{
+            $invoice_no = $checkInvoice->invoice_no;
+        }
 
         $invoicedtl = DB::connection('ts3')->table('mvm.v_invoice_detail_prepare')->where('invoice_no',$invoice_no)->get(); 
+
+        $invoiceData = DB::connection('ts3')->table('mvm.v_invoice_detail_prepare')->selectRaw("(sum(jasa) * 2) / 100 as pph,sum(jasa) as jasa,sum(part) as part")->where('invoice_no',$invoice_no)->first(); 
+      
         $data = array(   'title'        => 'Invoice',
                          'usebengkel'      => $usebengkel,
                          'serviceinvoice'    => $serviceinvoice,
@@ -99,6 +108,7 @@ class Invoice extends Controller
                          'pricePart'    => $pricePart,
                          'invoicedtl'    => $invoicedtl,
                          'invoice_no'    => $invoice_no,
+                         'invoiceData'    => $invoiceData,
                         'content'       => 'bengkel/invoice/invoice_create'
                     );
         return view('bengkel/layout/wrapper',$data);
@@ -106,20 +116,142 @@ class Invoice extends Controller
 
     }
 
-    
     public function invoice_create_detail(Request $request)
     {
         if(Session()->get('username')=="") {
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-        dd($request);
+        
+        
+        $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->get();
+        if(count($checkInvoice) == 0)
+        {
+        $service_id =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->insertgetID([
+            'invoice_no'   => $request->invoice_no,
+            'invoice_type'	=> 'BENGKEL TO TS3',
+            'status'	=> 'DRAFT',
+            'created_date'    => date("Y-m-d h:i:sa"),
+            'create_by'     => $request->session()->get('username'),
+        ]); 
 
-        return redirect('bengkel/invoice_create')->with(['sukses' => 'Data Berhasil Di Tambahkan']);
+            foreach($request->jasa_id as $val){
+                $price = DB::connection('ts3')->table('mst.mst_price_service')->where('kode',$val)->first();
+                $datajobs = [
+                    'mvm_invoice_h_id' => $service_id,
+                    'service_no' => $request->service_no,
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'create_by'     => $request->session()->get('username'),
+                    'mst_price_service_id' => $val,
+                    'price_bengkel_to_ts3' => $price->price_bengkel_to_ts3,
+                    'invoice_no' => $request->invoice_no,
+                    'price_type' => $price->price_service_type,
+                    'price_ts3_to_client' => $price->price_ts3_to_client,
+                ];
+
+                DB::connection('ts3')->table('mvm.mvm_invoice_d')->insert($datajobs);
+            }
+
+            foreach($request->part_id as $val){
+    
+               
+                $price = DB::connection('ts3')->table('mst.mst_price_service')->where('kode',$val)->first();
+                $datapart = [
+                    'mvm_invoice_h_id' => $service_id,
+                    'service_no' => $request->service_no,
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'create_by'     => $request->session()->get('username'),
+                    'mst_price_service_id' => $val,
+                    'price_bengkel_to_ts3' => $price->price_bengkel_to_ts3,
+                    'invoice_no' => $request->invoice_no,
+                    'price_type' => $price->price_service_type,
+                    'price_ts3_to_client' => $price->price_ts3_to_client,
+                ];
+
+                DB::connection('ts3')->table('mvm.mvm_invoice_d')->insert($datapart);
+
+
+            }
+
+                $sumTotalInvoice =  DB::connection('ts3')->table('mvm.v_invoice_detail_prepare')->selectRaw("ROUND((sum(jasa) * 2) / 100) as pph,
+                sum(jasa) as jasa,
+                sum(part) as part")->where('invoice_no',$request->invoice_no)->first(); 
+                    
+                DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+                                'pph'               => $sumTotalInvoice->pph,
+                                'jasa_total'	    => $sumTotalInvoice->jasa,
+                                'part_total'	    => $sumTotalInvoice->part
+                            ]);   
+
+        }
+        else{
+
+            $checkInvoiceDetail = DB::connection('ts3')->table('mvm.mvm_invoice_d')->where('invoice_no',$request->invoice_no)->where('service_no',$request->service_no)->get();
+        
+    
+            if(count($checkInvoiceDetail)  == 0)
+            {
+                $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->first();
+                foreach($request->jasa_id as $val){
+    
+
+                $price = DB::connection('ts3')->table('mst.mst_price_service')->where('kode',$val)->first();
+                $datajobs = [
+                    'mvm_invoice_h_id' => $checkInvoice->id,
+                    'service_no' => $request->service_no,
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'create_by'     => $request->session()->get('username'),
+                    'mst_price_service_id' => $val,
+                    'price_bengkel_to_ts3' => $price->price_bengkel_to_ts3,
+                    'invoice_no' => $request->invoice_no,
+                    'price_type' => $price->price_service_type,
+                    'price_ts3_to_client' => $price->price_ts3_to_client,
+                ];
+
+                DB::connection('ts3')->table('mvm.mvm_invoice_d')->insert($datajobs);
+              }
+
+             foreach($request->part_id as $val){
+    
+                $price = DB::connection('ts3')->table('mst.mst_price_service')->where('kode',$val)->first();
+                $datapart = [
+                    'mvm_invoice_h_id' => $checkInvoice->id,
+                    'service_no' => $request->service_no,
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'create_by'     => $request->session()->get('username'),
+                    'mst_price_service_id' => $val,
+                    'price_bengkel_to_ts3' => $price->price_bengkel_to_ts3,
+                    'invoice_no' => $request->invoice_no,
+                    'price_type' => $price->price_service_type,
+                    'price_ts3_to_client' => $price->price_ts3_to_client,
+                ];
+
+                DB::connection('ts3')->table('mvm.mvm_invoice_d')->insert($datapart);
+             }
+
+            $sumTotalInvoice =  DB::connection('ts3')->table('mvm.v_invoice_detail_prepare')->selectRaw("ROUND((sum(jasa) * 2) / 100) as pph,
+            sum(jasa) as jasa,
+            sum(part) as part")->where('invoice_no',$request->invoice_no)->first(); 
+                
+            DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+                            'pph'               => $sumTotalInvoice->pph,
+                            'jasa_total'	    => $sumTotalInvoice->jasa,
+                            'part_total'	    => $sumTotalInvoice->part
+                        ]);  
+                        
+            }       
+            else{
+                return redirect('bengkel/invoice-create')->with(['warning' => 'Service Sudah Di tambahkan']);
+            }    
+
+        }
+
+        return redirect('bengkel/invoice-create')->with(['sukses' => 'Data Berhasil Di Tambahkan']);
+
     }
 
-
-    public function get_service(){
+    public function get_service()
+    {
 
         if(Session()->get('username')=="") {
             $last_page = url()->full();
@@ -135,6 +267,46 @@ class Invoice extends Controller
     }
     
 
+    public function invoice_delete_detail($service_no)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_d')->where('service_no',$service_no)->first();
+
+        DB::connection('ts3')->table('mvm.mvm_invoice_d')->where('service_no',$service_no)->delete();
+
+        $sumTotalInvoice =  DB::connection('ts3')->table('mvm.v_invoice_detail_prepare')->selectRaw("ROUND((sum(jasa) * 2) / 100) as pph,
+            sum(jasa) as jasa,
+            sum(part) as part")->where('invoice_no',$invoice->invoice_no)->first(); 
+
+        DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice->invoice_no)->update([
+            'pph'               => $sumTotalInvoice->pph,
+            'jasa_total'	    => $sumTotalInvoice->jasa,
+            'part_total'	    => $sumTotalInvoice->part
+        ]);  
+
+        return redirect('bengkel/invoice-create')->with(['sukses' => 'Data Service Berhasil Di Hapus']);
+
+
+    }
+
+    public function invoice_submit(Request $request)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+          
+        DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+            'status'               => 'REQUEST'
+        ]);  
+
+        return redirect('bengkel/invoice')->with(['sukses' => 'Data Service Berhasil Di Submit']);
+    }
+    
     
 
 

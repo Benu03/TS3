@@ -94,6 +94,37 @@ $(document).on("click", ".delete-link", function(e){
     return false;
   });
 });
+
+
+$(document).on("click", ".delete-service", function(e){
+  e.preventDefault();
+  url = $(this).attr("href");
+  swal({
+    title:"Yakin akan menghapus data ini?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-danger',
+    cancelButtonClass: 'btn btn-success',
+    buttonsStyling: false,
+    confirmButtonText: "Delete",
+    cancelButtonText: "Cancel",
+    closeOnConfirm: false,
+    showLoaderOnConfirm: true,
+  },
+  function(isConfirm){
+    if(isConfirm){
+      $.ajax({
+        url: url,
+        success: function(resp){
+          window.location.href = "{{ asset('bengkel/invoice-create')}}";
+        }
+      });
+    }
+    return false;
+  });
+});
+
+
 // Popup disable
 $(document).on("click", ".disable-link", function(e){
   e.preventDefault();
