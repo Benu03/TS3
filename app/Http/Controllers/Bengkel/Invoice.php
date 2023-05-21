@@ -91,7 +91,7 @@ class Invoice extends Controller
         $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','DRAFT')->where('create_by',Session()->get('username'))->first();
     
         if(isset($checkInvoice) == false){
-            $invoice_no   = 'INV-'.date("Ymd").'-'.date("i"); 
+            $invoice_no   = 'INV-'.date("Ymd").'-'.date("is"); 
         }
         else{
             $invoice_no = $checkInvoice->invoice_no;
@@ -112,7 +112,6 @@ class Invoice extends Controller
                         'content'       => 'bengkel/invoice/invoice_create'
                     );
         return view('bengkel/layout/wrapper',$data);
-
 
     }
 
@@ -317,7 +316,7 @@ class Invoice extends Controller
 
 
 
-        
+
 
     }
     
