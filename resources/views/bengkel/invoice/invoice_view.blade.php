@@ -19,7 +19,7 @@
                                         </div>
                                         <div class="card-body">  
                                         <div class="table-responsive-md">
-                                        <table class="table table-bordered">
+                                        <table class="table table-bordered" style="font-size: 12px;">
                                   
                                             <thead>
                                                 <tr class="bg-secondary">
@@ -65,17 +65,18 @@
                                     Invoice Detail
                                     </div>
                                     <div class="card-body">  
-                                        <table class="table table-bordered table-sm">
+                                        <table class="table table-bordered table-sm" style="font-size: 11px;">
                                             <thead>
                                                 <tr class="bg-light">                                                      
                                                
-                                                    <th width="15%">service_no</th>   
-                                                    <th width="10%">jasa</th> 
-                                                    <th width="10%">part</th>  
-                                                    <th width="10%">nopol</th>  
-                                                    <th width="10%">branch</th>  
-                                                    <th width="10%">type</th>  
-                                                    <th width="10%">tanggal_service</th>    
+                                                    <th width="14%">SERVICE NO</th>   
+                                                    <th width="8%">JASA</th> 
+                                                    <th width="8%">PART</th>  
+                                                    <th width="8%">NOPOL</th> 
+                                                    <th width="10%">Area</th>   
+                                                    <th width="15%">CABANG</th>  
+                                                    <th width="17%">TIPE</th>  
+                                                    <th width="10%">Tanggal Service</th>    
                                                
                                             </tr>
                                             </thead>
@@ -85,14 +86,13 @@
                                                 use Illuminate\Support\Facades\DB;
                                                 $invoicedetail  = DB::connection('ts3')->table('mvm.v_invoice_detail')->where('invoice_no',$in->invoice_no)->get();
                                                 ?>
-
                                                 <?php $i=1; foreach($invoicedetail as $ind) { ?>
                                                 <tr>
-
                                                 <td><?php echo $ind->service_no ?></td>                                              
                                                 <td><?php echo "Rp " . number_format($ind->jasa,0,',','.'); ?></td>
                                                 <td><?php echo "Rp " . number_format($ind->part,0,',','.'); ?></td>
                                                 <td><?php echo $ind->nopol ?></td>  
+                                                <td><?php echo $ind->area ?></td> 
                                                 <td><?php echo $ind->branch ?></td>  
                                                 <td><?php echo $ind->type ?></td>  
                                                 <td><?php echo $ind->tanggal_service ?></td>
