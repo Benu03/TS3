@@ -16,7 +16,7 @@ class PriceService extends Controller
         $price 	= DB::connection('ts3')->table('mst.v_price_service')->get();
         $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
         $regional 	= DB::connection('ts3')->table('mst.mst_regional')->get();        
-        $kode_max 	= DB::connection('ts3')->table('mst.v_price_service')->selectRaw("concat('TS3-',max(ltrim(kode, 'TS3-'))::int + 1) as kode")->first();
+        $kode_max 	= DB::connection('ts3')->table('mst.v_price_service')->selectRaw("concat('TS3-',max(substring(kode from 5 for 5)::int + 1)) as kode")->first();
         $price_type = DB::connection('ts3')->table('mst.mst_general')->where('name','price_service_type')->get();
 
 		$data = array(  'title'     => 'Price Service',

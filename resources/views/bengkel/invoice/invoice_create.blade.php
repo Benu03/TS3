@@ -61,10 +61,11 @@
                                         <th width="5%">
                                          No
                                         </th>
-                                        <th width="15%">Service No</th>
+                                        <th width="20%">Service No</th>
                                         <th width="15%">Jasa</th>
                                         <th width="15%">Spare part</th>    
                                         <th width="15%">Jumlah</th> 
+                                        <th width="15%">Create</th> 
                                         <th>ACTION</th>
                                 </tr>
                                 </thead>
@@ -75,14 +76,16 @@
                                     <td class="text-center">
                                         <?php echo $i ?>
                                     </td>
-                                    <td><?php echo $ind->jasa ?></td>
-                                    <td><?php echo $ind->part ?></td>
+                                    <td><?php echo $ind->service_no ?></td>
+                                    <td><?php echo "Rp " . number_format($ind->jasa,0,',','.');  ?></td>
+                                    <td><?php echo "Rp " . number_format($ind->part,0,',','.'); ?></td>
+                                    <td><?php echo "Rp " . number_format($ind->jasa+$ind->part,0,',','.');?></td>
+                                    <td><?php echo $ind->create_by ?></td>
                                     <td>
                                         <div class="btn-group">                       
-                                          <a href="{{ asset('bengkel/invoice-detail/delete/'.$ind->invoice_no) }}" class="btn btn-danger btn-sm  delete-link">
+                                          <a href="{{ asset('bengkel/invoice-detail/delete/'.$ind->service_no) }}" class="btn btn-danger btn-sm  delete-link">
                                             <i class="fa fa-trash"></i></a>
-                                        </div>
-                                
+                                        </div>   
                                     </td>
                                 </tr>
                                 
