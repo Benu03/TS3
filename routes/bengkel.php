@@ -37,6 +37,8 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::post('bengkel/service/get-service', 'App\Http\Controllers\Bengkel\Invoice@get_service');   
     Route::get('bengkel/invoice-detail/delete/{par1}', 'App\Http\Controllers\Bengkel\Invoice@invoice_delete_detail');
     Route::post('bengkel/invoice/submit', 'App\Http\Controllers\Bengkel\Invoice@invoice_submit');   
+    Route::get('bengkel/invoice-generate/{par1}', 'App\Http\Controllers\Bengkel\Invoice@invoice_generate');
+
 
 
 

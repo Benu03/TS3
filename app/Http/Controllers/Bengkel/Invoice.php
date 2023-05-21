@@ -307,6 +307,20 @@ class Invoice extends Controller
         return redirect('bengkel/invoice')->with(['sukses' => 'Data Service Berhasil Di Submit']);
     }
     
+    public function invoice_generate($invoice_no)
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+
+
+        
+
+    }
+    
     
 
 
