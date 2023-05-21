@@ -22,15 +22,36 @@ class Invoice extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
     
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
+        $countinvoicebengkel = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','REQUEST')->where('invoice_type','BENGKEL TO TS3')->count();
 
+        $countinvoicets3 = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','PROSES')->count();
+      
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->whereIn('status',['PROSES','REQUEST'])->get();
+    
 		$data = array(   'title'     => 'Invoice',
-                         'nopol'      => $nopol,
+                         'invoice'      => $invoice,
+                         'countinvoicebengkel' => $countinvoicebengkel,
+                         'countinvoicets3' => $countinvoicets3,
                         'content'   => 'admin-ts3/invoice/index'
                     );
         return view('admin-ts3/layout/wrapper',$data);
     }
 
+    public function invoice_generate($invoice_no)
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice_no)->first();       
+        $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_generate')->where('invoice_no',$invoice_no)->orderby('service_no')->get();
+
+        $pdf = PDF::loadview('bengkel/invoice/pdf/invoice_generate',['invoice'=>$invoice, 'invoice_detail' => $invoice_detail])->setPaper('a4', 'landscape');
+    	return $pdf->download($invoice_no.'.pdf');
+
+    }
    
 
 

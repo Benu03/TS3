@@ -30,14 +30,10 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">
-                        Jumlah Invoice
+                         Invoice Bengkel Request
                         </span>
                         <span class="info-box-number">
-                        <?php 
-                        $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-                        echo $berita->count();
-                        ?>
-                        {{-- <small>Sudah Dipublikasikan</small> --}}
+                       {{ $countinvoicebengkel }}
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -51,14 +47,10 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">
-                        Total Invoice
+                        Invoice TS3 Proses
                         </span>
                         <span class="info-box-number">
-                        <?php 
-                        $berita = DB::connection('ts3')->table('cp.berita')->where('jenis_berita','Layanan')->get(); 
-                        echo $berita->count();
-                        ?>
-                        {{-- <small>Sudah Dipublikasikan</small> --}}
+                        {{ $countinvoicets3 }}
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -67,58 +59,61 @@
                 </div>
 
 
-              
-
+        
 
 </div>
 
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+<table id="example1" class="display table table-bordered" cellspacing="0" width="100%" style="font-size: 12px;">
 <thead>
-    <tr class="bg-info">
-        {{-- <th width="5%">
-          <div class="mailbox-controls">
-                <!-- Check all button -->
-               <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
-            </div>
-        </th> --}}
+    <tr class="bg-info">        
         <th width="15%">Invoice Nomor</th>
+        <th width="12%">Invoice Type</th>
         <th width="15%">Tanggal Invoice</th>   
-        <th width="15%">Status</th> 
-        <th width="15%">Amount</th>  
-        <th width="15%">User Request</th>    
+        <th width="10%">Status</th> 
+        <th width="10%">PPH</th>  
+        <th width="10%">Jasa</th>  
+        <th width="10%">Part</th>  
+        <th width="10%">Total</th>  
+        <th width="10%">User Request</th>    
         <th>ACTION</th>
 </tr>
 </thead>
 <tbody>
-{{-- 
-    {{-- <?php $i=1; foreach($area as $ar) { ?> --}}
-
-    {{-- <td class="text-center">
-        <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $ar->id ?>" id="check<?php echo $i ?>">
-                   <label for="check<?php echo $i ?>"></label>
-        </div> --}}
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    {{-- </td>
-    <td><?php echo $ar->regional_slug ?></td>
-    <td><?php echo $ar->area ?></td>
-    <td>
-        <div class="btn-group">
-        <a href="{{ asset('admin-ts3/area/edit/'.$ar->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
-          <a href="{{ asset('admin-ts3/area/delete/'.$ar->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
-        </div>
-
-    </td>
-</tr> --}}
-{{-- 
-<?php $i++; } ?>  --}}
+    <?php $i=1; foreach($invoice as $in) { ?>
+        <tr>
+        <td><?php echo $in->invoice_no ?></td>
+        <td><?php echo $in->invoice_type ?></td>
+        <td><?php echo $in->created_date ?></td>
+        <td><?php echo $in->status ?></td>
+        <td><?php echo "Rp " . number_format($in->pph,0,',','.'); ?></td>
+        <td><?php echo "Rp " . number_format($in->jasa_total,0,',','.'); ?></td>
+        <td><?php echo "Rp " . number_format($in->part_total,0,',','.'); ?></td>
+        <td><?php echo "Rp " . number_format(($in->jasa_total - $in->pph) + $in->part_total,0,',','.'); ?></td>
+        <td><?php echo $in->create_by ?></td>
+        <td>
+            <div class="btn-group">
+                @if($in->status == 'REQUEST')
+                <a href="{{ asset('admin-ts3/invoice-prose-page/'.$in->invoice_no ) }}" 
+                    class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+    
+                    @endif
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#invoice<?php echo $in->invoice_no ?>">
+                    <i class="fa fa-eye"></i> 
+                 </button>     
+            
+                 @include('admin-ts3/invoice/invoice_view') 
+    
+                 
+    
+            </div>
+    
+        </td>
+    </tr>
+    
+    <?php $i++; } ?> 
 
 </tbody>
 </table>
