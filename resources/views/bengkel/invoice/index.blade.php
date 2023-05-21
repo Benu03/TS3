@@ -94,6 +94,8 @@
     <td>
         <div class="btn-group">
 
+         
+
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#invoice<?php echo $in->invoice_no ?>">
                 <i class="fa fa-eye"></i> 
              </button>     
