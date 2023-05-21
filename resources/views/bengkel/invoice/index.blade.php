@@ -82,7 +82,7 @@
 <tbody>
 
     <?php $i=1; foreach($invoice as $in) { ?>
-    
+    <tr>
     <td><?php echo $in->invoice_no ?></td>
     <td><?php echo $in->created_date ?></td>
     <td><?php echo $in->status ?></td>
