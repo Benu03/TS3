@@ -69,7 +69,7 @@
     <tr class="bg-info">
         
         <th width="15%">Invoice Nomor</th>
-        <th width="10%">Tanggal Invoice</th>   
+        <th width="15%">Tanggal Invoice</th>   
         <th width="10%">Status</th> 
         <th width="10%">PPH</th>  
         <th width="10%">Jasa</th>  
@@ -93,7 +93,14 @@
     <td><?php echo $in->create_by ?></td>
     <td>
         <div class="btn-group">
+
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#invoice<?php echo $in->invoice_no ?>">
+                <i class="fa fa-eye"></i> 
+             </button>     
         
+             @include('bengkel/invoice/invoice_view') 
+
+             
         </div>
 
     </td>
