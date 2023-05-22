@@ -98,7 +98,7 @@
 					<th colspan="3">Total</th>
 					<td ><?php echo "Rp " . number_format($invoice->part_total,0,',','.'); ?></td>
 					<td ><?php echo "Rp " . number_format($invoice->jasa_total,0,',','.'); ?></td>
-					<td ><?php echo "Rp " . number_format(($invoice->jasa_total - $invoice->pph) + $invoice->part_total,0,',','.'); ?></td>
+					<td ><?php echo "Rp " . number_format($invoice->jasa_total + $invoice->part_total,0,',','.'); ?></td>
 				</tr>
 				<tr>
 					<td colspan="4" style="border-bottom-style: hidden;border-left-style: hidden;"></td>
