@@ -217,7 +217,7 @@ Route::group(['middleware' => ['admints3']],function(){
 
     Route::get('admin-ts3/invoice-generate/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_generate');
     Route::get('admin-ts3/invoice-prose-page/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_proses_page');
-    Route::post('admin-ts3/admin-ts3/invoice-proses', 'App\Http\Controllers\AdminTs3\Service@invoice_proses');
+    Route::post('admin-ts3/invoice-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_proses');
   
     
     

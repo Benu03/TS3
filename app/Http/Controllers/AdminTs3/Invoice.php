@@ -87,7 +87,7 @@ class Invoice extends Controller
 
 
 
-        return redirect('admin-ts3/spk-list')->with(['sukses' => 'Data telah di Kirim Ke Client']);            
+        return redirect('admin-ts3/invoice')->with(['sukses' => 'Data telah di Kirim Ke Client']);            
 
 
     }
