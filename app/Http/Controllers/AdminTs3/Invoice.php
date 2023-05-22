@@ -52,8 +52,45 @@ class Invoice extends Controller
     	return $pdf->download($invoice_no.'.pdf');
 
     }
+
+
+    public function invoice_proses_page($invoice_no)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice_no)->first();       
+        $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_admin_proses')->where('invoice_no',$invoice_no)->orderby('service_no')->get();
+
+
+        $data = array(   'title'     => 'Invoice Proses',
+                         'invoice'      => $invoice,
+                         'invoice_detail'      => $invoice_detail,
+                        'content'   => 'admin-ts3/invoice/invoice_proses_page'
+                    );
+        return view('admin-ts3/layout/wrapper',$data);
+
+    }
    
 
+    public function invoice_proses(Request $request)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        dd($request);
+
+
+
+        return redirect('admin-ts3/spk-list')->with(['sukses' => 'Data telah di Kirim Ke Client']);            
+
+
+    }
 
   
 
