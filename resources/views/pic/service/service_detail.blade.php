@@ -104,8 +104,67 @@
 							 </table>
 						   </div> 
 						   </div>
-					   </div>
-						 </div>           
+					  	 </div>
+					  
+					
+						 
+
+						
+						</div> 
+						
+						
+
+
+					   </div> 
+					   <div class="row mb-2">  
+						<div class="col-sm-12">
+						<div class="card">  
+							<div class="card-header">
+							Service Detail
+							</div>
+							<div class="card-body">  
+								<table class="table table-bordered table-sm" style="font-size: 12px;">
+									<thead>
+										<tr class="bg-light">                                                      
+									   
+											<th width="15%">detail_type</th>   
+											<th width="15%">Attribute</th> 
+											<th width="15%">Value Attibute</th>                                                 
+									</tr>
+									</thead>
+
+									 <tbody>
+										<?php
+										use Illuminate\Support\Facades\DB;
+										$sdetail  = DB::connection('ts3')->table('mvm.v_service_detail')->where('mvm_service_vehicle_h_id',$dt->id)->get();
+										?>
+										<?php $i=1; foreach($sdetail as $sd) { ?>
+										<tr>
+										<td><?php echo $sd->detail_type ?></td>                                              
+										<td>
+											@if($sd->detail_type == 'Upload')
+											<a href="{{ asset('pic/service/get-image-service-detail/').'/'.$sd->attribute }}" target="_blank">
+												<?php echo $sd->attribute ?>
+											</a>
+											@else
+											<?php echo $sd->attribute ?>
+											@endif
+										</td>  
+										<td><?php echo $sd->attribute_value ?></td>  
+									
+										 </tr>
+										<?php $i++; } ?> 
+								</tbody>
+											
+							</table>
+
+
+							</div>           
+							</div>   
+
+
+								   
+					</div>           
 					 </div>    
 					 
                     </div>

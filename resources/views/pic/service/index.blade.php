@@ -100,13 +100,14 @@
     <td><?php echo $dt->mekanik ?></td>
     <td>
         <div class="btn-group">
-        {{-- <a href="{{ asset('pic/service/service-advisor/'.$dt->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a> --}}
+        <a href="{{ asset('pic/service/service-advisor/'.$dt->id) }}" 
+          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 
+            @if($dt->status_service == 'SERVICE')
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Detail<?php echo $dt->service_no ?>">
                 <i class="fa fa-eye"></i> 
              </button>   
-
+             @endif
              @include('pic/service/service_detail') 
 
         </div>
