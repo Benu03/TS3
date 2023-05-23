@@ -31,7 +31,8 @@ class Service extends Controller
 
 
         $countservice = DB::connection('ts3')->table('mvm.v_service_pic_branch')->wherein('mst_branch_id',$branch_id )->where('status_service','SERVICE')->count();
-        $service = DB::connection('ts3')->table('mvm.v_service_pic_branch')->wherein('mst_branch_id',$branch_id )->get();
+        $service = DB::connection('ts3')->table('mvm.v_service_pic_branch')->wherein('mst_branch_id',$branch_id )->where('status_service','SERVICE')->get();
+
 
 		$data = array(   'title'     => 'List Service',
                          'service'      => $service,
@@ -225,6 +226,30 @@ class Service extends Controller
         return response()->file($storagePath);
 
     }
+
+    public function get_image_service_detail($id)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $image = DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('unique_data',$id)->first();
+
+        $service = DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$image->mvm_service_vehicle_h_id)->first();
+        
+        $storagePath =  storage_path('data/service/').$service->service_no.'/'. $image->unique_data;
+
+        if(!file_exists($storagePath))
+        return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);
+        
+        else{
+            return response()->file($storagePath);
+        }
+
+    }
+
+    
    
 
     public function get_vehicle(){
@@ -256,6 +281,27 @@ class Service extends Controller
 
     }
 
+    public function service_advisor($id)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $service = DB::connection('ts3')->table('mvm.v_service_pic_branch')->where('id',$id)->first();
+
+        $sdetail  = DB::connection('ts3')->table('mvm.v_service_detail')->where('mvm_service_vehicle_h_id',$id)->get();
+
+        $data = array(   'title'     => 'Service Advisor',
+            'service'      => $service,
+            'sdetail' => $sdetail,
+            'content'   => 'pic/service/service_advisor'
+            );
+            return view('pic/layout/wrapper',$data);
+
+
+    }
+    
     
 
   

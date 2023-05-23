@@ -20,7 +20,7 @@ Route::group(['middleware' => ['pic']],function(){
     Route::post('pic/profile/ubah-password', 'App\Http\Controllers\Pic\Profile@ubah_password');
     Route::get('pic/list-service', 'App\Http\Controllers\Pic\Service@index');
     Route::get('pic/direct-service', 'App\Http\Controllers\Pic\Service@direct');
-    // Route::get('pic/advisor-service', 'App\Http\Controllers\Pic\Service@advisor');
+
     Route::get('pic/history-service', 'App\Http\Controllers\Pic\Service@history_service');
     
     Route::post('pic/service/tambah-direct-service', 'App\Http\Controllers\Pic\Service@tambah_direct_service');
@@ -33,6 +33,8 @@ Route::group(['middleware' => ['pic']],function(){
 
     Route::get('pic/service/get-image_direct/{par1}', 'App\Http\Controllers\Pic\Service@get_image_direct');
 
+    Route::get('pic/service/get-image-service-detail/{par1}', 'App\Http\Controllers\Pic\Service@get_image_service_detail');
+    Route::get('pic/service/service-advisor/{par1}', 'App\Http\Controllers\Pic\Service@service_advisor');
 
 
 });
