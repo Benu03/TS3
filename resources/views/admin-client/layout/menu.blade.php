@@ -69,7 +69,9 @@
                 <li class="nav-item ml-4"><a href="{{ asset('admin-client/approval') }}" class="nav-link"><i class="fas fa-tools"></i> <p> Service</p></a>
                 </li>
                 <li class="nav-item ml-4"><a href="{{ asset('admin-client/approval/invoice') }}" class="nav-link"><i class="fas fa-receipt"></i> <p>Invoice</p></a>
-               
+                </li>
+                <li class="nav-item ml-4"><a href="{{ asset('admin-client/approval/direct') }}" class="nav-link"><i class="fas fa-location-arrow"></i> <p>Direct</p></a>
+                </li>
         
   
                 </ul>

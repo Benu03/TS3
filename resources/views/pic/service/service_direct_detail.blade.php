@@ -75,64 +75,59 @@
 										  <td>{{ $dt->pic_branch }}</td>
 									  </tr>
 
+									  <tr>
+										<th>STATUS</th>
+										<td>{{ $dt->status }}</td>
+									   </tr>
+									   <tr>
+										<th>KM Kendaraan</th>
+										<td>{{ $dt->km }}</td>
+									   
+									</tr>
+ 
+									
+									<tr>
+									 <th>Tanggal Pengerjaan</th>
+									 <td>{{ $dt->tanggal_pengerjaan }}</td>
+									</tr>
+									<tr>
+									 <th>Jenis Pekerjaan</th>
+									 <td>{{ $dt->jenis_pekerjaan }}</td>
+									
+									 </tr>
+ 
+									 <tr>
+										 <th>Nama Driver</th>
+										 <td>{{ $dt->nama_driver }}</td>
+										</tr>
+										<tr>
+										 <th>Kontak Driver</th>
+										 <td>{{ $dt->kontak_driver }}</td>
+										
+										 </tr>
+ 
+										 <tr>
+											 <th>Keluhan</th>
+											 <td>{{ $dt->keluhan }}</td>
+											</tr>
+											
 									  
 									 
 								 </tbody> 
 							 </table>
 
-							 <table class="table table-bordered"> 
-								<tbody>
-							  
-				   
-								   <tr>
-									   <th>STATUS</th>
-									   <td>{{ $dt->status }}</td>
-									  </tr>
-									  <tr>
-									   <th>KM Kendaraan</th>
-									   <td>{{ $dt->km }}</td>
-									  
-								   </tr>
 
-								   
-								   <tr>
-									<th>Tanggal Pengerjaan</th>
-									<td>{{ $dt->tanggal_pengerjaan }}</td>
-								   </tr>
-								   <tr>
-									<th>Jenis Pekerjaan</th>
-									<td>{{ $dt->jenis_pekerjaan }}</td>
-								   
-									</tr>
 
-									<tr>
-										<th>Nama Driver</th>
-										<td>{{ $dt->nama_driver }}</td>
-									   </tr>
-									   <tr>
-										<th>Kontak Driver</th>
-										<td>{{ $dt->kontak_driver }}</td>
-									   
-										</tr>
-
-										<tr>
-											<th>Keluhan</th>
-											<td>{{ $dt->keluhan }}</td>
-										   </tr>
-										   
-									 
-								 
-
-									
-								   
-							   </tbody> 
-						   </table>
 						   </div> 
 						   </div>
-					   </div>
+					  	 </div>
 						 </div>           
-					 </div>    
+					 	</div>    
 					 
+						 @if($dt->status == 'ESTIMATE')					 
+					 @include('pic/service/estimate_detail') 
+					
+					@endif
                     </div>
 		</div>
 	</div>
