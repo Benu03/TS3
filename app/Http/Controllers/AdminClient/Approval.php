@@ -88,6 +88,16 @@ class Approval extends Controller
             DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$id_spk_d->mvm_spk_d_id)->update([
                     'status_service'   => 'ONINVOICE'             
                     ]);
+
+                    $approval_no  = 'APV-'.date("Ymdhis");     
+                 DB::connection('ts3')->table('mvm.mvm_approval')->insert([
+                                'approval_no'   => $approval_no,
+                                'user_approval'	=> Session()->get('username'),
+                                'date_approval'    => date("Y-m-d h:i:sa"),
+                                'type_approval'   => 'SERVICE',
+                                'unique_approval'   => $id_spk_d->service_no,
+                                'remark_approval'   => $request->remark
+                            ]);        
    
         }
 
@@ -138,6 +148,16 @@ class Approval extends Controller
         DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$id_spk_d->mvm_spk_d_id)->update([
                 'status_service'   => 'ONINVOICE'             
                 ]);
+
+         $approval_no  = 'APV-'.date("Ymdhis");     
+        DB::connection('ts3')->table('mvm.mvm_approval')->insert([
+                    'approval_no'   => $approval_no,
+                    'user_approval'	=> Session()->get('username'),
+                    'date_approval'    => date("Y-m-d h:i:sa"),
+                    'type_approval'   => 'SERVICE',
+                    'unique_approval'   => $id_spk_d->service_no,
+                    'remark_approval'   => $request->remark
+                ]);        
 
         return redirect('admin-client/approval')->with(['sukses' => 'Data telah Proses']);
 

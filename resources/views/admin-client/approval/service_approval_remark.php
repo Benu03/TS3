@@ -8,8 +8,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 					<div class="modal-body">
-		
-												
+													
 					
 							<div class="form-group row">
 								<label class="col-sm-3 control-label text-right">Remark</label>
