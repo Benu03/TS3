@@ -84,7 +84,7 @@
                                              <tbody>
                                                 <?php
                                                 use Illuminate\Support\Facades\DB;
-                                                $invoicedetail  = DB::connection('ts3')->table('mvm.v_service_direct_estimate')->where('invoice_no',$in->invoice_no)->get();
+                                                $invoicedetail  = DB::connection('ts3')->table('mvm.v_invoice_detail')->where('invoice_no',$in->invoice_no)->get();
                                                 ?>
                                                 <?php $i=1; foreach($invoicedetail as $ind) { ?>
                                                 <tr>
