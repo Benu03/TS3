@@ -10,7 +10,7 @@
 {{-- <p>
   @include('admin-client/spk/tambah_upload')
 </p> --}}
-<form action="{{ asset('pic/service/service-advisor-proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-client/approval/service-approval-proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 
     <div class="row mb-2">  
@@ -49,9 +49,9 @@
                 <label class="col-sm-3 control-label text-right"></label>
                 <div class="col-sm-9">
                     <div class="form-group pull-right btn-group">
-                        <input type="submit" name="submit" class="btn btn-primary " value="Simpan">
+                        <input type="submit" name="submit" class="btn btn-primary " value="Approve">
                         <input type="reset" name="reset" class="btn btn-success " value="Reset">
-                        <a href="{{ asset('bengkel/list-service') }}" class="btn btn-danger">Kembali</a>
+                        <a href="{{ asset('admin-client/approval') }}" class="btn btn-danger">Kembali</a>
                     </div>
                 </div>
                 <div class="clearfix"></div>

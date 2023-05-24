@@ -68,5 +68,12 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::post('admin-client/regional/proses_edit', 'App\Http\Controllers\AdminClient\Regional@proses_edit');
     Route::get('admin-client/regional/delete/{par1}', 'App\Http\Controllers\AdminClient\Regional@delete');
 
+    Route::get('admin-client/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminClient\Approval@get_image_service_detail');
+    Route::get('admin-client/approval', 'App\Http\Controllers\AdminClient\Approval@index');
+    Route::post('admin-client/approval/service-approval-remark', 'App\Http\Controllers\AdminClient\Approval@service_approval_remark');
+    Route::get('admin-client/approval/service-approval/{par1}', 'App\Http\Controllers\AdminClient\Approval@service_approval');
+    Route::post('admin-client/approval/service-approval-proses', 'App\Http\Controllers\AdminClient\Approval@service_approval_proses');
 
+
+    
 });
