@@ -87,11 +87,30 @@ class Service extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
       
         $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
-        $bengkel 	= DB::connection('ts3')->table('mst.v_bengkel')->get();
-        
-        $data = array(  'title'         => 'Edit Direct Service',
-                        'direct'           => $direct,
-                        'bengkel'        => $bengkel,
+    
+       
+
+        $priceJobs  = DB::connection('ts3')->table('mst.v_price_regional_client')
+        ->select('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
+        ->where('mst_client_id',$direct->mst_client_id)
+        ->where('mst_regional_id',$direct->mst_regional_id)
+        ->where('price_service_type','Jasa')
+        ->groupBy('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
+        ->get();
+       
+
+        $pricePart = DB::connection('ts3')->table('mst.v_price_regional_client')
+        ->select('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
+        ->where('mst_client_id',$direct->mst_client_id)
+        ->where('mst_regional_id',$direct->mst_regional_id)
+        ->where('price_service_type','Part')
+        ->groupBy('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
+        ->get();            
+
+        $data = array(   'title'     => 'Direct Service Estimate '. $direct->nopol,
+                         'direct'     => $direct,
+                         'pricePart'      => $pricePart,
+                         'priceJobs'      => $priceJobs,
                         'content'       => 'admin-ts3/service/direct_service_edit'
                 );
     
@@ -99,30 +118,66 @@ class Service extends Controller
 
     }
 
-
     
     public function direct_service_edit_proses(Request $request)
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         request()->validate([
-            'mst_bengkel_id' => 'required',
-            'remark_ts3' 	   => 'required',
+            'remark' 	   => 'required',
             ]);
 
          
             DB::connection('ts3')->table('mvm.mvm_direct_service')->where('id',$request->id)->update([
-                'remark_ts3'   => $request->remark_ts3,
-                'mst_bengkel_id'   => $request->mst_bengkel_id,
+                'remark_ts3'   => $request->remark,
                 'status'   => 'ESTIMATE',
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'         => $request->session()->get('username')    
                 ]);   
+
+                foreach($request->jasa_id as $val){
+                    $price = DB::connection('ts3')->table('mst.mst_price_service')->where('kode',$val)->first();
+                    $datajobs = [
+                        'mvm_direct_service_id' => $request->id,
+                        'created_date'    => date("Y-m-d h:i:sa"),
+                        'create_by'     => $request->session()->get('username'),
+                        'mst_price_service_id' => $val,
+                        'price_bengkel_to_ts3' => $price->price_bengkel_to_ts3,
+                        'price_type' => $price->price_service_type,
+                        'price_ts3_to_client' => $price->price_ts3_to_client,
+                    ];
+    
+                    DB::connection('ts3')->table('mvm.mvm_direct_service_estimate')->insert($datajobs);
+                }
+    
+                foreach($request->part_id as $val){
+        
+                   
+                    $price = DB::connection('ts3')->table('mst.mst_price_service')->where('kode',$val)->first();
+                    $datapart = [
+                        'mvm_direct_service_id' => $request->id,
+                        'created_date'    => date("Y-m-d h:i:sa"),
+                        'create_by'     => $request->session()->get('username'),
+                        'mst_price_service_id' => $val,
+                        'price_bengkel_to_ts3' => $price->price_bengkel_to_ts3,
+                        'price_type' => $price->price_service_type,
+                        'price_ts3_to_client' => $price->price_ts3_to_client,
+                    ];
+    
+                    DB::connection('ts3')->table('mvm.mvm_direct_service_estimate')->insert($datapart);
+    
+    
+                }
+         
+
 
 
         return redirect('admin-ts3/direct-service')->with(['sukses' => 'Data telah diupdate']);             
 
 
     }
+   
+   
+    
 
 
 

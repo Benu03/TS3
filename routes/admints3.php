@@ -211,14 +211,18 @@ Route::group(['middleware' => ['admints3']],function(){
 
     Route::get('admin-ts3/direct-service', 'App\Http\Controllers\AdminTs3\Service@direct_service');
     Route::get('admin-ts3/service/get-image_direct/{par1}', 'App\Http\Controllers\AdminTs3\Service@get_image_direct');
-    Route::post('admin-ts3/direct-service-proses', 'App\Http\Controllers\AdminTs3\Service@direct_service_proses');
-    Route::get('admin-ts3/direct_service_edit/{par1}', 'App\Http\Controllers\AdminTs3\Service@direct_service_edit');
+    // Route::post('admin-ts3/direct-service-proses', 'App\Http\Controllers\AdminTs3\Service@direct_service_proses');
+    Route::get('admin-ts3/direct-service-edit/{par1}', 'App\Http\Controllers\AdminTs3\Service@direct_service_edit');
+    Route::post('admin-ts3/direct-estimate-proses', 'App\Http\Controllers\AdminTs3\Service@direct_service_edit_proses');
 
 
     Route::get('admin-ts3/invoice-generate/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_generate');
     Route::get('admin-ts3/invoice-prose-page/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_proses_page');
     Route::post('admin-ts3/invoice-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_proses');
   
+
+
+
     
     
 });

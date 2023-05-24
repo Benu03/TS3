@@ -78,7 +78,7 @@
 <div class="clearfix"><hr></div>
 
 
-<p>
+{{-- <p>
     <button type="button" class="btn btn-warning" name="proses_mapping_direct" onClick="check();"   data-toggle="modal" data-target="#ProsesMappingDirect" >
         <i class="fa fa-edit"> </i> Proses Mapping
     </button> 
@@ -86,7 +86,7 @@
 
       
 
-</p>
+</p> --}}
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
@@ -94,18 +94,19 @@
 <thead>
     <tr class="bg-info">
          <th width="5%">
-          <div class="mailbox-controls">
+          {{-- <div class="mailbox-controls">
                 <!-- Check all button -->
                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
                 </button>
-            </div>
+            </div> --}}
+            No
         </th> 
         <th width="12%">Nopol</th>
         <th width="12%">Status</th> 
         <th width="15%">Cabang</th> 
-        <th width="12%">Tanggal Pengerjaan</th> 
+        <th width="15%">Tanggal Pengerjaan</th> 
         <th width="12%">User Request</th> 
-        <th width="12%">Date Request</th> 
+        <th width="15%">Date Request</th> 
         <th>ACTION</th>
 </tr>
 </thead>
@@ -113,13 +114,14 @@
 
     <?php $i=1; foreach($direct as $dt) { ?> 
 
-        <td class="text-center">
+        {{-- <td class="text-center">
 
             <div class="icheck-primary">
                 <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $dt->id ?>" id="check<?php echo $i ?>">
-                 <label for="check<?php echo $i ?>"></label>
+                 <label for="check"></label>
       </div>
-        </td>
+        </td> --}}
+        <td><?php echo $i ?></td>
         <td><?php echo $dt->nopol ?></td>
         <td><?php echo $dt->status ?></td>
         <td><?php echo $dt->branch ?></td>
@@ -129,7 +131,7 @@
         <td>
             <div class="btn-group">
                         @if ($dt->status == 'REQUEST')
-                        <a href="{{ asset('admin-ts3/direct_service_edit/'.$dt->id) }}" 
+                        <a href="{{ asset('admin-ts3/direct-service-edit/'.$dt->id) }}" 
                             class="btn btn-warning btn-sm mr-1"><i class="fa fa-edit"></i></a>
                         @elseif($dt->status == 'PROSES')
                         <a href="{{ asset('admin-ts3/direct_service_estimate/'.$dt->id) }}" 
