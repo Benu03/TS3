@@ -311,6 +311,7 @@ class Service extends Controller
         $id       = $request->id;
         $id_spk_d =  DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id)->first();
 
+
         DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id)->update([
             'remark_pic_branch'   => $request->remark,
             'pic_branch_date_post'   => date("Y-m-d h:i:sa")          

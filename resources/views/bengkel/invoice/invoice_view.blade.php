@@ -62,14 +62,14 @@
                             <div class="col-md-12 text-left">
                                 <div class="card">  
                                     <div class="card-header">
-                                    Invoice Detail
+                                    Estimate Detail
                                     </div>
                                     <div class="card-body">  
                                         <table class="table table-bordered table-sm" style="font-size: 11px;">
                                             <thead>
                                                 <tr class="bg-light">                                                      
                                                
-                                                    <th width="14%">SERVICE NO</th>   
+                                                 
                                                     <th width="8%">JASA</th> 
                                                     <th width="8%">PART</th>  
                                                     <th width="8%">NOPOL</th> 
@@ -84,7 +84,7 @@
                                              <tbody>
                                                 <?php
                                                 use Illuminate\Support\Facades\DB;
-                                                $invoicedetail  = DB::connection('ts3')->table('mvm.v_invoice_detail')->where('invoice_no',$in->invoice_no)->get();
+                                                $invoicedetail  = DB::connection('ts3')->table('mvm.v_service_direct_estimate')->where('invoice_no',$in->invoice_no)->get();
                                                 ?>
                                                 <?php $i=1; foreach($invoicedetail as $ind) { ?>
                                                 <tr>

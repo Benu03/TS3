@@ -49,8 +49,8 @@
             <ul class="nav nav-treeview">
               <li class="nav-item ml-4"><a href="{{ asset('bengkel/list-service') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>List Service</p></a>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('bengkel/direct-service') }}" class="nav-link"><i class="fas fa-directions nav-icon"></i><p>Direct Service</p></a>
-              </li>
+              {{-- <li class="nav-item ml-4"><a href="{{ asset('bengkel/direct-service') }}" class="nav-link"><i class="fas fa-directions nav-icon"></i><p>Direct Service</p></a>
+              </li> --}}
              
             </ul>
           </li>    
