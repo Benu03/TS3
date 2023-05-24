@@ -57,6 +57,27 @@
           <li class="nav-item"><a href="{{ asset('admin-client/spk') }}" class="nav-link"><i class="fa fa-file-contract nav-icon"></i><p>SPK Proses</p></a>
 
           <li class="nav-item"><a href="{{ asset('admin-client/invoice') }}" class="nav-link"><i class="fa fa-file-invoice nav-icon"></i><p>Invoice</p></a>
+          <li class="nav-item">
+
+          
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-check-square"></i>
+                <p>Approval<i class="fas fa-angle-left right"></i></p>
+              </a>
+                <ul class="nav nav-treeview">               
+                <li class="nav-item ml-4"><a href="{{ asset('admin-client/approval') }}" class="nav-link"><i class="fas fa-tools"></i> <p> Service</p></a>
+                </li>
+                <li class="nav-item ml-4"><a href="{{ asset('admin-client/approval/invoice') }}" class="nav-link"><i class="fas fa-receipt"></i> <p>Invoice</p></a>
+               
+        
+  
+                </ul>
+            </li>
+
+
+
+
 
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">

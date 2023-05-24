@@ -35,6 +35,7 @@ Route::group(['middleware' => ['pic']],function(){
 
     Route::get('pic/service/get-image-service-detail/{par1}', 'App\Http\Controllers\Pic\Service@get_image_service_detail');
     Route::get('pic/service/service-advisor/{par1}', 'App\Http\Controllers\Pic\Service@service_advisor');
-
+    Route::post(' pic/service/service-advisor-proses', 'App\Http\Controllers\Pic\Service@service_advisor_proses');
+   
 
 });

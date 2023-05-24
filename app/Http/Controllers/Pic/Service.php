@@ -123,7 +123,7 @@ class Service extends Controller
                 ]); 
                 
             DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$id_spk_d->mvm_spk_d_id)->update([
-                    'status_service'   => 'ONINVOICE'             
+                    'status_service'   => 'APPROVAL'             
                     ]);
    
         }
@@ -247,10 +247,7 @@ class Service extends Controller
             return response()->file($storagePath);
         }
 
-    }
-
-    
-   
+    }   
 
     public function get_vehicle(){
 
@@ -299,6 +296,31 @@ class Service extends Controller
             );
             return view('pic/layout/wrapper',$data);
 
+
+    }
+
+    public function service_advisor_proses(Request $request)
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+       
+        $id       = $request->id;
+        $id_spk_d =  DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id)->first();
+
+        DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id)->update([
+            'remark_pic_branch'   => $request->remark,
+            'pic_branch_date_post'   => date("Y-m-d h:i:sa")          
+            ]); 
+            
+        DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$id_spk_d->mvm_spk_d_id)->update([
+                'status_service'   => 'APPROVAL'             
+                ]);
+
+        return redirect('pic/list-service')->with(['sukses' => 'Data telah Proses']);
 
     }
     
