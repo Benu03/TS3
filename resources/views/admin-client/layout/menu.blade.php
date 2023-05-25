@@ -188,4 +188,4 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-<div class="table-responsive konten">
+{{-- <div class="table-responsive konten"> --}}

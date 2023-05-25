@@ -19,12 +19,15 @@
 							<div class="form-group row">
 								<label class="col-sm-3 control-label text-right">Bengkel</label>
 								<div class="col-sm-9">
-									<select name="mst_bengkel_id" id="mst_bengkel_id" class="form-control select2" width="100%">
-										
+									
+									  <select name="mst_bengkel_id" id="mst_bengkel_id" class="form-control" width="100%">
+							
 										<?php foreach($bengkel as $bk) { ?>
-										  <option value="<?php echo $bk->id ?>"><?php echo $bk->bengkel_name ?></option>
+										<option value="<?php echo $bk->id ?>"><?php echo $bk->bengkel_name ?></option>
 										<?php } ?>
-									  </select>
+									</select>
+
+
 								</div>
 							</div>
 

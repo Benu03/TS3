@@ -24,13 +24,11 @@ class Service extends Controller
     
         $countreq = DB::connection('ts3')->table('mvm.mvm_direct_service')->where('status','REQUEST')->count();
         $countestimate = DB::connection('ts3')->table('mvm.mvm_direct_service')->where('status','ESTIMATE')->count();
-        $countproses = DB::connection('ts3')->table('mvm.mvm_direct_service')->where('status','PROSES')->count();
-        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->whereNotIn('status',['DONE'])->get();
+        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->whereNotIn('status',['PROSES'])->get();
         $bengkel 	= DB::connection('ts3')->table('mst.v_bengkel')->get();
 		$data = array(   'title'     => 'Direct Service',
                          'countreq'      => $countreq,
                          'countestimate'      => $countestimate,
-                         'countproses'      => $countproses,
                          'direct'      => $direct,
                          'bengkel'      => $bengkel,
                         'content'   => 'admin-ts3/service/direct'

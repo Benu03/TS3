@@ -82,7 +82,7 @@
     <button type="button" class="btn btn-warning" name="proses_service" onClick="check();"   data-toggle="modal" data-target="#ProsesSpkService" >
         <i class="fa fa-edit"> </i> Proses Mapping Service
     </button> 
-
+    @include('admin-ts3/spk/spk_service_proses') 
 </p>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
@@ -144,7 +144,7 @@
             
                 </td>
             </tr>
-             @include('admin-ts3/spk/spk_service_proses') 
+       
 
             <?php $i++; } ?>  
             
