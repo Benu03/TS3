@@ -116,7 +116,8 @@ class Spk extends Controller
 
        
             $id       = $request->id;
-       
+   
+          
             for($i=0; $i < sizeof($id);$i++) {
                       
       

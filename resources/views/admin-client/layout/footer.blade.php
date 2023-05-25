@@ -1,3 +1,4 @@
+
 <script>
 tinymce.init({
   selector: '.simple',

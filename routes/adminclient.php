@@ -75,5 +75,14 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::post('admin-client/approval/service-approval-proses', 'App\Http\Controllers\AdminClient\Approval@service_approval_proses');
 
 
+    Route::get('admin-client/approval/direct', 'App\Http\Controllers\AdminClient\Approval@direct');
+    Route::get('admin-client/approval/direct-service-approval/{par1}', 'App\Http\Controllers\AdminClient\Approval@direct_service_approval');
+    Route::post('admin-client/approval/direct-service-approval-proses', 'App\Http\Controllers\AdminClient\Approval@direct_service_approval_proses');
+    Route::get('admin-client/approval/get-image_direct/{par1}', 'App\Http\Controllers\AdminClient\Approval@get_image_direct');
+
+
+    
+
+
     
 });

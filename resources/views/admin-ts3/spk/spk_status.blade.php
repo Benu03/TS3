@@ -64,11 +64,12 @@
             <thead>
                 <tr class="bg-info">
                     <th width="5%">
-                      <div class="mailbox-controls">
+                      {{-- <div class="mailbox-controls">
                             <!-- Check all button -->
                            <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
                             </button>
-                        </div>
+                        </div> --}}
+                        No
                     </th>
                     <th width="15%">SPK Nomor</th>
                     <th width="10%">Jumlah Kendaraan</th>   
@@ -84,11 +85,11 @@
             <?php $i=1; foreach($spk as $dt) { ?> 
             
                 <td class="text-center">
-                    <div class="icheck-primary">
+                    {{-- <div class="icheck-primary">
                               <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $dt->id ?>" id="check<?php echo $i ?>">
                                <label for="check<?php echo $i ?>"></label>
-                    </div>
-          
+                    </div> --}}
+                    <?php echo $i ?>
                 </td>
                 <td><?php echo $dt->spk_no ?></td>
                 <td><?php echo $dt->count_vehicle ?></td>

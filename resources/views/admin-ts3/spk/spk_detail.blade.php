@@ -56,10 +56,11 @@
                           
                           <div class="row"> 
                             <div class="col-md-12 text-right">
-                         
+                                        @if(isset($dt->nama_file))
                                         <a href="{{ asset('admin-ts3/spk-file/'.$dt->nama_file) }}"class="btn btn-secondary">
                                             <i class="far fa-file-excel"></i> Downlod File SPK
                                         </a>
+                                        @endif
                                  
                                   </div>  
                             

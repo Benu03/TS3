@@ -51,22 +51,6 @@
     </div>
 
 
-    <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box mb-3">
-        <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-motorcycle"></i></span>
-
-        <div class="info-box-content">
-            <span class="info-box-text">
-            PROSES
-            </span>
-            <span class="info-box-number">
-            {{ $countproses }}
-            </span>
-        </div>
-        <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-    </div>
 
             
 
@@ -133,9 +117,7 @@
                         @if ($dt->status == 'REQUEST')
                         <a href="{{ asset('admin-ts3/direct-service-edit/'.$dt->id) }}" 
                             class="btn btn-warning btn-sm mr-1"><i class="fa fa-edit"></i></a>
-                        @elseif($dt->status == 'PROSES')
-                        <a href="{{ asset('admin-ts3/direct_service_estimate/'.$dt->id) }}" 
-                            class="btn btn-primary btn-sm mr-1"><i class="fas fa-dollar-sign"></i></a>
+                       
                         @endif      
     
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailDirect<?php echo $dt->id ?>">

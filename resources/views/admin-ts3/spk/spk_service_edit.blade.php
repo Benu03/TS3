@@ -13,6 +13,19 @@
 <input type="hidden" name="id" value="<?php echo $spk->id ?>">
 
 
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">SPK No</label>
+					<div class="col-sm-9">
+						<input type="text" name="spk_no" class="form-control" placeholder="SPK NO" value="<?php echo $spk->spk_no ?>" required readonly> 
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">NOPOL</label>
+					<div class="col-sm-9">
+						<input type="text" name="nopol" class="form-control" placeholder="NOPOL" value="<?php echo $spk->nopol ?>" required readonly> 
+					</div>
+				</div>
 
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Tanggal Schedule</label>

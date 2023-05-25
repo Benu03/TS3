@@ -164,5 +164,139 @@ class Approval extends Controller
     }
   
 
+    public function direct()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+        $user_client 	= DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
+        
+
+        $countestimate = DB::connection('ts3')->table('mvm.mvm_direct_service')->where('status','ESTIMATE')->count();
+        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('status','ESTIMATE')->get();
+
+		$data = array(   'title'     => 'Approval Direct Service',
+                         'direct'      => $direct,
+                         'countestimate'      => $countestimate,
+                        'content'   => 'admin-client/approval/direct'
+                    );
+        return view('admin-client/layout/wrapper',$data);
+    }
+
+    public function get_image_direct($id)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
+
+       
+        $storagePath =  storage_path('data/direct/'). $direct->foto_kendaraan;
+        return response()->file($storagePath);
+
+    }
+    
+
+    public function direct_service_approval($id)
+    {
+
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+      
+        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
+    
+       
+
+        $priceJobs  = DB::connection('ts3')->table('mst.v_price_regional_client')
+        ->select('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
+        ->where('mst_client_id',$direct->mst_client_id)
+        ->where('mst_regional_id',$direct->mst_regional_id)
+        ->where('price_service_type','Jasa')
+        ->groupBy('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
+        ->get();
+       
+
+        $pricePart = DB::connection('ts3')->table('mst.v_price_regional_client')
+        ->select('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
+        ->where('mst_client_id',$direct->mst_client_id)
+        ->where('mst_regional_id',$direct->mst_regional_id)
+        ->where('price_service_type','Part')
+        ->groupBy('kode', 'service_name','price_bengkel_to_ts3','price_ts3_to_client')
+        ->get();            
+
+        $data = array(   'title'     => 'Direct Service Estimate '. $direct->nopol,
+                         'direct'     => $direct,
+                         'pricePart'      => $pricePart,
+                         'priceJobs'      => $priceJobs,
+                        'content'       => 'admin-client/approval/direct_service_approval'
+                );
+    
+         return view('admin-client/layout/wrapper',$data);
+
+    }
+
+    public function direct_service_approval_proses(Request $request)
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+
+            DB::connection('ts3')->table('mvm.mvm_direct_service')->where('id',$request->id)->update([
+            'spk_no' =>     $request->spk_no,
+            'remark_admin_client'   => $request->remark,
+            'status'   => 'PROSES',            
+            'date_post_spk'    => date("Y-m-d h:i:sa"),
+            'admin_client_post'       => $request->session()->get('username')    
+            ]);   
+
+            $userclient = DB::connection('ts3')->table('mst.v_user_client')->where('username', Session()->get('username'))->first();
+                
+            $spk_seq = $userclient->client_name.'-'.date("his");
+
+            DB::connection('ts3')->table('mvm.mvm_spk_h')->insert([
+                'spk_seq'   => $spk_seq,
+                'spk_no'	=> $request->spk_no,
+                'count_vehicle'	=> 1,
+                'tanggal_pengerjaan'	=> $request->tanggal_pengerjaan,
+                'tanggal_last_spk'	=> $request->tanggal_last_spk,
+                'status'	=> 'WAITING',
+                'user_posting'     => Session()->get('username'),
+                'posting_date'    => date("Y-m-d h:i:sa")
+                ]);
+
+
+                DB::connection('ts3')->table('mvm.mvm_spk_d')->insert([
+                    'spk_seq'   => $spk_seq,
+                    'spk_no'	=> $request->spk_no,
+                    'nopol'	    => $request->nopol,
+                    'mst_branch_id'	=> $request->mst_branch_id,
+                    'status_service'	=> 'PLANING',
+                    'remark'        => $request->remark,
+                    'created_date'     => date("Y-m-d h:i:sa"),
+                    'create_by'     => Session()->get('username'),
+                    'source'        => 'Direct'
+                     ]);       
+            $approval_no  = 'APV-'.date("Ymdhis");     
+                     DB::connection('ts3')->table('mvm.mvm_approval')->insert([
+                                 'approval_no'   => $approval_no,
+                                 'user_approval'	=> Session()->get('username'),
+                                 'date_approval'    => date("Y-m-d h:i:sa"),
+                                 'type_approval'   => 'DIRECT SEVICE',
+                                 'unique_approval'   => $request->spk_no,
+                                 'remark_approval'   => $request->remark
+                             ]);        
+
+
+        return redirect('admin-client/approval/direct')->with(['sukses' => 'Data telah Proses']);
+    }
+    
+
+
+
+
    
 }
