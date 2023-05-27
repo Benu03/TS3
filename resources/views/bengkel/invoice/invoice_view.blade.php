@@ -69,7 +69,7 @@
                                             <thead>
                                                 <tr class="bg-light">                                                      
                                                
-                                                 
+                                                    <th width="15%">SERVICE NO</th> 
                                                     <th width="8%">JASA</th> 
                                                     <th width="8%">PART</th>  
                                                     <th width="8%">NOPOL</th> 

@@ -317,8 +317,13 @@ class Invoice extends Controller
         $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice_no)->first();       
         $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_generate')->where('invoice_no',$invoice_no)->orderby('service_no')->get();
 
+        $bengkel = DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',$invoice->create_by)->first();  
+        $config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
-        $pdf = PDF::loadview('bengkel/invoice/pdf/invoice_generate',['invoice'=>$invoice, 'invoice_detail' => $invoice_detail])->setPaper('a4', 'landscape');
+
+
+
+        $pdf = PDF::loadview('bengkel/invoice/pdf/invoice_generate',['invoice'=>$invoice, 'invoice_detail' => $invoice_detail,'bengkel' =>$bengkel, 'config' => $config ])->setPaper('a4', 'landscape');
     	return $pdf->download($invoice_no.'.pdf');
 
     }
