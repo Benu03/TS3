@@ -164,54 +164,71 @@ class Spk extends Controller
        
         $spk_detail_temp_h = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_seq', $spk_seq)->first();
                
-            DB::connection('ts3')->table('mvm.mvm_spk_h')->insert([
-            'spk_seq'   => $spk_seq,
-            'spk_no'	=> $spk_detail_temp_h->spk_no,
-            'count_vehicle'	=> $spk_detail_temp_h->count_vehicle,
-            'tanggal_pengerjaan'	=> $spk_detail_temp_h->tanggal_pengerjaan,
-            'tanggal_last_spk'	=> $spk_detail_temp_h->tanggal_last_spk,
-            'status'	=> 'WAITING',
-            'upload_date'	=> $spk_detail_temp_h->upload_date,
-            'user_upload'	=> $spk_detail_temp_h->user_upload,
-            'user_posting'     => Session()->get('username'),
-            'posting_date'    => date("Y-m-d h:i:sa"),
-            'nama_file'    =>  $spk_detail_temp_h->nama_file
-            ]);
 
+        $checkvehicle =  DB::connection('ts3')->table('mvm.v_check_vehicle_posting')->where('spk_seq',$spk_detail_temp_h->spk_seq)->whereNull('nopol')->get(); 
+        $checkbranch =  DB::connection('ts3')->table('mvm.v_check_branch_posting')->where('spk_seq',$spk_detail_temp_h->spk_seq)->whereNull('branch')->get();
+        if(count($checkvehicle) > 0)
+        {
+            return redirect('admin-client/spk-temp-detail/'.$spk_detail_temp_h->spk_seq)->with(['warning' => 'Data Vehicle Belum Terdaftar']);  
+        }
+        else
+        {
+            if(count($checkbranch) > 0)
+            {
 
+                return redirect('admin-client/spk-temp-detail/'.$spk_detail_temp_h->spk_seq)->with(['warning' => 'Data Cabang Belum Terdaftar']);  
+            }
+            else
+            {   
+                DB::connection('ts3')->table('mvm.mvm_spk_h')->insert([
+                'spk_seq'   => $spk_seq,
+                'spk_no'	=> $spk_detail_temp_h->spk_no,
+                'count_vehicle'	=> $spk_detail_temp_h->count_vehicle,
+                'tanggal_pengerjaan'	=> $spk_detail_temp_h->tanggal_pengerjaan,
+                'tanggal_last_spk'	=> $spk_detail_temp_h->tanggal_last_spk,
+                'status'	=> 'WAITING',
+                'upload_date'	=> $spk_detail_temp_h->upload_date,
+                'user_upload'	=> $spk_detail_temp_h->user_upload,
+                'user_posting'     => Session()->get('username'),
+                'posting_date'    => date("Y-m-d h:i:sa"),
+                'nama_file'    =>  $spk_detail_temp_h->nama_file
+                ]);
 
-            $spk_detail_temp_d = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq', $spk_seq)->get();
+                $spk_detail_temp_d = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq', $spk_seq)->get();
 
-            foreach($spk_detail_temp_d as $x => $val) {
-                $resultArray = json_decode(json_encode($val), true);
+                foreach($spk_detail_temp_d as $x => $val) {
+                    $resultArray = json_decode(json_encode($val), true);
+                    
+                    $branch_id = DB::connection('ts3')->table('mst.v_branch')->where('branch', $resultArray['branch'])->first();
                 
-                $branch_id = DB::connection('ts3')->table('mst.v_branch')->where('branch', $resultArray['branch'])->first();
-              
-                try {
-                    $serviceType = DB::connection('ts3')->table('mst.mst_general')->where('id', 13)->first();
-                    if(isset($branch_id)){
-                        DB::connection('ts3')->table('mvm.mvm_spk_d')->insert([
-                        'spk_seq'   => $spk_seq,
-                        'spk_no'	=> $spk_detail_temp_h->spk_no,
-                        'nopol'	    => $resultArray['nopol'],
-                        'mst_branch_id'	=> $branch_id->id,
-                        'status_service'	=> 'PLANING',
-                        'remark'        => $resultArray['remark'],
-                        'created_date'     => date("Y-m-d h:i:sa"),
-                        'create_by'     => Session()->get('username'),
-                        'source'        => $serviceType->value_1
-                         ]); 
+                    try {
+                        $serviceType = DB::connection('ts3')->table('mst.mst_general')->where('id', 13)->first();
+                        if(isset($branch_id)){
+                            DB::connection('ts3')->table('mvm.mvm_spk_d')->insert([
+                            'spk_seq'   => $spk_seq,
+                            'spk_no'	=> $spk_detail_temp_h->spk_no,
+                            'nopol'	    => $resultArray['nopol'],
+                            'mst_branch_id'	=> $branch_id->id,
+                            'status_service'	=> 'PLANING',
+                            'remark'        => $resultArray['remark'],
+                            'created_date'     => date("Y-m-d h:i:sa"),
+                            'create_by'     => Session()->get('username'),
+                            'source'        => $serviceType->value_1
+                            ]); 
+                        }
+                    
+                    } catch (\Exception $e) {
+                        DB::connection('ts3')->table('mvm.mvm_spk_h')->where('spk_seq',$spk_seq)->where('user_upload',Session()->get('username'))->delete();  
+                        DB::connection('ts3')->table('mvm.mvm_spk_d')->where('spk_seq',$spk_seq)->delete();  
+                        return $e->getMessage();
                     }
-                  
-                  } catch (\Exception $e) {
-                    DB::connection('ts3')->table('mvm.mvm_spk_h')->where('spk_seq',$spk_seq)->where('user_upload',Session()->get('username'))->delete();  
-                    DB::connection('ts3')->table('mvm.mvm_spk_d')->where('spk_seq',$spk_seq)->delete();  
-                      return $e->getMessage();
-                  }
 
-            }    
-            DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq',$spk_seq)->where('user_upload',Session()->get('username'))->delete();
-        return redirect('admin-client/spk')->with(['sukses' => 'Posting Data Upload Berhasil']);  
+                }    
+                DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq',$spk_seq)->where('user_upload',Session()->get('username'))->delete();
+                return redirect('admin-client/spk')->with(['sukses' => 'Posting Data Upload Berhasil']);  
+            }
+
+        }
     }
 
     public function spk_detail($spk_seq)

@@ -8,10 +8,10 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
-				<form action="{{ asset('admin-ts3/vehicle/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+				<form action="{{ asset('admin-client/vehicle/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 				 
-			<div class="form-group row">
+			{{-- <div class="form-group row">
 				<label class="col-sm-3 control-label text-right">Client</label>
 				<div class="col-sm-9">
 					<select name="mst_client_id" id="mst_client_id" class="form-control select2">
@@ -21,7 +21,7 @@
 						<?php } ?>
 					</select>
 				</div>
-			</div>
+			</div> --}}
 
 
 

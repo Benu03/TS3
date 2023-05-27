@@ -98,10 +98,21 @@
                 </ul>
             </li>
 
-         
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cogs"></i>
+                <p>Vehicle<i class="fas fa-angle-left right"></i></p>
+              </a>
+              <ul class="nav nav-treeview">
 
-          <li class="nav-item"><a href="{{ asset('admin-client/vehicle') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>Vehicle</p></a>
-          </li>
+            <li class="nav-item ml-4"><a href="{{ asset('admin-client/vehicle') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>Vehicle List</p></a>
+            </li>
+            <li class="nav-item ml-4"><a href="{{ asset('admin-client/vehicle-type') }}" class="nav-link"><i class="fas fa-tools nav-icon"></i><p>Vehicle Type</p></a>
+            </li>
+
+          </ul>
+        </li>  
+
 
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
