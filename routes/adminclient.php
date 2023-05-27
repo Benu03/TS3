@@ -38,8 +38,20 @@ Route::group(['middleware' => ['adminclient']],function(){
 
    
 
-    Route::get('admin-client/vehicle', 'App\Http\Controllers\AdminClient\vehicle@index');
-    Route::get('admin-client/vehicle/detail/{par1}', 'App\Http\Controllers\AdminClient\vehicle@detail');
+    Route::get('admin-client/vehicle', 'App\Http\Controllers\AdminClient\Vehicle@index');
+    Route::post('admin-client/vehicle/tambah', 'App\Http\Controllers\AdminClient\Vehicle@tambah');
+    Route::post('admin-client/vehicle/proses', 'App\Http\Controllers\AdminClient\Vehicle@proses');
+    Route::get('admin-client/vehicle/edit/{par1}', 'App\Http\Controllers\AdminClient\Vehicle@edit');
+    Route::post('admin-client/vehicle/proses-edit', 'App\Http\Controllers\AdminClient\Vehicle@proses_edit');
+    Route::get('admin-client/vehicle/delete/{par1}', 'App\Http\Controllers\AdminClient\Vehicle@delete');
+    Route::get('admin-client/vehicle/detail/{par1}', 'App\Http\Controllers\AdminClient\Vehicle@detail');
+    
+    Route::get('admin-client/vehicle-type', 'App\Http\Controllers\AdminClient\Vehicle@index_vehicle_type');
+    Route::post('admin-client/vehicle-type/tambah-vehicle-type', 'App\Http\Controllers\AdminClient\Vehicle@tambah_vehicle_type');
+    Route::post('admin-client/vehicle-type/proses-vehicle-type', 'App\Http\Controllers\AdminClient\Vehicle@proses_vehicle_type');
+    Route::get('admin-client/vehicle-type/edit-vehicle-type/{par1}', 'App\Http\Controllers\AdminClient\Vehicle@edit_vehicle_type');
+    Route::post('admin-client/vehicle-type/proses-edit-vehicle-type', 'App\Http\Controllers\AdminClient\Vehicle@proses_edit_vehicle_type');
+    Route::get('admin-client/vehicle-type/delete-vehicle-type/{par1}', 'App\Http\Controllers\AdminClient\Vehicle@delete_vehicle_type');
 
 
     Route::get('admin-client/report/spk-history', 'App\Http\Controllers\AdminClient\report@spk_history');
@@ -79,6 +91,7 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/approval/direct-service-approval/{par1}', 'App\Http\Controllers\AdminClient\Approval@direct_service_approval');
     Route::post('admin-client/approval/direct-service-approval-proses', 'App\Http\Controllers\AdminClient\Approval@direct_service_approval_proses');
     Route::get('admin-client/approval/get-image_direct/{par1}', 'App\Http\Controllers\AdminClient\Approval@get_image_direct');
+
 
 
     

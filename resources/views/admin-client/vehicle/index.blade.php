@@ -8,13 +8,13 @@
 </div>
 @endif
 <p>
-{{-- @include('admin-ts3/vehicle/tambah') --}}
+@include('admin-client/vehicle/tambah')
 </p>
-{{-- <form action="{{ asset('admin-client/vehicle/proses') }}" method="post" accept-charset="utf-8">
-{{ csrf_field() }} --}}
+<form action="{{ asset('admin-client/vehicle/proses') }}" method="post" accept-charset="utf-8">
+{{ csrf_field() }}
 <div class="row">
 
-{{-- <div class="col-md-12">
+<div class="col-md-12">
     <div class="btn-group">
     <button class="btn btn-danger" type="submit" name="hapus" onClick="check();" >
         <i class="fa fa-trash"></i>
@@ -23,43 +23,7 @@
             <i class="fa fa-plus"></i> Tambah Baru
         </button>
 </div>
-</div> --}}
-
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-motorcycle"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">
-                        Vehicle
-                        </span>
-                        <span class="info-box-number">
-                     
-                        {{  $count_vehicle }}
-                        </span>
-                    </div>
-                    <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-           
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                    <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-copyright"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">
-                        Type Vehicle
-                        </span>
-                        <span class="info-box-number">
-                            {{  $count_type_vehicle }}
-                        {{-- <small>Sudah Dipublikasikan</small> --}}
-                        </span>
-                    </div>
-                    <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
+</div>
 </div>
 
 <div class="clearfix"><hr></div>
@@ -107,6 +71,12 @@
     <a href="{{ asset('admin-client/vehicle/detail/'.$vc->id) }}" 
             class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
 
+    <a href="{{ asset('admin-client/vehicle/edit/'.$vc->id) }}" 
+    class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+
+    <a href="{{ asset('admin-client/vehicle/delete/'.$vc->id) }}" class="btn btn-danger btn-sm  delete-link">
+        <i class="fa fa-trash"></i></a>
+    </div>
 
 </td>
 </tr>
@@ -117,4 +87,4 @@
 </table>
 </div>
 </div>
-{{-- </form> --}}
+</form>
