@@ -526,7 +526,7 @@ class Invoice extends Controller
 			'updated_at' =>  date("Y-m-d h:i:sa")
         ]);   
 
-		return redirect('admin-ts3/invoice')->with(['sukses' => 'Invoice Proses Selesai']);
+		return redirect('admin-ts3/invoice/client')->with(['sukses' => 'Invoice Proses Selesai']);
 
 	}
 
