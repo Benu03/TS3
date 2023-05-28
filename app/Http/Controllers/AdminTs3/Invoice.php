@@ -293,9 +293,19 @@ class Invoice extends Controller
 
             $month = $this->getRomawi(date("m"));
             $invoicenocheck = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_type','TS3 TO CLIENT')->orderBy('created_date','DESC')->first();
-            $y = explode('/', $invoicenocheck->invoice_no);
-            $seq = $y[0]+1;
-            $invoice_no   = $seq.'/INV.TS3'.'/'.$month.'/'.date("Y");           
+     
+            if($invoicenocheck == null)
+            {
+                $invoice_no   = '1'.'/INV.TS3'.'/'.$month.'/'.date("Y");  
+            }
+            else
+            {
+                $y = explode('/', $invoicenocheck->invoice_no);
+                $seq = $y[0]+1;
+                $invoice_no   = $seq.'/INV.TS3'.'/'.$month.'/'.date("Y");  
+            }
+          
+                     
         }
         else{
             $invoice_no = $checkInvoice->invoice_no;
