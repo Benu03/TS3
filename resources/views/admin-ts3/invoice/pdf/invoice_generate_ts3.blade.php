@@ -11,60 +11,73 @@
  		 font-family: Arial, Helvetica, sans-serif;
 		  color:rgb(224, 25, 3);
 		  font-size: 14pt;
+		  line-height: 1.5em;
 		},
 		.p2 {
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 6pt;
+		line-height: 1.5em;
 		}
+		.p0 {
+ 		 font-family: Arial, Helvetica, sans-serif;
+		  line-height: 0.5em;
+		
+		},
+		.p5 {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 6pt;
+		line-height: 1.5em;
+		},
+		.p6 {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 6pt;
+		line-height: 1em;
+		},
+		th {
+			text-align: center;
+			},
+		center{
+			line-height: 0.5em;
+		},
+		.borderexample {
+		border-width:1px;
+		border-style:solid;
+		border-color:#878787;
+		}	
 		
 	</style>
-	<center class="p1">
-		<b><u>INVOICE</u></b>	
-	</center>
 
+	<p class="p0">
+		<img src="{{ $logo }}" style="width:80px;">  PT.TS3 INDONESIA<br />
+		<center class="p1">
+			<b><u>INVOICE</u></b>	
+		</center>
+	</p>	
 	<center class="p2" >
 		<b>No. <?php echo $invoice->invoice_no ?></b>	
 	</center>
-	
-	<hr>
-	
-	<table class='table table-borderless table-sm' style="font-size: 8px;">
-		<thead>
-			<tr>
-				<th>
-					<table class='table table-borderless table-sm' style="font-size: 8px;">
-						<thead>
-							<tr>
-								<th colspan="2">Kepada : PT.<?php echo $config->nama_singkat ?> INDONESIA</th>							
-							</tr> 
-							<tr>
-								<th colspan="2"><?php echo $config->alamat ?></th>							
-							</tr> 
-							<tr>
-								<th colspan="2"><?php echo $config->telepon ?> , <?php echo $config->email ?></th>							
-							</tr> 
-							<tr>
-								<th colspan="2"></th>				
-							</tr>
 
-		
-						
-						</thead>
-					</table>
+	<p class="p5">
+		Kepada:<br />
+		PT. MITRA BISNIS MADANI<br/>
+		Menara PNM Lantai 12<br />
+		Jalan Kuningan Mulia,Kuningan Center Lot.3<br />
+		Karet Kuningan, Setiabudi, Jakarta Selatan 12940<br />
+		Berikut ini kami sampaikan invoice Rekapitulasi Biaya yang harus dibayar PT. Mitra Bisnis Madani<br />
+		Bengkel TS3 Indonesia - Regional <?php echo $invoice_detail[0]->regional ?> <br />
+		Periode : 11 - 12 Mei 2023<br />
+	</p>
 
-				</th>
 
-			
-
-			</tr>
-		</thead>
-	</table>
-
-      <p class="p2">
-		<b>Invoice Detail</b>
-	  </p>
-
-	<table class='table table-bordered table-sm' style="font-size: 6pt;">
+	<center >
+		<p class="p5">
+		Daftar Rekapitulasi Biaya yang harus Dibayar PT. Mitra Bisnis Madani<br />
+		Bengkel TS3 Indonesia<br />
+		Regional Regional <?php echo $invoice_detail[0]->regional ?><br />
+		Periode : 11 - 12 Mei 2023<br />
+		</p>
+	</center>
+	<table class='table table-bordered table-sm' style="font-size: 5pt;">
 		<thead>
 			<tr class="bg-info">                                                      
 		   
@@ -122,7 +135,25 @@
 	</tbody>
 		
 	</table>
-{{-- </font> --}}
+	<p class="p5">
+		<b>Terbilang:<br />
+			<?php echo $terbilang ?>
+		</b>
+	</p>
+	
+		<label class="p6">Harap di transfer via No.Rekening :</label>
+		<table border="1" style="font-size: 6pt;">
+			<tr>
+				<td width="40%">
+					BCA ( a/n . PT. TEES THREE INDONESIA)<br />
+					009.317.1818<br />
+					Cab. Pemuda Semarang
+				</td>
+			</tr>
+		</table>
+	
+	
+
 
  
 </body>
