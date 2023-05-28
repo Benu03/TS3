@@ -76,11 +76,11 @@
 <thead>
     <tr class="bg-info">
          
-        <th width="12%">Invoice Nomor</th>
-        <th width="12%">Invoice Type</th>
+        <th width="10%">Invoice Nomor</th>
+        <th width="10%">Invoice Type</th>
         <th width="10%">Tanggal Invoice</th>   
         <th width="10%">Regional</th>   
-        <th width="10%">Status</th> 
+        <th width="7%">Status</th> 
         <th width="7%">PPH</th>  
         <th width="7%">PPN</th>  
         <th width="7%">Jasa</th>  
@@ -110,6 +110,11 @@
                 @if($in->status == 'PROSES')
                    
                      
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#invoiceproses<?php echo $in->id ?>">
+                    <i class="fa fa-edit"></i> 
+                 </button>  
+
+                 @include('admin-ts3/invoice/invoice_admin_proses') 
                     @endif
                     
                 <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#invoiceadmin<?php echo $in->id ?>">

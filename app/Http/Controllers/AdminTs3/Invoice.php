@@ -512,6 +512,24 @@ class Invoice extends Controller
 	}
 
 
+    public function invoice_admin_proses(Request $request) 
+	{
+		if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+		DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+            'remark'       => $request->remark,
+            'status'       => 'DONE',
+			'update_by' => Session()->get('username'),
+			'updated_at' =>  date("Y-m-d h:i:sa")
+        ]);   
+
+		return redirect('admin-ts3/invoice')->with(['sukses' => 'Invoice Proses Selesai']);
+
+	}
+
   
 
    
