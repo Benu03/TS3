@@ -28,8 +28,7 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/spk-posting/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_posting');
 
 
-    Route::get('admin-client/invoice', 'App\Http\Controllers\AdminClient\Invoice@index');
-    Route::get('admin-client/invoice-detail', 'App\Http\Controllers\AdminClient\Invoice@invoice_detail');
+
 
 
     Route::get('admin-client/pic-cabang', 'App\Http\Controllers\AdminClient\pic_cabang@index');
@@ -94,7 +93,10 @@ Route::group(['middleware' => ['adminclient']],function(){
 
 
 
-    
+    Route::get('admin-client/invoice', 'App\Http\Controllers\AdminClient\Invoice@index');
+    Route::get('admin-client/invoice-detail', 'App\Http\Controllers\AdminClient\Invoice@invoice_detail');
+    Route::get('admin-client/invoice-generate-ts3/{par1}', 'App\Http\Controllers\AdminClient\Invoice@invoice_generate_ts3');
+    Route::post('admin-client/invoice-admin-proses', 'App\Http\Controllers\AdminClient\Invoice@invoice_admin_proses');
 
 
     
