@@ -38,7 +38,6 @@ class Invoice extends Controller
         return view('admin-ts3/layout/wrapper',$data);
     }
 
-
     public function invoice_to_client()
     {
         if(Session()->get('username')=="") {
@@ -46,15 +45,22 @@ class Invoice extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
     
-    
+        $countinvoicets3 = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','DRAFT')->where('create_by',Session()->get('username'))->where('invoice_type','TS3 TO CLIENT')->count();
 
-        $countinvoicets3 = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','PROSES')->where('invoice_type','TS3 TO CLIENT')->count();
+        if($countinvoicets3 == 1)
+        {
+            return redirect('admin-ts3/invoice-create');
+        }
+    
+        $countinvoicets3pro = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','PROSES')->where('invoice_type','TS3 TO CLIENT')->count();
+        $countinvoicets3req = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','REQUEST')->where('invoice_type','TS3 TO CLIENT')->count();
       
         $invoice = DB::connection('ts3')->table('mvm.v_invoice_admin_ts3')->whereIn('status',['PROSES','REQUEST'])->where('invoice_type','TS3 TO CLIENT')->get();
         
 		$data = array(   'title'     => 'Invoice To Cliet',
                          'invoice'      => $invoice,                   
-                         'countinvoicets3' => $countinvoicets3,
+                         'countinvoicets3pro' => $countinvoicets3pro,
+                         'countinvoicets3req' => $countinvoicets3req,
                         'content'   => 'admin-ts3/invoice/invoice_client'
                     );
         return view('admin-ts3/layout/wrapper',$data);
@@ -79,7 +85,6 @@ class Invoice extends Controller
 
     }
 
-
     public function invoice_proses_page($invoice_no)
     {
         if(Session()->get('username')=="") {
@@ -100,7 +105,6 @@ class Invoice extends Controller
         return view('admin-ts3/layout/wrapper',$data);
 
     }
-   
 
     public function invoice_create_detail_proses(Request $request)
     {
@@ -116,76 +120,147 @@ class Invoice extends Controller
 
         if(isset($_POST['invoice_create'])) {
             $id       = $request->id;
-
             $checkregional = DB::connection('ts3')->table('mvm.v_invoice_list_create_admin')->select('regional')->whereIn('id',$id)->groupby('regional')->get();  
+           
+          
             if(count($checkregional) > 1)
             {
                 return redirect('admin-ts3/invoice-create')->with(['warning' => 'Data Regional Harus sama']);
             }
             else
             {       
-                $invoice_h_admin =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->insertgetID([
+                 $check = json_decode(json_encode($checkregional), FALSE);
+                $invoicestaging =   DB::connection('ts3')->table('mvm.v_invoice_detail_admin')->select('regional')->where('invoice_no',$request->invoice_no)->groupby('regional')->get();  
+                $staging = json_decode(json_encode($invoicestaging), FALSE);
+
+               if(count($invoicestaging) == 0)
+               {
+
+                     
+
+                    $invoice_h_admin =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->insertgetID([
                     'invoice_no'   => $request->invoice_no,
                     'invoice_type'	=> 'TS3 TO CLIENT',
                     'status'	=> 'DRAFT',
                     'created_date'    => date("Y-m-d h:i:sa"),
                     'create_by'     => $request->session()->get('username'),
-                ]); 
+                    ]); 
 
 
-                $invoice_detail = DB::connection('ts3')->table('mvm.mvm_invoice_d')->whereIn('mvm_invoice_h_id',$id)->get();  
-             
-                foreach($invoice_detail as $val)
-                {
-                    $dataPreparing = [
-                        'mvm_invoice_h_id' => $invoice_h_admin,
-                        'created_date'    => date("Y-m-d h:i:sa"),
-                        'create_by'     => $request->session()->get('username'),
-                        'mst_price_service_id' => $val->mst_price_service_id,
-                        'service_no' => $val->service_no,
-                        'invoice_no' => $request->invoice_no,
-                        'price_type' => $val->price_type,
-                        'price_ts3_to_client' => $val->price_ts3_to_client,
-                        'reference_no' => $val->invoice_no
-                    ];
-                   
-    
-                    DB::connection('ts3')->table('mvm.mvm_invoice_d')->insert($dataPreparing);
+                    $invoice_detail = DB::connection('ts3')->table('mvm.mvm_invoice_d')->whereIn('mvm_invoice_h_id',$id)->get();  
+                
+                    foreach($invoice_detail as $val)
+                    {
+                        $dataPreparing = [
+                            'mvm_invoice_h_id' => $invoice_h_admin,
+                            'created_date'    => date("Y-m-d h:i:sa"),
+                            'create_by'     => $request->session()->get('username'),
+                            'mst_price_service_id' => $val->mst_price_service_id,
+                            'service_no' => $val->service_no,
+                            'invoice_no' => $request->invoice_no,
+                            'price_type' => $val->price_type,
+                            'price_ts3_to_client' => $val->price_ts3_to_client,
+                            'reference_no' => $val->invoice_no
+                        ];
+                    
+        
+                        DB::connection('ts3')->table('mvm.mvm_invoice_d')->insert($dataPreparing);
 
-                }
-                    DB::connection('ts3')->table('mvm.mvm_invoice_h')->whereIn('id',$id)->update([
-                    'status'   => 'PROSES',
-                    'updated_at'    => date("Y-m-d h:i:sa"),
-                    'update_by'         => $request->session()->get('username')
-                    ]);   
+                    }
+                        DB::connection('ts3')->table('mvm.mvm_invoice_h')->whereIn('id',$id)->update([
+                        'status'   => 'PROSES',
+                        'updated_at'    => date("Y-m-d h:i:sa"),
+                        'update_by'         => $request->session()->get('username')
+                        ]);   
 
-                    $sumTotalInvoice =  DB::connection('ts3')->table('mvm.v_invoice_detail_prepare_admin')->selectRaw("ROUND((sum(jasa) * 2) / 100) as pph,
-                    ROUND(((sum(jasa) + sum(part))* 11) / 100) as ppn,
-                    sum(jasa) as jasa,
-                    sum(part) as part")->where('invoice_no',$request->invoice_no)->first(); 
-                        
-                    DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+                        $sumTotalInvoice =  DB::connection('ts3')->table('mvm.v_invoice_detail_prepare_admin')->selectRaw("ROUND((sum(jasa) * 2) / 100) as pph,
+                        ROUND(((sum(jasa) + sum(part))* 11) / 100) as ppn,
+                        sum(jasa) as jasa,
+                        sum(part) as part")->where('invoice_no',$request->invoice_no)->first(); 
+                            
+                        DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
                                     'pph'               => $sumTotalInvoice->pph,
                                     'jasa_total'	    => $sumTotalInvoice->jasa,
                                     'part_total'	    => $sumTotalInvoice->part,
                                     'ppn'	            => $sumTotalInvoice->ppn
                                 ]);   
 
-               
-                   
-                              
-                    return redirect('admin-ts3/invoice-create')->with(['sukses' => 'Data telah Berhasil Di proses']);
+            
+                
+                            
+                        return redirect('admin-ts3/invoice-create')->with(['sukses' => 'Data telah Berhasil Di proses']);
+                    
+
+
+               }
+               else
+               {
+
+                    if($check[0]->regional != $staging[0]->regional)
+                    {
+                        return redirect('admin-ts3/invoice-create')->with(['warning' => 'Data Regional Harus sama']);
+                    }
+                    else
+                    {
+
+                            $invoice_h_admin =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->insertgetID([
+                            'invoice_no'   => $request->invoice_no,
+                            'invoice_type'	=> 'TS3 TO CLIENT',
+                            'status'	=> 'DRAFT',
+                            'created_date'    => date("Y-m-d h:i:sa"),
+                            'create_by'     => $request->session()->get('username'),
+                            ]); 
+
+
+                            $invoice_detail = DB::connection('ts3')->table('mvm.mvm_invoice_d')->whereIn('mvm_invoice_h_id',$id)->get();  
+                        
+                            foreach($invoice_detail as $val)
+                            {
+                                $dataPreparing = [
+                                    'mvm_invoice_h_id' => $invoice_h_admin,
+                                    'created_date'    => date("Y-m-d h:i:sa"),
+                                    'create_by'     => $request->session()->get('username'),
+                                    'mst_price_service_id' => $val->mst_price_service_id,
+                                    'service_no' => $val->service_no,
+                                    'invoice_no' => $request->invoice_no,
+                                    'price_type' => $val->price_type,
+                                    'price_ts3_to_client' => $val->price_ts3_to_client,
+                                    'reference_no' => $val->invoice_no
+                                ];
+                            
+                
+                                DB::connection('ts3')->table('mvm.mvm_invoice_d')->insert($dataPreparing);
+
+                            }
+                                DB::connection('ts3')->table('mvm.mvm_invoice_h')->whereIn('id',$id)->update([
+                                'status'   => 'PROSES',
+                                'updated_at'    => date("Y-m-d h:i:sa"),
+                                'update_by'         => $request->session()->get('username')
+                                ]);   
+
+                                $sumTotalInvoice =  DB::connection('ts3')->table('mvm.v_invoice_detail_prepare_admin')->selectRaw("ROUND((sum(jasa) * 2) / 100) as pph,
+                                ROUND(((sum(jasa) + sum(part))* 11) / 100) as ppn,
+                                sum(jasa) as jasa,
+                                sum(part) as part")->where('invoice_no',$request->invoice_no)->first(); 
+                                    
+                                DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+                                            'pph'               => $sumTotalInvoice->pph,
+                                            'jasa_total'	    => $sumTotalInvoice->jasa,
+                                            'part_total'	    => $sumTotalInvoice->part,
+                                            'ppn'	            => $sumTotalInvoice->ppn
+                                        ]);   
+
+                    
+                        
+                                    
+                                return redirect('admin-ts3/invoice-create')->with(['sukses' => 'Data telah Berhasil Di proses']);
+                    }
+                }
             }
         }
         
 
-
-            
-
-
     }
-
-    
 
     public function get_invoice()
     {
@@ -217,7 +292,10 @@ class Invoice extends Controller
         if(isset($checkInvoice) == false){
 
             $month = $this->getRomawi(date("m"));
-            $invoice_no   = '1'.'/INV.TS3'.'/'.$month.'/'.date("Y");           
+            $invoicenocheck = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_type','TS3 TO CLIENT')->orderBy('created_date','DESC')->first();
+            $y = explode('/', $invoicenocheck->invoice_no);
+            $seq = $y[0]+1;
+            $invoice_no   = $seq.'/INV.TS3'.'/'.$month.'/'.date("Y");           
         }
         else{
             $invoice_no = $checkInvoice->invoice_no;
@@ -247,11 +325,41 @@ class Invoice extends Controller
 
     }
 
+    public function invoice_submit(Request $request)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+            'status'               => 'REQUEST'
+        ]);   
+
+        return redirect('admin-ts3/invoice/client')->with(['sukses' => 'Data telah Berhasil Di proses']);
+        
+    }
+
+    public function invoice_bengkel_proses(Request $request)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+            'remark'       => $request->remark,
+            'status'       => 'DONE'
+        ]);   
+
+        return redirect('admin-ts3/invoice')->with(['sukses' => 'Data telah Berhasil Di proses']);
+        
+    }
+
 
     public function getRomawi($bln)
-    {
-
-                switch ($bln){
+    {   
+        switch ($bln){
 
                         case 1:
 
@@ -327,7 +435,7 @@ class Invoice extends Controller
 
                     }
 
-        }
+    }
     
   
 
