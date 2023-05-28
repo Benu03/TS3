@@ -10,8 +10,8 @@
 {{-- <p>
   @include('admin-client/spk/tambah_upload')
 </p> --}}
-<form action="{{ asset('admin-ts3/invoice-proses') }}" method="post" accept-charset="utf-8">
-{{ csrf_field() }}
+{{-- <form action="{{ asset('admin-ts3/invoice-proses') }}" method="post" accept-charset="utf-8">
+{{ csrf_field() }} --}}
 <div class="row">
 
 
@@ -80,17 +80,17 @@
                   </button>
               </div>
           </th>         --}}
-        <th width="12%">Invoice Nomor</th>
-        <th width="12%">Invoice Type</th>
+        <th width="10%">Invoice Nomor</th>
+        <th width="10%">Invoice Type</th>
         <th width="10%">Tanggal Invoice</th>   
         <th width="10%">Regional</th>   
-        <th width="10%">Status</th> 
-        <th width="10%">PPH</th>  
-        <th width="10%">Jasa</th>  
-        <th width="10%">Part</th>  
-        <th width="10%">Total</th>  
+        <th width="7%">Status</th> 
+        <th width="7%">PPH</th>  
+        <th width="7%">Jasa</th>  
+        <th width="7%">Part</th>  
+        <th width="7%">Total</th>  
         <th width="10%">User Request</th>    
-        <th>ACTION</th>
+        <th width="10%">ACTION</th>
 </tr>
 </thead>
 <tbody>
@@ -99,7 +99,7 @@
 
         <td><?php echo $in->invoice_no ?></td>
         <td><?php echo $in->invoice_type ?></td>
-        <td><?php echo $in->created_date ?></td>
+        <td><?php echo substr($in->created_date,0,10) ?> </td>
         <td><?php echo $in->regional ?></td>
         <td><?php echo $in->status ?></td>
         <td><?php echo "Rp " . number_format($in->pph,0,',','.'); ?></td>
@@ -109,13 +109,16 @@
         <td><?php echo $in->create_by ?></td>
         <td>
             <div class="btn-group">
-                {{-- @if($in->status == 'REQUEST')
-                <a href="{{ asset('admin-ts3/invoice-prose-page/'.$in->invoice_no ) }}" 
-                    class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-    
-                    @endif --}}
+                @if($in->status == 'PROSES')
+                {{-- <a href="{{ asset('admin-ts3/invoice-proses-page/'.$in->invoice_no ) }}" 
+                    class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a> --}}
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#invoiceproses<?php echo $in->invoice_no ?>">
+                        <i class="fa fa-edit"></i> 
+                     </button>          
+                     @include('admin-ts3/invoice/invoice_bengkel_proses')       
+                    @endif
                     
-                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#invoice<?php echo $in->invoice_no ?>">
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#invoice<?php echo $in->invoice_no ?>">
                     <i class="fa fa-eye"></i> 
                  </button>     
             

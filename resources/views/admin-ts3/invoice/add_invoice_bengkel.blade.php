@@ -63,8 +63,8 @@
 
 
 								<div class="form-group row">
-									<label class="col-sm-3 control-label text-right"></label>
-									<div class="col-sm-9">
+								
+									<div class="col-sm-12 text-center">
 										<div class="form-group pull-right btn-group">
 											{{-- <input type="submit" name="submit" class="btn btn-primary " value="Simpan Data"> --}}
 											<button class="btn btn-primary" type="submit" name="invoice_create" onClick="check();" >

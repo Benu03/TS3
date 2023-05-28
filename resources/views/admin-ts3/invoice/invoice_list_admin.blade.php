@@ -53,15 +53,13 @@
                          ?> 
                         <?php $i++; } ?> 
                         <tr>
-                            <td colspan="5" class="bg-warning"></td>  
+                            <td colspan="5" class="bg-light"></td>  
                             <td><?php echo "Rp " . number_format(array_sum($sumjasa),0,',','.'); ?></td>  
                             <td><?php echo "Rp " . number_format(array_sum($sumpart),0,',','.'); ?></td>  
                             <td><?php echo "Rp " . number_format(array_sum($sumppn),0,',','.'); ?></td>  
                             <td><?php echo "Rp " . number_format(array_sum($sumpph23),0,',','.'); ?></td>  
                             <td><?php echo "Rp " . number_format(array_sum($sumbeforepph23),0,',','.'); ?></td>  
                             <td><?php echo "Rp " . number_format(array_sum($sumafterpph23),0,',','.'); ?></td>  
-
-
                         </tr>
                 </tbody>
                             
