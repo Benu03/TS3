@@ -437,6 +437,25 @@ class Invoice extends Controller
 
     }
     
+
+    public function invoice_generate_ts3($id)
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('id',$id)->first();       
+        $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_detail_admin')->where('invoice_no',$invoice->invoice_no)->get();
+
+     
+        $config = DB::connection('ts3')->table('cp.konfigurasi')->first();
+
+        $pdf = PDF::loadview('admin-ts3/invoice/pdf/invoice_generate_ts3',['invoice'=>$invoice, 'invoice_detail' => $invoice_detail, 'config' => $config ])->setPaper('a4');
+    	return $pdf->download($invoice->invoice_no.'.pdf');
+
+    }
   
 
    

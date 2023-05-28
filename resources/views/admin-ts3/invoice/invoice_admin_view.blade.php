@@ -94,7 +94,7 @@
                           <div class="row"> 
                             <div class="col-md-12 text-right">
                          
-                                        <a href="{{ asset('admin-ts3/invoice-generate-ts3/')}}/<?php echo $in->invoice_no ?>"class="btn btn-secondary">
+                                        <a href="{{ asset('admin-ts3/invoice-generate-ts3/')}}/<?php echo $in->id ?>"class="btn btn-secondary">
                                             <i class="far fa-file-excel"></i> Generate Invoice
                                         </a>
                                  
