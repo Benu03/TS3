@@ -62,14 +62,14 @@
                             <div class="col-md-12 text-left">
                                 <div class="card">  
                                     <div class="card-header">
-                                    Estimate Detail
+                                    Invoice Detail
                                     </div>
                                     <div class="card-body">  
                                         <table class="table table-bordered table-sm" style="font-size: 11px;">
                                             <thead>
                                                 <tr class="bg-light">                                                      
                                                
-                                                    <th width="15%">SERVICE NO</th> 
+                                                    <th width="14%">SERVICE NO</th>   
                                                     <th width="8%">JASA</th> 
                                                     <th width="8%">PART</th>  
                                                     <th width="8%">NOPOL</th> 

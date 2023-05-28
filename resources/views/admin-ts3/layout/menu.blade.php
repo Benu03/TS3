@@ -217,8 +217,29 @@
             </ul>
           </li>        
 
-          <li class="nav-item"><a href="{{ asset('admin-ts3/invoice') }}" class="nav-link"><i class="fas fa-file-invoice nav-icon"></i><p>Invoice</p></a>
-          </li>
+       
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-file-invoice nav-icon"></i>
+              <p>Invoice<i class="fas fa-angle-left right"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/invoice') }}" class="nav-link"><i class="fas fa-receipt nav-icon"></i><p>Invoice Bengkel</p></a>
+              </li>
+
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/invoice/client') }}" class="nav-link"><i class="fas fa-file-contract nav-icon"></i><p>Invoice Client</p></a>
+              </li>
+
+            </ul>
+          </li>  
+
+
+
+
+
+
           <li class="nav-item"><a href="{{ asset('admin-ts3/direct-service') }}" class="nav-link"><i class="fas fa-hands nav-icon"></i><p>Direct Service</p></a>
         
 

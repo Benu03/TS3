@@ -90,13 +90,15 @@ class Regional extends Controller
 
     public function proses(Request $request)
     {
-        $site   =DB::connection('ts3')->table('cp.konfigurasi')->first();
-        // PROSES HAPUS MULTIPLE
-
+     
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
      
         if($request->id == null)
         {
-            return redirect('admin-ts3/regional')->with(['sukses' => 'Data Tidak Ada Yang Di pilih']);
+            return redirect('admin-ts3/regional')->with(['warning' => 'Data Tidak Ada Yang Di pilih']);
         }
 
         if(isset($_POST['hapus'])) {
