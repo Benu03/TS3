@@ -6,61 +6,119 @@
 </head>
 <body>
 	<style type="text/css">
-		table tr td,
-		table tr th{
-			font-size: 7pt;
+		
+		.p1 {
+ 		 font-family: Arial, Helvetica, sans-serif;
+		  color:rgb(224, 25, 3);
+		  font-size: 14pt;
 		},
-		table tr td{
-			font-size: 5pt;
+		.p2 {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 9pt;
 		}
 		
-		
 	</style>
-	<center>
-		<h4><u>INVOICE</u></h4>		
+	<center class="p1">
+		<u>INVOICE</u>		
 	</center>
 
+	<center class="p2" >
+		No. <?php echo $invoice->invoice_no ?>	
+	</center>
+	
 	<hr>
-
-	<div>Invoice Data</div>
-
-	<table class='table table-bordered' style="font-size: 12px;">
+	
+	<table class='table table-borderless table-sm' style="font-size: 8px;">
 		<thead>
 			<tr>
-				<th width="15%">Invoice Nomor</th>
-				<th width="15%">Tanggal Invoice</th>   
-				<th width="10%">Status</th> 
-				<th width="10%">PPH</th>  
-				<th width="10%">Jasa</th>  
-				<th width="10%">Part</th>  
-				<th width="10%">Total</th>  
-				<th width="10%">User Request</th>    
+				<th>
+					<table class='table table-borderless table-sm' style="font-size: 8px;">
+						<thead>
+							<tr>
+								<th colspan="2">Kepada : PT.<?php echo $config->nama_singkat ?> INDONESIA</th>							
+							</tr> 
+							<tr>
+								<th colspan="2"><?php echo $config->alamat ?></th>							
+							</tr> 
+							<tr>
+								<th colspan="2"><?php echo $config->telepon ?> , <?php echo $config->email ?></th>							
+							</tr> 
+							<tr>
+								<th colspan="2"></th>				
+							</tr>
+
+							<tr>
+								<th width="35%">Nama Bengkel</th>
+								<td ><?php echo $bengkel->bengkel_name ?></td>   
+							</tr> 
+							<tr>  
+								<th width="35%">Kontak Bengkel</th> 
+								<td ><?php echo $bengkel->phone ?></td> 
+							</tr> 
+							<tr>  
+								<th width="35%">Alamat</th> 
+								<td ><?php echo $bengkel->address ?></td> 
+							</tr> 
+							<tr>  
+								<th width="35%">PIC Bengkel</th>  
+								<td ><?php echo $invoice->create_by ?></td> 
+							</tr> 
+						
+						</thead>
+					</table>
+
+				</th>
+
+				<th>
+					<table class='table table-borderless table-sm' style="font-size: 8px;">
+						<thead>
+							<tr>
+								<th width="35%">Invoice Nomor</th>
+								<td ><?php echo $invoice->invoice_no ?></td>   
+							</tr> 
+							<tr>  
+								<th width="35%">Tanggal Invoice</th> 
+								<td ><?php echo $invoice->created_date ?></td> 
+							</tr> 
+							<tr>  
+								<th width="35%">Status</th> 
+								<td ><?php echo $invoice->status ?></td> 
+							</tr> 
+							<tr>   
+								<th width="35%">PPH</th>  
+								<td ><?php echo "Rp " . number_format($invoice->pph,0,',','.'); ?></td> 
+							</tr> 
+							<tr>
+								<th width="35%">Jasa</th>  
+								<td ><?php echo "Rp " . number_format($invoice->jasa_total,0,',','.'); ?></td> 
+							</tr> 
+							<tr>
+								<th width="35%">Part</th>  
+								<td ><?php echo "Rp " . number_format($invoice->part_total,0,',','.'); ?></td> 
+							</tr> 
+							<tr>
+								<th width="35%">Total</th>
+								<td ><?php echo "Rp " . number_format(($invoice->jasa_total - $invoice->pph) + $invoice->part_total,0,',','.'); ?></td> 
+							</tr> 
+							
+						
+						</thead>
+					</table>
+				</th>
+
 			</tr>
 		</thead>
-		<tbody>
-			<tr>
-			<th><?php echo $invoice->invoice_no ?></th>
-			<th><?php echo $invoice->created_date ?></th>
-			<th><?php echo $invoice->status ?></th>
-			<th><?php echo "Rp " . number_format($invoice->pph,0,',','.'); ?></th>
-			<th><?php echo "Rp " . number_format($invoice->jasa_total,0,',','.'); ?></th>
-			<th><?php echo "Rp " . number_format($invoice->part_total,0,',','.'); ?></th>
-			<th><?php echo "Rp " . number_format(($invoice->jasa_total - $invoice->pph) + $invoice->part_total,0,',','.'); ?></th>
-			<th><?php echo $invoice->create_by ?></th>
-		</tr>
-		
-		</tbody>
-		
 	</table>
 
-	<div>Invoice Detail</div>
-	<br>
-	{{-- <font size="2" face="Courier New" > --}}
-	<table class='table table-bordered' style="font-size: 6pt;">
+      <p class="p2">
+		<b>Invoice Detail</b>
+	  </p>
+
+	<table class='table table-bordered table-sm' style="font-size: 6pt;">
 		<thead>
 			<tr>
 				
-				<th width="14%">Service No</th>  
+				<th width="15%">Service No</th>  
 				<th width="10%">Area</th>   
 				<th width="15%">Cabang</th> 
 				<th width="12%">Tanggal Service</th>   
@@ -69,7 +127,7 @@
 				<th width="10%">Nama barang</th>  		 
 				<th width="8%">Part</th>
 				<th width="8%">Jasa</th> 
-				<th width="10%">Jumlah</th>   	  				 
+				<th width="8%">Jumlah</th>   	  				 
 
 			</tr>
 		</thead>

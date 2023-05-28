@@ -324,6 +324,15 @@ $(document).on("click", ".approval-link", function(e){
       "info": true,
       "autoWidth": false,
     });
+
+    $('#example4').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
+    });
   });
 
   </script>

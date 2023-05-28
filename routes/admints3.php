@@ -217,8 +217,15 @@ Route::group(['middleware' => ['admints3']],function(){
 
 
     Route::get('admin-ts3/invoice-generate/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_generate');
-    Route::get('admin-ts3/invoice-prose-page/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_proses_page');
-    Route::post('admin-ts3/invoice-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_proses');
+    // Route::get('admin-ts3/invoice-prose-page/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_proses_page');
+    // Route::post('admin-ts3/invoice-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_proses');
+    Route::post('admin-ts3/invoice-create', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create');
+
+    Route::get('admin-ts3/invoice/client', 'App\Http\Controllers\AdminTs3\Invoice@invoice_to_client');
+    Route::get('admin-ts3/invoice-create', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create');
+    Route::post('admin-ts3/get-invoice', 'App\Http\Controllers\AdminTs3\Invoice@get_invoice');   
+    Route::post('admin-ts3/invoice-create-detail-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create_detail_proses');
+
   
 
 

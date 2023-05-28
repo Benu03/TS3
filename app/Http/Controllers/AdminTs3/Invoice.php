@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Konfigurasi_model;
 use Image;
 use PDF;
+use Log;
 
 class Invoice extends Controller
 {
@@ -24,15 +25,37 @@ class Invoice extends Controller
     
         $countinvoicebengkel = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','REQUEST')->where('invoice_type','BENGKEL TO TS3')->count();
 
-        $countinvoicets3 = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','PROSES')->count();
+        $countinvoicets3 = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','PROSES')->where('invoice_type','BENGKEL TO TS3')->count();
       
-        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->whereIn('status',['PROSES','REQUEST'])->get();
-    
-		$data = array(   'title'     => 'Invoice',
+        $invoice = DB::connection('ts3')->table('mvm.v_invoice_admin_ts3')->whereIn('status',['PROSES','REQUEST'])->where('invoice_type','BENGKEL TO TS3')->get();
+        
+		$data = array(   'title'     => 'Invoice Bengkel',
                          'invoice'      => $invoice,
                          'countinvoicebengkel' => $countinvoicebengkel,
                          'countinvoicets3' => $countinvoicets3,
                         'content'   => 'admin-ts3/invoice/index'
+                    );
+        return view('admin-ts3/layout/wrapper',$data);
+    }
+
+
+    public function invoice_to_client()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+    
+
+        $countinvoicets3 = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','PROSES')->where('invoice_type','TS3 TO CLIENT')->count();
+      
+        $invoice = DB::connection('ts3')->table('mvm.v_invoice_admin_ts3')->whereIn('status',['PROSES','REQUEST'])->where('invoice_type','TS3 TO CLIENT')->get();
+        
+		$data = array(   'title'     => 'Invoice To Cliet',
+                         'invoice'      => $invoice,                   
+                         'countinvoicets3' => $countinvoicets3,
+                        'content'   => 'admin-ts3/invoice/invoice_client'
                     );
         return view('admin-ts3/layout/wrapper',$data);
     }
@@ -48,7 +71,10 @@ class Invoice extends Controller
         $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice_no)->first();       
         $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_generate')->where('invoice_no',$invoice_no)->orderby('service_no')->get();
 
-        $pdf = PDF::loadview('bengkel/invoice/pdf/invoice_generate',['invoice'=>$invoice, 'invoice_detail' => $invoice_detail])->setPaper('a4', 'landscape');
+        $bengkel = DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',$invoice->create_by)->first();  
+        $config = DB::connection('ts3')->table('cp.konfigurasi')->first();
+
+        $pdf = PDF::loadview('bengkel/invoice/pdf/invoice_generate',['invoice'=>$invoice, 'invoice_detail' => $invoice_detail,'bengkel' =>$bengkel, 'config' => $config ])->setPaper('a4', 'landscape');
     	return $pdf->download($invoice_no.'.pdf');
 
     }
@@ -76,23 +102,240 @@ class Invoice extends Controller
     }
    
 
-    public function invoice_proses(Request $request)
+    public function invoice_create_detail_proses(Request $request)
     {
         if(Session()->get('username')=="") {
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
 
-        dd($request);
+        if($request->id == null)
+        {
+            return redirect('admin-ts3/invoice-create')->with(['warning' => 'Data Tidak Ada Yang Di pilih']);
+        }
+
+        if(isset($_POST['invoice_create'])) {
+            $id       = $request->id;
+
+            $checkregional = DB::connection('ts3')->table('mvm.v_invoice_list_create_admin')->select('regional')->whereIn('id',$id)->groupby('regional')->get();  
+            if(count($checkregional) > 1)
+            {
+                return redirect('admin-ts3/invoice-create')->with(['warning' => 'Data Regional Harus sama']);
+            }
+            else
+            {       
+                $invoice_h_admin =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->insertgetID([
+                    'invoice_no'   => $request->invoice_no,
+                    'invoice_type'	=> 'TS3 TO CLIENT',
+                    'status'	=> 'DRAFT',
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'create_by'     => $request->session()->get('username'),
+                ]); 
 
 
+                $invoice_detail = DB::connection('ts3')->table('mvm.mvm_invoice_d')->whereIn('mvm_invoice_h_id',$id)->get();  
+             
+                foreach($invoice_detail as $val)
+                {
+                    $dataPreparing = [
+                        'mvm_invoice_h_id' => $invoice_h_admin,
+                        'created_date'    => date("Y-m-d h:i:sa"),
+                        'create_by'     => $request->session()->get('username'),
+                        'mst_price_service_id' => $val->mst_price_service_id,
+                        'service_no' => $val->service_no,
+                        'invoice_no' => $request->invoice_no,
+                        'price_type' => $val->price_type,
+                        'price_ts3_to_client' => $val->price_ts3_to_client,
+                        'reference_no' => $val->invoice_no
+                    ];
+                   
+    
+                    DB::connection('ts3')->table('mvm.mvm_invoice_d')->insert($dataPreparing);
 
-        return redirect('admin-ts3/invoice')->with(['sukses' => 'Data telah di Kirim Ke Client']);            
+                }
+                    DB::connection('ts3')->table('mvm.mvm_invoice_h')->whereIn('id',$id)->update([
+                    'status'   => 'PROSES',
+                    'updated_at'    => date("Y-m-d h:i:sa"),
+                    'update_by'         => $request->session()->get('username')
+                    ]);   
+
+                    $sumTotalInvoice =  DB::connection('ts3')->table('mvm.v_invoice_detail_prepare_admin')->selectRaw("ROUND((sum(jasa) * 2) / 100) as pph,
+                    ROUND(((sum(jasa) + sum(part))* 11) / 100) as ppn,
+                    sum(jasa) as jasa,
+                    sum(part) as part")->where('invoice_no',$request->invoice_no)->first(); 
+                        
+                    DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+                                    'pph'               => $sumTotalInvoice->pph,
+                                    'jasa_total'	    => $sumTotalInvoice->jasa,
+                                    'part_total'	    => $sumTotalInvoice->part,
+                                    'ppn'	            => $sumTotalInvoice->ppn
+                                ]);   
+
+               
+                   
+                              
+                    return redirect('admin-ts3/invoice-create')->with(['sukses' => 'Data telah Berhasil Di proses']);
+            }
+        }
+        
+
+
+            
 
 
     }
 
+    
+
+    public function get_invoice()
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $invoice_no_bengkel = $_POST['invoice_no_bengkel'];
+        log::info($invoice_no_bengkel);
+        
+        $invoice = DB::connection('ts3')->table('mvm.v_invoice_admin_ts3')->where('id',$invoice_no_bengkel)->first();  
+        return response()->json($invoice);
+     
+    }
+
+    public function invoice_create()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','DRAFT')->where('invoice_type','TS3 TO CLIENT')->where('create_by',Session()->get('username'))->first();
+
+        $invoicebkl = DB::connection('ts3')->table('mvm.v_invoice_list_create_admin')->where('status','REQUEST')->where('invoice_type','BENGKEL TO TS3')->get();  
+    
+        if(isset($checkInvoice) == false){
+
+            $month = $this->getRomawi(date("m"));
+            $invoice_no   = '1'.'/INV.TS3'.'/'.$month.'/'.date("Y");           
+        }
+        else{
+            $invoice_no = $checkInvoice->invoice_no;
+        }
+
+        $invoicedtl = DB::connection('ts3')->table('mvm.v_invoice_detail_prepare_admin_ts3')->where('invoice_no',$invoice_no)->get(); 
+
+        $invoiceData = DB::connection('ts3')->table('mvm.v_invoice_detail_prepare_admin')->selectRaw("ROUND((sum(jasa) * 2) / 100) as pph,
+        ROUND(((sum(jasa) + sum(part))* 11) / 100) as ppn,
+        sum(jasa) as jasa,
+        sum(part) as part")->where('invoice_no',$invoice_no)->first(); 
+
+        $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_generate')->where('invoice_no',$invoice_no)->orderby('service_no')->get();
+      
+        $data = array(   'title'        => 'Invoice',
+                        //  'usebengkel'      => $usebengkel,
+                        //  'serviceinvoice'    => $serviceinvoice,
+                        //  'priceJobs'    => $priceJobs,
+                          'invoicebkl'    => $invoicebkl,
+                         'invoicedtl'    => $invoicedtl,
+                         'invoice_no'    => $invoice_no,
+                         'invoiceData'    => $invoiceData,
+                         'invoice_detail'    => $invoice_detail,
+                        'content'       => 'admin-ts3/invoice/invoice_create'
+                    );
+        return view('admin-ts3/layout/wrapper',$data);
+
+    }
+
+
+    public function getRomawi($bln)
+    {
+
+                switch ($bln){
+
+                        case 1:
+
+                            return "I";
+
+                            break;
+
+                        case 2:
+
+                            return "II";
+
+                            break;
+
+                        case 3:
+
+                            return "III";
+
+                            break;
+
+                        case 4:
+
+                            return "IV";
+
+                            break;
+
+                        case 5:
+
+                            return "V";
+
+                            break;
+
+                        case 6:
+
+                            return "VI";
+
+                            break;
+
+                        case 7:
+
+                            return "VII";
+
+                            break;
+
+                        case 8:
+
+                            return "VIII";
+
+                            break;
+
+                        case 9:
+
+                            return "IX";
+
+                            break;
+
+                        case 10:
+
+                            return "X";
+
+                            break;
+
+                        case 11:
+
+                            return "XI";
+
+                            break;
+
+                        case 12:
+
+                            return "XII";
+
+                            break;
+
+                    }
+
+        }
+    
   
 
    
-}
+
+
+
+ 
+ 
+ 
+ }
