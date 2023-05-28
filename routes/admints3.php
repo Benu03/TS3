@@ -226,6 +226,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/invoice-create-detail-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create_detail_proses');
     Route::post('admin-ts3/invoice/submit', 'App\Http\Controllers\AdminTs3\Invoice@invoice_submit');
     Route::post('admin-ts3/invoice-bengkel-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_bengkel_proses');
+    Route::get('admin-ts3/invoice-generate-ts3/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_generate_ts3');
 
   
 
