@@ -14,7 +14,7 @@
 		},
 		.p2 {
 		font-family: Arial, Helvetica, sans-serif;
-		font-size: 9pt;
+		font-size: 6pt;
 		}
 		
 	</style>
@@ -23,7 +23,7 @@
 	</center>
 
 	<center class="p2" >
-		No. <?php echo $invoice->invoice_no ?>	
+		<b>No. <?php echo $invoice->invoice_no ?></b>	
 	</center>
 	
 	<hr>
