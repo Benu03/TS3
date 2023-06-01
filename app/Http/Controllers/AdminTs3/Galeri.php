@@ -33,7 +33,7 @@ class Galeri extends Controller
         $mygaleri           = new Galeri_model();
         $keywords           = $request->keywords;
         $galeri             = $mygaleri->cari($keywords);
-        $kategori_galeri    =DB::connection('ts3')->table('cp.kategori_galeri')->orderBy('urutan','ASC')->get();
+        $kategori_galeri    = DB::connection('ts3')->table('cp.kategori_galeri')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Data Galeri',
                         'galeri'            => $galeri,
@@ -46,7 +46,7 @@ class Galeri extends Controller
     // Proses
     public function proses(Request $request)
     {
-        $site   = DB::connection('ts3')->DB::table('cp.konfigurasi')->first();
+        $site   = DB::connection('ts3')->table('cp.konfigurasi')->first();
         // PROSES HAPUS MULTIPLE
         if(isset($_POST['hapus'])) {
             $id_galerinya       = $request->id_galeri;
@@ -89,7 +89,7 @@ class Galeri extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $mygaleri           = new Galeri_model();
         $galeri             = $mygaleri->all_kategori_galeri($id_kategori_galeri);
-        $kategori_galeri    =DB::connection('ts3')->table('cp.kategori_galeri')->orderBy('urutan','ASC')->get();
+        $kategori_galeri    = DB::connection('ts3')->table('cp.kategori_galeri')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Data Galeri',
                         'galeri'            => $galeri,
@@ -118,7 +118,7 @@ class Galeri extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $mygaleri           = new Galeri_model();
         $galeri             = $mygaleri->detail($id_galeri);
-        $kategori_galeri    =DB::connection('ts3')->table('cp.kategori_galeri')->orderBy('urutan','ASC')->get();
+        $kategori_galeri    = DB::connection('ts3')->table('cp.kategori_galeri')->orderBy('urutan','ASC')->get();
 
         $data = array(  'title'             => 'Edit Galeri',
                         'galeri'            => $galeri,
