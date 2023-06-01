@@ -500,7 +500,28 @@ class Invoice extends Controller
         
 
         $pdf = PDF::loadview('admin-ts3/invoice/pdf/invoice_generate_ts3',['terbilang' =>$terbilang,'invoice'=>$invoice, 'invoice_detail' => $invoice_detail, 'logo' => $logo, 'config' => $config ])->setPaper('a4');
-    	return $pdf->download($invoice->invoice_no.'.pdf');
+        $pdf->render();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+            $w = $canvas->get_width(); 
+            $h = $canvas->get_height(); 
+
+        
+            $imageURL = storage_path('data/image/logo_pdf.png');
+            $imgWidth = 300; 
+            $imgHeight = 200; 
+            
+
+            $canvas->set_opacity(.1); 
+            
+
+            $x = (($w-$imgWidth)/2); 
+            $y = (($h-$imgHeight)/2); 
+            
+
+            $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight); 
+        
+        return $pdf->download($invoice->invoice_no.'.pdf');
 
     }
 
