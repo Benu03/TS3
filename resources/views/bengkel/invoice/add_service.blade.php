@@ -16,8 +16,9 @@
 									<label class="col-sm-3 control-label text-left">Service no</label>
 									<div class="col-sm-9">
 										<select name="service_no" class="form-control select2" id="service_no" onchange="loadDataService()">
+											<option selected disabled>Pilih</option>
 											<?php foreach($serviceinvoice as $si) { ?>
-											<option value="<?php echo $si->service_no ?>"><?php echo $si->service_no ?></option>
+											<option value="<?php echo $si->service_no ?>"><?php echo $si->service_no.' Nopol ('.$si->nopol.') Area '.$si->area?></option>
 											<?php } ?>													
 											</select>
 									</div>

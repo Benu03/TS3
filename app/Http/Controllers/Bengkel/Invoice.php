@@ -328,6 +328,29 @@ class Invoice extends Controller
 
     }
     
+
+    public function invoice_reset($invoice_no)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+
+
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice_no)->first();
+
+
+        DB::connection('ts3')->table('mvm.mvm_invoice_d')->where('invoice_no',$invoice_no)->delete();
+        DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice_no)->delete();
+        
+
+        return redirect('bengkel/invoice-create')->with(['sukses' => 'Data Service Berhasil Di Hapus']);
+
+
+    }
+
+
     
 
 

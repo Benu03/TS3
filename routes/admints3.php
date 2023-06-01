@@ -88,6 +88,12 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/berita/proses', 'App\Http\Controllers\AdminTs3\Berita@proses');
     Route::get('admin-ts3/berita/add', 'App\Http\Controllers\AdminTs3\Berita@add');
 
+    Route::get('admin-ts3/kategori', 'App\Http\Controllers\AdminTs3\Kategori@index');
+    Route::post('admin-ts3/kategori/tambah', 'App\Http\Controllers\AdminTs3\Kategori@tambah');
+    Route::post('admin-ts3/kategori/edit', 'App\Http\Controllers\AdminTs3\Kategori@edit');
+    Route::get('admin-ts3/kategori/delete/{par1}', 'App\Http\Controllers\AdminTs3\Kategori@delete');
+
+
 
 
     Route::get('admin-ts3/staff', 'App\Http\Controllers\AdminTs3\Staff@index');

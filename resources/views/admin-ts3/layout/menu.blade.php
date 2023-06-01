@@ -41,7 +41,7 @@
           <li class="batas"><hr></li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-newspaper"></i>
+              <i class="nav-icon fas fa-cogs"></i>
               <p>Navigasi &amp; User<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
@@ -118,6 +118,21 @@
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/galeri/tambah') }}" class="nav-link"><i class="fa fa-plus nav-icon"></i><p>Tambah Galeri</p></a>
               </li>
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/kategori_galeri') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Kategori Galeri</p></a>
+              </li>
+            </ul>
+          </li>
+          
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-newspaper"></i>
+              <p>Berita &amp; Update<i class="fas fa-angle-left right"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/berita') }}" class="nav-link"><i class="fas fa-newspaper nav-icon"></i><p>Data Berita &amp; Update</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/berita/tambah') }}" class="nav-link"><i class="fa fa-plus nav-icon"></i><p>Tambah Berita/Update</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/kategori') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Kategori berita</p></a>
               </li>
             </ul>
           </li>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User_model;
 use App\Helpers\Website;
 use App\Http\Controllers\Feature\EmailContoller;
+use App\Jobs\SendEmailAutomatic;
 
 class Login extends Controller
 {
@@ -148,6 +149,9 @@ class Login extends Controller
                 'body' => $body,
                 'attachment' => null
             ]);
+
+
+            // SendEmailAutomatic::dispatch();
 
 
         }

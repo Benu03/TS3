@@ -287,8 +287,10 @@ class Invoice extends Controller
 
         $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','DRAFT')->where('invoice_type','TS3 TO CLIENT')->where('create_by',Session()->get('username'))->first();
 
-        $invoicebkl = DB::connection('ts3')->table('mvm.v_invoice_list_create_admin')->where('status','REQUEST')->where('invoice_type','BENGKEL TO TS3')->get();  
-    
+        $invoicebkl = DB::connection('ts3')->table('mvm.v_invoice_list_create_admin')->selectRaw('id,invoice_no,invoice_type,sum(jasa) as jasa,sum(part) as part,bengkel_name,regional ')->where('status','REQUEST')->where('invoice_type','BENGKEL TO TS3')->groupBy('id','invoice_no','invoice_type','bengkel_name','regional')->get();  
+  
+
+
         if(isset($checkInvoice) == false){
 
             $month = $this->getRomawi(date("m"));
@@ -342,11 +344,42 @@ class Invoice extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
 
-        DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
-            'status'               => 'REQUEST'
-        ]);   
 
-        return redirect('admin-ts3/invoice/client')->with(['sukses' => 'Data telah Berhasil Di proses']);
+        if(isset($request->reset))
+        {
+
+    
+          
+            $CheckInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_d')->selectRaw("reference_no")->where('invoice_no',$request->invoice_no)->groupBy('reference_no')->get();
+          
+            foreach($CheckInvoice as $val)
+            {
+
+            DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$val->reference_no)->update([
+                'status'   => 'REQUEST',
+                'updated_at'    => date("Y-m-d h:i:sa"),
+                'update_by'         => $request->session()->get('username')
+                ]); 
+                
+            }
+            DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->delete();
+            DB::connection('ts3')->table('mvm.mvm_invoice_d')->where('invoice_no',$request->invoice_no)->delete();
+    
+            return redirect('admin-ts3/invoice/client')->with(['warning' => 'Data telah Berhasil Di Reset']);
+        }
+        else
+        {
+        
+            DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+                'status'               => 'REQUEST'
+            ]);   
+    
+            return redirect('admin-ts3/invoice/client')->with(['sukses' => 'Data telah Berhasil Di proses']);
+
+        }
+
+
+       
         
     }
 
