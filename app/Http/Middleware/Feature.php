@@ -20,9 +20,11 @@ class Feature
         if(isset($all_headers['signature'][0])  and !empty($all_headers['timerequest'][0]) ){
                 $sign = $all_headers['signature'][0];
         
-             $Signature = DB::connection('ts3')->table('mst.mst_general')->where('value_1',$sign)->first();
+             $KeySig = DB::connection('ts3')->table('mst.mst_general')->where('value_1',$sign)->first();
         
-
+              $signature = hash('sha256',implode($all_headers['timerequest']).$KeySig->value_1); 
+              Log::info('Check Signature'); 
+     
             if(empty($Signature)){
                 //Log::error('Unauthorized Access Using Token ' . $all_headers['token'][0]);
                 return response()->json(

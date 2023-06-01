@@ -10,6 +10,7 @@ use App\Models\Staff_model;
 use App\Models\Download_model;
 use PDF;
 use App\Http\Controllers\Feature\EmailContoller;
+use App\Jobs\SendEmailAutomatic;
 
 class Home extends Controller
 {
@@ -104,6 +105,8 @@ class Home extends Controller
                 'body' => $body,
                 'attachment' => null
             ]);
+
+            SendEmailAutomatic::dispatch();
 
             return redirect('/')->with(['sukses' => 'Pesan Anda Telah Terkirim Ke Admin TS3..!!']);
     }

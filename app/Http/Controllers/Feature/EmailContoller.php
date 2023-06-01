@@ -10,6 +10,7 @@ use Image;
 use PDF;
 use App\Mail\MailSend;
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendEmailAutomatic;
 
 
 
@@ -21,8 +22,6 @@ class EmailContoller extends Controller
     public function SendMailAutomatic(Request $request)
     {
         
-    
-
       if(isset($request['type']))
       {
 
