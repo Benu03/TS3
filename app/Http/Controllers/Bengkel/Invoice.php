@@ -98,6 +98,7 @@ class Invoice extends Controller
         }
 
         $invoicedtl = DB::connection('ts3')->table('mvm.v_invoice_detail_prepare')->where('invoice_no',$invoice_no)->get(); 
+   
 
         $invoiceData = DB::connection('ts3')->table('mvm.v_invoice_detail_prepare')->selectRaw("(sum(jasa) * 2) / 100 as pph,sum(jasa) as jasa,sum(part) as part")->where('invoice_no',$invoice_no)->first(); 
       
@@ -121,6 +122,10 @@ class Invoice extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
+        request()->validate([
+            'service_no' => 'required',
+            'jasa_id' 	   => 'required',
+            ]);
         
         
         $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->get();
