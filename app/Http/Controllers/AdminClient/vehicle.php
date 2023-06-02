@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use Excel;
+use Log;
+use App\Exports\Vehicle_schdule_export;
 
 class Vehicle extends Controller
 {
@@ -13,8 +16,9 @@ class Vehicle extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
+        $user_client 	= DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
       
-        $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->get();
+        $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->where('mst_client_id',$user_client->mst_client_id)->get();
         $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
         $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
 
@@ -237,6 +241,37 @@ class Vehicle extends Controller
                     );
         return view('admin-client/layout/wrapper',$data);
     }
+
+
+
+    public function vehicle_schedule_service()
+    {
+    	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        $user_client 	= DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
+
+
+        $vehiclecount =  DB::connection('ts3')->table('mst.v_vehicle_last_service')->where('mst_client_id',$user_client->mst_client_id)->count(); 
+        $vehicle =  DB::connection('ts3')->table('mst.v_vehicle_last_service')->where('mst_client_id',$user_client->mst_client_id)->get(); 
+
+		$data = array(  'title'     => 'Vehicle Shedule Service',
+                        'vehicle'      => $vehicle,
+                        'vehiclecount'      => $vehiclecount,
+                        'content'   => 'admin-client/vehicle/vehicle_schedule_service'
+                    );
+        
+        return view('admin-client/layout/wrapper',$data);
+    }
+
+    public function vehicle_schedule_service_excel()
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+
+        $nama_file = 'vehicle_schdule_service_'.date('Y-m-d_H-i-s').'.xlsx';
+        return Excel::download(new Vehicle_schdule_export, $nama_file);
+    }
+
 
 
 }
