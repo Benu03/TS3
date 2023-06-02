@@ -98,6 +98,14 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/invoice-generate-ts3/{par1}', 'App\Http\Controllers\AdminClient\Invoice@invoice_generate_ts3');
     Route::post('admin-client/invoice-admin-proses', 'App\Http\Controllers\AdminClient\Invoice@invoice_admin_proses');
 
+    Route::get('admin-client/vehicle-schedule-service', 'App\Http\Controllers\AdminClient\Vehicle@vehicle_schedule_service');
+    Route::get('admin-client/vehicle-schedule-service-excel', 'App\Http\Controllers\AdminClient\Vehicle@vehicle_schedule_service_excel');
+
+
+
+
+
+
 
     
 });
