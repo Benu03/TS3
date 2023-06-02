@@ -81,7 +81,28 @@ class Invoice extends Controller
         $config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
         $pdf = PDF::loadview('bengkel/invoice/pdf/invoice_generate',['invoice'=>$invoice, 'invoice_detail' => $invoice_detail,'bengkel' =>$bengkel, 'config' => $config ])->setPaper('a4', 'landscape');
-    	return $pdf->download($invoice_no.'.pdf');
+        $pdf->render();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+            $w = $canvas->get_width(); 
+            $h = $canvas->get_height(); 
+
+        
+            $imageURL = storage_path('data/image/logo_pdf.png');
+            $imgWidth = 300; 
+            $imgHeight = 200; 
+            
+
+            $canvas->set_opacity(.1); 
+            
+
+            $x = (($w-$imgWidth)/2); 
+            $y = (($h-$imgHeight)/2); 
+            
+
+            $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight); 
+        
+        return $pdf->download($invoice_no.'.pdf');
 
     }
 
