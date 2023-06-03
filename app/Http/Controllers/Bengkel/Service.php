@@ -151,7 +151,7 @@ class Service extends Controller
 
                 $image  = $request->file('upload')[$key];
                 $filename = $service_no.'-'.$key.'.jpg';
-                $destinationPath =storage_path('data/service/').$service_no;
+                $destinationPath =storage_path('data/service/'.date("Y").'/'.date("m").'/').$service_no;
                 
                 if (!file_exists($destinationPath)) {
                 File::makeDirectory($destinationPath,0755,true);
@@ -213,7 +213,7 @@ class Service extends Controller
         $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
 
        
-        $storagePath =  storage_path('data/direct/'). $direct->foto_kendaraan;
+        $storagePath =  $direct->path_foto.$direct->foto_kendaraan;
         return response()->file($storagePath);
 
     }
@@ -273,7 +273,7 @@ class Service extends Controller
 
         $service = DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$image->mvm_service_vehicle_h_id)->first();
         
-        $storagePath =  storage_path('data/service/').$service->service_no.'/'. $image->unique_data;
+        $storagePath =   $image->source.'/'.$image->unique_data;
 
         if(!file_exists($storagePath))
         return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);

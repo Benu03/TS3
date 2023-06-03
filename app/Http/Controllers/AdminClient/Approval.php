@@ -45,7 +45,7 @@ class Approval extends Controller
 
         $service = DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$image->mvm_service_vehicle_h_id)->first();
         
-        $storagePath =  storage_path('data/service/').$service->service_no.'/'. $image->unique_data;
+        $storagePath = $image->source.'/'.$image->unique_data;
 
         if(!file_exists($storagePath))
         return redirect('admin-client/approval')->with(['warning' => 'Fila Tidak Di temukan']);
@@ -193,7 +193,7 @@ class Approval extends Controller
         $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
 
        
-        $storagePath =  storage_path('data/direct/'). $direct->foto_kendaraan;
+        $storagePath =  $direct->path_foto.$direct->foto_kendaraan;
         return response()->file($storagePath);
 
     }

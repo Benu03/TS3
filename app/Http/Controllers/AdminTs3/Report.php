@@ -46,7 +46,7 @@ class Report extends Controller
 
         $service = DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$image->mvm_service_vehicle_h_id)->first();
         
-        $storagePath =  storage_path('data/service/').$service->service_no.'/'. $image->unique_data;
+        $storagePath =  $image->source.'/'.$image->unique_data;
 
         if(!file_exists($storagePath))
         return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);

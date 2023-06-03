@@ -9,6 +9,7 @@ use App\Models\Konfigurasi_model;
 use Image;
 use PDF;
 use Log;
+use Illuminate\Support\Facades\File;
 
 class Service extends Controller
 {
@@ -139,7 +140,7 @@ class Service extends Controller
             if(!empty($image)) {
 
                 $filename ='DRT-'.$request->nopol.date("s").'.jpg';
-                $destinationPath =storage_path('data/direct/');
+                $destinationPath =storage_path('data/direct/'.date("Y").'/'.date("m").'/');
                 
                 if (!file_exists($destinationPath)) {
                 File::makeDirectory($destinationPath,0755,true);
@@ -192,7 +193,6 @@ class Service extends Controller
 
         }
 
-        
 
         return redirect('pic/direct-service')->with(['sukses' => 'Data telah Terkirim']);
 
@@ -206,8 +206,8 @@ class Service extends Controller
         }
         $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
 
-       
-        $storagePath =  storage_path('data/direct/'). $direct->foto_kendaraan;
+
+        $storagePath =  $direct->path_foto.$direct->foto_kendaraan;
         return response()->file($storagePath);
 
     }
@@ -223,8 +223,8 @@ class Service extends Controller
 
         $service = DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$image->mvm_service_vehicle_h_id)->first();
         
-        $storagePath =  storage_path('data/service/').$service->service_no.'/'. $image->unique_data;
-
+        $storagePath =  $image->source.'/'.$image->unique_data;
+        
         if(!file_exists($storagePath))
         return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);
         

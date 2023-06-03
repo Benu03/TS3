@@ -68,8 +68,8 @@ class Spk extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-        $dir_file ='data/spk/';
-        $file_path = storage_path('data/spk/'.$file_name);
+        $spk = DB::connection('ts3')->table('mvm.mvm_spk_h')->where('nama_file',$file_name)->first();
+        $file_path = $spk->path_file.$file_name;
         return response()->download($file_path);
 
 
