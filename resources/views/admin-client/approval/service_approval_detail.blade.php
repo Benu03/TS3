@@ -1,5 +1,5 @@
 <div class="modal fade" id="Detail<?php echo $dt->service_no ?>"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-xl">
+	<div class="modal-dialog" style="max-width:1500px; max-height:1500px;">
 		<div class="modal-content">
 				<div class="modal-header">
 	
