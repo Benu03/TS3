@@ -135,7 +135,7 @@ class Login extends Controller
             $url_img = 'http://34.101.109.41:8080/assets/upload/image/2.png';
             $url_verify = 'http://localhost:8080/login/verify/'.$token;
 
-            $body = '<b>Dear Rekan TS3</b><br><br>Silakan Klik Link Untuk Mereset Password : <a class="btn btn-info" href="'.$url_verify.'"  >Reset Password</a><br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Imam Bonjol No 47-48, Ruko Metro Square Blok B8, Semarang Kel Pandansari, <br>Kec Semarang Tengah 50139</b>';
+            $body = '<b>Dear Rekan TS3</b><br><br>Silakan Klik Link Untuk Mereset Password : <a class="btn btn-info" href="'.$url_verify.'"  >Reset Password</a><br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';
             
              
 
