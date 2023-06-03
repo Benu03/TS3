@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->call('App\Jobs\SendEmailAutomatic@handle')->everyMinute()->runInBackground();
+        $schedule->call('App\Jobs\SpkDone@handle')->hourly()->runInBackground();
     }
 
     /**
