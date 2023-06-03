@@ -12,6 +12,7 @@ use PDF;
 use App\Imports\SPKTempImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Log;
+use Storage;
 
 
 
@@ -75,18 +76,25 @@ class Spk extends Controller
 
         $spk_file       = $request->file('spk_file');
 
-        $nama_file = rand().'_'.$spk_file->getClientOriginalName();
+        $nama_file = date("ymd_s").'_'.$spk_file->getClientOriginalName();
  
-        $dir_file ='data/spk/';
+        $dir_file =storage_path('data/spk/'.date("Y").'/'.date("m").'/');
         // $DirFile ='data/spk/';
-        if (!file_exists(storage_path($dir_file))) {
-          File::makeDirectory(storage_path($dir_file),0777,true);
+        if (!file_exists($dir_file)) {
+          File::makeDirectory($dir_file,0777,true);
           }
         
-        File::put(storage_path($dir_file.$nama_file), $spk_file); 
+        // File::put($dir_file.$nama_file, $spk_file); 
+       
+
+        // Storage::putFile($dir_file,$request->file('spk_file'));
+
+
         Log::info('done upload '.$nama_file);
         $userclient = DB::connection('ts3')->table('mst.v_user_client')->where('username', Session()->get('username'))->first();
         Excel::import(new SPKTempImport(), $spk_file);
+
+        $spk_file->move($dir_file,$nama_file);
        
 
         $spk_seq = $userclient->client_name.'-'.date("his");
@@ -99,7 +107,8 @@ class Spk extends Controller
             'tanggal_last_spk'      => $request->tanggal_last_spk,
             'status'	            => 'REVIEW',
             'upload_date'	        => date("Y-m-d h:i:sa"),
-            'nama_file'             => $nama_file
+            'nama_file'             => $nama_file,
+            'path_file'             =>  $dir_file
             
         ]);  
 
@@ -141,8 +150,8 @@ class Spk extends Controller
 
         $spk = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_seq', $spk_seq)->first();
           
-        if(File::exists(storage_path('data/spk/'.$spk->nama_file))){
-            File::delete(storage_path('data/spk/'.$spk->nama_file));
+        if(File::exists($spk->path_file.$spk->nama_file)){
+            File::delete($spk->path_file.$spk->nama_file);
         }else{
             return redirect('admin-client/spk')->with(['sukses' => 'File does not exists.']);  
         }
@@ -165,8 +174,8 @@ class Spk extends Controller
         $spk_detail_temp_h = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_seq', $spk_seq)->first();
                
 
-        $checkvehicle =  DB::connection('ts3')->table('mvm.v_check_vehicle_posting')->where('spk_seq',$spk_detail_temp_h->spk_seq)->whereNull('nopol')->get(); 
-        $checkbranch =  DB::connection('ts3')->table('mvm.v_check_branch_posting')->where('spk_seq',$spk_detail_temp_h->spk_seq)->whereNull('branch')->get();
+        $checkvehicle =  DB::connection('ts3')->table('mvm.v_check_vehicle_posting')->where('spk_seq',$spk_seq)->whereNull('nopol')->get(); 
+        $checkbranch =  DB::connection('ts3')->table('mvm.v_check_branch_posting')->where('spk_seq',$spk_seq)->whereNull('branch')->get();
         if(count($checkvehicle) > 0)
         {
             return redirect('admin-client/spk-temp-detail/'.$spk_detail_temp_h->spk_seq)->with(['warning' => 'Data Vehicle Belum Terdaftar']);  
@@ -192,7 +201,8 @@ class Spk extends Controller
                 'user_posting'     => Session()->get('username'),
                 'posting_date'    => date("Y-m-d h:i:sa"),
                 'nama_file'    =>  $spk_detail_temp_h->nama_file,
-                'mst_client_id' => $spk_detail_temp_h->mst_client_id
+                'mst_client_id' => $spk_detail_temp_h->mst_client_id,
+                'path_file' => $spk_detail_temp_h->path_file
                 ]);
 
                 $spk_detail_temp_d = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq', $spk_seq)->get();

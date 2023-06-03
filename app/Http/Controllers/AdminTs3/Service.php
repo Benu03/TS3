@@ -47,7 +47,7 @@ class Service extends Controller
         $direct = DB::connection('ts3')->table('mvm.v_service_direct')->where('id',$id)->first();
 
        
-        $storagePath =  storage_path('data/direct/'). $direct->foto_kendaraan;
+        $storagePath =  $direct->path_foto.$direct->foto_kendaraan;
         return response()->file($storagePath);
 
     }
@@ -123,7 +123,6 @@ class Service extends Controller
         request()->validate([
             'remark' 	   => 'required',
             ]);
-
          
             DB::connection('ts3')->table('mvm.mvm_direct_service')->where('id',$request->id)->update([
                 'remark_ts3'   => $request->remark,

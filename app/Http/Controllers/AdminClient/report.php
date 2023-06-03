@@ -58,8 +58,8 @@ class report extends Controller
 
         $userclient = DB::connection('ts3')->table('mst.v_user_client')->where('username', Session()->get('username'))->first();
 
-        $history = DB::connection('ts3')->table('mvm.v_service_history')->where('mst_client_id',$userclient->mst_client_id)->get();
-        // $history = DB::connection('ts3')->table('mvm.v_service_history')->get();
+        // $history = DB::connection('ts3')->table('mvm.v_service_history')->where('mst_client_id',$userclient->mst_client_id)->get();
+        $history = DB::connection('ts3')->table('mvm.v_service_history')->get();
 
 		$data = array(   'title'     => 'History Service',
                          'history'      => $history,
@@ -82,7 +82,7 @@ class report extends Controller
 
         $service = DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$image->mvm_service_vehicle_h_id)->first();
         
-        $storagePath =  storage_path('data/service/').$service->service_no.'/'. $image->unique_data;
+        $storagePath =  $image->source.'/'.$image->unique_data;
 
         if(!file_exists($storagePath))
         return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);
