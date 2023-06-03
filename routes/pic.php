@@ -38,4 +38,6 @@ Route::group(['middleware' => ['pic']],function(){
     Route::post(' pic/service/service-advisor-proses', 'App\Http\Controllers\Pic\Service@service_advisor_proses');
    
 
+  
+
 });

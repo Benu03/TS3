@@ -73,21 +73,6 @@ class Service extends Controller
 
 
 
-    public function history_service()
-    {
-        if(Session()->get('username')=="") {
-            $last_page = url()->full();
-            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
-        }
-    
-        $invoice = DB::connection('ts3')->table('mst.v_regional')->get();
-
-		$data = array(   'title'     => 'History Service',
-                         'invoice'      => $invoice,
-                        'content'   => 'pic/service/history'
-                    );
-        return view('pic/layout/wrapper',$data);
-    }
 
     public function service_remark(Request $request)
     {
@@ -325,6 +310,24 @@ class Service extends Controller
 
     }
     
+    public function history_service()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+      
+        $history = DB::connection('ts3')->table('mvm.v_service_history')->where('pic_branch',Session()->get('username'))->get();
+
+		$data = array(   'title'     => 'History Service',
+                         'history'      => $history,
+                        'content'   => 'pic/service/history_service'
+                    );
+        return view('pic/layout/wrapper',$data);
+
+
+    }
     
 
   

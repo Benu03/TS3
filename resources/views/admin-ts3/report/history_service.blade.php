@@ -10,7 +10,7 @@
 {{-- <p>
   @include('admin-client/spk/tambah_upload')
 </p> --}}
-<form action="{{ asset('admin-client/report/proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-ts3/report/proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
 
@@ -77,41 +77,40 @@
                 </button>
             </div>
         </th> --}}
-        <th width="15%">SPK Nomor</th>
-        <th width="15%">Jumlah Vehicle</th>   
-        <th width="15%">Status</th> 
-        <th width="15%">Amount</th>  
-        <th width="15%">Tanggal Pengerjaan</th> 
-        <th width="15%">User Post</th>    
-        <th width="15%">Date Post</th>    
+        <th width="17%">Service No</th>
+        <th width="7%">Nopol</th>   
+        <th width="7%">Status</th> 
+        <th width="10%">Tanggal Service</th> 
+        <th width="7%">Last KM</th> 
+        <th width="12%">Nama Driver</th>    
+        <th width="12%">Bengkel</th>    
+        <th width="12%">Mekanik</th>    
+        <th width="5%">Action</th>    
 </tr>
 </thead>
 <tbody>
-{{-- 
-    {{-- <?php $i=1; foreach($area as $ar) { ?> --}}
 
-    {{-- <td class="text-center">
-        <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $ar->id ?>" id="check<?php echo $i ?>">
-                   <label for="check<?php echo $i ?>"></label>
-        </div> --}}
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    {{-- </td>
-    <td><?php echo $ar->regional_slug ?></td>
-    <td><?php echo $ar->area ?></td>
+    <?php $i=1; foreach($history as $ar) { ?>
+
+    <td><?php echo $ar->service_no ?></td>
+    <td><?php echo $ar->nopol ?></td>
+    <td><?php echo $ar->status_service ?></td>
+    <td><?php echo $ar->tanggal_service ?></td>
+    <td><?php echo $ar->last_km ?></td>
+    <td><?php echo $ar->nama_driver ?></td>
+    <td><?php echo $ar->bengkel_name ?></td>
+    <td><?php echo $ar->mekanik ?></td>
     <td>
-        <div class="btn-group">
-        <a href="{{ asset('admin-ts3/area/edit/'.$ar->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
-          <a href="{{ asset('admin-ts3/area/delete/'.$ar->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
-        </div>
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Detail<?php echo $ar->service_no ?>">
+            <i class="fa fa-eye"></i> 
+         </button>   
+   
+         @include('admin-ts3/report/service_detail_history') 
 
     </td>
-</tr> --}}
-{{-- 
-<?php $i++; } ?>  --}}
+</tr> 
+
+<?php $i++; } ?> 
 
 </tbody>
 </table>

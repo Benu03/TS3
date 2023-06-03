@@ -191,7 +191,8 @@ class Spk extends Controller
                 'user_upload'	=> $spk_detail_temp_h->user_upload,
                 'user_posting'     => Session()->get('username'),
                 'posting_date'    => date("Y-m-d h:i:sa"),
-                'nama_file'    =>  $spk_detail_temp_h->nama_file
+                'nama_file'    =>  $spk_detail_temp_h->nama_file,
+                'mst_client_id' => $spk_detail_temp_h->mst_client_id
                 ]);
 
                 $spk_detail_temp_d = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq', $spk_seq)->get();

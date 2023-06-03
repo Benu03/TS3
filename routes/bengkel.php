@@ -20,7 +20,7 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::get('bengkel/dasbor', 'App\Http\Controllers\Bengkel\Dasbor@index');
     Route::get('bengkel/list-service', 'App\Http\Controllers\Bengkel\Service@index');
     Route::get('bengkel/direct-service', 'App\Http\Controllers\Bengkel\Service@direct_service');
-    Route::get('bengkel/history-service', 'App\Http\Controllers\Bengkel\Service@history_service');
+    
     Route::get('bengkel/summary-bengkel', 'App\Http\Controllers\Bengkel\Invoice@summary_bengkel');
     Route::get('bengkel/service-proses-page/{par1}', 'App\Http\Controllers\Bengkel\Service@service_proses_page');
     Route::post('bengkel/service-proses', 'App\Http\Controllers\Bengkel\Service@service_proses');
@@ -40,6 +40,10 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::get('bengkel/invoice-generate/{par1}', 'App\Http\Controllers\Bengkel\Invoice@invoice_generate');
     Route::get('bengkel/invoice-reset/{par1}', 'App\Http\Controllers\Bengkel\Invoice@invoice_reset');
 
+    Route::get('bengkel/history-service', 'App\Http\Controllers\Bengkel\Service@history_service');
+    Route::get('bengkel/service/get-image-service-detail/{par1}', 'App\Http\Controllers\Bengkel\Service@get_image_service_detail');
+    
+    
 
 
 

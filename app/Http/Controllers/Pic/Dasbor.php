@@ -22,9 +22,26 @@ class Dasbor extends Controller
         }
     	$mysite = new Konfigurasi_model();
 		$site 	= $mysite->listing();
+        $user_branch = DB::connection('ts3')->table('mst.v_branch')->where('pic_branch',Session()->get('username'))->get();
+        $branch_id = [];
+
+        foreach($user_branch  as $key => $val){
+            $branch_id[] = $val->id;
+        }
+
+
+        $service = DB::connection('ts3')->table('mvm.v_service_pic_branch')->wherein('mst_branch_id',$branch_id )->where('status_service','SERVICE')->count();
+
+        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->whereIn('mst_branch_id',$branch_id)->count();
+
+        $advisor = DB::connection('ts3')->table('mvm.v_service_pic_branch')->wherein('mst_branch_id',$branch_id )->where('status_service','SERVICE')->count();
+       
        
 		$data = array(  'title'     => $site->namaweb,
-                        'content'   => 'pic/dasbor/index'
+                        'content'   => 'pic/dasbor/index',
+                        'service'    => $service,
+                        'direct'    => $direct,
+                         'advisor'  => $advisor
                     );
         return view('pic/layout/wrapper',$data);
     }

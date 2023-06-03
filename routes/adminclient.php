@@ -54,7 +54,7 @@ Route::group(['middleware' => ['adminclient']],function(){
 
 
     Route::get('admin-client/report/spk-history', 'App\Http\Controllers\AdminClient\report@spk_history');
-    Route::get('admin-client/report/vehicle-service', 'App\Http\Controllers\AdminClient\report@vehicle_service');
+    // Route::get('admin-client/report/vehicle-service', 'App\Http\Controllers\AdminClient\report@vehicle_service');
 
 
     Route::get('admin-client/area', 'App\Http\Controllers\AdminClient\Area@index');
@@ -101,8 +101,8 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/vehicle-schedule-service', 'App\Http\Controllers\AdminClient\vehicle@vehicle_schedule_service');
     Route::get('admin-client/vehicle-schedule-service-excel', 'App\Http\Controllers\AdminClient\vehicle@vehicle_schedule_service_excel');
 
-
-
+    Route::get('admin-client/report/history-service', 'App\Http\Controllers\AdminClient\report@history_service');
+    Route::get('admin-client/report/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminClient\report@get_image_service_detail');
 
 
 
