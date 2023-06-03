@@ -93,7 +93,7 @@ class Home extends Controller
             $url_img = 'http://34.101.109.41:8080/assets/upload/image/2.png';
         
 
-            $body = '<b>Dear Rekan TS3</b><br><br>Nama Lengkap : '.$request->fullname.'<br>Email : '.$request->email.'<br>Contact : '.$request->contact.'<br>Pesan : '.$request->pesan.'<br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Imam Bonjol No 47-48, Ruko Metro Square Blok B8, Semarang Kel Pandansari, <br>Kec Semarang Tengah 50139</b>';
+            $body = '<b>Dear Rekan TS3</b><br><br>Nama Lengkap : '.$request->fullname.'<br>Email : '.$request->email.'<br>Contact : '.$request->contact.'<br>Pesan : '.$request->pesan.'<br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';
              
             DB::connection('ts3')->table('auth.user_mail')->insert([
                 'type_request' => 'CONTACT US',
