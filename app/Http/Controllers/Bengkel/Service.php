@@ -59,21 +59,7 @@ class Service extends Controller
         return view('bengkel/layout/wrapper',$data);
     }
 
-    public function history_service()
-    {
-        if(Session()->get('username')=="") {
-            $last_page = url()->full();
-            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
-        }
-    
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
-
-		$data = array(   'title'     => 'History Service',
-                         'nopol'      => $nopol,
-                        'content'   => 'bengkel/service/history_service'
-                    );
-        return view('bengkel/layout/wrapper',$data);
-    }
+  
 
     public function service_proses_page($id)
     {
@@ -107,6 +93,7 @@ class Service extends Controller
             ]);
 
         $service_no = 'MVM-'.$request->nopol.'-'.date("Ymd");
+        $bengkel 	= DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
 
         try {
           $service_id =   DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->insertGetId([
@@ -121,6 +108,14 @@ class Service extends Controller
                 'remark_driver' => $request->remark_driver,
                 'pic_branch' => $request->pic_branch
             ]); 
+
+           
+            $datahis = [
+                'mvm_service_vehicle_h_id' => $service_id,
+                'mst_bengkel_id' => $bengkel->id,
+                'pic_branch' => $request->pic_branch
+            ];
+            DB::connection('ts3')->table('mvm.mvm_service_history')->insert($datahis);
 
 
 
@@ -206,8 +201,6 @@ class Service extends Controller
 
 
 
-
-
     }
 
 
@@ -249,6 +242,47 @@ class Service extends Controller
     }
     
 
+    public function history_service()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        $bengkel 	= DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
+        $history = DB::connection('ts3')->table('mvm.v_service_history')->where('mst_bengkel_id',$bengkel->id)->get();
+
+		$data = array(   'title'     => 'History Service',
+                         'history'      => $history,
+                        'content'   => 'bengkel/service/history_service'
+                    );
+        return view('bengkel/layout/wrapper',$data);
+
+
+    }
+
+
+    public function get_image_service_detail($id)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $image = DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('unique_data',$id)->first();
+
+        $service = DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$image->mvm_service_vehicle_h_id)->first();
+        
+        $storagePath =  storage_path('data/service/').$service->service_no.'/'. $image->unique_data;
+
+        if(!file_exists($storagePath))
+        return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);
+        
+        else{
+            return response()->file($storagePath);
+        }
+
+    }  
 
 
   

@@ -22,9 +22,19 @@ class Dasbor extends Controller
         }
     	$mysite = new Konfigurasi_model();
 		$site 	= $mysite->listing();
+
+        $berita = DB::connection('ts3')->table('cp.v_list_berita')->count();     
+        $product = DB::connection('ts3')->table('mst.mst_product')->count();           
+        $galeri = DB::connection('ts3')->table('cp.galeri')->count();     
+        $staff = DB::connection('ts3')->table('cp.staff')->count(); 
        
+
 		$data = array(  'title'     => $site->namaweb,
-                        'content'   => 'admin-ts3/dasbor/index'
+                        'content'   => 'admin-ts3/dasbor/index',
+                        'berita'    => $berita,
+                        'product'    => $product,
+                        'galeri'    => $galeri,
+                        'staff'    => $staff
                     );
         return view('admin-ts3/layout/wrapper',$data);
     }
