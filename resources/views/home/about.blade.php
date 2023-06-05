@@ -22,7 +22,7 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','About')->or
                </div>
             </div>
             <div class="col-lg-5">
-               <a href="#"><img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" alt="{{ $site_config->nama_singkat }}" class="img img-fluid img-thumbnail"></a>
+               <a href="#"><img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" alt="{{ $site_config->nama_singkat }}" class="img img-fluid img-thumbnail border border-0"></a>
             </div>
          </div>
       </div>

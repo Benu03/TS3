@@ -53,32 +53,91 @@
                         </div>
                      </div>
                      <div class="col-lg-5">
-                        <a href="#"><img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" alt="{{ $site_config->nama_singkat }}" class="img img-fluid img-thumbnail">
+                        <a href="#"><img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" alt="{{ $site_config->nama_singkat }}" class="img img-fluid img-thumbnail border border-0">
                      </div>
                   </div>
                </div>
             </div>
+         </section> 
          
-<section class="wf100 about">
-   <div class="blog-grid">
-      <div class="container">
-         <div class="row">
-            <div class="col-md-8">
+
+         <section class="wf100 content">  
+            <br>
+            <div class="container">
+              <h2 class="text-center"><b>Clients</b></h2>
+              <div class="section-text align-center mbr-fonts-style display-5">
             
-                  <h2>Berita & Updates</h2>
-             
-            </div>
-            <div class="col-md-4 text-right"> <a href="{{ asset('berita') }}" class="view-more">Lihat berita lainnya</a> </div>
+              <div class="row">
             
-         </div>
-         <div class="row">
-           
-            <div class="col-md-12">
-               <hr>
+              <div id="gallery" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-interval="1000">
+                    <div class="row">
+                        <div class="col text-center mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/pnm.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/polytron.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/mbm.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/btpn_syariah.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/phapros.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                       
+                    </div>
+                </div>
+            
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col text-center mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/glory.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/helmut.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/distambun.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/spj.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/uns.png') }}"  alt="Image 1"/>
+                        </div>
+            
+                      
+                    </div>
+                 </div>
+               </div>
+            
+                  <a class="carousel-control-prev" href="#gallery" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                  </a>
+            
+                  <a class="carousel-control-next" href="#gallery" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                  </a>
+              </div>
+            
+            
+              </div>
+              </div>
             </div>
-         </div>
-        
-         
-      </div>
-   </div>
-</section>
+            </section>
+            
