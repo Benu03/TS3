@@ -52,12 +52,15 @@
 
     <?php $i=1; foreach($user as $user) { ?>
 
-        <td class="text-center">
+
+
+    <td class="text-center">
         <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id_user[]" value="<?php echo $user->id_user ?>" id="check<?php echo $i ?>">
-                   {{-- <label for="check<?php echo $i ?>"></label> --}}
+                <input type="checkbox" class="icheckbox_flat-blue " name="id_user[]" value="<?php echo $user->id_user ?>" id="check<?php echo $i ?>">
+                <label for="check<?php echo $i ?>"></label>
         </div>
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
+    
+    
     </td>
       <td class="text-center">
        

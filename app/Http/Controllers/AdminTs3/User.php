@@ -83,7 +83,7 @@ class User extends Controller
 					        'username' => 'required|unique:ts3.auth.users',
 					        'password' => 'required',
                             'email'    => 'required',
-                            'gambar'   => 'file|image|mimes:jpeg,png,jpg|max:8024',
+                            // 'gambar'   => 'file|image|mimes:jpeg,png,jpg|max:8024',
 					        ]);
         // UPLOAD START
         $image                  = $request->file('gambar');
