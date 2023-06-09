@@ -13,11 +13,19 @@
 <input type="hidden" name="id" value="<?php echo $bengkel->id ?>">
 
 <div class="form-group row">
-	<label class="col-sm-3 control-label text-right">bengkel</label>
+	<label class="col-sm-3 control-label text-right">Bengkel</label>
 	<div class="col-sm-9">
-		<input type="text" name="bengkel_name" class="form-control" placeholder="Bengkel Name" value="<?php echo $bengkel->bengkel_name ?>" required>
+		<input type="text" name="bengkel_alias" class="form-control" placeholder="Bengkel Name" value="<?php echo $bengkel->bengkel_name ?>" required>
 	</div>
 </div>
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Alias</label>
+	<div class="col-sm-9">
+		<input type="text" name="bengkel_alias" class="form-control" placeholder="Bengkel Alias" value="<?php echo $bengkel->bengkel_alias ?>" required readonly>
+	</div>
+</div>
+
 
 
 <div class="form-group row">
@@ -48,6 +56,22 @@
 
 	</div>
 </div>
+
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Latitude</label>
+	<div class="col-sm-9">
+		<input type="text" name="latitude" class="form-control" placeholder="Latitude" value="<?php echo $bengkel->latitude ?>" required >
+	</div>
+</div>
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Longitude</label>
+	<div class="col-sm-9">
+		<input type="text" name="longitude" class="form-control" placeholder="Longitude" value="<?php echo $bengkel->longitude ?>" required >
+	</div>
+</div>
+
 
 
 

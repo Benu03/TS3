@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/info', function () {
-    return phpinfo();
-});
+// Route::get('/info', function () {
+//     return phpinfo();
+// });
 
 // Route::get('/testdb', function () {
 //     try {

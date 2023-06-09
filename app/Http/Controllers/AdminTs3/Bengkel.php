@@ -33,12 +33,17 @@ class Bengkel extends Controller
 					        'bengkel_name' 	   => 'required|unique:ts3.mst.mst_bengkel',
 					        ]);
         
+          $maxId = DB::connection('ts3')->table('mst.mst_bengkel')->selectRaw('max(id) as id')->first();
+          $seq = $maxId->id + 1;
 
         DB::connection('ts3')->table('mst.mst_bengkel')->insert([
             'bengkel_name'	=> $request->bengkel_name,
+            'bengkel_alias'	=> 'TS3-'.$seq,
             'pic_bengkel'   => $request->pic_bengkel,
             'phone'	=> $request->phone,
             'address'	=> $request->address,
+            'latitude'	=> $request->latitude,
+            'longitude'	=> $request->longitude,
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
@@ -75,6 +80,8 @@ class Bengkel extends Controller
                                 'pic_bengkel'   => $request->pic_bengkel,
                                 'phone'	=> $request->phone,
                                 'address'	=> $request->address,
+                                'latitude'	=> $request->latitude,
+                                'longitude'	=> $request->longitude,
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   

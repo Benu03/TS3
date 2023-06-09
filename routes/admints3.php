@@ -30,6 +30,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/client/edit/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@edit');
     Route::post('admin-ts3/client/proses_edit', 'App\Http\Controllers\AdminTs3\ClientProduct@proses_edit');
     Route::get('admin-ts3/client/delete/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@delete');
+    Route::get('admin-ts3/get-image-client/{par1}', 'App\Http\Controllers\AdminTs3\ClientProduct@get_image');
 
     Route::get('admin-ts3/product', 'App\Http\Controllers\AdminTs3\ClientProduct@index_product');
     Route::post('admin-ts3/product/tambah-product', 'App\Http\Controllers\AdminTs3\ClientProduct@tambah_product');

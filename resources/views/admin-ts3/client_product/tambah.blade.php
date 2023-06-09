@@ -17,6 +17,43 @@
 					</div>
 				</div>
 
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Legal Name</label>
+					<div class="col-sm-9">
+						<input type="text" name="legal_name" class="form-control" placeholder="Legal Name" value="{{ old('legal_name') }}" required>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Address</label>
+					<div class="col-sm-9">
+						<textarea name="address" id="address" class="form-control" id="address" placeholder="Address">{{ old('address') }}</textarea>
+
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Contact</label>
+					<div class="col-sm-9">
+						<input type="text" name="contact" class="form-control" placeholder="Contact" value="{{ old('contact') }}" required>
+					</div>
+				</div>
+
+
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Email</label>
+					<div class="col-sm-9">
+						<input type="text" name="email_client" class="form-control" placeholder="Email" value="{{ old('email_client') }}" required>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Logo</label>
+					<div class="col-sm-9">
+						<input type="file" name="img_client" class="form-control" placeholder="Logo" value="{{ old('img_client') }}">
+					</div>
+				</div>
+
 
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Client Type</label>

@@ -39,6 +39,7 @@
                 </button>
             </div>
         </th>
+        <th width="8%">Gambar</th>
         <th width="25%">Client Name</th>
         <th width="10%">Type</th>
         <th width="35%">Product</th>
@@ -57,6 +58,13 @@
     {{-- <small class="text-center"><?php echo $i ?></small> --}}
 
 </td>
+<td class="text-center">
+       
+    <?php if($cl->img_client <> "NULL") { ?>
+        <img src="{{ asset('admin-ts3/get-image-client/'.$cl->img_client) }}" class="img img-fluid img-thumbnail">
+    <?php }else{ echo '<small class="btn btn-sm btn-warning">Tidak ada</small>'; } ?>
+</td>
+
 <td><?php echo $cl->client_name ?></td>
 <td><?php echo $cl->client_type ?></td>
 <td><?php     

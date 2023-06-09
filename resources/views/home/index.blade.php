@@ -71,7 +71,7 @@
             
               <div id="gallery" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active" data-interval="1000">
+                <div class="carousel-item active" data-interval="1500">
                     <div class="row">
                         <div class="col text-center mr-1">
                         <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/pnm.png') }}"  alt="Image 1"/>

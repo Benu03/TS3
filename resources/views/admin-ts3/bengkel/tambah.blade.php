@@ -48,6 +48,20 @@
 					</div>
 				</div>
 
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Latitude</label>
+					<div class="col-sm-9">
+						<input type="text" name="latitude" class="form-control" placeholder="Latitude" value="{{ old('latitude') }}" required >
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Longitude</label>
+					<div class="col-sm-9">
+						<input type="text" name="longitude" class="form-control" placeholder="Longitude" value="{{ old('longitude') }}" required >
+					</div>
+				</div>
+
 
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right"></label>

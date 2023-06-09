@@ -50,28 +50,97 @@ class ClientProduct extends Controller
 					        'client_name' => 'required|unique:ts3.mst.mst_client',
 					        'client_type' 	   => 'required',
                             'mst_product_id' 	   => 'required',
+                            'legal_name'    => 'required',
+                            'contact'    => 'required',
+                            'email_client'    => 'required',
 					        ]);
 
-        $id_client = DB::connection('ts3')->table('mst.mst_client')->insertGetId([
-            'client_name'   => $request->client_name,
-            'client_type'	=> $request->client_type,
-            'created_date'    => date("Y-m-d h:i:sa"),
-            'create_by'     => $request->session()->get('username')
-        ]);
 
+        $imagereq = $request->file('img_client');
+        if(!empty($imagereq)) {
+            try{
+                $image  = $request->file('img_client');
+                $filename =  $request->client_name.'-'.date("ymdhis").'.jpg';
+                $destinationPath =storage_path('data/image/client');
+                
+                if (!file_exists($destinationPath)) {
+                File::makeDirectory($destinationPath,0755,true);
+                }
+                $img = Image::make($image->path());
+                $img->resize(500, 500, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationPath.'/'.$filename);
 
-        foreach($request->mst_product_id as $val){
-            $datasets = [
-                'mst_client_id' => $id_client,
-                'mst_product_id' => $val,
+            $id_client = DB::connection('ts3')->table('mst.mst_client')->insertGetId([
+                'client_name'   => $request->client_name,
+                'legal_name'   => $request->legal_name,
+                'address'   => $request->address,
+                'contact'   => $request->contact,
+                'email_client'   => $request->email_client,
+                'img_client'   => $filename,
+                'path_image'   => $request->img_client,
+                'path_image'   => $destinationPath,
+                'client_type'	=> $request->client_type,
                 'created_date'    => date("Y-m-d h:i:sa"),
                 'create_by'     => $request->session()->get('username')
-            ];
+            ]);
 
-            DB::connection('ts3')->table('mst.mst_client_product')->insert($datasets);
+
+            foreach($request->mst_product_id as $val){
+                $datasets = [
+                    'mst_client_id' => $id_client,
+                    'mst_product_id' => $val,
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'create_by'     => $request->session()->get('username')
+                ];
+
+                DB::connection('ts3')->table('mst.mst_client_product')->insert($datasets);
+            }
+            DB::commit();
+             }
+          
+            catch (\Illuminate\Database\QueryException $e) {
+                DB::rollback();
+                return redirect('admin-ts3/client')->with(['warning' => $e]);
+            }
         }
+        else
+        {
+
+            try{
+              
+            $id_client = DB::connection('ts3')->table('mst.mst_client')->insertGetId([
+                'client_name'   => $request->client_name,
+                'legal_name'   => $request->legal_name,
+                'address'   => $request->address,
+                'contact'   => $request->contact,
+                'email_client'   => $request->email_client,
+                'client_type'	=> $destinationPath,
+                'created_date'    => date("Y-m-d h:i:sa"),
+                'create_by'     => $request->session()->get('username')
+            ]);
 
 
+            foreach($request->mst_product_id as $val){
+                $datasets = [
+                    'mst_client_id' => $id_client,
+                    'mst_product_id' => $val,
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'create_by'     => $request->session()->get('username')
+                ];
+
+                DB::connection('ts3')->table('mst.mst_client_product')->insert($datasets);
+            }
+            DB::commit();
+             }
+          
+            catch (\Illuminate\Database\QueryException $e) {
+                DB::rollback();
+                return redirect('admin-ts3/client')->with(['warning' => $e]);
+            }
+
+
+        }
 
 
         return redirect('admin-ts3/client')->with(['sukses' => 'Data telah ditambah']);
@@ -232,6 +301,24 @@ class ClientProduct extends Controller
         // PROSES SETTING DRAFT
         }
     }
+   
+   
+    public function get_image($id)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+           
+        $client   =   DB::connection('ts3')->table('mst.v_client_product')->where('img_client',$id)->first();
 
+        $storagePath =  $client->path_image.'/'.$client->img_client;
 
+        if(!file_exists($storagePath))
+        return redirect('admin-ts3/client')->with(['warning' => 'File Tidak Di temukan']);
+        
+        else{
+            return response()->file($storagePath);
+        }
+
+    }
+
+    
 }
