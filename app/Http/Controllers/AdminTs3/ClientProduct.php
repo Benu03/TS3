@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use File;
 
 class ClientProduct extends Controller
 {
@@ -67,7 +68,7 @@ class ClientProduct extends Controller
                 File::makeDirectory($destinationPath,0755,true);
                 }
                 $img = Image::make($image->path());
-                $img->resize(500, 500, function ($constraint) {
+                $img->resize(850, 850, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($destinationPath.'/'.$filename);
 
@@ -165,8 +166,6 @@ class ClientProduct extends Controller
     }
 
 
-
-        // Index
     public function edit_product($id)
     {
             if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
@@ -204,25 +203,106 @@ class ClientProduct extends Controller
 					        'client_name'     => 'required',
                             'client_type' => 'required',
                             'mst_product_id' 	   => 'required',
+                            'legal_name'    => 'required',
+                            'contact'    => 'required',
+                            'email_client'    => 'required',
 					        ]);
 
-                            DB::connection('ts3')->table('mst.mst_client')->where('id',$request->id)->update([
-                                'client_name'   => $request->client_name,
-                                'client_type'	=> $request->client_type,
-                                'updated_at'    => date("Y-m-d h:i:sa"),
-                                'update_by'     => $request->session()->get('username')
-                            ]);   
+                            $imagereq = $request->file('img_client');
+                            if(!empty($imagereq)) {
+                                try{        
+                                    $check = DB::connection('ts3')->table('mst.mst_client')->where('id',$request->id)->first();
 
-                            DB::connection('ts3')->table('mst.mst_client_product')->where('mst_client_id',$request->id)->delete();
-                            foreach($request->mst_product_id as $val){
-                                $datasets = [
-                                    'mst_client_id' => $request->id,
-                                    'mst_product_id' => $val,
-                                    'created_date'    => date("Y-m-d h:i:sa"),
-                                    'create_by'     => $request->session()->get('username')
-                                ];
+                                 
+                                    if(!$check->img_client == null)
+                                    {
                     
-                                DB::connection('ts3')->table('mst.mst_client_product')->insert($datasets);
+                                        File::delete(storage_path('data/image/client/'.$check->img_client));
+                                    }
+
+
+                                    $image  = $request->file('img_client');
+                                    $filename =  $request->client_name.'-'.date("ymdhis").'.jpg';
+                                    $destinationPath =storage_path('data/image/client');
+                                    
+                                    if (!file_exists($destinationPath)) {
+                                    File::makeDirectory($destinationPath,0755,true);
+                                    }
+                                    $img = Image::make($image->path());
+                                    $img->resize(850, 850, function ($constraint) {
+                                        $constraint->aspectRatio();
+                                    })->save($destinationPath.'/'.$filename);
+
+
+                                    DB::connection('ts3')->table('mst.mst_client')->where('id',$request->id)->update([
+                                        'client_name'   => $request->client_name,
+                                        'legal_name'   => $request->legal_name,
+                                        'address'   => $request->address,
+                                        'contact'   => $request->contact,
+                                        'email_client'   => $request->email_client,
+                                        'img_client'   => $filename,
+                                        'path_image'   => $destinationPath,
+                                        'client_type'	=> $request->client_type,
+                                        'updated_at'    => date("Y-m-d h:i:sa"),
+                                        'update_by'     => $request->session()->get('username')
+                                    ]);   
+        
+                                    DB::connection('ts3')->table('mst.mst_client_product')->where('mst_client_id',$request->id)->delete();
+                                    foreach($request->mst_product_id as $val){
+                                        $datasets = [
+                                            'mst_client_id' => $request->id,
+                                            'mst_product_id' => $val,
+                                            'created_date'    => date("Y-m-d h:i:sa"),
+                                            'create_by'     => $request->session()->get('username')
+                                        ];
+                            
+                                        DB::connection('ts3')->table('mst.mst_client_product')->insert($datasets);
+                                    }
+
+
+                                    DB::commit();
+
+                                }
+                                catch (\Illuminate\Database\QueryException $e) {
+                                    DB::rollback();
+                                    return redirect('admin-ts3/client')->with(['warning' => $e]);
+                                }
+
+                            }
+                            else
+                            {
+                                try{  
+                                    
+                                    DB::connection('ts3')->table('mst.mst_client')->where('id',$request->id)->update([
+                                        'client_name'   => $request->client_name,
+                                        'legal_name'   => $request->legal_name,
+                                        'address'   => $request->address,
+                                        'contact'   => $request->contact,
+                                        'email_client'   => $request->email_client,
+                                        'client_type'	=> $request->client_type,
+                                        'updated_at'    => date("Y-m-d h:i:sa"),
+                                        'update_by'     => $request->session()->get('username')
+                                    ]);   
+        
+                                    DB::connection('ts3')->table('mst.mst_client_product')->where('mst_client_id',$request->id)->delete();
+                                    foreach($request->mst_product_id as $val){
+                                        $datasets = [
+                                            'mst_client_id' => $request->id,
+                                            'mst_product_id' => $val,
+                                            'created_date'    => date("Y-m-d h:i:sa"),
+                                            'create_by'     => $request->session()->get('username')
+                                        ];
+                            
+                                        DB::connection('ts3')->table('mst.mst_client_product')->insert($datasets);
+                                    }
+  
+                                    DB::commit();
+                                }
+                                catch (\Illuminate\Database\QueryException $e) {
+                                    DB::rollback();
+                                    return redirect('admin-ts3/client')->with(['warning' => $e]);
+                                }
+
                             }
 
         return redirect('admin-ts3/client')->with(['sukses' => 'Data telah diupdate']);                                             
