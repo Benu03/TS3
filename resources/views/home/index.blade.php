@@ -54,8 +54,8 @@
                         
                            <?php echo $site_config->tentang ?>
 
-                           <div class="wrapper">
-                              <img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" class="img-loader">  
+                           <div class="wrapper33">
+                              <img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" class="img-logots3">  
                             </div>
                        
 

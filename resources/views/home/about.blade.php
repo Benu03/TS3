@@ -14,16 +14,21 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','About')->or
    <div class="about-video-section wf100">
       <div class="container">
          <div class="row">
-            <div class="col-lg-7">
+            <div class="col-lg-12">
                <div class="about-text">
                   <h2>{{ $site_config->nama_singkat }}</h2>
                   <?php echo $site_config->tentang ?>
                   
+                  
+                  <div class="wrapper33">
+                     <img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" class="img-logots3">  
+                   </div>
+
                </div>
             </div>
-            <div class="col-lg-5">
+            {{-- <div class="col-lg-5">
                <a href="#"><img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" alt="{{ $site_config->nama_singkat }}" class="img img-fluid img-thumbnail border border-0"></a>
-            </div>
+            </div> --}}
          </div>
       </div>
    </div>

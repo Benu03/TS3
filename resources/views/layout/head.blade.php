@@ -22,7 +22,7 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 <link href="{{ asset('assets/aws/css/prettyPhoto.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/aws/css/all.min.css') }}" rel="stylesheet">
 <style>
-.img-loader{
+.img-logots3{
   text-align: center;
   width: 500px;
   height: 500px;
@@ -36,7 +36,7 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
   opacity: 0.2;
 }
 
-.wrapper{
+.wrapper33{
   margin: 0 auto;
   width: 100%;
   height: 100%;
