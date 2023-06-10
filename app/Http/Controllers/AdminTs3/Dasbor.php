@@ -28,14 +28,33 @@ class Dasbor extends Controller
         $galeri = DB::connection('ts3')->table('cp.galeri')->count();     
         $staff = DB::connection('ts3')->table('cp.staff')->count(); 
        
+        $rating = DB::connection('ts3')->table('mvm.v_rating_mvm')->get(); 
+
+        $dataPoints = [];
+
+        foreach ($rating as $rt) {
+            
+            $dataPoints[] = [
+                "name" => $rt->rating,
+                "y" => $rt->total
+            ];
+        }
+
 
 		$data = array(  'title'     => $site->namaweb,
                         'content'   => 'admin-ts3/dasbor/index',
                         'berita'    => $berita,
                         'product'    => $product,
                         'galeri'    => $galeri,
-                        'staff'    => $staff
+                        'staff'    => $staff,
+                        "dataPoints" => json_encode($dataPoints)
                     );
         return view('admin-ts3/layout/wrapper',$data);
     }
+
+
+   
+    
+
+
 }

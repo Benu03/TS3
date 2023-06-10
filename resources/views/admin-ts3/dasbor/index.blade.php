@@ -80,3 +80,61 @@
   
 </div>
 <!-- /.row -->
+
+<div class="row">
+ <div class="col-sm-6"> 
+            <div id="mvm-rating-chart"></div>
+ 
+ </div>
+  
+  <div class="col-sm-6">
+
+
+  </div>
+
+
+</div>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script>
+  $(function() {
+      Highcharts.chart('mvm-rating-chart', {
+          chart: {
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false,
+              type: 'pie'
+          },
+          title: {
+              text: 'Rating Motor Vehicle Maintenance '
+          },
+          tooltip: {
+              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          },
+          accessibility: {
+              point: {
+                  valueSuffix: '%'
+              }
+          },
+          plotOptions: {
+              pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                      enabled: true,
+                      format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                  }
+              }
+          },
+          series: [{
+              name: 'Rating',
+              colorByPoint: true,
+              data: <?= $dataPoints ?>
+          }]
+      });
+  });
+</script>

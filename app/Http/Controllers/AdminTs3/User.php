@@ -285,7 +285,7 @@ class User extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
     
-        Log::info($request);
+   
         if ($request->ajax()) {
         
             $datauser 	= DB::connection('ts3')->table('auth.v_list_user')->get();
