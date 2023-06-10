@@ -38,12 +38,42 @@
                     <div class="card-body">  
                         <input type="hidden" name="id" value="<?php echo $service->id ?>">
               <div class="form-group row">
-                <label class="col-sm-3 control-label text-right">Remark</label>
+                <label class="col-sm-3 control-label text-right">Komentar</label>
                 <div class="col-sm-9">
                     <textarea name="remark" class="form-control" id="remark" placeholder="Remark">{{ old('remark') }}</textarea>
 
                 </div>
             </div>
+
+    
+
+            <div class="form-group row">
+                <label class="col-sm-3 control-label text-right"></label>
+                <div class="icheck-primary d-inline">
+                    <input type="radio" id="radioPrimary1" name="rating" value="cukup puas" >
+                    <label for="radioPrimary1">Cukup Puas
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 control-label text-right"></label>
+                <div class="icheck-primary d-inline">
+                    <input type="radio" id="radioPrimary2" name="rating"  value="puas" checked="">
+                    <label for="radioPrimary2">Puas
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 control-label text-right"></label>
+                <div class="icheck-primary d-inline">
+                    <input type="radio" id="radioPrimary3"  value="sangat puas" name="rating">
+                    <label for="radioPrimary3">Sangat Puas
+                    </label>
+                </div>
+            </div>
+
+
 
             <div class="form-group row">
                 <label class="col-sm-3 control-label text-right"></label>
@@ -51,7 +81,7 @@
                     <div class="form-group pull-right btn-group">
                         <input type="submit" name="submit" class="btn btn-primary " value="Simpan">
                         <input type="reset" name="reset" class="btn btn-success " value="Reset">
-                        <a href="{{ asset('bengkel/list-service') }}" class="btn btn-danger">Kembali</a>
+                        <a href="{{ asset('pic/list-service') }}" class="btn btn-danger">Kembali</a>
                     </div>
                 </div>
                 <div class="clearfix"></div>

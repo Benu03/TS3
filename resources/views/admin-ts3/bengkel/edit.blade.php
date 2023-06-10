@@ -15,7 +15,7 @@
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right">Bengkel</label>
 	<div class="col-sm-9">
-		<input type="text" name="bengkel_alias" class="form-control" placeholder="Bengkel Name" value="<?php echo $bengkel->bengkel_name ?>" required>
+		<input type="text" name="bengkel_name" class="form-control" placeholder="Bengkel Name" value="<?php echo $bengkel->bengkel_name ?>" required>
 	</div>
 </div>
 

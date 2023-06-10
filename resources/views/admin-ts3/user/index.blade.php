@@ -39,7 +39,7 @@
                 </button>
             </div>
         </th>
-        <th width="10%">GAMBAR</th>
+        <th width="7%">GAMBAR</th>
         <th width="20%">NAMA</th>
         <th width="20%">USERNAME</th>
         <th width="10%">ROLE</th>

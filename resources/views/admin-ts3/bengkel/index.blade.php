@@ -40,9 +40,10 @@
             </div>
         </th>
         <th width="20%">Bengkel</th>
+        <th width="10%">Alias</th>
         <th width="15%">PIC Bengkel</th>    
         <th width="15%">Phone</th>    
-        <th width="35%">Alamat</th>    
+        <th width="30%">Alamat</th>    
         <th>ACTION</th>
 </tr>
 </thead>
@@ -58,6 +59,7 @@
         {{-- <small class="text-center"><?php echo $i ?></small> --}}
     </td>
     <td><?php echo $bk->bengkel_name ?></td>
+    <td><?php echo $bk->bengkel_alias ?></td>
     <td><?php echo $bk->pic_bengkel ?></td>
     <td><?php echo $bk->phone ?></td>
     <td><?php echo $bk->address ?></td>

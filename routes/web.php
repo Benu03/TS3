@@ -42,6 +42,8 @@ Route::get('ts3', 'App\Http\Controllers\ComPro\Home@ts3');
 // Login
 Route::get('login', 'App\Http\Controllers\ComPro\Login@index');
 Route::post('login/check', 'App\Http\Controllers\ComPro\Login@check');
+Route::post('login/login-konfirmasi-process', 'App\Http\Controllers\ComPro\Login@konfimasi_proses');
+Route::get('login/login-konfirmasi/{par1}', 'App\Http\Controllers\ComPro\Login@konfimasi');
 Route::get('login/lupa', 'App\Http\Controllers\ComPro\Login@fogot');
 Route::get('login/logout', 'App\Http\Controllers\ComPro\Login@logout');
 Route::post('login/forgot-process', 'App\Http\Controllers\ComPro\Login@forgot_process');

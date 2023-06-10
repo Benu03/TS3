@@ -82,16 +82,19 @@ class Service extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
+      
+
   
         if($request->id == null)
         {
             return redirect('pic/list-service')->with(['warning' => 'Data Tidak Ada Yang Di pilih']);
         }
+        request()->validate([
+            'remark' => 'required',
+            'rating'     => 'required',
+            ]);
 
         $id       = $request->id;
-
-
-    
        
         for($i=0; $i < sizeof($id);$i++) {
 
@@ -102,7 +105,7 @@ class Service extends Controller
 
             $id_spk_d =  DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id[$i])->first();
 
-
+            try{ 
             DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id[$i])->update([
                 'remark_pic_branch'   => $request->remark,
                 'pic_branch_date_post'   => date("Y-m-d h:i:sa")          
@@ -111,6 +114,20 @@ class Service extends Controller
             DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$id_spk_d->mvm_spk_d_id)->update([
                     'status_service'   => 'APPROVAL'             
                     ]);
+                    DB::connection('ts3')->table('mvm.mvm_service_rating')->insert([
+                        'rating'   => $request->rating,
+                        'service_no'   => $id_spk_d->service_no,
+                        'created_date'    => date("Y-m-d h:i:sa"),
+                        'create_by'     => $request->session()->get('username')
+                    ]);
+        
+                    DB::commit();
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                    DB::rollback();
+                    return redirect('pic/list-service')->with(['warning' => $e]);
+                }
+    
    
         }
 
@@ -291,20 +308,39 @@ class Service extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-
+        request()->validate([
+            'remark' => 'required',
+            'rating'     => 'required',
+            ]);
        
         $id       = $request->id;
         $id_spk_d =  DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id)->first();
-
-
-        DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id)->update([
+        try{  
+ 
+            DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id)->update([
             'remark_pic_branch'   => $request->remark,
             'pic_branch_date_post'   => date("Y-m-d h:i:sa")          
             ]); 
             
-        DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$id_spk_d->mvm_spk_d_id)->update([
+            DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$id_spk_d->mvm_spk_d_id)->update([
                 'status_service'   => 'APPROVAL'             
                 ]);
+
+             DB::connection('ts3')->table('mvm.mvm_service_rating')->insert([
+                    'rating'   => $request->rating,
+                    'service_no'   => $id_spk_d->service_no,
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'create_by'     => $request->session()->get('username')
+                ]);
+    
+                DB::commit();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+                DB::rollback();
+                return redirect('pic/list-service')->with(['warning' => $e]);
+            }
+
+
 
         return redirect('pic/list-service')->with(['sukses' => 'Data telah Proses']);
 

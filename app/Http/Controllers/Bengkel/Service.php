@@ -157,7 +157,7 @@ class Service extends Controller
                 File::makeDirectory($destinationPath,0755,true);
                 }
                 $img = Image::make($image->path());
-                $img->resize(500, 500, function ($constraint) {
+                $img->resize(850, 850, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($destinationPath.'/'.$filename);
 
@@ -190,10 +190,11 @@ class Service extends Controller
                 'update_by'     => $request->session()->get('username')
             ]); 
 
-
+            DB::commit();
         }
-        catch (\Exception $e) { 
-            return $e->getMessage();
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            return redirect('bengkel/list-service')->with(['warning' => $e]);
         }
 
 

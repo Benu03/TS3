@@ -32,21 +32,30 @@ class Bengkel extends Controller
 					        'pic_bengkel' => 'required',
 					        'bengkel_name' 	   => 'required|unique:ts3.mst.mst_bengkel',
 					        ]);
-        
+        try{
           $maxId = DB::connection('ts3')->table('mst.mst_bengkel')->selectRaw('max(id) as id')->first();
           $seq = $maxId->id + 1;
 
-        DB::connection('ts3')->table('mst.mst_bengkel')->insert([
-            'bengkel_name'	=> $request->bengkel_name,
-            'bengkel_alias'	=> 'TS3-'.$seq,
-            'pic_bengkel'   => $request->pic_bengkel,
-            'phone'	=> $request->phone,
-            'address'	=> $request->address,
-            'latitude'	=> $request->latitude,
-            'longitude'	=> $request->longitude,
-            'created_date'    => date("Y-m-d h:i:sa"),
-            'create_by'     => $request->session()->get('username')
-        ]);
+            DB::connection('ts3')->table('mst.mst_bengkel')->insert([
+                'bengkel_name'	=> $request->bengkel_name,
+                'bengkel_alias'	=> 'TS3-'.$seq,
+                'pic_bengkel'   => $request->pic_bengkel,
+                'phone'	=> $request->phone,
+                'address'	=> $request->address,
+                'latitude'	=> $request->latitude,
+                'longitude'	=> $request->longitude,
+                'created_date'    => date("Y-m-d h:i:sa"),
+                'create_by'     => $request->session()->get('username')
+            ]);
+
+            DB::commit();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            return redirect('admin-ts3/bengkel')->with(['warning' => $e]);
+        }
+
+
         return redirect('admin-ts3/bengkel')->with(['sukses' => 'Data telah ditambah']);
     }
 
@@ -74,7 +83,7 @@ class Bengkel extends Controller
                                 'pic_bengkel' => 'required',
                                 'bengkel_name' 	   => 'required',
 					        ]);
-
+                            try{
                             DB::connection('ts3')->table('mst.mst_bengkel')->where('id',$request->id)->update([
                                 'bengkel_name'	=> $request->bengkel_name,
                                 'pic_bengkel'   => $request->pic_bengkel,
@@ -85,6 +94,12 @@ class Bengkel extends Controller
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   
+                            DB::commit();
+                        }
+                        catch (\Illuminate\Database\QueryException $e) {
+                            DB::rollback();
+                            return redirect('admin-ts3/bengkel')->with(['warning' => $e]);
+                        }
         return redirect('admin-ts3/bengkel')->with(['sukses' => 'Data telah diupdate']);                                             
     }
 
