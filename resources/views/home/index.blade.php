@@ -43,18 +43,31 @@
             <div class="about-video-section wf100">
                <div class="container">
                   <div class="row">
-                     <div class="col-lg-7">
+                     <div class="col-lg-12">
                         <div class="about-text">
                            <h5>TENTANG KAMI</h5>
-                           <h2>{{ $site_config->nama_singkat }}</h2>
+
+
+                           {{-- <h2>{{ $site_config->nama_singkat }}</h2> --}}
+                           {{-- <img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" alt="{{ $site_config->nama_singkat }}" class="img img-fluid img-thumbnail border border-0" class="img-fluid" width="500" height="500"> --}}
+
+                        
                            <?php echo $site_config->tentang ?>
 
-                           <a href="{{ asset('kontak') }}" class="btn btn-info btn-lg">Kontak Kami</a> 
+                           <div class="wrapper">
+                              <img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" class="img-loader">  
+                            </div>
+                       
+
+                          
+              
                         </div>
+                        
                      </div>
-                     <div class="col-lg-5">
-                        <a href="#"><img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" alt="{{ $site_config->nama_singkat }}" class="img img-fluid img-thumbnail border border-0">
-                     </div>
+                     <a href="{{ asset('kontak') }}" class="btn btn-md" style="color: #ffffff; background-color: #32af81; border-color: #32af81"><i class="fas fa-id-card-alt"></i> Kontak Kami</a> 
+                     {{-- <div class="col-lg-5">
+                        <a href="#"><img src="{{ asset('assets/upload/image/'.$site_config->gambar) }}" alt="{{ $site_config->nama_singkat }}" class="img img-fluid img-thumbnail border border-0" class="img-fluid" width="100" height="100">
+                     </div> --}}
                   </div>
                </div>
             </div>

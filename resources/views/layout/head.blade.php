@@ -21,6 +21,31 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 <link href="{{ asset('assets/aws/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/aws/css/prettyPhoto.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/aws/css/all.min.css') }}" rel="stylesheet">
+<style>
+.img-loader{
+  text-align: center;
+  width: 500px;
+  height: 500px;
+  display: block;
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  margin:auto;
+  opacity: 0.2;
+}
+
+.wrapper{
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  /* background: rgba(0, 135, 0, 0.1); */
+  position: absolute;
+  top: 0;
+
+}
+</style>
 <?php echo $site_config->metatext ?>
 </head>
 

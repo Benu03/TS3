@@ -72,9 +72,6 @@ class Service extends Controller
         return view('pic/layout/wrapper',$data);
     }
 
-
-
-
     public function service_remark(Request $request)
     {
 
@@ -163,7 +160,7 @@ class Service extends Controller
                 File::makeDirectory($destinationPath,0755,true);
                 }
                 $img = Image::make($image->path());
-                $img->resize(500, 500, function ($constraint) {
+                $img->resize(850, 850, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($destinationPath.'/'.$filename);
 

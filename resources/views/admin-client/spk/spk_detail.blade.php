@@ -56,27 +56,27 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
-<thead>
-    <tr class="bg-info">
-        {{-- <th width="5%">
-          <div class="mailbox-controls">
-                <!-- Check all button -->
-               <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
-            </div>
-        </th> --}}
-        <th width="10%">NOPOL</th>
-        <th width="17%">NAMA_CABANG</th>   
-        <th width="15%">PIC_CABANG</th>  
-        <th width="10%">STATUS</th>  
-        <th width="10%">TANGGAL SCHEDULE</th>  
-        <th width="10%">TANGGAL SERVICE</th>  
-        <th width="10%">ACTION</th>  
-      
-</tr>
-</thead>
-<tbody>
+    <table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+    <thead>
+        <tr class="bg-info">
+            {{-- <th width="5%">
+              <div class="mailbox-controls">
+                    <!-- Check all button -->
+                  <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+                    </button>
+                </div>
+            </th> --}}
+            <th width="10%">NOPOL</th>
+            <th width="17%">NAMA_CABANG</th>   
+            <th width="15%">PIC_CABANG</th>  
+            <th width="10%">STATUS</th>  
+            <th width="10%">TANGGAL SCHEDULE</th>  
+            <th width="10%">TANGGAL SERVICE</th>  
+            <th width="10%">ACTION</th>  
+          
+    </tr>
+    </thead>
+    <tbody>
 
     <?php $i=1; foreach($spk_d as $sp) { ?>
     <td><?php echo $sp->nopol ?></td>
