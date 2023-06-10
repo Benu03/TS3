@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
 Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/dasbor', 'App\Http\Controllers\AdminTs3\Dasbor@index');
     Route::get('admin-ts3/profile', 'App\Http\Controllers\AdminTs3\Profile@index');
@@ -122,6 +124,9 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/regional/edit/{par1}', 'App\Http\Controllers\AdminTs3\Regional@edit');
     Route::post('admin-ts3/regional/proses_edit', 'App\Http\Controllers\AdminTs3\Regional@proses_edit');
     Route::get('admin-ts3/regional/delete/{par1}', 'App\Http\Controllers\AdminTs3\Regional@delete');
+
+    Route::get('admin-ts3/regional-tes', 'App\Http\Controllers\AdminTs3\Regional@reg_tes');
+    Route::get('admin-ts3/get-regional', 'App\Http\Controllers\AdminTs3\Regional@getRegional');
 
 
     Route::get('admin-ts3/bengkel', 'App\Http\Controllers\AdminTs3\Bengkel@index');

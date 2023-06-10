@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use DataTables;
+use Log;
 
 class Regional extends Controller
 {
@@ -24,6 +26,8 @@ class Regional extends Controller
         
         return view('admin-ts3/layout/wrapper',$data);
     }
+
+   
 
     public function tambah(Request $request)
     {
@@ -114,6 +118,56 @@ class Regional extends Controller
         // PROSES SETTING DRAFT
         }
     }
+
+
+
+    public function reg_tes()
+    {
+    	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+      
+        // $regional 	= DB::connection('ts3')->table('mst.v_regional')->get();
+        $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
+
+		$data = array(  'title'     => 'Regional',
+                        // 'regional'      => $regional,
+                        'client'      => $client,
+                        'content'   => 'admin-ts3/regional/reg-tes'
+                    );
+        
+        return view('admin-ts3/regional/reg-tes');
+    }
+
+    public function getRegional(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        Log::info($request);
+        if ($request->ajax()) {
+
+        $regional 	= DB::connection('ts3')->table('mst.v_regional')->get();
+        return DataTables::of($regional)->addColumn('action', function($row){
+               $btn = '<div class="btn-group">
+               <a href="'. asset('admin-ts3/regional/edit/'.$row->id).'" 
+                 class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+               <a href="'. asset('admin-ts3/regional/delete/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+                    <i class="fa fa-trash"></i></a>
+               </div>';
+                return $btn;
+                })->addColumn('check', function($row){
+                    $check = ' <td class="text-center">
+                                <div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="'.$row->id.'" id="check'.$row->id.'">
+                               <label for="check'.$row->id.'"></label>
+                                </div>
+                             </td>';
+                    return $check;
+                })
+        ->rawColumns(['action','check'])->make(true);
+       
+        }
+
+    }
+
 
 
 
