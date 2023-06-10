@@ -29,7 +29,7 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+<table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
         <th width="5%">
@@ -49,47 +49,7 @@
         <th>ACTION</th>
 </tr>
 </thead>
-<tbody>
 
-    <?php $i=1; foreach($price as $pr) { ?>
-
-    <td class="text-center">
-        <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $pr->id ?>" id="check<?php echo $i ?>">
-                   <label for="check<?php echo $i ?>"></label>
-        </div>
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    </td>
-    <td><?php echo $pr->kode ?></td>
-    <td><?php echo $pr->service_name ?></td>
-    <td><?php echo "Rp " . number_format($pr->price_bengkel_to_ts3,0,',','.');  ?></td>
-    <td><?php echo $pr->client_name ?></td>
-    <td><?php echo "Rp " . number_format($pr->price_ts3_to_client,0,',','.'); ?></td>
-    <td><?php 
-    
-        $str = $pr->regional;
-        $delimiter = ',';
-        $regionals = explode($delimiter, $str);
-        foreach ($regionals as $rgg) {
-            echo "<span class='badge badge-pill badge-primary mr-2 mb-1'>$rgg </span>" ;
-        }
-     ?></td>
-   
-    <td>
-        <div class="btn-group">
-        <a href="{{ asset('admin-ts3/price-service/edit/'.$pr->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
-          <a href="{{ asset('admin-ts3/price-service/delete/'.$pr->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
-        </div>
-
-    </td>
-</tr>
-
-<?php $i++; } ?>
-
-</tbody>
 </table>
 </div>
 </div>
@@ -97,3 +57,58 @@
 
 
 
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        fetch_data()
+        function fetch_data(){                    
+                $('#dataTable').DataTable({
+                    pageLength: 10,
+                    lengthChange: true,
+                    bFilter: true,
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    oLanguage: {
+                        sZeroRecords: "Tidak Ada Data",
+                        sSearch: "Pencarian _INPUT_",
+                        sLengthMenu: "_MENU_",
+                        sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                        sInfoEmpty: "0 data",
+                        oPaginate: {
+                            sNext: "<i class='fa fa-angle-right'></i>",
+                            sPrevious: "<i class='fa fa-angle-left'></i>"
+                        }
+                    },
+                    ajax: {
+                        url:"{{  asset('admin-ts3/get-price-service') }}",
+                        type: "GET"
+                             
+                    },
+                    columns: [
+                        { 
+                            data: 'check', 
+                            name: 'check', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                        },
+                        { name: 'kode', data: 'kode' },
+                        { name: 'service_name', data: 'service_name' },
+                        { name: 'price_bengkel_to_ts3', data: 'price_bengkel_to_ts3' },
+                        { name: 'client_name', data: 'client_name' },
+                        { name: 'price_ts3_to_client', data: 'price_ts3_to_client' },
+                        { name: 'regional', data: 'regional' },
+                        {
+                            data: 'action', 
+                            name: 'action', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                           
+                        },
+                    ]
+                });
+            }         
+    });
+    </script>

@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use DataTables;
+use Log;
 
 class PriceService extends Controller
 {
@@ -13,7 +15,7 @@ class PriceService extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
       
-        $price 	= DB::connection('ts3')->table('mst.v_price_service')->get();
+        // $price 	= DB::connection('ts3')->table('mst.v_price_service')->get();
         $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
         $regional 	= DB::connection('ts3')->table('mst.mst_regional')->get();        
         $kode_max 	= DB::connection('ts3')->table('mst.v_price_service')->selectRaw("concat('TS3-',max(substring(kode from 5 for 5)::int + 1)) as kode")->first();
@@ -21,7 +23,7 @@ class PriceService extends Controller
 
 		$data = array(  'title'     => 'Price Service',
                         'kode_max'   => $kode_max,
-                        'price'      => $price,
+                        // 'price'      => $price,
                         'client'      => $client,
                         'regional'      => $regional,
                         'price_type'      => $price_type,
@@ -44,7 +46,7 @@ class PriceService extends Controller
 					        ]);
         
 
-           
+          try{
                     
         $id_price = DB::connection('ts3')->table('mst.mst_price_service')->insertGetId([
             'kode'	=> $request->kode,
@@ -65,7 +67,12 @@ class PriceService extends Controller
 
             DB::connection('ts3')->table('mst.mst_price_service_x_regional')->insert($datasets);
         }
-
+        DB::commit();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            return redirect('admin-ts3/price-service')->with(['warning' => $e]);
+        }
         
 
         return redirect('admin-ts3/price-service')->with(['sukses' => 'Data telah ditambah']);
@@ -102,7 +109,7 @@ class PriceService extends Controller
                                 'price_ts3_to_client' 	   => 'required',
                                 'price_service_type' 	   => 'required',
 					        ]);
-
+                     try{
                             DB::connection('ts3')->table('mst.mst_price_service')->where('id',$request->id)->update([
                                 'service_name'   => $request->service_name,
                                 'price_bengkel_to_ts3'	=> $request->price_bengkel_to_ts3,
@@ -121,7 +128,11 @@ class PriceService extends Controller
                     
                                 DB::connection('ts3')->table('mst.mst_price_service_x_regional')->insert($datasets);
                             }
-
+                        }
+                        catch (\Illuminate\Database\QueryException $e) {
+                            DB::rollback();
+                            return redirect('admin-ts3/price-service')->with(['warning' => $e]);
+                        }
 
         return redirect('admin-ts3/price-service')->with(['sukses' => 'Data telah diupdate']);                                             
     }
@@ -159,6 +170,61 @@ class PriceService extends Controller
     }
 
 
+    public function getPriceService(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        if ($request->ajax()) {
+        
+
+        $price 	= DB::connection('ts3')->table('mst.v_price_service')->get();
+        
+        return DataTables::of($price)
+                ->addColumn('action', function($row){
+                    $btn = '<div class="btn-group">
+                            <a href="'. asset('admin-ts3/price-service/edit/'.$row->id).'" 
+                                class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                            <a href="'. asset('admin-ts3/price-service/delete/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+                                    <i class="fa fa-trash"></i></a>
+                            </div>';
+                return $btn; })
+                ->addColumn('check', function($row){
+                    $check = ' <td class="text-center">
+                                <div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="'.$row->id.'" id="check'.$row->id.'">
+                               <label for="check'.$row->id.'"></label>
+                                </div>
+                             </td>';
+                    return $check; })
+                ->editColumn('price_bengkel_to_ts3', function ($row) {
+                    
+                        $datapr = 'Rp '. number_format($row->price_bengkel_to_ts3,0,',','.');
+                        return $datapr;
+                    }) 
+                ->editColumn('price_ts3_to_client', function ($row) {
+                        $datapr = 'Rp '. number_format($row->price_ts3_to_client,0,',','.');
+                        return $datapr;
+                    }) 
+                ->editColumn('regional', function ($row) {
+
+                        $str = $row->regional;
+                        $delimiter = ',';
+                        $regionals = explode($delimiter, $str);
+                        $datarg = '';
+                        foreach ($regionals as $rgg) {
+                            $datarg  .= '<span class="badge badge-pill badge-primary mr-2 mb-1">'.$rgg.'</span>' ;
+                        }
+                        return $datarg;
+                    })
+
+                ->rawColumns(['action','check','regional'])
+                ->make(true);
+       
+        }
+
+    }
+
+    
 
 
 }

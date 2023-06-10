@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use DataTables;
+use Log;
 
 class Bengkel extends Controller
 {
@@ -13,11 +15,11 @@ class Bengkel extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
       
-        $bengkel 	= DB::connection('ts3')->table('mst.v_bengkel')->get();
+        // $bengkel 	= DB::connection('ts3')->table('mst.v_bengkel')->get();
         $user_bengkel 	= DB::connection('ts3')->table('auth.users')->where('id_role','4')->get();
 
 		$data = array(  'title'     => 'Bengkel',
-                        'bengkel'      => $bengkel,
+                        // 'bengkel'      => $bengkel,
                         'userbengkel'      => $user_bengkel,
                         'content'   => 'admin-ts3/bengkel/index'
                     );
@@ -59,7 +61,6 @@ class Bengkel extends Controller
         return redirect('admin-ts3/bengkel')->with(['sukses' => 'Data telah ditambah']);
     }
 
-   
     public function edit($id)
     {
             if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
@@ -131,6 +132,39 @@ class Bengkel extends Controller
             return redirect('admin-ts3/bengkel')->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }
+    }
+
+    public function getBengkel(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        if ($request->ajax()) {
+        
+
+        $bengkel 	= DB::connection('ts3')->table('mst.v_bengkel')->get();
+        
+        return DataTables::of($bengkel)
+                ->addColumn('action', function($row){
+                    $btn = '<div class="btn-group">
+                            <a href="'. asset('admin-ts3/bengkel/edit/'.$row->id).'" 
+                                class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                            <a href="'. asset('admin-ts3/bengkel/delete/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+                                    <i class="fa fa-trash"></i></a>
+                            </div>';
+                return $btn; })
+                ->addColumn('check', function($row){
+                    $check = ' <td class="text-center">
+                                <div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="'.$row->id.'" id="check'.$row->id.'">
+                               <label for="check'.$row->id.'"></label>
+                                </div>
+                             </td>';
+                    return $check; })
+                ->rawColumns(['action','check'])
+                ->make(true);
+       
+        }
+
     }
 
 

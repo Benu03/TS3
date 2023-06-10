@@ -121,29 +121,14 @@ class Regional extends Controller
 
 
 
-    public function reg_tes()
-    {
-    	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-      
-        // $regional 	= DB::connection('ts3')->table('mst.v_regional')->get();
-        $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
 
-		$data = array(  'title'     => 'Regional',
-                        // 'regional'      => $regional,
-                        'client'      => $client,
-                        'content'   => 'admin-ts3/regional/reg-tes'
-                    );
-        
-        return view('admin-ts3/regional/reg-tes');
-    }
 
     public function getRegional(Request $request)
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
-        Log::info($request);
+        
         if ($request->ajax()) {
-
         $regional 	= DB::connection('ts3')->table('mst.v_regional')->get();
         return DataTables::of($regional)->addColumn('action', function($row){
                $btn = '<div class="btn-group">

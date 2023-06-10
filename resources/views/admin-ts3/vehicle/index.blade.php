@@ -29,7 +29,7 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+<table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
         <th width="5%">
@@ -48,43 +48,64 @@
         <th>ACTION</th>
 </tr>
 </thead>
-<tbody>
 
-<?php $i=1; foreach($vehicle as $vc) { ?>
-
-    <td class="text-center">
-    <div class="icheck-primary">
-            <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $vc->id ?>" id="check<?php echo $i ?>">
-            <label for="check<?php echo $i ?>"></label>
-    </div>
-
-
-</td>
-<td><?php echo $vc->client_name ?></td>
-<td><?php echo $vc->nopol ?></td>
-<td><?php echo $vc->norangka ?></td>
-<td><?php echo $vc->nomesin ?></td>
-<td><?php echo $vc->type ?></td>
-<td><?php echo $vc->tgl_last_service ?></td>
-<td>
-    <div class="btn-group">
-    <a href="{{ asset('admin-ts3/vehicle/detail/'.$vc->id) }}" 
-            class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
-
-    <a href="{{ asset('admin-ts3/vehicle/edit/'.$vc->id) }}" 
-    class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
-    <a href="{{ asset('admin-ts3/vehicle/delete/'.$vc->id) }}" class="btn btn-danger btn-sm  delete-link">
-        <i class="fa fa-trash"></i></a>
-    </div>
-
-</td>
-</tr>
-
-<?php $i++; } ?>
-
-</tbody>
 </table>
 </div>
 </div>
 </form>
+
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        fetch_data()
+        function fetch_data(){                    
+                $('#dataTable').DataTable({
+                    pageLength: 10,
+                    lengthChange: true,
+                    bFilter: true,
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    oLanguage: {
+                        sZeroRecords: "Tidak Ada Data",
+                        sSearch: "Pencarian _INPUT_",
+                        sLengthMenu: "_MENU_",
+                        sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                        sInfoEmpty: "0 data",
+                        oPaginate: {
+                            sNext: "<i class='fa fa-angle-right'></i>",
+                            sPrevious: "<i class='fa fa-angle-left'></i>"
+                        }
+                    },
+                    ajax: {
+                        url:"{{  asset('admin-ts3/get-vehicle') }}",
+                        type: "GET"
+                             
+                    },
+                    columns: [
+                        { 
+                            data: 'check', 
+                            name: 'check', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                        },
+                        { name: 'client_name', data: 'client_name' },
+                        { name: 'nopol', data: 'nopol' },
+                        { name: 'norangka', data: 'norangka' },
+                        { name: 'nomesin', data: 'nomesin' },
+                        { name: 'type', data: 'type' },
+                        { name: 'tgl_last_service', data: 'tgl_last_service' },
+                        {
+                            data: 'action', 
+                            name: 'action', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                           
+                        },
+                    ]
+                });
+            }         
+    });
+    </script>

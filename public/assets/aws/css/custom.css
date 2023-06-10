@@ -3966,14 +3966,14 @@ a.read-post:hover {
     position: relative;
     display: block;
     padding: 0px;
-    margin: 0 3px;
+    margin: 0 1px;
     border: 1px solid #dddddd;
     width: 44px;
     height: 44px;
     text-align: center;
     line-height: 42px;
     color: #888888;
-    border-radius: 3px;
+    border-radius: 1px;
     font-size: 18px;
     font-family: "Poppins", sans-serif;
     font-weight: 600;

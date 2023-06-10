@@ -82,6 +82,7 @@ $(document).ready(function() {
                     { 
                         data: 'check', 
                         name: 'check', 
+                        className: "text-center",
                         orderable: false, 
                         searchable: false
                     },
@@ -96,6 +97,7 @@ $(document).ready(function() {
                     {
                         data: 'action', 
                         name: 'action', 
+                        className: "text-center",
                         orderable: false, 
                         searchable: false
                        

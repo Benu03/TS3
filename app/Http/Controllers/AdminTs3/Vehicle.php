@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use DataTables;
+use Log;
 
 class Vehicle extends Controller
 {
@@ -14,12 +16,12 @@ class Vehicle extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
       
-        $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->get();
+        // $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->get();
         $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
         $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
 
 		$data = array(  'title'     => 'Vehicle',
-                        'vehicle'      => $vehicle,
+                        // 'vehicle'      => $vehicle,
                         'vehicle_type'      => $vehicle_type,
                         'client'      => $client,
                         'content'   => 'admin-ts3/vehicle/index'
@@ -35,12 +37,12 @@ class Vehicle extends Controller
 
       
      
-        $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
+        // $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
         $group_vehicle 	= DB::connection('ts3')->table('mst.mst_general')->where('name','Group Vehicle')->where('value_1','Motor')->get();
 
 		$data = array(  'title'     => 'Vehicle Type',
                         
-                        'vehicle_type'      => $vehicle_type,
+                        // 'vehicle_type'      => $vehicle_type,
                         'group_vehicle'      => $group_vehicle,
                      
                         'content'   => 'admin-ts3/vehicle/index_vehicle_type'
@@ -238,5 +240,73 @@ class Vehicle extends Controller
         return view('admin-ts3/layout/wrapper',$data);
     }
 
+
+    public function getVehicle(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        if ($request->ajax()) {
+        
+
+        $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->get();
+        
+        return DataTables::of($vehicle)
+                ->addColumn('action', function($row){
+                    $btn = '<div class="btn-group">
+                            <a href="'. asset('admin-ts3/vehicle/edit/'.$row->id).'" 
+                                class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
+                            <a href="'. asset('admin-ts3/vehicle/edit/'.$row->id).'" 
+                                class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                            <a href="'. asset('admin-ts3/vehicle/delete/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+                                    <i class="fa fa-trash"></i></a>
+                            </div>';
+                return $btn; })
+                ->addColumn('check', function($row){
+                    $check = ' <td class="text-center">
+                                <div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="'.$row->id.'" id="check'.$row->id.'">
+                               <label for="check'.$row->id.'"></label>
+                                </div>
+                             </td>';
+                    return $check; })
+                ->rawColumns(['action','check'])
+                ->make(true);
+       
+        }
+
+    }
+
+    public function getVehicletype(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        if ($request->ajax()) {
+        
+
+        $vehiclet 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
+        
+        return DataTables::of($vehiclet)
+                ->addColumn('action', function($row){
+                    $btn = '<div class="btn-group">
+                            <a href="'. asset('admin-ts3/vehicle-type/edit-vehicle-type/'.$row->id).'" 
+                                class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                            <a href="'. asset('admin-ts3/vehicle-type/delete-vehicle-type/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+                                    <i class="fa fa-trash"></i></a>
+                            </div>';
+                return $btn; })
+                ->addColumn('check', function($row){
+                    $check = ' <td class="text-center">
+                                <div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="'.$row->id.'" id="check'.$row->id.'">
+                               <label for="check'.$row->id.'"></label>
+                                </div>
+                             </td>';
+                    return $check; })
+                ->rawColumns(['action','check'])
+                ->make(true);
+       
+        }
+
+    }
 
 }

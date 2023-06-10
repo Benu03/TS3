@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use DataTables;
+use Log;
+
 
 class Branch extends Controller
 {
@@ -13,13 +16,13 @@ class Branch extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
       
-        $branch 	= DB::connection('ts3')->table('mst.v_branch')->get();
+        // $branch 	= DB::connection('ts3')->table('mst.v_branch')->get();
         $area 	= DB::connection('ts3')->table('mst.v_area')->get();
         $user_branch 	= DB::connection('ts3')->table('auth.users')->where('id_role','5')->get();
 
 		$data = array(  'title'     => 'Branch',
                         'area'      => $area,
-                        'branch'      => $branch,
+                        // 'branch'      => $branch,
                         'userbranch'      => $user_branch,
                         'content'   => 'admin-ts3/branch/index'
                     );
@@ -117,6 +120,36 @@ class Branch extends Controller
             return redirect('admin-ts3/branch')->with(['sukses' => 'Data telah dihapus']);
         // PROSES SETTING DRAFT
         }
+    }
+
+    public function getBranch(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        
+        if ($request->ajax()) {
+        $branch 	= DB::connection('ts3')->table('mst.v_branch')->get();
+        return DataTables::of($branch)->addColumn('action', function($row){
+               $btn = '<div class="btn-group">
+               <a href="'. asset('admin-ts3/branch/edit/'.$row->id).'" 
+                 class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+               <a href="'. asset('admin-ts3/branch/delete/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+                    <i class="fa fa-trash"></i></a>
+               </div>';
+                return $btn;
+                })->addColumn('check', function($row){
+                    $check = ' <td class="text-center">
+                                <div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="'.$row->id.'" id="check'.$row->id.'">
+                               <label for="check'.$row->id.'"></label>
+                                </div>
+                             </td>';
+                    return $check;
+                })
+        ->rawColumns(['action','check'])->make(true);
+       
+        }
+
     }
 
 

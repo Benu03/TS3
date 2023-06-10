@@ -125,7 +125,6 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/regional/proses_edit', 'App\Http\Controllers\AdminTs3\Regional@proses_edit');
     Route::get('admin-ts3/regional/delete/{par1}', 'App\Http\Controllers\AdminTs3\Regional@delete');
 
-    Route::get('admin-ts3/regional-tes', 'App\Http\Controllers\AdminTs3\Regional@reg_tes');
     Route::get('admin-ts3/get-regional', 'App\Http\Controllers\AdminTs3\Regional@getRegional');
 
 
@@ -136,6 +135,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/bengkel/proses_edit', 'App\Http\Controllers\AdminTs3\Bengkel@proses_edit');
     Route::get('admin-ts3/bengkel/delete/{par1}', 'App\Http\Controllers\AdminTs3\Bengkel@delete');
 
+    Route::get('admin-ts3/get-bengkel', 'App\Http\Controllers\AdminTs3\Bengkel@getBengkel');
+
 
     Route::get('admin-ts3/area', 'App\Http\Controllers\AdminTs3\Area@index');
     Route::post('admin-ts3/area/tambah', 'App\Http\Controllers\AdminTs3\Area@tambah');
@@ -144,6 +145,9 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/area/proses_edit', 'App\Http\Controllers\AdminTs3\Area@proses_edit');
     Route::get('admin-ts3/area/delete/{par1}', 'App\Http\Controllers\AdminTs3\Area@delete');
 
+    Route::get('admin-ts3/get-area', 'App\Http\Controllers\AdminTs3\Area@getArea');
+
+
     
     Route::get('admin-ts3/branch', 'App\Http\Controllers\AdminTs3\Branch@index');
     Route::post('admin-ts3/branch/tambah', 'App\Http\Controllers\AdminTs3\Branch@tambah');
@@ -151,6 +155,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/branch/edit/{par1}', 'App\Http\Controllers\AdminTs3\Branch@edit');
     Route::post('admin-ts3/branch/proses_edit', 'App\Http\Controllers\AdminTs3\Branch@proses_edit');
     Route::get('admin-ts3/branch/delete/{par1}', 'App\Http\Controllers\AdminTs3\Branch@delete');
+
+    Route::get('admin-ts3/get-branch', 'App\Http\Controllers\AdminTs3\Branch@getBranch');
 
     Route::get('admin-ts3/general', 'App\Http\Controllers\AdminTs3\General@index');
     Route::post('admin-ts3/general/tambah', 'App\Http\Controllers\AdminTs3\General@tambah');
@@ -167,6 +173,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/price-service/proses_edit', 'App\Http\Controllers\AdminTs3\PriceService@proses_edit');
     Route::get('admin-ts3/price-service/delete/{par1}', 'App\Http\Controllers\AdminTs3\PriceService@delete');
 
+    Route::get('admin-ts3/get-price-service', 'App\Http\Controllers\AdminTs3\PriceService@getPriceService');
+
 
     Route::get('admin-ts3/vehicle', 'App\Http\Controllers\AdminTs3\Vehicle@index');
     Route::post('admin-ts3/vehicle/tambah', 'App\Http\Controllers\AdminTs3\Vehicle@tambah');
@@ -175,6 +183,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/vehicle/proses-edit', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit');
     Route::get('admin-ts3/vehicle/delete/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete');
     Route::get('admin-ts3/vehicle/detail/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@detail');
+
+    Route::get('admin-ts3/get-vehicle', 'App\Http\Controllers\AdminTs3\Vehicle@getVehicle');
     
     Route::get('admin-ts3/vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@index_vehicle_type');
     Route::post('admin-ts3/vehicle-type/tambah-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@tambah_vehicle_type');
@@ -183,6 +193,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/vehicle-type/proses-edit-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit_vehicle_type');
     Route::get('admin-ts3/vehicle-type/delete-vehicle-type/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete_vehicle_type');
 
+    Route::get('admin-ts3/get-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@getVehicletype');
 
     Route::get('admin-ts3/spare-part', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@index');
     Route::post('admin-ts3/spare-part/tambah', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@tambah');
