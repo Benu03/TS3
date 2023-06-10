@@ -29,7 +29,7 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+        <table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
         <th width="5%">
@@ -43,71 +43,101 @@
         <th width="20%">NAMA</th>
         <th width="20%">USERNAME</th>
         <th width="10%">ROLE</th>
-        <th width="10%">LOGIN</th>
-        <th width="10%">ENTITY</th>       
+        <th width="10%">ENTITY</th>  
+        <th width="10%">CONTACT</th>       
         <th>ACTION</th>
 </tr>
 </thead>
-<tbody>
 
-    <?php $i=1; foreach($user as $user) { ?>
-
-
-
-    <td class="text-center">
-        <div class="icheck-primary">
-                <input type="checkbox" class="icheckbox_flat-blue " name="id_user[]" value="<?php echo $user->id_user ?>" id="check<?php echo $i ?>">
-                <label for="check<?php echo $i ?>"></label>
-        </div>
-    
-    
-    </td>
-      <td class="text-center">
-       
-        <?php if($user->gambar <> "NULL") { ?>
-            <img src="{{ asset('assets/upload/user/thumbs/'.$user->gambar) }}" class="img img-fluid img-thumbnail">
-        <?php }else{ echo '<small class="btn btn-sm btn-warning">Tidak ada</small>'; } ?>
-    </td>
-
-    <td><?php echo $user->nama ?></td>
-    <td><?php echo $user->username ?></td>
-    <td><?php echo $user->role_title ?></td>
-    <td class="text-center"> <?php if($user->is_login == true) { echo '<small class="btn btn-sm btn-success">YES</small>'; ?>
-        <?php }else{ echo '<small class="btn btn-sm btn-warning">NO</small>'; } ?>
-    </td>
-    <td><?php echo $user->entity ?></td>
-    <td>
-        <div class="btn-group">
-        <a href="{{ asset('admin-ts3/user/edit/'.$user->id_user) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
-          <a href="{{ asset('admin-ts3/user/delete/'.$user->username) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
-        </div>
-
-    </td>
-</tr>
-
-<?php $i++; } ?>
-
-</tbody>
 </table>
 </div>
 </div>
 </form>
 
-<script>
-     $('#div_customer').hide();
-   $('document').ready(function () {
-                        $("#role").change(function () {
-                        var data = $(this).val();
-                        if (data == "3" || data == "5" ) {
-                        $('#div_customer').show();
-                        } 
-                        else {
-                        $('#div_customer').hide();
-                        }
-                        });
-                        });
 
-</script>
+<script type="text/javascript">
+    $(document).ready(function() { 
+        fetch_data()
+        function fetch_data(){                    
+                $('#dataTable').DataTable({
+                    pageLength: 10,
+                    lengthChange: true,
+                    bFilter: true,
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    oLanguage: {
+                        sZeroRecords: "Tidak Ada Data",
+                        sSearch: "Pencarian _INPUT_",
+                        sLengthMenu: "_MENU_",
+                        sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                        sInfoEmpty: "0 data",
+                        oPaginate: {
+                            sNext: "<i class='fa fa-angle-right'></i>",
+                            sPrevious: "<i class='fa fa-angle-left'></i>"
+                        }
+                    },
+                    ajax: {
+                        url:"{{ asset('admin-ts3/get-user-list') }}",
+                        type: "GET"
+                             
+                    },
+                    columns: [
+                        { 
+                            data: 'check', 
+                            name: 'check', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                        },
+                        { name: 'gambaruser', data: 'gambaruser' },
+                        { name: 'nama', data: 'nama' },
+                        { name: 'username', data: 'username' },
+                        { name: 'role_title', data: 'role_title' },
+                        { name: 'entity', data: 'entity' },
+                        { name: 'contact', data: 'contact',  className: "text-center" },
+                        {
+                            data: 'action', 
+                            name: 'action', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                           
+                        },
+                    ]
+                });
+            }         
+    });
+
+    $('#div_customer').hide();
+  $('document').ready(function () {
+                       $("#role").change(function () {
+                       var data = $(this).val();
+                       if (data == "3" || data == "5" ) {
+                       $('#div_customer').show();
+                       } 
+                       else {
+                       $('#div_customer').hide();
+                       }
+                       });
+                       });
+    </script>
+
+
+
+<script>
+    $(document).ready(function() {
+       var role_type = document.getElementById("role");
+       console.log(role_type);
+           if(role_type.value != '2')
+           {
+               document.getElementById("customer").show();
+           }
+            else {
+               document.getElementById("customer").hide();
+           } 
+       
+       }); 
+   
+       
+   </script>

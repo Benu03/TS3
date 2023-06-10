@@ -92,19 +92,3 @@
 
 
 
-<script>
- $(document).ready(function() {
-	var role_type = document.getElementById("role");
-	console.log(role_type);
-		if(role_type.value <> '2')
-		{
-			document.getElementById("customer").show();
-		}
-         else {
-            document.getElementById("customer").hide();
-        } 
-	
-	}); 
-
-	
-</script>

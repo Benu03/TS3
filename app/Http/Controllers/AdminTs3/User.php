@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use DataTables;
+use Log;
 
 class User extends Controller
 {
@@ -12,11 +14,11 @@ class User extends Controller
     public function index()
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-		$user 	= DB::connection('ts3')->table('auth.v_list_user')->orderBy('id_user','DESC')->get();
+		// $user 	= DB::connection('ts3')->table('auth.v_list_user')->orderBy('id_user','DESC')->get();
         $role 	= DB::connection('ts3')->table('auth.user_roles')->where('id', '!=' , 1)->get();
         $customer 	= DB::connection('ts3')->table('mst.mst_client')->get();
 		$data = array(  'title'     => 'Pengguna Sistem',
-						'user'      => $user,
+						// 'user'      => $user,
                         'roledata'      => $role,
                         'customerdata'      => $customer,
                         'content'   => 'admin-ts3/user/index'
@@ -179,7 +181,7 @@ class User extends Controller
             // END UPLOAD
             $slug_user = Str::slug($request->nama, '-');
         
-
+      
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -215,8 +217,12 @@ class User extends Controller
 
              }
 
+            
+          
+
         }else{
             $slug_user = Str::slug($request->nama, '-');
+           
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -250,6 +256,7 @@ class User extends Controller
                 }
 
              }
+            
 
         }
         return redirect('admin-ts3/user')->with(['sukses' => 'Data telah diupdate']);
@@ -260,10 +267,72 @@ class User extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
+        try{
         DB::connection('ts3')->table('mst.mst_user_client')->where('username',$username)->delete();
     	DB::connection('ts3')->table('auth.users')->where('username',$username)->delete();
-
+        
+        DB::commit();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            return redirect('admin-ts3/price-service')->with(['warning' => $e]);
+        }
 
     	return redirect('admin-ts3/user')->with(['sukses' => 'Data telah dihapus']);
     }
+
+    public function getUser(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+    
+        Log::info($request);
+        if ($request->ajax()) {
+        
+            $datauser 	= DB::connection('ts3')->table('auth.v_list_user')->get();
+       
+            return DataTables::of($datauser)
+                ->addColumn('action', function($row){
+                    $btn = '<div class="btn-group">
+                            <a href="'. asset('admin-ts3/user/edit/'.$row->id_user).'" 
+                                class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                            <a href="'. asset('admin-ts3/user/delete/'.$row->id_user).'" class="btn btn-danger btn-sm  delete-link">
+                                    <i class="fa fa-trash"></i></a>
+                            </div>';
+                return $btn; })
+                ->addColumn('check', function($row){
+                    $check = '<div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id_user[]" value="'.$row->id_user.'" id="check'.$row->id_user.'">
+                               <label for="check'.$row->id_user.'"></label>
+                                </div>';
+                    return $check; })
+                ->addColumn('gambaruser', function ($row) {
+                     if($row->gambar <> null)
+                     {
+                        $gmbar = '<img src="'. asset('assets/upload/user/thumbs/'.$row->gambar).'" class="img img-fluid img-thumbnail">';
+                      }
+                      else
+                      {
+                        $gmbar = '<small class="btn btn-sm btn-warning">Tidak ada</small>'; 
+                        }                         
+                        return $gmbar;
+                    }) 
+                ->addColumn('contact', function($row){
+                    if($row->wa_number <> null)
+                     {
+                        $contact = $row->phone.' <a href="https://wa.me/'.$row->wa_number.'" target="_blank"><i class="fab fa-whatsapp fa-lg"></i></a>';
+                      }
+                      else
+                      {
+                        $contact = $row->phone;
+                      }            
+
+                       
+                        return $contact; })
+                ->rawColumns(['action','check','gambaruser','contact'])
+                ->make(true);
+       
+        }
+
+    }
+
 }

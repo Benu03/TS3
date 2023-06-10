@@ -26,6 +26,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/user/delete/{par1}', 'App\Http\Controllers\AdminTs3\User@delete');
     Route::post('admin-ts3/user/proses', 'App\Http\Controllers\AdminTs3\User@proses');
 
+    Route::get('admin-ts3/get-user-list', 'App\Http\Controllers\AdminTs3\User@getUser');
+
     Route::get('admin-ts3/client', 'App\Http\Controllers\AdminTs3\ClientProduct@index');
     Route::post('admin-ts3/client/tambah', 'App\Http\Controllers\AdminTs3\ClientProduct@tambah');
     Route::post('admin-ts3/client/proses', 'App\Http\Controllers\AdminTs3\ClientProduct@proses');

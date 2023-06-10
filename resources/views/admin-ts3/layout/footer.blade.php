@@ -203,7 +203,7 @@ $(document).on("click", ".approval-link", function(e){
 <!-- Sparkline -->
 <script src="{{ asset('assets/admin/plugins/sparklines/sparkline.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script> --}}
 <!-- Summernote -->
 <script src="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <!-- tinymce -->
@@ -215,30 +215,30 @@ $(document).on("click", ".approval-link", function(e){
 <script src="{{ asset('assets/admin/plugins/pace-progress/pace.min.js') }}"></script>
 <script src="{{ asset('assets/admin/dist/js/adminlte.js') }}"></script>
 <script>
-    CKEDITOR.replace('editorku', {
-      height: 60,
-      // Define the toolbar groups as it is a more accessible solution.
-      toolbarGroups: [{
-          "name": "basicstyles",
-          "groups": ["basicstyles"]
-        },
-        {
-          "name": "links",
-          "groups": ["links"]
-        },
-        {
-          "name": "paragraph",
-          "groups": ["list", "blocks"]
-        },
-        {
-          "name": "document",
-          "groups": ["mode"]
-        },
+    // CKEDITOR.replace('editorku', {
+    //   height: 60,
+    //   // Define the toolbar groups as it is a more accessible solution.
+    //   toolbarGroups: [{
+    //       "name": "basicstyles",
+    //       "groups": ["basicstyles"]
+    //     },
+    //     {
+    //       "name": "links",
+    //       "groups": ["links"]
+    //     },
+    //     {
+    //       "name": "paragraph",
+    //       "groups": ["list", "blocks"]
+    //     },
+    //     {
+    //       "name": "document",
+    //       "groups": ["mode"]
+    //     },
         
-      ],
-      // Remove the redundant buttons from toolbar groups defined above.
-      removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
-    });
+    //   ],
+    //   // Remove the redundant buttons from toolbar groups defined above.
+    //   removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
+    // });
     // Tes
     
 // Replace the <textarea id="editor1"> with a CKEditor 4
