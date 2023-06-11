@@ -86,6 +86,8 @@ class Service extends Controller
         {
             return redirect('pic/list-service')->with(['warning' => 'Data Tidak Ada Yang Di pilih']);
         }
+
+
         request()->validate([
             'remark' => 'required',
             'rating'     => 'required',

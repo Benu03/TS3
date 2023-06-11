@@ -518,9 +518,11 @@ class Invoice extends Controller
 
         $terbilang = $this->terbilang(($invoice->part_total+$invoice->jasa_total+$invoice->ppn)-$invoice->pph);
       
-        
+     
+        $period = DB::connection('ts3')->table('mvm.v_invoice_detail_admin')->selectRaw("TO_CHAR(min(tanggal_service):: DATE, 'dd Mon yyyy') as tanggal_service_min,
+        TO_CHAR(max(tanggal_service):: DATE, 'dd Mon yyyy') as tanggal_service_max")->where('invoice_no',$invoice->invoice_no)->first();
 
-        $pdf = PDF::loadview('admin-ts3/invoice/pdf/invoice_generate_ts3',['terbilang' =>$terbilang,'invoice'=>$invoice, 'invoice_detail' => $invoice_detail, 'logo' => $logo, 'config' => $config ])->setPaper('a4');
+        $pdf = PDF::loadview('admin-ts3/invoice/pdf/invoice_generate_ts3',['terbilang' =>$terbilang,'invoice'=>$invoice,'period'=>$period, 'invoice_detail' => $invoice_detail, 'logo' => $logo, 'config' => $config ])->setPaper('a4');
         $pdf->render();
         $canvas = $pdf->getDomPDF()->getCanvas();
 

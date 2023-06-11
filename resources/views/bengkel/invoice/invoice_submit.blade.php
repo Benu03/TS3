@@ -9,7 +9,7 @@
 	<label class="col-sm-3 control-label text-right"></label>
 	<div class="col-sm-9">
 		<div class="form-group pull-right btn-group">
-			<input type="submit" name="submit" class="btn btn-primary " value="Simpan Data">
+			<input type="submit" name="submit" class="btn btn-primary " value="Kirim Data">
 			<a href="{{ asset('bengkel/invoice-reset') }}/{{ $invoice_no }}" class="btn btn-success">Reset </a>
 			<a href="{{ asset('bengkel/invoice') }}" class="btn btn-danger">Kembali</a>
 		</div>

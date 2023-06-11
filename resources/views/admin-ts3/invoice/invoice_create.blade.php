@@ -16,8 +16,8 @@
    
     <div class="col-md-6">      
 				<div class="form-group row">
-					<label class="col-sm-4 control-label text-left">Invoice No</label>
-					<div class="col-sm-4">
+					<label class="col-sm-3 control-label text-left">Invoice No</label>
+					<div class="col-sm-5">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
@@ -28,9 +28,9 @@
                             </div> 
 					</div>
                     <div class="col-sm-4">
-                        <div class="form-group pull-right btn-group">
+                        <div class="form-group">
                             <button class="btn btn-success " type="button" data-toggle="modal" data-target="#addInvoice">
-                                <i class="fas fa-plus-circle"></i> Add Invoice Bengkel
+                                <i class="fas fa-plus-circle"></i> Add Invoice
                             </button>
                             @include('admin-ts3/invoice/add_invoice_bengkel') 
                         </div>

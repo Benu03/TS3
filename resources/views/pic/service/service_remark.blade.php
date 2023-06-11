@@ -8,16 +8,17 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 					<div class="modal-body">
-		
-												
+						<form action="{{ asset('pic/service/service-remark') }}" method="post" accept-charset="utf-8">
+							{{ csrf_field() }}
 					
 							<div class="form-group row">
 								<label class="col-sm-3 control-label text-right">Komentar</label>
 								<div class="col-sm-9">
-									<textarea name="remark" class="form-control" id="remark" placeholder="Remark">{{ old('remark') }}</textarea>
-			
+									 <textarea name="remark" class="form-control" id="remark" placeholder="Remark">{{ old('remark') }}</textarea>
+									 
 								</div>
 							</div>
+							
 							
 							<div class="form-group row">
 								<label class="col-sm-3 control-label text-right"></label>
@@ -51,7 +52,7 @@
 								<label class="col-sm-3 control-label text-right"></label>
 								<div class="col-sm-9">
 									<div class="form-group pull-right btn-group">
-										<input type="submit" name="submit" class="btn btn-primary " value="Proses Data">
+										<input type="submit" name="submit" class="btn btn-primary " value="Kirim">
 										<input type="reset" name="reset" class="btn btn-success " value="Reset">
 										<button type="button" class="btn btn-danger " data-dismiss="modal">Close</button>
 									</div>
@@ -59,7 +60,7 @@
 								<div class="clearfix"></div>
 							</div>
 
-
+						</form>
 					   
                         </div>
 		</div>

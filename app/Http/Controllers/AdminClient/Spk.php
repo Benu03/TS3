@@ -39,7 +39,10 @@ class Spk extends Controller
         }
         else
         {
-            $spk = DB::connection('ts3')->table('mvm.mvm_spk_h')->get();
+
+            $userclient = DB::connection('ts3')->table('mst.v_user_client')->where('username', Session()->get('username'))->first();
+            
+            $spk = DB::connection('ts3')->table('mvm.mvm_spk_h')->where('mst_client_id', $userclient->mst_client_id)->get();
                 
             $data = array(   'title'     => 'SPK Proses',
                             'spk'      => $spk,
@@ -260,39 +263,7 @@ class Spk extends Controller
     }
 
 
-    // public function spk_done()
-    // {
-
-    //     $spk_detail = DB::connection('ts3')->table('mvm.mvm_spk_h')->where('status', 'ONPROGRESS')->get();
-
-    //     $result= [];
-    //     foreach($spk_detail as $x => $val) 
-    //     {
-    //         $resultArray = json_decode(json_encode($val), true);
-    //         $spk_no = $resultArray['spk_no'];
-
-    //         $coundDetail = DB::connection('ts3')->table('mvm.mvm_spk_d')->where('spk_no', $spk_no)->count();
-    //         $coundDetailApv = DB::connection('ts3')->table('mvm.mvm_spk_d')->where('spk_no', $spk_no)->where('status_service', 'APPROVAL')->count();
-
-    //         if($coundDetail == $coundDetailApv)
-    //         {
-    //             DB::connection('ts3')->table('mvm.mvm_spk_h')->where('spk_no',$spk_no)->update([
-    //                 'status'   => 'DONE'
-    //             ]);   
-    //             $result[] = "SPK ".$spk_no." DONE";
-    //         }
-    //         else
-    //         {
-    //             $result[] = "SPK ".$spk_no." ONPROGRESS";
-    //         }
-            
-    //         Log::info($result);
-    //     }
-
-
-
-    // }
-
+   
 
    
 }

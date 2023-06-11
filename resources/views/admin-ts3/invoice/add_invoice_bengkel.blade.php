@@ -1,5 +1,5 @@
 <div class="modal fade" id="addInvoice"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-xl">
+<div class="modal-dialog" style="max-width:1200px; max-height:1200px;" >
 		<div class="modal-content">
 					<div class="modal-header">
 		
@@ -13,52 +13,52 @@
 							<div class="row">
 								<div class="col-md-12">	
 
-							<div class="table-responsive mailbox-messages">
-								<div class="table-responsive mailbox-messages">
-							<table id="example4" class="display table table-bordered table-sm " cellspacing="0" width="100%" style="font-size: 12px;">
-							<thead>
-								<tr class="bg-info">
-									<th width="5%">
-										<div class="mailbox-controls">
-											  <!-- Check all button -->
-											 <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-											  </button>
-										  </div>
-									  </th>        
-									<th width="12%">Invoice Nomor</th>
-									<th width="12%">Regional</th>
-									<th width="10%">Jasa</th>  
-									<th width="10%">Part</th>  
-									<th width="10%">Bengkel</th>  
-						
-							</tr>
-							</thead>
-							<tbody>
-								<?php $i=1; foreach($invoicebkl as $in) { ?>
-									<tr>
-										<td class="text-center">
-											<div class="icheck-primary">
-													  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $in->id ?>" id="check<?php echo $i ?>">
-													   <label for="check<?php echo $i ?>"></label>
-											</div>
-											{{-- <small class="text-center"><?php echo $i ?></small> --}}
-										</td>
-							
-									<td><?php echo $in->invoice_no ?></td>
-									<td><?php echo $in->regional ?></td>
-									<td><?php echo "Rp " . number_format($in->jasa,0,',','.'); ?></td>
-									<td><?php echo "Rp " . number_format($in->part,0,',','.'); ?></td>
-									<td><?php echo $in->bengkel_name ?></td>
-									
-								</tr>
+									<div class="table-responsive mailbox-messages">
 								
-								<?php $i++; } ?> 
+											<table id="example4" class="display table table-bordered table-sm " cellspacing="0" width="100%" style="font-size: 12px;">
+											<thead>
+												<tr class="bg-info">
+													<th width="5%">
+														<div class="mailbox-controls">
+															<!-- Check all button -->
+															<button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+															</button>
+														</div>
+													</th>        
+													<th width="12%">Invoice Nomor</th>
+													<th width="12%">Regional</th>
+													<th width="10%">Jasa</th>  
+													<th width="10%">Part</th>  
+													<th width="10%">Bengkel</th>  
+										
+											</tr>
+											</thead>
+											<tbody>
+												<?php $i=1; foreach($invoicebkl as $in) { ?>
+													<tr>
+														<td class="text-center">
+															<div class="icheck-primary">
+																	<input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $in->id ?>" id="check<?php echo $i ?>">
+																	<label for="check<?php echo $i ?>"></label>
+															</div>
+															{{-- <small class="text-center"><?php echo $i ?></small> --}}
+														</td>
+											
+													<td><?php echo $in->invoice_no ?></td>
+													<td><?php echo $in->regional ?></td>
+													<td><?php echo "Rp " . number_format($in->jasa,0,',','.'); ?></td>
+													<td><?php echo "Rp " . number_format($in->part,0,',','.'); ?></td>
+													<td><?php echo $in->bengkel_name ?></td>
+													
+												</tr>
+												
+												<?php $i++; } ?> 
+											
+											</tbody>
+											</table>
 							
-							</tbody>
-							</table>
-							</div>
-
-
+										</div>
+								
 
 
 

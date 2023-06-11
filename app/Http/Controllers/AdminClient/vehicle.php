@@ -21,7 +21,7 @@ class Vehicle extends Controller
 
         // $vehicle 	= DB::connection('ts3')->table('mst.v_vehicle')->where('mst_client_id',$user_client->mst_client_id)->get();
         $client 	= DB::connection('ts3')->table('mst.mst_client')->where('id',$user_client->mst_client_id)->get();
-        $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
+        $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->where('id',$user_client->mst_client_id)->get();
 
 		$data = array(  'title'     => 'Vehicle',
                         // 'vehicle'      => $vehicle,
@@ -86,13 +86,14 @@ class Vehicle extends Controller
 					        'tahun_pembuatan' 	   => 'required',
 					        ]);
 
-
+         $userclient = DB::connection('ts3')->table('mst.v_user_client')->where('username', Session()->get('username'))->first();            
 
         DB::connection('ts3')->table('mst.mst_vehicle_type')->insert([
             'group_vehicle'   => $request->group_vehicle,
             'type'   => $request->type,
             'tahun_pembuatan'	=> $request->tahun_pembuatan,
             'desc'	=> $request->desc,
+            'mst_client_id'	=> $userclient->mst_client_id,
             'created_date'    => date("Y-m-d h:i:sa"),
             'create_by'     => $request->session()->get('username')
         ]);
@@ -312,9 +313,9 @@ class Vehicle extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
         if ($request->ajax()) {
-        
+        $user_client 	= DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
 
-        $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
+        $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->where('mst_client_id',$user_client->mst_client_id)->get();
         
     
         return DataTables::of($vehicle_type)

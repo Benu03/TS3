@@ -248,7 +248,7 @@
 		<div class="form-group row ">
 			<div class="col-sm-9 text-center">
 				<div class="form-group pull-center btn-group">
-					<input type="submit" name="submit" class="btn btn-primary " value="Simpan">
+					<input type="submit" name="submit" class="btn btn-primary " value="Kirim">
 					<input type="reset" name="reset" class="btn btn-success " value="Reset">
 					<a href="{{ asset('bengkel/list-service') }}" class="btn btn-danger">Kembali</a>
 				</div>

@@ -35,7 +35,7 @@
                                 
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group pull-right btn-group">
-                                            <input type="submit" name="submit" class="btn btn-primary " value="Simpan Data">
+                                            <input type="submit" name="submit" class="btn btn-primary " value="Approve">
                                             
                                             <button type="button" class="btn btn-danger " data-dismiss="modal">Close</button>
                                         </div>

@@ -65,7 +65,7 @@
 		Karet Kuningan, Setiabudi, Jakarta Selatan 12940<br />
 		Berikut ini kami sampaikan invoice Rekapitulasi Biaya yang harus dibayar PT. Mitra Bisnis Madani<br />
 		Bengkel TS3 Indonesia - Regional <?php echo $invoice_detail[0]->regional ?> <br />
-		Periode : 11 - 12 Mei 2023<br />
+		Periode : <?php echo $period->tanggal_service_min ?> - <?php echo $period->tanggal_service_max ?><br />
 	</p>
 
 
@@ -74,7 +74,7 @@
 		Daftar Rekapitulasi Biaya yang harus Dibayar PT. Mitra Bisnis Madani<br />
 		Bengkel TS3 Indonesia<br />
 		Regional Regional <?php echo $invoice_detail[0]->regional ?><br />
-		Periode : 11 - 12 Mei 2023<br />
+		Periode : <?php echo $period->tanggal_service_min ?> - <?php echo $period->tanggal_service_max ?><br />
 		</p>
 	</center>
 	<table class='table table-bordered table-sm' style="font-size: 5pt;">

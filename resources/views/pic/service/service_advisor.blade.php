@@ -79,7 +79,7 @@
                 <label class="col-sm-3 control-label text-right"></label>
                 <div class="col-sm-9">
                     <div class="form-group pull-right btn-group">
-                        <input type="submit" name="submit" class="btn btn-primary " value="Simpan">
+                        <input type="submit" name="submit" class="btn btn-primary " value="Kirim">
                         <input type="reset" name="reset" class="btn btn-success " value="Reset">
                         <a href="{{ asset('pic/list-service') }}" class="btn btn-danger">Kembali</a>
                     </div>

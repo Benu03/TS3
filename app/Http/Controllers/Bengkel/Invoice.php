@@ -60,7 +60,7 @@ class Invoice extends Controller
         }
 
         $usebengkel = DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
-        $serviceinvoice = DB::connection('ts3')->table('mvm.v_service_oninvoice')->where('mst_bengkel_id',$usebengkel->id)->get();
+        $serviceinvoice = DB::connection('ts3')->table('mvm.v_service_bengkel')->where('mst_bengkel_id',$usebengkel->id)->get();
       
         $regional_id = [];
         $client_id = [];
@@ -265,7 +265,7 @@ class Invoice extends Controller
         $service_no = $_POST['service_no'];
         log::info($service_no);
 
-        $service = DB::connection('ts3')->table('mvm.v_service_oninvoice')->where('service_no',$service_no)->first();  
+        $service = DB::connection('ts3')->table('mvm.v_service_bengkel')->where('service_no',$service_no)->first();  
         return response()->json($service);
      
     }

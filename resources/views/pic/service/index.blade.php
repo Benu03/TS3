@@ -10,8 +10,8 @@
 {{-- <p>
   @include('admin-client/spk/tambah_upload')
 </p> --}}
-<form action="{{ asset('pic/service/service-remark') }}" method="post" accept-charset="utf-8">
-{{ csrf_field() }}
+{{-- <form action="{{ asset('pic/service/service-remark') }}" method="post" accept-charset="utf-8">
+{{ csrf_field() }} --}}
 <div class="row">
 
 
