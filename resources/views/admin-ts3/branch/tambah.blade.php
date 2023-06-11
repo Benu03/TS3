@@ -15,7 +15,7 @@
 					<label class="col-sm-3 control-label text-right">Area</label>
 					<div class="col-sm-9">
 						<select name="mst_area_id" id="mst_area_id" class="form-control select2">
-						
+							<option selected disabled>Pilih</option>
 							<?php foreach($area as $rg) { ?>
 							  <option value="<?php echo $rg->id ?>"><?php echo $rg->area_slug ?></option>
 							<?php } ?>

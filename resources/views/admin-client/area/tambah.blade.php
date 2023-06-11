@@ -15,7 +15,7 @@
 					<label class="col-sm-3 control-label text-right">Regional</label>
 					<div class="col-sm-9">
 						<select name="mst_regional_id" id="mst_regional_id" class="form-control select2" width="100%">
-							
+							<option selected disabled>Pilih</option>
 							<?php foreach($regional as $rg) { ?>
 							  <option value="<?php echo $rg->id ?>"><?php echo $rg->regional_slug ?></option>
 							<?php } ?>

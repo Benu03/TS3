@@ -29,7 +29,7 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example3" class="display table table-bordered" cellspacing="0" width="100%">
+<table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
         <th width="5%">
@@ -45,37 +45,62 @@
         <th>ACTION</th>
 </tr>
 </thead>
-<tbody>
 
-<?php $i=1; foreach($vehicle_type as $vt) { ?>
-
-    <td class="text-center">
-    <div class="icheck-primary">
-            <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $vt->id ?>" id="check<?php echo $i ?>">
-            <label for="check<?php echo $i ?>"></label>
-    </div>
-
-
-</td>
-<td><?php echo $vt->group_vehicle ?></td>
-<td><?php echo $vt->type ?></td>
-<td><?php echo $vt->tahun_pembuatan ?></td>
-<td>
-    <div class="btn-group">
-    <a href="{{ asset('admin-client/vehicle-type/edit-vehicle-type/'.$vt->id) }}" 
-    class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
-    <a href="{{ asset('admin-client/vehicle-type/delete-vehicle-type/'.$vt->id) }}" class="btn btn-danger btn-sm  delete-link">
-        <i class="fa fa-trash"></i></a>
-    </div>
-
-</td>
-</tr> 
-
-<?php $i++; } ?>
-
-</tbody>
 </table>
 </div>
 </div>
 </form>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        fetch_data()
+        function fetch_data(){                    
+                $('#dataTable').DataTable({
+                    pageLength: 10,
+                    lengthChange: true,
+                    bFilter: true,
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    oLanguage: {
+                        sZeroRecords: "Tidak Ada Data",
+                        sSearch: "Pencarian _INPUT_",
+                        sLengthMenu: "_MENU_",
+                        sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                        sInfoEmpty: "0 data",
+                        oPaginate: {
+                            sNext: "<i class='fa fa-angle-right'></i>",
+                            sPrevious: "<i class='fa fa-angle-left'></i>"
+                        }
+                    },
+                    ajax: {
+                        url:"{{  asset('admin-client/get-vehicle-type') }}",
+                        type: "GET"
+                             
+                    },
+                    columns: [
+                        { 
+                            data: 'check', 
+                            name: 'check', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                        },
+                        { name: 'group_vehicle', data: 'group_vehicle', className: "text-center", },
+                        { name: 'type', data: 'type' },
+                        { name: 'tahun_pembuatan', data: 'tahun_pembuatan', className: "text-center" },
+                        {
+                            data: 'action', 
+                            name: 'action', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                           
+                        },
+                    ]
+                });
+            }         
+    });
+    </script>

@@ -52,6 +52,9 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::post('admin-client/vehicle-type/proses-edit-vehicle-type', 'App\Http\Controllers\AdminClient\vehicle@proses_edit_vehicle_type');
     Route::get('admin-client/vehicle-type/delete-vehicle-type/{par1}', 'App\Http\Controllers\AdminClient\vehicle@delete_vehicle_type');
 
+    Route::get('admin-client/get-vehicle', 'App\Http\Controllers\AdminClient\vehicle@getVehicle');
+    Route::get('admin-client/get-vehicle-type', 'App\Http\Controllers\AdminClient\vehicle@getVehicletype');
+
 
     Route::get('admin-client/report/spk-history', 'App\Http\Controllers\AdminClient\report@spk_history');
     // Route::get('admin-client/report/vehicle-service', 'App\Http\Controllers\AdminClient\report@vehicle_service');
@@ -63,7 +66,8 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/area/edit/{par1}', 'App\Http\Controllers\AdminClient\Area@edit');
     Route::post('admin-client/area/proses_edit', 'App\Http\Controllers\AdminClient\Area@proses_edit');
     Route::get('admin-client/area/delete/{par1}', 'App\Http\Controllers\AdminClient\Area@delete');
-
+   
+    Route::get('admin-client/get-area', 'App\Http\Controllers\AdminClient\Area@getArea');
     
     Route::get('admin-client/branch', 'App\Http\Controllers\AdminClient\Branch@index');
     Route::post('admin-client/branch/tambah', 'App\Http\Controllers\AdminClient\Branch@tambah');
@@ -72,12 +76,16 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::post('admin-client/branch/proses_edit', 'App\Http\Controllers\AdminClient\Branch@proses_edit');
     Route::get('admin-client/branch/delete/{par1}', 'App\Http\Controllers\AdminClient\Branch@delete');
 
+    Route::get('admin-client/get-branch', 'App\Http\Controllers\AdminClient\Branch@getBranch');
+
     Route::get('admin-client/regional', 'App\Http\Controllers\AdminClient\Regional@index');
     Route::post('admin-client/regional/tambah', 'App\Http\Controllers\AdminClient\Regional@tambah');
     Route::post('admin-client/regional/proses', 'App\Http\Controllers\AdminClient\Regional@proses');
     Route::get('admin-client/regional/edit/{par1}', 'App\Http\Controllers\AdminClient\Regional@edit');
     Route::post('admin-client/regional/proses_edit', 'App\Http\Controllers\AdminClient\Regional@proses_edit');
     Route::get('admin-client/regional/delete/{par1}', 'App\Http\Controllers\AdminClient\Regional@delete');
+
+    Route::get('admin-client/get-regional', 'App\Http\Controllers\AdminClient\Regional@getRegional');
 
     Route::get('admin-client/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminClient\Approval@get_image_service_detail');
     Route::get('admin-client/approval', 'App\Http\Controllers\AdminClient\Approval@index');
@@ -100,6 +108,8 @@ Route::group(['middleware' => ['adminclient']],function(){
 
     Route::get('admin-client/vehicle-schedule-service', 'App\Http\Controllers\AdminClient\vehicle@vehicle_schedule_service');
     Route::get('admin-client/vehicle-schedule-service-excel', 'App\Http\Controllers\AdminClient\vehicle@vehicle_schedule_service_excel');
+
+  
 
     Route::get('admin-client/report/history-service', 'App\Http\Controllers\AdminClient\report@history_service');
     Route::get('admin-client/report/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminClient\report@get_image_service_detail');

@@ -36,7 +36,6 @@ class Vehicle extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
       
-     
         // $vehicle_type 	= DB::connection('ts3')->table('mst.mst_vehicle_type')->get();
         $group_vehicle 	= DB::connection('ts3')->table('mst.mst_general')->where('name','Group Vehicle')->where('value_1','Motor')->get();
 

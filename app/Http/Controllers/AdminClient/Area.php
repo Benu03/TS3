@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use DataTables;
+use Log;
+
 
 class Area extends Controller
 {
@@ -18,10 +21,10 @@ class Area extends Controller
         $regional 	= DB::connection('ts3')->table('mst.v_regional')->where('client_name',$user_client->customer_name)->orderBy('regional', 'asc')->get();
         
         
-        $area 	= DB::connection('ts3')->table('mst.v_area_client')->where('client_name',$user_client->customer_name)->orderBy('area', 'asc')->get();
+       
 
 		$data = array(  'title'     => 'Area',
-                        'area'      => $area,
+                        // 'area'      => $area,
                         'regional'      => $regional,
                         'content'   => 'admin-client/area/index'
                     );
@@ -114,6 +117,41 @@ class Area extends Controller
         }
     }
 
+
+    
+
+    public function getArea(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        
+        if ($request->ajax()) {
+            $user_client 	= DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
+            $area 	= DB::connection('ts3')->table('mst.v_area_client')->where('client_name',$user_client->customer_name)->orderBy('area', 'asc')->get();
+
+
+        return DataTables::of($area)->addColumn('action', function($row){
+               $btn = '<div class="btn-group">
+               <a href="'. asset('admin-client/area/edit/'.$row->id).'" 
+                 class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+               <a href="'. asset('admin-client/area/delete/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+                    <i class="fa fa-trash"></i></a>
+               </div>';
+                return $btn;
+                })->addColumn('check', function($row){
+                    $check = ' <td class="text-center">
+                                <div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="'.$row->id.'" id="check'.$row->id.'">
+                               <label for="check'.$row->id.'"></label>
+                                </div>
+                             </td>';
+                    return $check;
+                })
+        ->rawColumns(['action','check'])->make(true);
+       
+        }
+
+    }
 
 
 
