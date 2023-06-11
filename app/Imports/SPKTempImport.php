@@ -29,9 +29,10 @@ class SPKTempImport implements ToModel, WithStartRow
     public function model(array $row)
     {
    
-      
-       
-
+        if(!array_filter($row)) {
+            return null;
+         } 
+         
         return new Spk([
             'user_upload' => Session()->get('username'),
             'nopol' => strtoupper(str_replace(' ', '', $row[0])),

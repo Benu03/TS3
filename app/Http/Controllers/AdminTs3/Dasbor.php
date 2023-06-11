@@ -30,6 +30,7 @@ class Dasbor extends Controller
        
         $rating = DB::connection('ts3')->table('mvm.v_rating_mvm')->get(); 
 
+
         $dataPoints = [];
 
         foreach ($rating as $rt) {

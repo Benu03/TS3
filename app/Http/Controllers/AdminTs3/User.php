@@ -67,8 +67,17 @@ class User extends Controller
             for($i=0; $i < sizeof($id_usernya);$i++) {
                 $user   =   DB::connection('ts3')->table('auth.users')->where('id_user',$id_usernya[$i])->first();
        
-               DB::connection('ts3')->table('mst.mst_user_client')->where('username',$user->username)->delete();
-               DB::connection('ts3')->table('auth.users')->where('id_user',$id_usernya[$i])->delete();
+                try
+                { 
+                        DB::connection('ts3')->table('mst.mst_user_client')->where('username',$user->username)->delete();
+                        DB::connection('ts3')->table('auth.users')->where('id_user',$id_usernya[$i])->delete();
+                        DB::commit();
+
+                }
+                catch (\Illuminate\Database\QueryException $e) {
+                    DB::rollback();
+                    return redirect('admin-ts3/user')->with(['warning' => $e]);
+                }
             }
         
             return redirect('admin-ts3/user')->with(['sukses' => 'Data telah dihapus']);
@@ -94,15 +103,15 @@ class User extends Controller
             $filename               = pathinfo($filenamewithextension, PATHINFO_FILENAME);
             $input['nama_file']     = Str::slug($filename, '-').'-'.time().'.'.$image->getClientOriginalExtension();
             $destinationPath        = './assets/upload/user/thumbs/';
-            $img = Image::make($image->getRealPath(),array(
-                'width'     => 150,
-                'height'    => 150,
-                'grayscale' => false
-            ));
-            $img->save($destinationPath.'/'.$input['nama_file']);
+            $img = Image::make($image->path());
+            $img->resize(850, 850, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath.'/'.$input['nama_file']);
             $destinationPath = './assets/upload/user/';
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
+
+            try{   
             
            DB::connection('ts3')->table('auth.users')->insert([
                 'nama'          => $request->nama,
@@ -125,9 +134,19 @@ class User extends Controller
                 'create_by'     => $request->session()->get('username')
             ]);
 
-        }
+            
+             }
+            DB::commit();
+
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                DB::rollback();
+                return redirect('admin-ts3/client')->with(['warning' => $e]);
+            }
 
         }else{
+
+            try{  
             DB::connection('ts3')->table('auth.users')->insert([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -147,6 +166,13 @@ class User extends Controller
                 'create_by'     => $request->session()->get('username')
             ]);
          }
+         DB::commit();
+
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            return redirect('admin-ts3/client')->with(['warning' => $e]);
+        }
         }
         return redirect('admin-ts3/user')->with(['sukses' => 'Data telah ditambah']);
     }
@@ -170,18 +196,16 @@ class User extends Controller
             $filename               = pathinfo($filenamewithextension, PATHINFO_FILENAME);
             $input['nama_file']     = Str::slug($filename, '-').'-'.time().'.'.$image->getClientOriginalExtension();
             $destinationPath        = './assets/upload/user/thumbs/';
-            $img = Image::make($image->getRealPath(),array(
-                'width'     => 150,
-                'height'    => 150,
-                'grayscale' => false
-            ));
-            $img->save($destinationPath.'/'.$input['nama_file']);
+            $img = Image::make($image->path());
+            $img->resize(850, 850, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath.'/'.$input['nama_file']);
             $destinationPath = './assets/upload/user/';
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_user = Str::slug($request->nama, '-');
         
-      
+            try{     
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -216,13 +240,19 @@ class User extends Controller
                 }
 
              }
+             DB::commit();
 
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                DB::rollback();
+                return redirect('admin-ts3/client')->with(['warning' => $e]);
+            }
             
           
 
         }else{
             $slug_user = Str::slug($request->nama, '-');
-           
+            try{
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -256,6 +286,13 @@ class User extends Controller
                 }
 
              }
+             DB::commit();
+
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                DB::rollback();
+                return redirect('admin-ts3/client')->with(['warning' => $e]);
+            }
             
 
         }
