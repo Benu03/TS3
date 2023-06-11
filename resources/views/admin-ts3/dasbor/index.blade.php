@@ -89,7 +89,7 @@
   
   <div class="col-sm-6">
 
-
+      <div id="mvm-count-client-chart"></div>
   </div>
 
 
@@ -100,6 +100,51 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script>
+  $(function() {
+      Highcharts.chart('mvm-count-client-chart', {
+          chart: {
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false,
+              type: 'column'
+          },
+          title: {
+              text: 'Jumlah Vehicle MVM Client '
+          },
+          subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['CLIENT','MBM', 'BTPNS'
+                ]
+            },
+            yAxis: {
+                title: {
+                    text: 'Vehicle'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                name: 'MBM',
+                data: [5320]
+            }, {
+                name: 'BTPNS',
+                data: [1420]
+            }]
+      });
+  });
+
+
+</script>
+
 <script>
   $(function() {
       Highcharts.chart('mvm-rating-chart', {
@@ -137,4 +182,6 @@
           }]
       });
   });
+
+
 </script>
