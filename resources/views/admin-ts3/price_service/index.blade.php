@@ -45,6 +45,7 @@
         <th width="10%">Client</th>
         <th width="12%">Price TS3 to Client</th>
         <th width="25%">Regional</th>
+        <th width="25%">Type</th>
        
         <th>ACTION</th>
 </tr>
@@ -99,6 +100,7 @@
                         { name: 'client_name', data: 'client_name' },
                         { name: 'price_ts3_to_client', data: 'price_ts3_to_client' },
                         { name: 'regional', data: 'regional' },
+                        { name: 'price_service_type', data: 'price_service_type' },
                         {
                             data: 'action', 
                             name: 'action', 
