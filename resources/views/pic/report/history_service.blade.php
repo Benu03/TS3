@@ -121,7 +121,7 @@
                         }
                     },
                     ajax: {
-                        url:"{{  asset('admin-client/get-history-service') }}",
+                        url:"{{  asset('pic/get-history-service') }}",
                         type: "GET"
                              
                     },

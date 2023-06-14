@@ -1,4 +1,13 @@
-
+<script>
+  function isNumber(evt) {
+   evt = (evt) ? evt : window.event;
+   var charCode = (evt.which) ? evt.which : evt.keyCode;
+   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+       return false;
+   }
+   return true;
+}
+</script>
 <script>
 tinymce.init({
   selector: '.simple',
@@ -28,8 +37,6 @@ $awal = $sek-100;
     dateFormat: "dd-mm-yy",
     yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
   });
-
-  
 
   $( ".tanggal" ).datepicker({
     inline: true,
@@ -87,10 +94,6 @@ $(document).on("click", ".delete-link", function(e){
     return false;
   });
 });
-
-
-
-
 // Popup disable
 $(document).on("click", ".disable-link", function(e){
   e.preventDefault();
@@ -200,7 +203,7 @@ $(document).on("click", ".approval-link", function(e){
 <!-- Sparkline -->
 <script src="{{ asset('assets/admin/plugins/sparklines/sparkline.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script> --}}
 <!-- Summernote -->
 <script src="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <!-- tinymce -->
@@ -212,41 +215,41 @@ $(document).on("click", ".approval-link", function(e){
 <script src="{{ asset('assets/admin/plugins/pace-progress/pace.min.js') }}"></script>
 <script src="{{ asset('assets/admin/dist/js/adminlte.js') }}"></script>
 <script>
-    CKEDITOR.replace('editorku', {
-      height: 60,
-      // Define the toolbar groups as it is a more accessible solution.
-      toolbarGroups: [{
-          "name": "basicstyles",
-          "groups": ["basicstyles"]
-        },
-        {
-          "name": "links",
-          "groups": ["links"]
-        },
-        {
-          "name": "paragraph",
-          "groups": ["list", "blocks"]
-        },
-        {
-          "name": "document",
-          "groups": ["mode"]
-        },
+    // CKEDITOR.replace('editorku', {
+    //   height: 60,
+    //   // Define the toolbar groups as it is a more accessible solution.
+    //   toolbarGroups: [{
+    //       "name": "basicstyles",
+    //       "groups": ["basicstyles"]
+    //     },
+    //     {
+    //       "name": "links",
+    //       "groups": ["links"]
+    //     },
+    //     {
+    //       "name": "paragraph",
+    //       "groups": ["list", "blocks"]
+    //     },
+    //     {
+    //       "name": "document",
+    //       "groups": ["mode"]
+    //     },
         
-      ],
-      // Remove the redundant buttons from toolbar groups defined above.
-      removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
-    });
+    //   ],
+    //   // Remove the redundant buttons from toolbar groups defined above.
+    //   removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
+    // });
     // Tes
     
 // Replace the <textarea id="editor1"> with a CKEditor 4
 // instance, using default configuration.
-CKEDITOR.replace( 'kontenku',
-      {
-        filebrowserBrowseUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=") }}',
-        filebrowserUploadUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=") }}',
-        filebrowserImageBrowseUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr==") }}'
-  } 
-);
+// CKEDITOR.replace( 'kontenku',
+//       {
+//         filebrowserBrowseUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=") }}',
+//         filebrowserUploadUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=") }}',
+//         filebrowserImageBrowseUrl : '{{ asset("assets/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr==") }}'
+//   } 
+// );
 </script>
 <!-- Page Script -->
 <script>
@@ -254,9 +257,9 @@ CKEDITOR.replace( 'kontenku',
      //Initialize Select2 Elements
     //Initialize Select2 Elements
     // $('.select2').select2({
-    //   theme: 'bootstrap4'
+    //   theme: 'bootstrap4',
+    //   width: '100%'
     // })
-
     $('select:not(.normal)').each(function () {
                 $(this).select2({
                     dropdownParent: $(this).parent(),
@@ -264,6 +267,7 @@ CKEDITOR.replace( 'kontenku',
                     width: '100%'
                 });
             });
+
     
     $('.mselect2').select2({
       dropdownParent: $('.Tambah')
@@ -310,6 +314,11 @@ CKEDITOR.replace( 'kontenku',
 <script>
   $(function () {
     $("#example1").DataTable();
+
+    $("#spklist").DataTable({
+      "order": [6, 'asc'],
+    });
+
     $("#example3").DataTable();
     $('#example2').DataTable({
       "paging": false,
@@ -317,6 +326,15 @@ CKEDITOR.replace( 'kontenku',
       "searching": true,
       "ordering": true,
       "info": true,
+      "autoWidth": false,
+    });
+
+    $('#example4').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": false,
       "autoWidth": false,
     });
   });

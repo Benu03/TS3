@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Bengkel;
+namespace App\Http\Controllers\Pic;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,11 +11,30 @@ use PDF;
 use DataTables;
 use Log;
 
-class Report extends Controller
+class report extends Controller
 {
 
 
+    // Index
+    public function spk_history()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        $spk_history = DB::connection('ts3')->table('mst.v_regional')->get();
 
+		$data = array(   'title'     => 'SPK History',
+                         'spk_history'      => $spk_history,
+                        'content'   => 'pic/report/spk_history'
+                    );
+        return view('pic/layout/wrapper',$data);
+    }
+
+ 
+
+  
 
     public function history_service()
     {
@@ -23,15 +42,16 @@ class Report extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-      
+       
+
 
       
 
 		$data = array(   'title'     => 'History Service',
                         //  'history'      => $history,
-                        'content'   => 'bengkel/report/history_service'
+                        'content'   => 'pic/report/history_service'
                     );
-        return view('bengkel/layout/wrapper',$data);
+        return view('pic/layout/wrapper',$data);
 
 
     }
@@ -39,13 +59,11 @@ class Report extends Controller
     public function getHistoryService(Request $request)
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-
-        
         if ($request->ajax()) {
-            $usebengkel = DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
-        $service 	= DB::connection('ts3')->table('mvm.v_service_history')->where('mst_bengkel_id',$usebengkel->id)->get();
+            $user_client 	= DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
+        $service 	= DB::connection('ts3')->table('mvm.v_service_history')->where('mst_client_id',$user_client->mst_client_id)->get();
         return DataTables::of($service)->addColumn('action', function($row){
-               $btn = '<a href="'. asset('bengkel/report/history-service-detail/'.$row->service_no).'" 
+               $btn = '<a href="'. asset('pic/report/history-service-detail/'.$row->service_no).'" 
                class="btn btn-success btn-sm" target="_blank"><i class="fa fa-eye"></i></a>';
                 return $btn;
                 })
@@ -68,9 +86,9 @@ class Report extends Controller
 
 		$data = array(   'title'     => 'History Service '.$ar->service_no,
                          'ar'      => $ar,
-                        'content'   => 'bengkel/report/service_detail_history'
+                        'content'   => 'pic/report/service_detail_history'
                     );
-        return view('bengkel/layout/wrapper',$data);
+        return view('pic/layout/wrapper',$data);
     }  
 
 
@@ -93,7 +111,7 @@ class Report extends Controller
         $storagePath =  $image->source.'/'.$image->unique_data;
 
         if(!file_exists($storagePath))
-        return redirect('bengkel/report/history-service')->with(['warning' => 'File Tidak Di temukan']);
+        return redirect('admin-client/list-service')->with(['warning' => 'Fila Tidak Di temukan']);
         
         else{
             return response()->file($storagePath);
@@ -101,24 +119,6 @@ class Report extends Controller
 
     }  
 
-  
-    public function summary_bengkel()
-    {
-        if(Session()->get('username')=="") {
-            $last_page = url()->full();
-            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
-        }
-    
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
-
-		$data = array(   'title'     => 'Summary Bengkel',
-                         'nopol'      => $nopol,
-                        'content'   => 'bengkel/report/summary_bengkel'
-                    );
-        return view('bengkel/layout/wrapper',$data);
-    }
-
-  
 
    
 }
