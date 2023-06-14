@@ -9,7 +9,7 @@
 @endif
 
 <p>
-  @include('admin-ts3/dasbor/change_password')
+  @include('pic/dasbor/change_password')
 </p>
 <p class="text-right">
 
@@ -17,7 +17,7 @@
     <i class="fas fa-key"></i> Ubah Password
   </button>
   
-	<a href="{{ asset('admin-ts3/dasbor') }}" class="btn btn-success">
+	<a href="{{ asset('pic/dasbor') }}" class="btn btn-success">
 		<i class="fa fa-backward"></i> Kembali
 	</a>
 </p>
