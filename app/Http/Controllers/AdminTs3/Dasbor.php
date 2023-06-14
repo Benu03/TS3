@@ -50,6 +50,7 @@ class Dasbor extends Controller
 
 
 
+        dd($dataPointsmotor);
 
 
 

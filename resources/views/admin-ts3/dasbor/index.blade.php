@@ -133,9 +133,11 @@
                 }
             },
             series: [{
-              name: 'Vehicle',
-              colorByPoint: true,
-              data: <?= $dataPointsmotor ?>
+                name: 'MBM',
+                data: [5320]
+            }, {
+                name: 'BTPNS',
+                data: [1420]
             }]
       });
   });
@@ -176,7 +178,7 @@
           series: [{
               name: 'Rating',
               colorByPoint: true,
-              data: <?= $dataPointsrating ?>
+              data: <?= $dataPoints ?>
           }]
       });
   });
