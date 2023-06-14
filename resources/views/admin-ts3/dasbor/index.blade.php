@@ -178,7 +178,7 @@
           series: [{
               name: 'Rating',
               colorByPoint: true,
-              data: <?= $dataPoints ?>
+              data: <?= $dataPointsrating ?>
           }]
       });
   });
