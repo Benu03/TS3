@@ -116,7 +116,8 @@
                 text: ''
             },
             xAxis: {
-                categories: ['Client']
+                categories: ['CLIENT','MBM', 'BTPNS'
+                ]
             },
             yAxis: {
                 title: {
@@ -132,7 +133,7 @@
                 }
             },
             series: [{
-              name: 'Vehicle Motor',
+              name: 'Vehicle',
               colorByPoint: true,
               data: <?= $dataPointsmotor ?>
             }]
