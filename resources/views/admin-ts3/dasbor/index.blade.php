@@ -116,8 +116,7 @@
                 text: ''
             },
             xAxis: {
-                categories: ['CLIENT','MBM', 'BTPNS'
-                ]
+                categories: ['Client']
             },
             yAxis: {
                 title: {
@@ -133,11 +132,9 @@
                 }
             },
             series: [{
-                name: 'MBM',
-                data: [5320]
-            }, {
-                name: 'BTPNS',
-                data: [1420]
+              name: 'Vehicle Motor',
+              colorByPoint: true,
+              data: <?= $dataPointsmotor ?>
             }]
       });
   });
@@ -178,7 +175,7 @@
           series: [{
               name: 'Rating',
               colorByPoint: true,
-              data: <?= $dataPoints ?>
+              data: <?= $dataPointsrating ?>
           }]
       });
   });

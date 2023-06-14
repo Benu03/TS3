@@ -27,19 +27,29 @@ class Dasbor extends Controller
         $product = DB::connection('ts3')->table('mst.mst_product')->count();           
         $galeri = DB::connection('ts3')->table('cp.galeri')->count();     
         $staff = DB::connection('ts3')->table('cp.staff')->count(); 
-       
         $rating = DB::connection('ts3')->table('mvm.v_rating_mvm')->get(); 
+        $motor = DB::connection('ts3')->table('mst.v_chart_vehicle_motor')->get(); 
+        
 
+        $dataPointsrating = [];
+        $dataPointsmotor = [];
 
-        $dataPoints = [];
-
-        foreach ($rating as $rt) {
-            
-            $dataPoints[] = [
+        foreach ($rating as $rt) {            
+            $dataPointsrating[] = [
                 "name" => $rt->rating,
                 "y" => $rt->total
             ];
         }
+
+        foreach ($motor as $mt) {            
+            $dataPointsmotor[] = [
+                "name" => $mt->client_name,
+                "y" => $mt->total
+            ];
+        }
+
+
+
 
 
 		$data = array(  'title'     => $site->namaweb,
@@ -48,7 +58,8 @@ class Dasbor extends Controller
                         'product'    => $product,
                         'galeri'    => $galeri,
                         'staff'    => $staff,
-                        "dataPoints" => json_encode($dataPoints)
+                        "dataPointsrating" => json_encode($dataPointsrating),
+                        "dataPointsmotor" => json_encode($dataPointsmotor)
                     );
         return view('admin-ts3/layout/wrapper',$data);
     }
