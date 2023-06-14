@@ -11,14 +11,27 @@
 				<form action="{{ asset('admin-ts3/branch/tambah') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 				{{ csrf_field() }}
 				
+
+
+				<div class="form-group row">
+					<label class="col-sm-3 control-label text-right">Client</label>
+					<div class="col-sm-9">
+						<select name="client" id="client" class="form-control select2" onchange="loadDataArea();loadDataClient()">
+							<option selected disabled>Pilih</option>
+							<?php foreach($client as $cl) { ?>
+							  <option value="<?php echo $cl->client_name ?>"><?php echo $cl->client_name ?></option>
+							<?php } ?>
+						  </select>
+					</div>
+				</div>
+
+
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Area</label>
 					<div class="col-sm-9">
 						<select name="mst_area_id" id="mst_area_id" class="form-control select2">
 							<option selected disabled>Pilih</option>
-							<?php foreach($area as $rg) { ?>
-							  <option value="<?php echo $rg->id ?>"><?php echo $rg->area_slug ?></option>
-							<?php } ?>
+						
 						  </select>
 					</div>
 				</div>
@@ -35,10 +48,8 @@
 					<label class="col-sm-3 control-label text-right">PIC Branch</label>
 					<div class="col-sm-9">
 						<select name="pic_branch" id="pic_branch" class="form-control select2">
-						
-							<?php foreach($userbranch as $ub) { ?>
-							  <option value="<?php echo $ub->username ?>"><?php echo $ub->nama ?></option>
-							<?php } ?>
+							<option selected disabled>Pilih</option>
+							
 						  </select>
 					</div>
 				</div>
@@ -75,6 +86,62 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+	var loadDataArea= function(){
+	const client = $("#client").val();
+	console.log(client);
+	
+	 $.ajax({    
+		headers: {
+				'X-CSRF-TOKEN': '{{ csrf_token() }}'
+			},
+		 type: "POST",
+		 url: "{{ asset('admin-ts3/get-area-client')}}", 
+		 data:{client:client},      
+		 dataType: "JSON",                  
+		 success: function(data){   
+			$('#mst_area_id').empty();
+			$.each(data, function (id, area_slug) {
+				$('#mst_area_id').append(new Option(id,area_slug))
+			})
+
+			
+		 }
+	 });
+	};
+	
+</script>
+
+
+<script>
+	var loadDataClient = function(){
+	const client = $("#client").val();
+	console.log(client);
+	
+	 $.ajax({    
+		headers: {
+				'X-CSRF-TOKEN': '{{ csrf_token() }}'
+			},
+		 type: "POST",
+		 url: "{{ asset('admin-ts3/get-pic-client')}}", 
+		 data:{client:client},      
+		 dataType: "JSON",                  
+		 success: function(data){   
+			$('#pic_branch').empty();
+			$.each(data, function (username, nama) {
+				$('#pic_branch').append(new Option(username,nama))
+			})
+			
+			
+		 }
+	 });
+	};
+	
+</script>
+
+
 
 
 

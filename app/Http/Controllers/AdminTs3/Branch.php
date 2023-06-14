@@ -17,18 +17,66 @@ class Branch extends Controller
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
       
         // $branch 	= DB::connection('ts3')->table('mst.v_branch')->get();
-        $area 	= DB::connection('ts3')->table('mst.v_area')->get();
-        $user_branch 	= DB::connection('ts3')->table('auth.users')->where('id_role','5')->get();
+        // $area 	= DB::connection('ts3')->table('mst.v_area')->get();
+        $client 	= DB::connection('ts3')->table('mst.v_client_product')->where('client_type','B2B')->get();
+       
+
+
+
 
 		$data = array(  'title'     => 'Branch',
-                        'area'      => $area,
-                        // 'branch'      => $branch,
-                        'userbranch'      => $user_branch,
+                        // 'area'      => $area,
+                         'client'      => $client,
+                        // 'userbranch'      => $user_branch,
                         'content'   => 'admin-ts3/branch/index'
                     );
         
         return view('admin-ts3/layout/wrapper',$data);
     }
+
+
+    
+
+    public function get_area_client()
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $client = $_POST['client'];
+        log::info($client);
+
+        $area = DB::connection('ts3')->table('mst.v_area')->where('client_name',$client)->pluck('id', 'area_slug');
+       
+
+        return response()->json($area);
+     
+    }
+
+    public function get_pic_client()
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $client = $_POST['client'];
+        log::info($client);
+
+        $pic = DB::connection('ts3')->table('auth.v_list_user_client')
+                ->where('is_active',1)
+                ->where('entity',$client)
+                ->where('role','pic_client')
+                ->pluck('username','nama');
+    
+        return response()->json($pic);
+     
+    }
+
+
 
     public function tambah(Request $request)
     {
