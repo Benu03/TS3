@@ -16,7 +16,7 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="{{ asset('assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+  {{-- <link rel="stylesheet" href="{{ asset('assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}"> --}}
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('assets/admin/plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
@@ -39,25 +39,33 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <!-- sweetalert -->
   <script src="{{ asset('assets/sweetalert/js/sweetalert.min.js') }}"></script>
   <!-- angular -->
-  <script src="{{ asset('assets/angular/angular.min.js') }}"></script>  
+  {{-- <script src="{{ asset('assets/angular/angular.min.js') }}"></script>   --}}
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/sweetalert/css/sweetalert.css') }}">
   <!-- jQuery -->
   <!-- <script src="{{ asset('assets/admin/plugins/jquery/jquery.min.js') }}"></script> -->
   <script src="{{ asset('assets/jquery-ui/external/jquery/jquery.js') }}"></script>
   <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js') }}"></script> -->
   <!-- JQUERY CHAINED -->
-  <script src="{{ asset('assets/js/jquery.chained.min.js" type="text/javascript') }}"></script> 
+  {{-- <script src="{{ asset('assets/js/jquery.chained.min.js" type="text/javascript') }}"></script>  --}}
   <!-- jQuery UI 1.11.4 -->
   <script src="{{ asset('assets/admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
   <link href="{{ asset('assets/admin/plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js') }}"></script>
+  {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js') }}"></script> --}}
   
   <!-- Viewer js -->
-  <script src="{{ asset('assets/viewerjs/pdf.js') }}"></script>
+  {{-- <script src="{{ asset('assets/viewerjs/pdf.js') }}"></script> --}}
+  <script src="{{ asset('assets/admin/plugins/chart.js/Chart.bundle.js') }}"></script>
+
   <!-- TIMEPICKER -->
-  <script src="{{ asset('assets/timepicker/timepicker.min.js') }}"></script>
-  <link href="{{ asset('assets/timepicker/timepicker.min.css') }}" rel="stylesheet"/>
+  {{-- <script src="{{ asset('assets/timepicker/timepicker.min.js') }}"></script> --}}
+  {{-- <link href="{{ asset('assets/timepicker/timepicker.min.css') }}" rel="stylesheet"/> --}}
   <script src="{{ asset('assets/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+ 
+ 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
   <style type="text/css" media="screen">
     body {
       background-color: white !important;
@@ -175,6 +183,10 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
       position: absolute;
       width: 1px;
     }
+    .container {
+                width: 50%;
+                margin: 15px auto;
+            }
   </style>
 
   

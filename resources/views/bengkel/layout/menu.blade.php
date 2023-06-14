@@ -64,9 +64,9 @@
                 <p>Report<i class="fas fa-angle-left right"></i></p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item ml-4"><a href="{{ asset('bengkel/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
+                <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
                 </li>
-                <li class="nav-item ml-4"><a href="{{ asset('bengkel/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
+                <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
                 </li>
   
   
