@@ -110,13 +110,7 @@ class Service extends Controller
             ]); 
 
            
-            $datahis = [
-                'mvm_service_vehicle_h_id' => $service_id,
-                'mst_bengkel_id' => $bengkel->id,
-                'pic_branch' => $request->pic_branch
-            ];
-            DB::connection('ts3')->table('mvm.mvm_service_history')->insert($datahis);
-
+ 
 
 
             foreach($request->jobs as $key => $val){
@@ -189,6 +183,13 @@ class Service extends Controller
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'     => $request->session()->get('username')
             ]); 
+
+            $datahis = [
+                'mvm_service_vehicle_h_id' => $service_id,
+                'mst_bengkel_id' => $bengkel->id,
+                'pic_branch' => $request->pic_branch
+            ];
+            DB::connection('ts3')->table('mvm.mvm_service_history')->insert($datahis);
 
             DB::commit();
         }
