@@ -225,6 +225,9 @@ Route::group(['middleware' => ['admints3']],function(){
     
 
     Route::get('admin-ts3/report/history-service', 'App\Http\Controllers\AdminTs3\Report@history_service');
+    Route::get('admin-ts3/report/history-service-detail/{par1}', 'App\Http\Controllers\AdminTs3\Report@history_service_detail');
+    Route::get('admin-ts3/get-history-service', 'App\Http\Controllers\AdminTs3\Report@getHistoryService');
+
     Route::get('admin-ts3/report/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminTs3\Report@get_image_service_detail');
     Route::get('admin-ts3/report/summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@summary_bengkel');
     Route::get('admin-ts3/report/rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@rekap_invoice');

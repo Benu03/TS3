@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Konfigurasi_model;
 use Image;
 use PDF;
+use DataTables;
+use Log;
 
 class Report extends Controller
 {
@@ -33,6 +35,47 @@ class Report extends Controller
 
 
     }
+
+    public function getHistoryService(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        
+        if ($request->ajax()) {
+        $service 	= DB::connection('ts3')->table('mvm.v_service_history')->get();
+        return DataTables::of($service)->addColumn('action', function($row){
+               $btn = '<a href="'. asset('admin-ts3/report/history-service-detail/'.$row->service_no).'" 
+               class="btn btn-success btn-sm" target="_blank"><i class="fa fa-eye"></i></a>';
+                return $btn;
+                })
+        ->rawColumns(['action'])->make(true);
+       
+        }
+
+    }
+
+
+    public function history_service_detail($id)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+
+        $ar = DB::connection('ts3')->table('mvm.v_service_history')->where('service_no', $id)->first();
+
+		$data = array(   'title'     => 'History Service '.$ar->service_no,
+                         'ar'      => $ar,
+                        'content'   => 'admin-ts3/report/service_detail_history'
+                    );
+        return view('admin-ts3/layout/wrapper',$data);
+    }  
+
+
+
+
+
 
 
     public function get_image_service_detail($id)

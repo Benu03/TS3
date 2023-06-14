@@ -67,7 +67,7 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+<table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
         {{-- <th width="5%">
@@ -88,31 +88,7 @@
         <th width="5%">Action</th>    
 </tr>
 </thead>
-<tbody>
 
-    <?php $i=1; foreach($history as $ar) { ?>
-
-    <td><?php echo $ar->service_no ?></td>
-    <td><?php echo $ar->nopol ?></td>
-    <td><?php echo $ar->status_service ?></td>
-    <td><?php echo $ar->tanggal_service ?></td>
-    <td><?php echo $ar->last_km ?></td>
-    <td><?php echo $ar->nama_driver ?></td>
-    <td><?php echo $ar->bengkel_name ?></td>
-    <td><?php echo $ar->mekanik ?></td>
-    <td>
-        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Detail<?php echo $ar->service_no ?>">
-            <i class="fa fa-eye"></i> 
-         </button>   
-   
-         @include('admin-ts3/report/service_detail_history') 
-
-    </td>
-</tr> 
-
-<?php $i++; } ?> 
-
-</tbody>
 </table>
 </div>
 </div>
@@ -121,3 +97,80 @@
 <script>
     $('#reservation').daterangepicker()
 </script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        fetch_data()
+        function fetch_data(){                    
+                $('#dataTable').DataTable({
+                    pageLength: 10,
+                    lengthChange: true,
+                    bFilter: true,
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    oLanguage: {
+                        sZeroRecords: "Tidak Ada Data",
+                        sSearch: "Pencarian _INPUT_",
+                        sLengthMenu: "_MENU_",
+                        sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                        sInfoEmpty: "0 data",
+                        oPaginate: {
+                            sNext: "<i class='fa fa-angle-right'></i>",
+                            sPrevious: "<i class='fa fa-angle-left'></i>"
+                        }
+                    },
+                    ajax: {
+                        url:"{{  asset('admin-ts3/get-history-service') }}",
+                        type: "GET"
+                             
+                    },
+                    columns: [
+                        { 
+                            data: 'service_no', 
+                            name: 'service_no', 
+        
+                        },
+                        {
+                            name: 'nopol',
+                            data: 'nopol'
+                        },
+                        {
+                            name: 'status_service',
+                            data: 'status_service'
+                        },
+                        {
+                            name: 'tanggal_service',
+                            data: 'tanggal_service'
+                        },
+                        {
+                            name: 'last_km',
+                            data: 'last_km'
+                        },
+                        {
+                            name: 'nama_driver',
+                            data: 'nama_driver'
+                        },
+                        {
+                            name: 'bengkel_name',
+                            data: 'bengkel_name'
+                        },
+                        {
+                            name: 'mekanik',
+                            data: 'mekanik'
+                        },
+                        {
+                            data: 'action', 
+                            name: 'action', 
+                            className: "text-center",
+                            orderable: false, 
+                            searchable: false
+                           
+                        },
+                    ]
+                });
+            }         
+    });
+    </script>
