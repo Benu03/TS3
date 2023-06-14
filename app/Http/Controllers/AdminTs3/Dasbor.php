@@ -50,9 +50,6 @@ class Dasbor extends Controller
 
 
 
-        dd($dataPointsmotor);
-
-
 
 		$data = array(  'title'     => $site->namaweb,
                         'content'   => 'admin-ts3/dasbor/index',
