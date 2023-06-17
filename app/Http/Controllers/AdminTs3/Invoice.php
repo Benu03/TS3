@@ -75,7 +75,8 @@ class Invoice extends Controller
         }
 
         $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice_no)->first();       
-        $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_generate')->where('invoice_no',$invoice_no)->orderby('service_no')->get();
+        $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_generate')->where('invoice_no',$invoice_no)->distinct()->orderby('service_no','ASC')->orderby('jasa','ASC')->get();
+
 
         $bengkel = DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',$invoice->create_by)->first();  
         $config = DB::connection('ts3')->table('cp.konfigurasi')->first();

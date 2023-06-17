@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Konfigurasi_model;
 use Image;
 use PDF;
+use DataTables;
+use Log;
 
 class Spk extends Controller
 {
@@ -40,6 +42,59 @@ class Spk extends Controller
         return view('admin-ts3/layout/wrapper',$data);
     }
 
+
+    public function GetSpkList(Request $request)
+    {
+        
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        
+        if ($request->ajax()) {
+        $spkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')
+            ->wherein('status_service',['PLANING', 'ONSCHEDULE','SERVICE'])->orderByRaw('tanggal_schedule')->get();
+        return DataTables::of($spkservice)->addColumn('action', function($row){
+                if($row->status_service != 'SERVICE')
+                {
+                    $edit = '<a href="'. asset('admin-ts3/spk-service-edit/'.$row->id).'" 
+                    class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>';       
+                }
+                else{
+                    $edit ="";
+                   
+                }
+                $view = '<button type="button" class="btn btn-success btn-sm spklistdetail" data-id="'. $row->id .'" data-toggle="modal">
+                        <i class="fa fa-eye"></i> </button>';
+
+          
+               $btn = '<div class="btn-group">'.$edit.''.$view.' </div>';
+
+                return $btn;
+                })->addColumn('check', function($row){
+                    $check = ' <td class="text-center">
+                                <div class="icheck-primary">
+                                <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="'.$row->id.'" id="check'.$row->id.'">
+                               <label for="check'.$row->id.'"></label>
+                                </div>
+                             </td>';
+                    return $check;
+                })
+        ->rawColumns(['action','check'])->make(true);
+       
+        }
+
+
+    }
+    
+    public function GetSpkListDetail($id)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+
+        $spkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('id',$id)->orderByRaw('tanggal_schedule')->first();
+
+        return response()->json($spkservice);
+
+    }
     
     public function spk_status()
     {

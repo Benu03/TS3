@@ -199,7 +199,7 @@
                 </ul>
               </li>              
 
-              <li class="nav-item ml-4 has-treeview">
+              {{-- <li class="nav-item ml-4 has-treeview">
                 <a href="#" class="nav-link">
                   <i class="fa fa-tags nav-icon"></i>
                   <p>Part &amp; Pekerjaan<i class="fas fa-angle-left right"></i></p>
@@ -210,7 +210,7 @@
                   <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/pekerjaan') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Pekerjaan</p></a>
                   </li>
                 </ul>
-              </li>
+              </li> --}}
 
              
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/general') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>General</p></a>
