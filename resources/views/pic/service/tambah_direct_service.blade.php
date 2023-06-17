@@ -16,6 +16,7 @@
 					<label class="col-sm-3 control-label text-right">Nopol</label>
 					<div class="col-sm-9">
 						<select name="nopol" id="nopol"  onchange="loadDataVehicle()" class="form-control select2">
+							<option selected disabled>Pilih</option>
 							<?php foreach($nopol as $np) { ?>
 							  <option value="<?php echo $np->nopol ?>"><?php echo $np->nopol ?></option>
 							<?php } ?>

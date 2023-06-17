@@ -10,7 +10,7 @@
   }
 </style>
 <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: linear-gradient(to bottom, #3f3f3f, #25872a);">
     <!-- Brand Logo -->
     <a href="{{ asset('admin-ts3/dasbor') }}" class="brand-link">
       <img src="{{ asset('assets/upload/image/'.website('icon')) }}"
@@ -199,18 +199,7 @@
                 </ul>
               </li>              
 
-              {{-- <li class="nav-item ml-4 has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="fa fa-tags nav-icon"></i>
-                  <p>Part &amp; Pekerjaan<i class="fas fa-angle-left right"></i></p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/spare-part') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Spare Part</p></a>
-                  </li>
-                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/pekerjaan') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>Pekerjaan</p></a>
-                  </li>
-                </ul>
-              </li> --}}
+           
 
              
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/general') }}" class="nav-link"><i class="fa fa-tags nav-icon"></i><p>General</p></a>

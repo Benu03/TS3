@@ -10,7 +10,7 @@
   }
 </style>
 <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: linear-gradient(to bottom, #3f3f3f, #25872a);">
     <!-- Brand Logo -->
     <a href="{{ asset('admin-cms/dasbor') }}" class="brand-link">
       <img src="{{ asset('assets/upload/image/'.website('icon')) }}"

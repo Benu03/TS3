@@ -11776,6 +11776,7 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
   height: 100vh;
   overflow-y: hidden;
   z-index: 1038;
+  
 }
 
 .main-sidebar a:-moz-focusring {

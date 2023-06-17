@@ -38,7 +38,7 @@
 					<label class="col-sm-3 control-label text-right">Bengkel</label>
 					<div class="col-sm-9">
 						<select name="mst_bengkel_id" id="mst_bengkel_id" class="form-control select2" width="100%">
-							
+							<option selected disabled>Pilih</option>
 							<?php foreach($bengkel as $bk) { ?>
 							<option value="<?php echo $bk->id ?>" <?php if($spk->mst_bengkel_id==$bk->id) { echo 'selected'; } ?>><?php echo $bk->bengkel_name ?></option>
 							<?php } ?>
