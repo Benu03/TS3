@@ -40,7 +40,7 @@ class Bengkel extends Controller
 
             DB::connection('ts3')->table('mst.mst_bengkel')->insert([
                 'bengkel_name'	=> $request->bengkel_name,
-                'bengkel_alias'	=> 'TS3-'.$seq,
+                'bengkel_alias'	=> 'TS3-MITRA-'.$seq,
                 'pic_bengkel'   => $request->pic_bengkel,
                 'phone'	=> $request->phone,
                 'address'	=> $request->address,

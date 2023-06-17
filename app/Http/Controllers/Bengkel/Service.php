@@ -67,8 +67,10 @@ class Service extends Controller
 
         $bengkel 	= DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
         $service = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')->wherein('status_service',['ONSCHEDULE'])->where('mst_bengkel_id',$bengkel->id)->where('mst_bengkel_id',$bengkel->id)->where('id',$id)->first();
-        $part 	= DB::connection('ts3')->table('mst.mst_spare_part')->orderby('id')->get();
-        $jobs 	= DB::connection('ts3')->table('mst.mst_pekerjaan')->where('group_vehicle','Motor')->orderby('id')->get();
+       
+
+        $part 	= DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Part')->where('mst_regional_id',$service->mst_regional_id)->where('mst_client_id',$service->mst_client_id)->get();
+        $jobs 	=  DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Jasa')->where('mst_regional_id',$service->mst_regional_id)->where('mst_client_id',$service->mst_client_id)->get();
       
  
         $data = array(   'title'     => 'Service '.$service->nopol,
@@ -119,7 +121,7 @@ class Service extends Controller
                     'detail_type' => 'Pekerjaan',
                     'unique_data' => $val,
                     'value_data' => $request->value_jobs[$key],
-                    'source'    => 'mst_pekerjaan',
+                    'source'    => 'mst_price_service (Jasa)',
                     'created_date'    => date("Y-m-d h:i:sa"),
                     'user_created'     => $request->session()->get('username')
                 ];
@@ -133,7 +135,7 @@ class Service extends Controller
                     'detail_type' => 'Spare Part',
                     'unique_data' => $val,
                     'value_data' => $request->value_part[$key],
-                    'source'    => 'mst_spare_part',
+                    'source'    => 'mst_price_service (Part)',
                     'created_date'    => date("Y-m-d h:i:sa"),
                     'user_created'     => $request->session()->get('username')
                 ];

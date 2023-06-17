@@ -131,7 +131,7 @@
 															<div class="col-sm-5">
 																<select name="jobs[]" class="form-control select2">
 																<?php foreach($jobs as $jb) { ?>
-																<option value="<?php echo $jb->id ?>"><?php echo $jb->name ?></option>
+																<option value="<?php echo $jb->mst_price_service_id ?>"><?php echo $jb->service_name.' ('.$jb->kode.')' ?></option>
 																<?php } ?>													
 																</select>
 															</div>
@@ -169,7 +169,7 @@
 															<div class="col-sm-5">
 																<select name="part[]" class="form-control select2">
 																<?php foreach($part as $pt) { ?>
-																<option value="<?php echo $pt->id ?>"><?php echo $pt->name ?></option>
+																<option value="<?php echo $pt->mst_price_service_id ?>"><?php echo $pt->service_name.' ('.$pt->kode.')' ?></option>
 																<?php } ?>													
 																</select>
 															</div>
@@ -266,7 +266,7 @@
 															<div class="col-sm-5">
 																<select name="part[]" class="form-control select2">
 																<?php foreach($part as $pt) { ?>
-																<option value="<?php echo $pt->id ?>"><?php echo $pt->name ?></option>
+																<option value="<?php echo $pt->mst_price_service_id ?>"><?php echo $pt->service_name.' ('.$pt->kode.')'  ?></option>
 																<?php } ?>													
 																</select>
 															</div>
@@ -299,7 +299,7 @@
 															<div class="col-sm-5">
 																<select name="jobs[]" class="form-control select2">
 																<?php foreach($jobs as $jb) { ?>
-																<option value="<?php echo $jb->id ?>"><?php echo $jb->name ?></option>
+																<option value="<?php echo $jb->mst_price_service_id ?>"><?php echo $jb->service_name.' ('.$jb->kode.')' ?></option>
 																<?php } ?>													
 																</select>
 															</div>
