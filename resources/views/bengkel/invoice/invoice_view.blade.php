@@ -65,6 +65,8 @@
                                     Invoice Detail
                                     </div>
                                     <div class="card-body">  
+
+                                        <div class="table-responsive-md">
                                         <table class="table table-bordered table-sm" style="font-size: 11px;">
                                             <thead>
                                                 <tr class="bg-light">                                                      
@@ -102,7 +104,7 @@
                                         </tbody>
                                                     
                                     </table>
-
+                                </div> 
 
                                     </div>           
                                     </div>   

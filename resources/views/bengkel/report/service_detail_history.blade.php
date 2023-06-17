@@ -120,7 +120,7 @@
 																<tbody>
 																	<?php
 																	use Illuminate\Support\Facades\DB;
-																	$sdetail  = DB::connection('ts3')->table('mvm.v_service_detail')->where('mvm_service_vehicle_h_id',$ar->mvm_service_vehicle_h_id)->get();
+																	$sdetail  = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$ar->mvm_service_vehicle_h_id)->get();
 																	?>
 																	<?php $i=1; foreach($sdetail as $sd) { ?>
 																	<tr>
@@ -132,12 +132,12 @@
 																		<i class="fa fa-eye"></i>  <?php echo $sd->attribute ?>
 																	 </button>   
 															   
-																	 @include('admin-ts3/report/service_image_history') 
+																	 @include('bengkel/report/service_image_history') 
 																	@else
 																	<?php echo $sd->attribute ?>
 																	@endif
 																	</td>  
-																	<td><?php echo $sd->attribute_value ?></td>  
+																	<td><?php echo $sd->value_data ?></td>  
 															
 																	</tr>
 																	<?php $i++; } ?> 

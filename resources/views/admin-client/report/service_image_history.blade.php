@@ -10,7 +10,7 @@
 					<div class="modal-body">
 		
 							<div class="text-center">
-							<img class="img img-thumbnail img-fluid" src="{{ asset('admin-ts3/report/get-image-service-detail/').'/'.$sd->attribute }}" >
+							<img class="img img-thumbnail img-fluid" src="{{ asset('admin-client/report/get-image-service-detail/').'/'.$sd->attribute }}" >
 						  </div>
 						
 						</div>           
