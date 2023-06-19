@@ -83,7 +83,7 @@
               <div class="row">
             
               <div id="gallery" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
+                <div class="carousel-inner">
                 <div class="carousel-item active" data-interval="1500">
                     <div class="row">
                         <div class="col text-center mr-1">
@@ -133,9 +133,9 @@
                         </div>
             
                       
-                    </div>
-                 </div>
-               </div>
+                     </div>
+                  </div>
+                  </div>
             
                   <a class="carousel-control-prev" href="#gallery" role="button" data-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -147,10 +147,15 @@
                       <span class="sr-only">Next</span>
                   </a>
               </div>
-            
+
+             
+          
+
+
             
               </div>
               </div>
             </div>
             </section>
           
+        

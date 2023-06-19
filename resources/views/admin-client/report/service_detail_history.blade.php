@@ -128,7 +128,7 @@
 																	<td>
 																	@if($sd->detail_type == 'Upload')
 																										
-																	<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailImage<?php echo $sd->id ?>">
+																	<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailImage<?php echo $sd->attribute ?>">
 																		<i class="fa fa-eye"></i>  <?php echo $sd->attribute ?>
 																	 </button>   
 															   

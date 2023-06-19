@@ -1,4 +1,4 @@
-<div class="modal fade" id="DetailImage<?php echo $sd->id ?>"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="DetailImage<?php echo $sd->attribute ?>"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 				<div class="modal-header">

@@ -46,6 +46,8 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
 }
 </style>
+
+
 <?php echo $site_config->metatext ?>
 </head>
 
