@@ -171,6 +171,8 @@ class Invoice extends Controller
 
                     $invoice_detail = DB::connection('ts3')->table('mvm.mvm_invoice_d')->whereIn('mvm_invoice_h_id',$id)->get();  
                 
+                    try 
+                    {
                     foreach($invoice_detail as $val)
                     {
                         $dataPreparing = [
@@ -207,7 +209,11 @@ class Invoice extends Controller
                                     'ppn'	            => $sumTotalInvoice->ppn
                                 ]);   
 
-            
+                            }
+                            catch (\Illuminate\Database\QueryException $e) {
+                                DB::rollback();
+                                return redirect('admin-ts3/invoice-create')->with(['warning' => $e]);
+                            }
                 
                             
                         return redirect('admin-ts3/invoice-create')->with(['sukses' => 'Data telah Berhasil Di proses']);
@@ -224,6 +230,9 @@ class Invoice extends Controller
                     }
                     else
                     {
+
+                        try 
+                        {
 
                             $invoice_h_admin =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->insertgetID([
                             'invoice_no'   => $request->invoice_no,
@@ -272,7 +281,11 @@ class Invoice extends Controller
                                             'ppn'	            => $sumTotalInvoice->ppn
                                         ]);   
 
-                    
+                                    }
+                                    catch (\Illuminate\Database\QueryException $e) {
+                                        DB::rollback();
+                                        return redirect('admin-ts3/invoice-create')->with(['warning' => $e]);
+                                    }
                         
                                     
                                 return redirect('admin-ts3/invoice-create')->with(['sukses' => 'Data telah Berhasil Di proses']);
@@ -370,10 +383,9 @@ class Invoice extends Controller
         if(isset($request->reset))
         {
 
-    
-          
             $CheckInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_d')->selectRaw("reference_no")->where('invoice_no',$request->invoice_no)->groupBy('reference_no')->get();
           
+            try{
             foreach($CheckInvoice as $val)
             {
 
@@ -386,6 +398,12 @@ class Invoice extends Controller
             }
             DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->delete();
             DB::connection('ts3')->table('mvm.mvm_invoice_d')->where('invoice_no',$request->invoice_no)->delete();
+
+                }
+                catch (\Illuminate\Database\QueryException $e) {
+                    DB::rollback();
+                    return redirect('admin-ts3/invoice/client')->with(['warning' => $e]);
+                }
     
             return redirect('admin-ts3/invoice/client')->with(['warning' => 'Data telah Berhasil Di Reset']);
         }
@@ -395,6 +413,11 @@ class Invoice extends Controller
             DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
                 'status'               => 'REQUEST'
             ]);   
+
+            //disini kirim email
+
+
+            
     
             return redirect('admin-ts3/invoice/client')->with(['sukses' => 'Data telah Berhasil Di proses']);
 

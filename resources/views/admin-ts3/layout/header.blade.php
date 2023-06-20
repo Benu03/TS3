@@ -20,14 +20,22 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
+   
       <li class="nav-item">
+        <a class="nav-link text-warning" href="{{ asset('admin-ts3/profile') }}">
+          <i class="fas fa-bell"></i> <?php echo 7; ?>
+        </a> 
+      </li>
+
+
+      <li class="nav-item ml-2">
         <a class="nav-link text-success" href="{{ asset('admin-ts3/profile') }}">
           <i class="fa fa-lock"></i> <?php echo Session()->get('nama'); ?>
         </a>
       </li>
 
       <!-- Notifications Dropdown Menu -->
-      <li class="nav-item">
+      <li class="nav-item ml-2">
         <a class="nav-link text-danger" href="{{ asset('login/logout') }}">
           <i class="fas fa-sign-out-alt"></i> KELUAR
         </a>
