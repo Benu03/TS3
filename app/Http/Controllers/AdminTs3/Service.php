@@ -70,8 +70,8 @@ class Service extends Controller
            DB::connection('ts3')->table('mvm.mvm_direct_service')->where('id',$id[$i])->update([
             'remark_ts3'   => $request->remark_ts3,
             'mst_bengkel_id'   => $request->mst_bengkel_id,
-            'status'   => 'ESTIMATE',
-            'updated_at'    => date("Y-m-d h:i:sa"),
+            'status'            => 'ESTIMATE',
+            'updated_at'        => date("Y-m-d h:i:sa"),
             'update_by'         => $request->session()->get('username')
             ]);    
         }

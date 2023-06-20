@@ -58,6 +58,11 @@ class Spk extends Controller
                     $edit = '<a href="'. asset('admin-ts3/spk-service-edit/'.$row->id).'" 
                     class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>';       
                 }
+                elseif($row->status_service == 'SERVICE')
+                {
+                    $edit = '<a href="'. asset('admin-ts3/spk-service-adjustments/'.$row->id).'" 
+                    class="btn btn-secondary btn-sm"><i class="fas fa-tools"></i></a>';  
+                }
                 else{
                     $edit ="";
                    
@@ -220,6 +225,38 @@ class Spk extends Controller
 
     }
 
+
+    public function spk_service_adjustments($id)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+           
+       $service_h = DB::connection('ts3')->table('mvm.v_service_admin_ts3')->where('mvm_spk_d_id',$id)->first();
+       $service_upload = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$service_h->id)->where('detail_type', 'Upload')->get();
+       $service_jasa = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$service_h->id)->where('detail_type', 'Pekerjaan')->get();
+       $service_part = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$service_h->id)->where('detail_type', 'Spare Part')->get();
+
+       $part 	= DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Part')->where('mst_regional_id',$service_h->mst_regional_id)->where('mst_client_id',$service_h->mst_client_id)->get();
+       $jobs 	=  DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Jasa')->where('mst_regional_id',$service_h->mst_regional_id)->where('mst_client_id',$service_h->mst_client_id)->get();
+
+
+        $data = array(  'title'         => 'Adjustment SPK Service',
+                        'service_h'        => $service_h,
+                        'service_upload'        => $service_upload,
+                        'service_jasa'        => $service_jasa,
+                        'service_part'        => $service_part,
+                        'part'        => $part,
+                        'jobs'        => $jobs,
+                        'content'       => 'admin-ts3/spk/spk_service_adjustment'
+                );
+    
+         return view('admin-ts3/layout/wrapper',$data);
+
+    }
+
+
+
+
+
     public function spk_service_edit_proses(Request $request)
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
@@ -243,6 +280,66 @@ class Spk extends Controller
 
     }
 
+    
+    public function spk_service_adjustments_proses(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+                try 
+                {
+                    DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')
+                    ->where('mvm_service_vehicle_h_id',$request->id)
+                    ->where('detail_type', 'Pekerjaan')->delete();
+
+                    foreach($request->jasa_id as $key => $val){
+               
+                                $datajobs = [
+                                    'mvm_service_vehicle_h_id' => $request->id,
+                                    'detail_type' => 'Pekerjaan',
+                                    'unique_data' => $val,
+                                    'remark_adjustment' => 'Revisi Admin',
+                                    'source'    => 'mst_price_service (Jasa)',
+                                    'created_date'    => date("Y-m-d h:i:sa"),
+                                    'user_created'     => $request->session()->get('username')
+                                ];
+                
+                                DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datajobs);
+
+                    
+                    }
+
+              
+                   
+
+                    DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')
+                    ->where('mvm_service_vehicle_h_id',$request->id)
+                    ->where('detail_type', 'Spare Part')->delete();
+              
+                    foreach($request->part_id as $key => $val){
+                       
+                            $datapart = [
+                                'mvm_service_vehicle_h_id' => $request->id,
+                                'detail_type' => 'Spare Part',
+                                'unique_data' => $val,
+                                'remark_adjustment' => 'Revisi Admin',
+                                'source'    => 'mst_price_service (Part)',
+                                'created_date'    => date("Y-m-d h:i:sa"),
+                                'user_created'     => $request->session()->get('username')
+                            ];
+                            DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datapart);
+                        
+                    }
+                    
+
+                }
+                catch (\Illuminate\Database\QueryException $e) {
+                    DB::rollback();
+                    return redirect('admin-ts3/spk-list')->with(['warning' => $e]);
+                }
+
+
+        return redirect('admin-ts3/spk-list')->with(['sukses' => 'Data telah diupdate']);  
+    }
     
     
     

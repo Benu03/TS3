@@ -1,0 +1,21 @@
+<div class="modal fade" id="DetailImage<?php echo $su->service_d_id ?>"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header">
+			
+						<h4 class="modal-title mr-4" id="myModalLabel">Image (<?php echo $su->attribute ?>)</h4>
+						
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						</div>
+								<div class="modal-body">
+					
+												<div class="text-center">
+												<img class="img img-thumbnail img-fluid" src="{{ asset('admin-ts3/report/get-image-service-detail/').'/'.$su->attribute }}" >
+											</div>
+									
+									</div>           
+					 </div>    
+					 
+                    </div>
+		
+	</div>
