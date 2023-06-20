@@ -414,10 +414,16 @@ class Invoice extends Controller
                 'status'               => 'REQUEST'
             ]);   
 
-            //disini kirim email
+            // begin kirim email
+            // check clinet di v_invoice_admin_ts3
+            // ambil client email
+            // generate invoice dan letakan di storage
+            // preparing email data dan insert  table auth.user_mail
+            // email send jobs automatic with attachment
+
+             // end kirim email
 
 
-            
     
             return redirect('admin-ts3/invoice/client')->with(['sukses' => 'Data telah Berhasil Di proses']);
 

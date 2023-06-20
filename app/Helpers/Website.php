@@ -20,3 +20,4 @@ function website($perintah='')
 	// Output
 	return $hasil;
 }
+

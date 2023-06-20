@@ -23,7 +23,7 @@
    
       <li class="nav-item">
         <a class="nav-link text-warning" href="{{ asset('admin-ts3/profile') }}">
-          <i class="fas fa-bell"></i> <?php echo 7; ?>
+          <i class="fas fa-bell"></i> 
         </a> 
       </li>
 
