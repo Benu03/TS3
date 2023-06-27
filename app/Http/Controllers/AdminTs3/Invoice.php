@@ -416,11 +416,36 @@ class Invoice extends Controller
 
             // begin kirim email
             // check clinet di v_invoice_admin_ts3
+            $clinet_id = DB::connection('ts3')->table('mvm.v_invoice_admin_ts3')->where('invoice_no',$request->invoice_no)->first();  
             // ambil client email
+            $email_client = DB::connection('ts3')->table('mvm.v_user_client')->where('mst_client_id',$clinet_id->mst_client_id)->where('id_role',3)->first();  
+            
+            
             // generate invoice dan letakan di storage
-            // preparing email data dan insert  table auth.user_mail
-            // email send jobs automatic with attachment
+           
 
+            $path = $this->invoice_generate_storage($request->invoice_no);
+
+
+           // preparing email data dan insert  table auth.user_mail
+            $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
+            $url_img = env('APP_URL').'/assets/upload/image/2.png';
+            $url_verify = 'http://localhost:8080/login/verify/'.$token;
+
+            $body = '<b>Dear Rekan TS3</b><br><br>Silakan Klik Link Untuk Mereset Password : <a class="btn btn-info" href="'.$url_verify.'"  >Reset Password</a><br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';
+            
+
+            DB::connection('ts3')->table('auth.user_mail')->insert([
+                'type_request' => 'INVOICE '.$request->invoice_no,
+                'from' => $site->smtp_user,
+                'to' => $email_client->email,
+                'cc' => null,
+                'bcc' => null,
+                'subject' => 'Reset Password TS3',
+                'body' => $body,
+                'attachment' => $destinationPath
+            ]);
+            // email send jobs automatic with attachment
              // end kirim email
 
 
@@ -434,6 +459,58 @@ class Invoice extends Controller
         
     }
 
+    public function invoice_generate_storage($invoice_no)
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$invoice_no)->first();       
+        $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_detail_admin')->where('invoice_no',$invoice_no)->get();
+
+        $config = DB::connection('ts3')->table('cp.konfigurasi')->first();
+        $logo =  storage_path('data/image/logo_pdf.png');
+
+        $terbilang = $this->terbilang(($invoice->part_total+$invoice->jasa_total+$invoice->ppn)-$invoice->pph);
+      
+     
+        $period = DB::connection('ts3')->table('mvm.v_invoice_detail_admin')->selectRaw("TO_CHAR(min(tanggal_service):: DATE, 'dd Mon yyyy') as tanggal_service_min,
+        TO_CHAR(max(tanggal_service):: DATE, 'dd Mon yyyy') as tanggal_service_max")->where('invoice_no',$invoice->invoice_no)->first();
+
+        $pdf = PDF::loadview('admin-ts3/invoice/pdf/invoice_generate_ts3',['terbilang' =>$terbilang,'invoice'=>$invoice,'period'=>$period, 'invoice_detail' => $invoice_detail, 'logo' => $logo, 'config' => $config ])->setPaper('a4');
+        $pdf->render();
+        $canvas = $pdf->getDomPDF()->getCanvas();
+
+            $w = $canvas->get_width(); 
+            $h = $canvas->get_height(); 
+
+        
+            $imageURL = storage_path('data/image/logo_pdf.png');
+            $imgWidth = 300; 
+            $imgHeight = 200; 
+            
+
+            $canvas->set_opacity(.1); 
+            
+
+            $x = (($w-$imgWidth)/2); 
+            $y = (($h-$imgHeight)/2); 
+            
+
+            $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight); 
+        
+            $destinationPath =storage_path('data/invoice/'.date("Y").'/'.date("m").'/').$request->invoice_no;
+                
+            if (!file_exists($destinationPath)) {
+            File::makeDirectory($destinationPath,0755,true);
+            }
+
+        return $destinationPath;
+
+    }
+
     public function invoice_bengkel_proses(Request $request)
     {
         if(Session()->get('username')=="") {
@@ -441,10 +518,19 @@ class Invoice extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
 
+        $check =  DB::connection('ts3')->table('mvm.v_invoice_to_service')->where('invoice_no',$request->invoice_no)->first();
+
+        DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$check->mvm_spk_d_id)->update([
+            'status_service'       => 'DONE'
+        ]); 
+
+
         DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
             'remark'       => $request->remark,
             'status'       => 'DONE'
         ]);   
+ 
+
 
         return redirect('admin-ts3/invoice')->with(['sukses' => 'Data telah Berhasil Di proses']);
         

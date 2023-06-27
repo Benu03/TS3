@@ -21,6 +21,7 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 <link href="{{ asset('assets/aws/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/aws/css/prettyPhoto.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/aws/css/all.min.css') }}" rel="stylesheet">
+<script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c71a3709-3d11-44de-9713-ff377233acd3";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 <style>
 .img-logots3{
   text-align: center;

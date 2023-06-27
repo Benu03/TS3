@@ -196,7 +196,7 @@
                                         <?php echo $sd->attribute ?>
                                         @endif
                                     </td>  
-                                    <td><?php echo $sd->attribute_value ?></td>  
+                                    <td><?php echo $sd->value_data ?></td>  
                                 
                                     </tr>
                                     <?php $i++; } ?> 

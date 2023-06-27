@@ -29,7 +29,12 @@ tinymce.init({
 $sek  = date('Y');
 $awal = $sek-100;
 ?>
+
 <script>
+   $(document).ready(function() {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+    
   $( ".datepicker" ).datepicker({
     inline: true,
     changeYear: true,

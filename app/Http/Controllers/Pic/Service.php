@@ -288,8 +288,8 @@ class Service extends Controller
 
         $service = DB::connection('ts3')->table('mvm.v_service_pic_branch')->where('id',$id)->first();
 
-        $sdetail  = DB::connection('ts3')->table('mvm.v_service_detail')->where('mvm_service_vehicle_h_id',$id)->get();
-
+        $sdetail  = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$id)->get();
+    
         $data = array(   'title'     => 'Service Advisor',
             'service'      => $service,
             'sdetail' => $sdetail,

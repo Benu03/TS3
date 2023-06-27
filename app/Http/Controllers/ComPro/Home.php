@@ -90,7 +90,7 @@ class Home extends Controller
                 'token'   => $token,
                 'created_date'    => date("Y-m-d h:i:sa")
             ]);
-            $url_img = 'http://34.101.109.41:8080/assets/upload/image/2.png';
+            $url_img = env('APP_URL').'/assets/upload/image/2.png';
         
 
             $body = '<b>Dear Rekan TS3</b><br><br>Nama Lengkap : '.$request->fullname.'<br>Email : '.$request->email.'<br>Contact : '.$request->contact.'<br>Pesan : '.$request->pesan.'<br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';

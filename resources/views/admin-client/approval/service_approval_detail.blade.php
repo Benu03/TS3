@@ -140,7 +140,8 @@
 									 <tbody>
 										<?php
 										use Illuminate\Support\Facades\DB;
-										$sdetail  = DB::connection('ts3')->table('mvm.v_service_detail')->where('mvm_service_vehicle_h_id',$dt->id)->get();
+										$sdetail  = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$dt->id)->get();
+
 										?>
 										<?php $i=1; foreach($sdetail as $sd) { ?>
 										<tr>
@@ -150,11 +151,12 @@
 											<a href="{{ asset('admin-client/get-image-service-detail/').'/'.$sd->attribute }}" target="_blank">
 												<?php echo $sd->attribute ?>
 											</a>
+											
 											@else
 											<?php echo $sd->attribute ?>
 											@endif
 										</td>  
-										<td><?php echo $sd->attribute_value ?></td>  
+										<td><?php echo $sd->value_data ?></td>  
 									
 										 </tr>
 										<?php $i++; } ?> 

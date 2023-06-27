@@ -4,6 +4,9 @@ use App\Models\Nav_model;
 $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,6 +70,10 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
   <style type="text/css" media="screen">
+   .tooltip {
+        font-size: 11px; /* Ubah ukuran huruf sesuai kebutuhan */
+    }
+
     body {
       background-color: white !important;
     }

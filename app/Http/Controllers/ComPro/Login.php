@@ -142,7 +142,7 @@ class Login extends Controller
                 'token'   => $token,
                 'created_date'    => date("Y-m-d h:i:sa")
             ]);
-            $url_img = 'http://34.128.86.250:8080/assets/upload/image/2.png';
+            $url_img = env('APP_URL').'/assets/upload/image/2.png';
             $url_verify = 'http://localhost:8080/login/verify/'.$token;
 
             $body = '<b>Dear Rekan TS3</b><br><br>Silakan Klik Link Untuk Mereset Password : <a class="btn btn-info" href="'.$url_verify.'"  >Reset Password</a><br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';
