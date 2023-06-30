@@ -411,9 +411,9 @@ class Invoice extends Controller
         else
         {
         
-            // DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
-            //     'status'               => 'REQUEST'
-            // ]);   
+            DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+                'status'               => 'REQUEST'
+            ]);   
 
             // begin kirim email
             // check clinet di v_invoice_admin_ts3
