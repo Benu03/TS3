@@ -67,16 +67,17 @@ class EmailContoller extends Controller
                         $to   = $resultArray['to'];
                         $cc   = $resultArray['cc'];
                         $subject = $resultArray['subject'];
-                        // $path = $resultArray['attachment'];
+                        $path = $resultArray['attachment'];
                         $sender = $resultArray['from'];
+               
 
-                            Mail::mailer('smtp')->send([], [], function ($message) use ($body,$to,$cc,$subject) {
+                            Mail::mailer('smtp')->send([], [], function ($message) use ($body,$to,$cc,$subject,$path) {
                             $message->to($to); 
                             if (isset($cc)){ $message->cc($cc); 
                             if (isset($bcc)){ $message->bcc($bcc); }    }    
                             $message->subject($subject);
                             $message->from('ts3.notif@gmail.com','TS3 Indonesia');
-                            // $message->attach(storage_path($path));
+                            $message->attach($path);
                             $message->setBody($body, 'text/html');});
                             $msgCounter++;
                            

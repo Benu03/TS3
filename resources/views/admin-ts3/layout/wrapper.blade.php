@@ -7,5 +7,5 @@ if(Session()->get('username')=="") {
 @include('admin-ts3/layout/head')
 @include('admin-ts3/layout/header')
 @include('admin-ts3/layout/menu')
-@include($content)
+
 @include('admin-ts3/layout/footer')

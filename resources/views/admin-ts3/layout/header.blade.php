@@ -22,7 +22,7 @@ $chat                 = DB::connection('ts3')->table('mst.mst_general')->where('
       </li>
 
       <li class="nav-item d-none d-sm-inline-block ml-2">
-        <a href="https://app.crisp.chat/" target="_blank" data-html="true" class="nav-link text-warning tooltip-lg"  data-toggle="tooltip" title="Username : {{$chat->value_1}}<br>Password : {{$chat->value_2}}" ><i class="fas fa-comments"></i> Live Chat</a>
+        <a href="https://app.crisp.chat/" target="_blank" data-html="true" class="nav-link tooltip-lg"  style="color:rgb(251, 136, 4)" data-toggle="tooltip" title="Username : {{$chat->value_1}}<br>Password : {{$chat->value_2}}" ><i class="fas fa-comments"></i> Live Chat</a>
        </li>
     </ul>
    

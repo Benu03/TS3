@@ -9,6 +9,7 @@ use App\Models\Konfigurasi_model;
 use Image;
 use PDF;
 use Log;
+use File;
 
 class Invoice extends Controller
 {
@@ -410,44 +411,73 @@ class Invoice extends Controller
         else
         {
         
-            DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
-                'status'               => 'REQUEST'
-            ]);   
+            // DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
+            //     'status'               => 'REQUEST'
+            // ]);   
 
             // begin kirim email
             // check clinet di v_invoice_admin_ts3
             $clinet_id = DB::connection('ts3')->table('mvm.v_invoice_admin_ts3')->where('invoice_no',$request->invoice_no)->first();  
             // ambil client email
-            // $email_client = DB::connection('ts3')->table('mvm.v_user_client')->where('mst_client_id',$clinet_id->mst_client_id)->where('id_role',3)->first();  
-            
-            
+
+         
+            $email_client = DB::connection('ts3')->table('auth.v_list_user_client')->where('mst_client_id',$clinet_id->mst_client_id)->where('role','admin_client')->first();  
+              
+        
             // generate invoice dan letakan di storage
            
 
-        //     $path = $this->invoice_generate_storage($request->invoice_no);
+            $path = $this->invoice_generate_storage($request->invoice_no);
+
+            $invoiceData =  DB::connection('ts3')->table('mvm.v_rekap_invoice')->where('invoice_no',$request->invoice_no)->first();
 
 
-        //    // preparing email data dan insert  table auth.user_mail
-        //     $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
-        //     $url_img = env('APP_URL').'/assets/upload/image/2.png';
-        //     $url_verify = 'http://localhost:8080/login/verify/'.$token;
-
-        //     $body = '<b>Dear Rekan TS3</b><br><br>Silakan Klik Link Untuk Mereset Password : <a class="btn btn-info" href="'.$url_verify.'"  >Reset Password</a><br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';
+           // preparing email data dan insert  table auth.user_mail
+            $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
+            $url_img = env('APP_URL').'/assets/upload/image/2.png';
+            $body = '<html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Faktur Layanan</title>
+            </head>
+            <body style="font-family: Arial, sans-serif;">
             
+                <p>Kepada Yth. '.$invoiceData->legal_name.',</p>
+            
+                <p>Semoga email ini menemukan Anda dalam keadaan baik. Kami ingin mengucapkan terima kasih atas pemilihan layanan kami dan memberikan kesempatan kepada kami untuk bekerja dengan Anda. Kami dengan senang hati melampirkan invoice untuk layanan yang telah kami berikan selama periode yang ditentukan.</p>
 
-        //     DB::connection('ts3')->table('auth.user_mail')->insert([
-        //         'type_request' => 'INVOICE '.$request->invoice_no,
-        //         'from' => $site->smtp_user,
-        //         'to' => $email_client->email,
-        //         'cc' => null,
-        //         'bcc' => null,
-        //         'subject' => 'Reset Password TS3',
-        //         'body' => $body,
-        //         'attachment' => $destinationPath
-        //     ]);
-            // email send jobs automatic with attachment
-             // end kirim email
-
+                <h2>Detail Invoice:</h2>
+                <ul>
+                    <li><strong>Nomor Invoice:</strong> '.$invoiceData->invoice_no.'</li>
+                    <li><strong>Tanggal Invoice:</strong> '.$invoiceData->created_date.'</li>
+                    <li><strong>Jumlah Tagihan:</strong> "Rp " . '.number_format(($invoiceData->jasa_total - $invoiceData->pph) + $invoiceData->part_total + $invoiceData->ppn,0,',','.').'</li>
+                </ul>
+            
+                <p>Mohon untuk memeriksa invoice yang terlampir untuk rincian lengkap layanan yang telah diberikan dan biaya yang terkait. Jika Anda memiliki pertanyaan atau membutuhkan klarifikasi lebih lanjut, jangan ragu untuk menghubungi tim kami. Kami dengan senang hati akan membantu Anda.</p>
+            
+                <p>Terima kasih atas bisnis Anda dan dukungan yang terus diberikan.</p>
+            
+                <p>Hormat kami,</p>
+                <p>TS3 Indonesia</p>
+                <p><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b></p>
+    
+            </body>
+            </html>
+            ';
+      
+            DB::connection('ts3')->table('auth.user_mail')->insert([
+                'type_request' => 'INVOICE '.$request->invoice_no,
+                'from' => $site->smtp_user,
+                'to' => $email_client->email,
+                'cc' => null,
+                'bcc' => null,
+                'subject' => 'Invoice Motor Vehicle Service '.$request->invoice_no,
+                'body' => $body,
+                'attachment' => $path['path'].$path['file_name']
+            ]);
+         
 
     
             return redirect('admin-ts3/invoice/client')->with(['sukses' => 'Data telah Berhasil Di proses']);
@@ -501,13 +531,19 @@ class Invoice extends Controller
 
             $canvas->image($imageURL, $x, $y, $imgWidth, $imgHeight); 
         
-            $destinationPath =storage_path('data/invoice/'.date("Y").'/'.date("m").'/').$request->invoice_no;
+            $name_file = 'TS3-'.date("Ymdhi").'.pdf';
+            $destinationPath =storage_path('data/invoice/'.date("Y").'/'.date("m").'/');
                 
             if (!file_exists($destinationPath)) {
             File::makeDirectory($destinationPath,0755,true);
             }
+            $pdf->save($destinationPath . $name_file);
 
-        return $destinationPath;
+            $data_return = [
+                    'path' => $destinationPath,
+                    'file_name' => $name_file
+            ];
+        return $data_return;
 
     }
 
