@@ -322,7 +322,7 @@ class Invoice extends Controller
 
         $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','DRAFT')->where('invoice_type','TS3 TO CLIENT')->where('create_by',Session()->get('username'))->first();
 
-        $invoicebkl = DB::connection('ts3')->table('mvm.v_invoice_list_create_admin')->selectRaw('id,invoice_no,invoice_type,sum(jasa) as jasa,sum(part) as part,bengkel_name,regional ')->where('status','REQUEST')->where('invoice_type','BENGKEL TO TS3')->groupBy('id','invoice_no','invoice_type','bengkel_name','regional')->get();  
+        $invoicebkl = DB::connection('ts3')->table('mvm.v_invoice_list_create_admin')->selectRaw('id,invoice_no,invoice_type,sum(jasa) as jasa,sum(part) as part,bengkel_name,regional ')->whereIn('status',['PROSES','REQUEST'])->where('invoice_type','BENGKEL TO TS3')->groupBy('id','invoice_no','invoice_type','bengkel_name','regional')->get();  
   
 
 
@@ -418,33 +418,33 @@ class Invoice extends Controller
             // check clinet di v_invoice_admin_ts3
             $clinet_id = DB::connection('ts3')->table('mvm.v_invoice_admin_ts3')->where('invoice_no',$request->invoice_no)->first();  
             // ambil client email
-            $email_client = DB::connection('ts3')->table('mvm.v_user_client')->where('mst_client_id',$clinet_id->mst_client_id)->where('id_role',3)->first();  
+            // $email_client = DB::connection('ts3')->table('mvm.v_user_client')->where('mst_client_id',$clinet_id->mst_client_id)->where('id_role',3)->first();  
             
             
             // generate invoice dan letakan di storage
            
 
-            $path = $this->invoice_generate_storage($request->invoice_no);
+        //     $path = $this->invoice_generate_storage($request->invoice_no);
 
 
-           // preparing email data dan insert  table auth.user_mail
-            $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
-            $url_img = env('APP_URL').'/assets/upload/image/2.png';
-            $url_verify = 'http://localhost:8080/login/verify/'.$token;
+        //    // preparing email data dan insert  table auth.user_mail
+        //     $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
+        //     $url_img = env('APP_URL').'/assets/upload/image/2.png';
+        //     $url_verify = 'http://localhost:8080/login/verify/'.$token;
 
-            $body = '<b>Dear Rekan TS3</b><br><br>Silakan Klik Link Untuk Mereset Password : <a class="btn btn-info" href="'.$url_verify.'"  >Reset Password</a><br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';
+        //     $body = '<b>Dear Rekan TS3</b><br><br>Silakan Klik Link Untuk Mereset Password : <a class="btn btn-info" href="'.$url_verify.'"  >Reset Password</a><br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';
             
 
-            DB::connection('ts3')->table('auth.user_mail')->insert([
-                'type_request' => 'INVOICE '.$request->invoice_no,
-                'from' => $site->smtp_user,
-                'to' => $email_client->email,
-                'cc' => null,
-                'bcc' => null,
-                'subject' => 'Reset Password TS3',
-                'body' => $body,
-                'attachment' => $destinationPath
-            ]);
+        //     DB::connection('ts3')->table('auth.user_mail')->insert([
+        //         'type_request' => 'INVOICE '.$request->invoice_no,
+        //         'from' => $site->smtp_user,
+        //         'to' => $email_client->email,
+        //         'cc' => null,
+        //         'bcc' => null,
+        //         'subject' => 'Reset Password TS3',
+        //         'body' => $body,
+        //         'attachment' => $destinationPath
+        //     ]);
             // email send jobs automatic with attachment
              // end kirim email
 

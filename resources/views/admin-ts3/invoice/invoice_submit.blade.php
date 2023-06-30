@@ -18,8 +18,8 @@
 	<div class="col-sm-12">
 		<div class="form-group pull-right btn-group">
 			<input type="submit" name="submit" class="btn btn-primary " value="Kirim">
-			<input type="submit" name="reset" class="btn btn-warning " value="Reset">
-			<a href="{{ asset('admin-ts3/invoice/client') }}" class="btn btn-danger">Kembali</a>
+			<input type="submit" name="reset" class="btn btn-danger " value="Reset">
+			{{-- <a href="{{ asset('admin-ts3/invoice/client') }}" class="btn btn-danger">Kembali</a> --}}
 		</div>
 	</div>
 	<div class="clearfix"></div>
