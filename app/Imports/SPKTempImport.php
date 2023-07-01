@@ -42,7 +42,6 @@ class SPKTempImport implements ToModel, WithStartRow
             'type' => $row[4], 
             'branch' => $row[5], 
             'remark' => $row[6],
-            'status'	   => 'Review',
             'upload_date'	=> date("Y-m-d h:i:sa")      
         ]);
     }
