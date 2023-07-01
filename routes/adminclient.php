@@ -27,6 +27,8 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/spk-reset/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_temp_reset');
     Route::get('admin-client/spk-posting/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_posting');
 
+    Route::get('admin-client/spk-synchron/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_temp_synchron');
+
 
 
 

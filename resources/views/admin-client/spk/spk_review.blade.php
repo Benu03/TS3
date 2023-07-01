@@ -50,25 +50,24 @@
     </div>
 
     <div class="col-md-4 mb-2">
-        <div class="card card-info">
+        <div class="card card-success">
             <div class="card-header">
                 Action
               </div>
             <div class="card-body">
-                <div class="row">
-                    
-
-                <div class="col-md-6 text-center">
-                  <a href="{{ asset('admin-client/spk-posting/'.$spk->spk_seq) }}" 
+                <div class="row text-center">
+                  <div class="col-md-12 text-center">
+                  <div class="form-group pull-right btn-group ">
+                    <a href="{{ asset('admin-client/spk-posting/'.$spk->spk_seq) }}" 
                       class="btn btn-warning btn-md"><i class="fas fa-upload"></i> Posting Data</a>
+                      <a href="{{ asset('admin-client/spk-synchron/'.$spk->spk_seq) }}" 
+                        class="btn btn-secondary btn-md"><i class="fas fa-sync-alt"></i> Synchron Vehicle</a>
+                        <a href="{{ asset('admin-client/spk-reset/'.$spk->spk_seq) }}" 
+                          class="btn btn-danger btn-md reset-link"><i class="fas fa-trash-alt"></i> Reset Data</a>
                   </div>
 
-
-                  <div class="col-md-6 text-center">
-                    <a href="{{ asset('admin-client/spk-reset/'.$spk->spk_seq) }}" 
-                        class="btn btn-danger btn-md reset-link"><i class="fas fa-trash-alt"></i> Reset Data</a>
-                    </div>
-                    </div>
+                </div>
+                  </div>
             </div>
           </div>
 

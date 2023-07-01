@@ -30,12 +30,12 @@
 					</div>
 				</div>
 
-				<div class="form-group row">
+				{{-- <div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Jumlah Kendaraan</label>
 					<div class="col-sm-9">
 						<input type="text" name="count_vehicle" class="form-control" placeholder="Jumlah Kendaraan" value="{{ old('count_vehicle') }}"  onkeypress="return isNumber(event)" required>
 					</div>
-				</div>
+				</div> --}}
 
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Tanggal Pengerjaan</label>
