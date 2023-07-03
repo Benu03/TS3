@@ -37,27 +37,38 @@
             
         
             
-				<div class="form-group row">
-					<label class="col-sm-2 control-label text-left">Tanggal Invoice</label>
-					<div class="col-sm-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                 <i class="far fa-calendar-alt"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control float-right" id="reservation">
-                            </div> 
-					</div>
-                    <div class="col-sm-6">
-						<div class="form-group pull-right btn-group">
-							<input type="submit" name="submit" class="btn btn-primary " value="Filter Data">
-							<input type="reset" name="reset" class="btn btn-success " value="Reset">
-						</div>
-					</div>
-                    <div class="clearfix"></div>
-				</div>
+            <div class="form-group row">
+				
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                             From <i class="far fa-calendar-alt ml-2"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="from_date" id="from_date" class="form-control tanggal" placeholder="From Date" value="" data-date-format="yyyy-mm-dd">	
+                        </div> 
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                             To <i class="far fa-calendar-alt ml-2"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="to_date"  id="to_date" class="form-control tanggal" placeholder="To Date" value="" data-date-format="yyyy-mm-dd">	
+                        </div> 
+                </div>
 
+
+                <div class="col-sm-6">
+                    <div class="form-group pull-right btn-group">
+                         <input type="button" name="filter" id="filter" class="btn btn-primary " value="Filter Data">
+                        <input type="button" name="refresh"  id="refresh" class="btn btn-warning " value="Refresh">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
                
     {{-- </div>        --}}
 </div> 
@@ -67,7 +78,7 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%" style="font-size: 12px;">
+<table id="RekapInvoicedataTable" class="display table table-bordered" cellspacing="0" width="100%" style="font-size: 12px;">
 <thead>
     <tr class="bg-info">
         {{-- <th width="5%">
@@ -97,16 +108,13 @@
 </div>
 </form>
 
-<script>
-    $('#reservation').daterangepicker()
-</script>
 
 
 <script type="text/javascript">
     $(document).ready(function() { 
         fetch_data()
-        function fetch_data(){                    
-                $('#dataTable').DataTable({
+        function fetch_data(from_date = '', to_date = ''){                    
+                $('#RekapInvoicedataTable').DataTable({
                     pageLength: 10,
                     lengthChange: true,
                     bFilter: true,
@@ -125,8 +133,13 @@
                         }
                     },
                     ajax: {
+                        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                         url:"{{  asset('admin-ts3/get-rekap-invoice') }}",
-                        type: "GET"
+                        type: "POST",
+                        data: function (d) {
+                        d.from_date = from_date;
+                        d.to_date = to_date;
+                    }
                              
                     },
                     columns: [
@@ -201,7 +214,30 @@
                         },
                     ]
                 });
-            }         
+            }  
+            
+            $('#filter').click(function(){
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+
+            if(from_date != '' &&  to_date != ''){
+                $('#RekapInvoicedataTable').DataTable().destroy();
+                fetch_data(from_date, to_date);
+            } else{
+                alert('Both Date is required');
+            }
+
+        });
+
+        $('#refresh').click(function(){
+            from_date = '';
+            to_date = '';
+            $('#from_date').val('');
+            $('#to_date').val('');
+            $('#RekapInvoicedataTable').DataTable().destroy();
+            fetch_data();
+        });
+
     });
 
     function formatRupiah(amount) {

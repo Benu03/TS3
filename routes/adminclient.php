@@ -29,7 +29,7 @@ Route::group(['middleware' => ['adminclient']],function(){
 
     Route::get('admin-client/spk-synchron/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_temp_synchron');
 
-
+    
 
 
 

@@ -40,9 +40,21 @@ class Report extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
-        
         if ($request->ajax()) {
-        $service 	= DB::connection('ts3')->table('mvm.v_service_history')->get();
+            if(!empty($request->from_date)) {
+
+                // dd($request->from_date);
+
+                $service 	= DB::connection('ts3')->table('mvm.v_service_history')
+                    ->whereBetween('tanggal_service', array($request->from_date, $request->to_date))
+                    ->get();
+
+            } else {
+
+             $service 	= DB::connection('ts3')->table('mvm.v_service_history')->get();
+
+            }
+
         return DataTables::of($service)->addColumn('action', function($row){
                $btn = '<a href="'. asset('admin-ts3/report/history-service-detail/'.$row->service_no).'" 
                class="btn btn-success btn-sm" target="_blank"><i class="fa fa-eye"></i></a>';
@@ -135,7 +147,24 @@ class Report extends Controller
         }
 
         if ($request->ajax()) {
-            $invoiceList = DB::connection('ts3')->table('mvm.v_rekap_invoice')->get();
+
+            if(!empty($request->from_date)) {
+
+                // dd($request->from_date);
+
+                $invoiceList = DB::connection('ts3')->table('mvm.v_rekap_invoice')->whereBetween('created_date', array($request->from_date, $request->to_date))
+                    ->get();
+
+            } else {
+
+                $invoiceList = DB::connection('ts3')->table('mvm.v_rekap_invoice')->get();
+
+            }
+
+
+          
+
+
             return DataTables::of($invoiceList)->addColumn('action', function ($row) {
                 $btn = '<a href="#" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#rkapInvoice' . $row->id . '"><i class="fa fa-eye"></i></a>';
 
@@ -158,6 +187,7 @@ class Report extends Controller
                                                         Invoice Detail
                                                     </div>
                                                     <div class="card-body">
+                                                    <div class="table-responsive-md">
                                                         <table class="table table-bordered table-sm" style="font-size: 10px;">
                                                             <thead>
                                                                 <tr class="bg-info">
@@ -197,6 +227,7 @@ class Report extends Controller
                     $modal .= '
                                                             </tbody>
                                                         </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
