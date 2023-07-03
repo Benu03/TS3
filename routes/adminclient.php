@@ -117,7 +117,7 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/report/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminClient\report@get_image_service_detail');
     Route::get('admin-client/report/history-service', 'App\Http\Controllers\AdminClient\report@history_service');
     Route::get('admin-client/report/history-service-detail/{par1}', 'App\Http\Controllers\AdminClient\report@history_service_detail');
-    Route::get('admin-client/get-history-service', 'App\Http\Controllers\AdminClient\report@getHistoryService');
+    Route::post('admin-client/get-history-service', 'App\Http\Controllers\AdminClient\report@getHistoryService');
 
 
 

@@ -61,7 +61,16 @@ class report extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         if ($request->ajax()) {
             $user_client 	= DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
-        $service 	= DB::connection('ts3')->table('mvm.v_service_history')->where('mst_client_id',$user_client->mst_client_id)->get();
+            if(!empty($request->from_date)) {
+
+                $service 	= DB::connection('ts3')->table('mvm.v_service_history')->where('mst_client_id',$user_client->mst_client_id)
+                ->whereBetween('tanggal_service', array($request->from_date, $request->to_date))->get();
+
+            } else {
+            $service 	= DB::connection('ts3')->table('mvm.v_service_history')->where('mst_client_id',$user_client->mst_client_id)->get();
+
+            }
+
         return DataTables::of($service)->addColumn('action', function($row){
                $btn = '<a href="'. asset('admin-client/report/history-service-detail/'.$row->service_no).'" 
                class="btn btn-success btn-sm" target="_blank"><i class="fa fa-eye"></i></a>';

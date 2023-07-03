@@ -272,6 +272,9 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/get-area-client', 'App\Http\Controllers\AdminTs3\Branch@get_area_client');   
     Route::post('admin-ts3/get-pic-client', 'App\Http\Controllers\AdminTs3\Branch@get_pic_client');   
 
+
+    Route::get('admin-ts3/export/bengkel', 'App\Http\Controllers\AdminTs3\Bengkel@export');
+
    
 
   
