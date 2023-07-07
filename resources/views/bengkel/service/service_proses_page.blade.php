@@ -279,6 +279,8 @@
 																</button>
 															</div>
 													</div>`);
+                 // Inisialisasi ulang Select2 pada elemen select baru
+        $(".select2").select2();
       });
 
 	  $(document).on('click','.remove_more_part', function(e){
