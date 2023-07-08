@@ -67,7 +67,9 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
                 </li>
-                <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
+                {{-- <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
+                </li> --}}
+                <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/rekap-invoice') }}" class="nav-link"><i class="fas fa-calculator nav-icon"></i><p>Rekap Invoice</p></a>
                 </li>
   
   

@@ -274,8 +274,11 @@ Route::group(['middleware' => ['admints3']],function(){
 
 
     Route::get('admin-ts3/export/bengkel', 'App\Http\Controllers\AdminTs3\Bengkel@export');
-
-   
+    Route::get('admin-ts3/export/price-service', 'App\Http\Controllers\AdminTs3\PriceService@export');
+    Route::get('admin-ts3/export/regional', 'App\Http\Controllers\AdminTs3\Regional@export');
+    Route::get('admin-ts3/export/area', 'App\Http\Controllers\AdminTs3\Area@export');
+    Route::get('admin-ts3/export/branch', 'App\Http\Controllers\AdminTs3\Branch@export');
+    Route::get('admin-ts3/export/vehicle', 'App\Http\Controllers\AdminTs3\Vehicle@export');
 
   
 

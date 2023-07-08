@@ -175,7 +175,7 @@ class Bengkel extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
 
-        return Excel::download(new BengkelExport, 'Bengkel.xlsx');
+        return Excel::download(new BengkelExport, 'BENGKEL-MVM.xlsx');
     }
     
 

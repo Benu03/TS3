@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
+use App\Exports\AreaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class Area extends Controller
@@ -141,9 +143,17 @@ class Area extends Controller
        
         }
 
+
     }
 
 
+    
+    public function export()
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        return Excel::download(new AreaExport, 'AREA-MVM.xlsx');
+    }
+    
 
 
 }

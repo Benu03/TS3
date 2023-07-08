@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
+use App\Exports\VehicleExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Vehicle extends Controller
 {
@@ -252,7 +254,7 @@ class Vehicle extends Controller
         return DataTables::of($vehicle)
                 ->addColumn('action', function($row){
                     $btn = '<div class="btn-group">
-                            <a href="'. asset('admin-ts3/vehicle/edit/'.$row->id).'" 
+                            <a href="'. asset('admin-ts3/vehicle/detail/'.$row->id).'" 
                                 class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
                             <a href="'. asset('admin-ts3/vehicle/edit/'.$row->id).'" 
                                 class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
@@ -307,5 +309,15 @@ class Vehicle extends Controller
         }
 
     }
+
+
+    public function export()
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+
+        return Excel::download(new VehicleExport, 'VEHICLE-MVM.xlsx');
+    }
+
 
 }

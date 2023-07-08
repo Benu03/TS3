@@ -46,9 +46,13 @@ Route::group(['middleware' => ['bengkel']],function(){
 
     Route::get('bengkel/report/history-service', 'App\Http\Controllers\Bengkel\Report@history_service');
     Route::get('bengkel/report/history-service-detail/{par1}', 'App\Http\Controllers\Bengkel\Report@history_service_detail');
-    Route::get('bengkel/get-history-service', 'App\Http\Controllers\Bengkel\Report@getHistoryService');
+    Route::post('bengkel/get-history-service', 'App\Http\Controllers\Bengkel\Report@getHistoryService');
     Route::get('bengkel/report/get-image-service-detail/{par1}', 'App\Http\Controllers\Bengkel\Report@get_image_service_detail');
     Route::get('bengkel/report/summary-bengkel', 'App\Http\Controllers\Bengkel\Report@summary_bengkel');
+
+
+    Route::get('bengkel/report/rekap-invoice', 'App\Http\Controllers\Bengkel\Report@rekap_invoice');
+    Route::post('bengkel/get-rekap-invoice', 'App\Http\Controllers\Bengkel\Report@getRekapInvoice');
     
 
 

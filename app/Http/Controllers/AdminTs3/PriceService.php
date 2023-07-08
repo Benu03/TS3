@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
+use App\Exports\PriceServiceExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PriceService extends Controller
 {
@@ -224,6 +226,15 @@ class PriceService extends Controller
 
     }
 
+    
+    
+    public function export()
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+
+        return Excel::download(new PriceServiceExport, 'PRICE_SERVICE-MVM.xlsx');
+    }
     
 
 

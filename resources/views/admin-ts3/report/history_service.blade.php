@@ -119,6 +119,7 @@
                     destroy: true,
                     processing: true,
                     serverSide: true,
+                    order: [[3, 'desc']],
                     oLanguage: {
                         sZeroRecords: "Tidak Ada Data",
                         sSearch: "Pencarian _INPUT_",

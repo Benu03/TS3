@@ -21,7 +21,7 @@
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right">Email</label>
 	<div class="col-sm-9">
-		<input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo $user->email ?>" required readonly>
+		<input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo $user->email ?>" required>
 	</div>
 </div>
 
@@ -65,6 +65,44 @@
 
 	</div>
 </div>
+
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Phone</label>
+	<div class="col-sm-3">
+		<input type="text" name="phone" class="form-control" placeholder="Nama lengkap" value="<?php echo $user->phone ?>" onkeypress="return isNumber(event)" required >	
+	</div>
+
+</div>
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">WhatsApp</label>
+	<div class="col-sm-3">
+		<input type="text" name="wa" class="form-control" placeholder="Nama lengkap" value="<?php echo $user->wa_number ?>"  onkeypress="return isNumber(event)" required >	
+	</div>
+</div>
+
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Active</label>
+	<div class="col-sm-4">
+
+			<input type="checkbox" class="icheckbox_flat-blue " name="active"  <?php if($user->is_active== '1') { echo 'checked'; } ?> >
+			
+	</div> 
+
+</div>
+
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">Confirm</label>
+	<div class="col-sm-4">
+
+			<input type="checkbox" class="icheckbox_flat-blue " name="confirm"  <?php if($user->is_confirm== 'true') { echo 'checked'; } ?>>
+			
+	</div> 
+
+</div>
+
 
 <div class="form-group row">
 	<label class="col-sm-3 control-label text-right">Upload foto profil</label>

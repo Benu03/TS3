@@ -7,7 +7,8 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
-
+use App\Exports\BranchExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Branch extends Controller
 {
@@ -198,6 +199,12 @@ class Branch extends Controller
        
         }
 
+    }
+
+    public function export()
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        return Excel::download(new BranchExport, 'BRANCH-MVM.xlsx');
     }
 
 

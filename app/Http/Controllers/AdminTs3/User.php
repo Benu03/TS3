@@ -31,6 +31,7 @@ class User extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         $user   =   DB::connection('ts3')->table('auth.users')->where('id_user',$id_user)->orderBy('id_user','DESC')->first();
+  
         $role 	=   DB::connection('ts3')->table('auth.user_roles')->where('id', '!=' , 1)->get();
         $customer 	= DB::connection('ts3')->table('mst.mst_client')->get();
         $usercustomer   =   DB::connection('ts3')->table('mst.mst_user_client')->where('username',$user->username)->first();
@@ -186,9 +187,18 @@ class User extends Controller
                             'username' => 'required',
                             'password' => 'required',
                             'email'    => 'required',
+                            'phone'    => 'required',
+                            'wa'    => 'required',
                             'gambar'   => 'file|image|mimes:jpeg,png,jpg|max:8024',
 					        ]);
         // UPLOAD START
+
+        if(isset($request->active)){ $isactive = 1;} else { $isactive = 0; }
+        if(isset($request->confirm)){ $isconfirm = 'true'; } else { $isconfirm = 'false'; }
+
+
+
+
         $image                  = $request->file('gambar');
         if(!empty($image)) {
             // UPLOAD START
@@ -204,8 +214,11 @@ class User extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_user = Str::slug($request->nama, '-');
-        
-            try{     
+           
+          
+            try{  
+                
+                
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -214,7 +227,11 @@ class User extends Controller
                 'id_role'       => $request->role,
                 'gambar'        => $input['nama_file'],
                 'updated_at'    => date("Y-m-d h:i:sa"),
-                'update_by'     => $request->session()->get('username')
+                'update_by'     => $request->session()->get('username'),
+                'phone'       => $request->phone,
+                'wa_number'       => $request->wa,
+                'is_active'       => $isactive,
+                'is_confirm'       => $isconfirm
             ]);
 
             $UserClientCheck = DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->count();
@@ -253,6 +270,7 @@ class User extends Controller
         }else{
             $slug_user = Str::slug($request->nama, '-');
             try{
+         
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -260,7 +278,11 @@ class User extends Controller
                 'password'      => sha1($request->password),
                 'id_role'       => $request->role,
                 'updated_at'    => date("Y-m-d h:i:sa"),
-                'update_by'     => $request->session()->get('username')
+                'update_by'     => $request->session()->get('username'),
+                'phone'       => $request->phone,
+                'wa_number'       => $request->wa,
+                'is_active'       => $isactive,
+                'is_confirm'       => $isconfirm
             ]);
          
             $UserClientCheck = DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->count();
