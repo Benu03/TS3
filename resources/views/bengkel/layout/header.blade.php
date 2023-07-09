@@ -15,11 +15,20 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ asset('/') }}" target="_blank" class="nav-link"><i class="fa fa-home"></i> Beranda</a>
       </li>
+
+      
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
+      
+      <li class="nav-item">
+        <a class="nav-link text-info" href="{{ asset('bengkel/notification') }}">
+          <i class="fas fa-bell"></i> 
+        </a> 
+      </li>
+
       <li class="nav-item">
         <a class="nav-link text-success" href="{{ asset('bengkel/profile') }}">
           <i class="fa fa-lock"></i> <?php echo Session()->get('nama'); ?>

@@ -33,7 +33,7 @@ $chat                 = DB::connection('ts3')->table('mst.mst_general')->where('
       <!-- Notifications Dropdown Menu -->
    
       <li class="nav-item">
-        <a class="nav-link text-info" href="{{ asset('admin-ts3/profile') }}">
+        <a class="nav-link text-info" href="{{ asset('admin-ts3/notification') }}">
           <i class="fas fa-bell"></i> 
         </a> 
       </li>

@@ -60,8 +60,41 @@ class report extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
         if ($request->ajax()) {
+
+
+
             $user_client 	= DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
-        $service 	= DB::connection('ts3')->table('mvm.v_service_history')->where('mst_client_id',$user_client->mst_client_id)->get();
+            $branch_user    = DB::connection('ts3')->table('mst.v_branch_client')->selectRaw('branch')->where('pic_branch',Session()->get('username'))->get();
+
+               foreach($branch_user  as $key => $val){
+                $branch[] =  $val->branch;
+                }
+
+
+            if(empty($request->from_date) == true) {
+       
+
+                $service 	= DB::connection('ts3')->table('mvm.v_service_history')
+                                    ->where('mst_client_id',$user_client->mst_client_id)
+                                    ->whereIn('branch',$branch)->get();
+             
+        
+
+            } else {
+               
+
+                $service 	= DB::connection('ts3')->table('mvm.v_service_history')
+                                    ->where('mst_client_id',$user_client->mst_client_id)
+                                    ->whereIn('branch',$branch)
+                                    ->whereBetween('tanggal_service', array($request->from_date, $request->to_date))->get();
+
+                
+
+            }
+
+
+       
+
         return DataTables::of($service)->addColumn('action', function($row){
                $btn = '<a href="'. asset('pic/report/history-service-detail/'.$row->service_no).'" 
                class="btn btn-success btn-sm" target="_blank"><i class="fa fa-eye"></i></a>';

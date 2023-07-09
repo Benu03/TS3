@@ -87,7 +87,7 @@
 	<label class="col-sm-3 control-label text-right">Active</label>
 	<div class="col-sm-4">
 
-			<input type="checkbox" class="icheckbox_flat-blue " name="active"  <?php if($user->is_active== '1') { echo 'checked'; } ?> >
+			<input type="checkbox" class="icheckbox_flat-blue " name="active"  <?php if($user->is_active== '1') { echo 'checked'; } ?>  value>
 			
 	</div> 
 
