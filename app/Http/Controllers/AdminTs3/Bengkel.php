@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
-use App\Exports\BengkelExport;
+use App\Exports\AdminTs3\BengkelExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 

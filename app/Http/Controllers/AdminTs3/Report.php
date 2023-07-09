@@ -443,6 +443,65 @@ class Report extends Controller
         return view('admin-ts3/layout/wrapper',$data);
     }
 
+
+
+    public function spk_history()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        // $spk_history = DB::connection('ts3')->table('mst.v_regional')->get();
+
+		$data = array(   'title'     => 'SPK History',
+                        //  'spk_history'      => $spk_history,
+                        'content'   => 'admin-ts3/report/spk_history'
+                    );
+        return view('admin-ts3/layout/wrapper',$data);
+    }
+
+
+    public function getSPKHistory(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        if ($request->ajax()) {
+           
+            if(!empty($request->from_date)) {
+
+                $service 	= DB::connection('ts3')->table('mvm.mvm_spk_h')
+                ->whereBetween('posting_date', array($request->from_date, $request->to_date))->get();
+
+            } else {
+            $service 	= DB::connection('ts3')->table('mvm.mvm_spk_h')->get();
+            }
+
+
+        return DataTables::of($service)->addColumn('file', function($row){
+               $btn = '<a href="'. asset('admin-ts3/spk-file/'.$row->nama_file).'" 
+               class="btn btn-success btn-sm" ><i class="fa fa-file"></i></a>';
+                return $btn;
+                })
+        ->rawColumns(['file'])->make(true);
+       
+        }
+
+    }
+
+
+
+    public function spk_file($file_name)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+        $spk = DB::connection('ts3')->table('mvm.mvm_spk_h')->where('nama_file',$file_name)->first();
+        $file_path = $spk->path_file.$file_name;
+        return response()->download($file_path);
+
+
+    }
    
 
 

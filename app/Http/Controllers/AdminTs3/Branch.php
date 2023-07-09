@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
-use App\Exports\BranchExport;
+use App\Exports\AdminTs3\BranchExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Branch extends Controller

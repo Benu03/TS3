@@ -14,15 +14,20 @@
 {{ csrf_field() }}
 <div class="row">
 
-  <div class="col-md-12">
+  <div class="col-md-8">
     <div class="btn-group">
       <button class="btn btn-danger" type="submit" name="hapus" onClick="check();" >
           <i class="fa fa-trash"></i>
       </button> 
-        <button type="button" class="btn btn-success " data-toggle="modal" data-target="#Tambah">
+        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#Tambah">
             <i class="fa fa-plus"></i> Tambah Baru
         </button>
    </div>
+</div>
+<div class="col-md-4 text-right">
+    <a href="{{ asset('admin-client/export/area') }}" class="btn btn-success">       
+        <i class="fas fa-file-excel"></i> Export Excel
+    </a>
 </div>
 </div>
 

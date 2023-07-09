@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
-use App\Exports\AreaExport;
+use App\Exports\AdminTs3\AreaExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 

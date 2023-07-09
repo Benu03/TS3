@@ -58,7 +58,7 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/get-vehicle-type', 'App\Http\Controllers\AdminClient\vehicle@getVehicletype');
 
 
-    Route::get('admin-client/report/spk-history', 'App\Http\Controllers\AdminClient\report@spk_history');
+    
     // Route::get('admin-client/report/vehicle-service', 'App\Http\Controllers\AdminClient\report@vehicle_service');
 
 
@@ -119,8 +119,18 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/report/history-service-detail/{par1}', 'App\Http\Controllers\AdminClient\report@history_service_detail');
     Route::post('admin-client/get-history-service', 'App\Http\Controllers\AdminClient\report@getHistoryService');
 
+    Route::get('admin-client/export/regional', 'App\Http\Controllers\AdminClient\Regional@export');
+    Route::get('admin-client/export/area', 'App\Http\Controllers\AdminClient\Area@export');
+    Route::get('admin-client/export/branch', 'App\Http\Controllers\AdminClient\Branch@export');
+    Route::get('admin-client/export/vehicle', 'App\Http\Controllers\AdminClient\Vehicle@export');
+
+  
+    Route::get('admin-client/report/rekap-invoice', 'App\Http\Controllers\AdminClient\report@rekap_invoice');
+    Route::post('admin-client/get-rekap-invoice', 'App\Http\Controllers\AdminClient\report@getRekapInvoice');
 
 
-
+    Route::get('admin-client/report/spk-history', 'App\Http\Controllers\AdminClient\report@spk_history');
+    Route::post('admin-client/get-spk-history', 'App\Http\Controllers\AdminClient\report@getSPKHistory');
+    Route::get('admin-client/spk-file/{par1}', 'App\Http\Controllers\AdminClient\report@spk_file');
     
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\AdminClient;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -16,7 +16,8 @@ class RegionalExport implements FromCollection , WithHeadings, ShouldAutoSize
     */
     public function collection()
     {
-        $regional 	= DB::connection('ts3')->table('mst.v_regional')->selectRaw('regional,client_name ,regional_slug , create_by ,created_date')->get();
+        $user_client = DB::connection('ts3')->table('auth.v_user_client')->where('username',Session()->get('username'))->first();
+        $regional 	= DB::connection('ts3')->table('mst.v_regional')->selectRaw('regional,client_name ,regional_slug , create_by ,created_date')->where('client_name',$user_client->customer_name)->get();
 
         Log::info('Generate Excel');
         return  $regional;

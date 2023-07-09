@@ -139,7 +139,7 @@
                     },
                     ajax: {
                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                        url:"{{  asset('bengkel/get-rekap-invoice') }}",
+                        url:"{{  asset('admin-client/get-rekap-invoice') }}",
                         type: "POST",
                         data: function (d) {
                         d.from_date = from_date;

@@ -36,7 +36,6 @@
             </div> --}}
             
         
-            
             <div class="form-group row">
 				
                 <div class="col-sm-2">
@@ -69,10 +68,13 @@
                         <button type="button" name="refresh"  id="refresh" class="btn btn-warning " value="Refresh">
                             <i class="fas fa-sync-alt"></i> Refresh
                           </button>
+
                     </div>
                 </div>
                 <div class="clearfix"></div>
             </div>
+
+
                
     {{-- </div>        --}}
 </div> 
@@ -82,7 +84,7 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="RekapInvoicedataTable" class="display table table-bordered" cellspacing="0" width="100%" style="font-size: 12px;">
+<table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
         {{-- <th width="5%">
@@ -92,18 +94,14 @@
                 </button>
             </div>
         </th> --}}
-        <th width="9%">Invoice No</th>
-        <th width="9%">Type</th>   
-        <th width="7%">Status</th> 
-        <th width="8%">Invoice Date</th> 
-        <th width="7%">Created Invoice</th> 
-        <th width="10%">REGIONAL</th> 
-        <th width="7%">CLIENT</th> 
-        <th width="7%">PPH</th>    
-        <th width="7%">PPN</th>    
-        <th width="12%">TOTAl JASA</th> 
-        <th width="12%">TOTAl PART</th>       
-        <th width="5%">Action</th>    
+        <th width="15%">SPK Nomor</th>
+        <th width="7%">Jumlah Vehicle</th>   
+        <th width="8%">Status</th> 
+        <th width="12%">Tanggal Pengerjaan</th> 
+        <th width="12%">Tanggal Last SPK</th>  
+        <th width="8%">User Post</th>    
+        <th width="12%">Date Post</th>
+        <th width="10%">File Upload</th>        
 </tr>
 </thead>
 
@@ -117,15 +115,15 @@
 <script type="text/javascript">
     $(document).ready(function() { 
         fetch_data()
-        function fetch_data(from_date = '', to_date = ''){                    
-                $('#RekapInvoicedataTable').DataTable({
+        function fetch_data(from_date = '', to_date = ''){              
+                $('#dataTable').DataTable({
                     pageLength: 10,
                     lengthChange: true,
                     bFilter: true,
                     destroy: true,
                     processing: true,
                     serverSide: true,
-                    order: [[3, 'desc']],
+                    order: [[6, 'desc']],
                     oLanguage: {
                         sZeroRecords: "Tidak Ada Data",
                         sSearch: "Pencarian _INPUT_",
@@ -139,7 +137,7 @@
                     },
                     ajax: {
                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                        url:"{{  asset('bengkel/get-rekap-invoice') }}",
+                        url:"{{  asset('admin-ts3/get-spk-history') }}",
                         type: "POST",
                         data: function (d) {
                         d.from_date = from_date;
@@ -149,69 +147,37 @@
                     },
                     columns: [
                         { 
-                            data: 'invoice_no', 
-                            name: 'invoice_no', 
+                            data: 'spk_no', 
+                            name: 'spk_no', 
         
                         },
                         {
-                            name: 'invoice_type',
-                            data: 'invoice_type'
+                            name: 'count_vehicle',
+                            data: 'count_vehicle'
                         },
                         {
                             name: 'status',
                             data: 'status'
                         },
                         {
-                            name: 'created_date',
-                            data: 'created_date'
+                            name: 'tanggal_pengerjaan',
+                            data: 'tanggal_pengerjaan'
                         },
                         {
-                            name: 'create_by',
-                            data: 'create_by'
+                            name: 'tanggal_last_spk',
+                            data: 'tanggal_last_spk'
                         },
                         {
-                            name: 'regional',
-                            data: 'regional'
+                            name: 'user_posting',
+                            data: 'user_posting'
                         },
                         {
-                            name: 'client_name',
-                            data: 'client_name'
+                            name: 'posting_date',
+                            data: 'posting_date'
                         },
                         {
-                            name: 'pph',
-                            data: 'pph',
-                            render: function(data, type, full, meta) {
-                            var formattedAmount = formatRupiah(data);
-                            return formattedAmount;
-                            }
-                        },
-                        {
-                            name: 'ppn',
-                            data: 'ppn',
-                            render: function(data, type, full, meta) {
-                            var formattedAmount = formatRupiah(data);
-                            return formattedAmount;
-                            }
-                        },
-                        {
-                            name: 'jasa_total',
-                            data: 'jasa_total',
-                            render: function(data, type, full, meta) {
-                            var formattedAmount = formatRupiah(data);
-                            return formattedAmount;
-                            }
-                        },
-                        {
-                            name: 'part_total',
-                            data: 'part_total',
-                            render: function(data, type, full, meta) {
-                            var formattedAmount = formatRupiah(data);
-                            return formattedAmount;
-                            }
-                        },
-                        {
-                            data: 'action', 
-                            name: 'action', 
+                            data: 'file', 
+                            name: 'file', 
                             className: "text-center",
                             orderable: false, 
                             searchable: false
@@ -219,14 +185,15 @@
                         },
                     ]
                 });
-            }  
+            }      
+            
             
             $('#filter').click(function(){
             var from_date = $('#from_date').val();
             var to_date = $('#to_date').val();
 
             if(from_date != '' &&  to_date != ''){
-                $('#RekapInvoicedataTable').DataTable().destroy();
+                $('#dataTable').DataTable().destroy();
                 fetch_data(from_date, to_date);
             } else{
                 alert('Both Date is required');
@@ -235,25 +202,10 @@
         });
 
         $('#refresh').click(function(){
-            from_date = '';
-            to_date = '';
             $('#from_date').val('');
             $('#to_date').val('');
-            $('#RekapInvoicedataTable').DataTable().destroy();
+            $('#dataTable').DataTable().destroy();
             fetch_data();
         });
-
     });
-
-    function formatRupiah(amount) {
-    var formatter = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 0, 
-        maximumFractionDigits: 0
-    });
-    var formattedAmount = formatter.format(amount);
-    var decimalRemoved = formattedAmount.replace(/\.00(?=\D|$)/, '');
-    return decimalRemoved;
-    }   
     </script>

@@ -7,7 +7,8 @@ use Illuminate\Support\Str;
 use Image;
 use Excel;
 use Log;
-use App\Exports\Vehicle_schdule_export;
+use App\Exports\AdminClient\Vehicle_schdule_export;
+use App\Exports\AdminClient\VehicleExport;
 use DataTables;
 
 class Vehicle extends Controller
@@ -340,6 +341,14 @@ class Vehicle extends Controller
        
         }
 
+    }
+
+    
+    public function export()
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        return Excel::download(new VehicleExport, 'VEHICLE-MVM.xlsx');
     }
 
 

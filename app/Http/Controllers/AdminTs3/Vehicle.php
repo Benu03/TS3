@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
-use App\Exports\VehicleExport;
+use App\Exports\AdminTs3\VehicleExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Vehicle extends Controller

@@ -281,7 +281,9 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/export/vehicle', 'App\Http\Controllers\AdminTs3\Vehicle@export');
 
   
-
+    Route::get('admin-ts3/report/spk-history', 'App\Http\Controllers\AdminTs3\Report@spk_history');
+    Route::post('admin-ts3/get-spk-history', 'App\Http\Controllers\AdminTs3\Report@getSPKHistory');
+ 
 
 
     

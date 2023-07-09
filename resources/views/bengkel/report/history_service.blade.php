@@ -62,8 +62,12 @@
 
                     <div class="col-sm-6">
 						<div class="form-group pull-right btn-group">
-							 <input type="button" name="filter" id="filter" class="btn btn-primary " value="Filter Data">
-							<input type="button" name="refresh"  id="refresh" class="btn btn-warning " value="Refresh">
+                            <button type="button" name="filter" id="filter" class="btn btn-primary" value="Filter Data">
+                                <i class="fas fa-filter"></i> Filter Data
+                              </button>
+                            <button type="button" name="refresh"  id="refresh" class="btn btn-warning " value="Refresh">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                              </button>
 						</div>
 					</div>
                     <div class="clearfix"></div>

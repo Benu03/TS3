@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
-use App\Exports\PriceServiceExport;
+use App\Exports\AdminTs3\PriceServiceExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PriceService extends Controller

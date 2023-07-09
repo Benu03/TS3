@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Image;
 use DataTables;
 use Log;
-use App\Exports\RegionalExport;
+use App\Exports\AdminTs3\RegionalExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Regional extends Controller

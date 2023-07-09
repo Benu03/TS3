@@ -267,6 +267,8 @@
 
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/rekap-invoice') }}" class="nav-link"><i class="fas fa-calculator nav-icon"></i><p>Rekap Invoice</p></a>
               </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/spk-history') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>SPK History</p></a>
+              </li>
 
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/due-date-service') }}" class="nav-link"><i class="far fa-calendar-times nav-icon"></i><p>Service Due Date</p></a>
               </li>

@@ -121,6 +121,8 @@
             <ul class="nav nav-treeview">
               <li class="nav-item ml-4"><a href="{{ asset('admin-client/report/history-service') }}" class="nav-link"><i class="fas fa-hands-helping nav-icon"></i></i><p>History Service</p></a>
               </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-client/report/rekap-invoice') }}" class="nav-link"><i class="fas fa-calculator nav-icon"></i><p>Rekap Invoice</p></a>
+              </li>
               <li class="nav-item ml-4"><a href="{{ asset('admin-client/report/spk-history') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>SPK History</p></a>
               </li>
 
