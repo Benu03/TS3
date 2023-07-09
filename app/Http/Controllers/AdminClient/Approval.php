@@ -89,7 +89,11 @@ class Approval extends Controller
                     'status_service'   => 'ONINVOICE'             
                     ]);
 
-                    $approval_no  = 'APV-'.date("Ymdhis");     
+
+
+           
+                    
+                $approval_no  = 'APV-'.date("Ymdhis");     
                  DB::connection('ts3')->table('mvm.mvm_approval')->insert([
                                 'approval_no'   => $approval_no,
                                 'user_approval'	=> Session()->get('username'),
@@ -97,7 +101,17 @@ class Approval extends Controller
                                 'type_approval'   => 'SERVICE',
                                 'unique_approval'   => $id_spk_d->service_no,
                                 'remark_approval'   => $request->remark
-                            ]);        
+                            ]);  
+                
+                             
+               //insert notif to bengkel.
+               DB::connection('ts3')->table('ntf.ntf_notification')->insert([
+                'title'   => $id_spk_d->service_no. ' Approved Admin Client',
+                'detail'	=> 'Service '.$id_spk_d->service_no.' Approved',
+                'created_date'    => date("Y-m-d h:i:sa"),
+                'username'   => $id_spk_d->user_created,
+                'ntf_category_id'   => 1
+            ]);             
    
         }
 
@@ -158,7 +172,16 @@ class Approval extends Controller
                     'type_approval'   => 'SERVICE',
                     'unique_approval'   => $id_spk_d->service_no,
                     'remark_approval'   => $request->remark
-                ]);        
+                ]);       
+                
+                DB::connection('ts3')->table('ntf.ntf_notification')->insert([
+                    'title'   => $id_spk_d->service_no. ' Approved Admin Client',
+                    'detail'	=> 'Service '.$id_spk_d->service_no.' Approved',
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'username'   => $id_spk_d->user_created,
+                    'ntf_category_id'   => 1
+                ]);          
+
 
         return redirect('admin-client/approval')->with(['sukses' => 'Data telah Proses']);
 

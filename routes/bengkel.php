@@ -55,7 +55,9 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::post('bengkel/get-rekap-invoice', 'App\Http\Controllers\Bengkel\Report@getRekapInvoice');
     
 
-
+    Route::get('bengkel/notification', 'App\Http\Controllers\Bengkel\Notif@index');
+    Route::post('bengkel/notification-read', 'App\Http\Controllers\Bengkel\Notif@read');
+    Route::get('bengkel/notification-data', 'App\Http\Controllers\Bengkel\Notif@getdata');
 
     
 });
