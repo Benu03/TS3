@@ -31,12 +31,51 @@ $chat                 = DB::connection('ts3')->table('mst.mst_general')->where('
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-   
-      <li class="nav-item">
-        <a class="nav-link text-info" href="{{ asset('admin-ts3/notification') }}">
-          <i class="fas fa-bell"></i> 
-        </a> 
-      </li>
+      <?php
+
+      
+      $username = Session()->get('username');
+      $notif          = DB::connection('ts3')->table('ntf.v_notif_list')
+                        ->where(function ($query) use ($username) {
+                              $query->where('username', $username)
+                                  ->orWhereNull('username');
+                          })
+                         ->orderBy('created_date', 'desc')
+                         ->limit(10)
+                        ->get();
+      $count_notif     = DB::connection('ts3')->table('ntf.v_notif_list')
+                          ->where(function ($query) use ($username) {
+                              $query->where('username', $username)
+                                  ->orWhereNull('username');
+                          })
+                          ->WhereNull('is_read')
+                          ->count();                  
+      ?>
+
+    <li class="nav-item dropdown">
+      <a class="nav-link text-info" data-toggle="dropdown" href="#" aria-expanded="true" >
+       <i class="fas fa-bell mr-3"></i> 
+       @if ($count_notif > 0)
+       <span class="badge navbar-badge">{{ $count_notif }}</span>
+        @endif
+      </a> 
+
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right text-primary" style="left: inherit; right: 0px;">
+        <span class="dropdown-item dropdown-header">Notifications</span>
+        <div class="dropdown-divider"></div>
+
+        @foreach($notif as $notification)
+        <a href="{{ asset('admin-ts3/notification') }}" class="dropdown-item @if(!$notification->is_read) text-info @endif">
+            <i class="fas fa-envelope mr-2"></i> {{ $notification->title }}
+        </a>
+        @endforeach
+
+
+        <div class="dropdown-divider"></div>
+        <a href="{{ asset('admin-ts3/notification') }}" class="dropdown-item dropdown-footer">Lihat Semua Notifications</a>
+        </div>
+      
+    </li>
 
 
       <li class="nav-item ml-2">

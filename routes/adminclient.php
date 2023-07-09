@@ -132,5 +132,10 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/report/spk-history', 'App\Http\Controllers\AdminClient\report@spk_history');
     Route::post('admin-client/get-spk-history', 'App\Http\Controllers\AdminClient\report@getSPKHistory');
     Route::get('admin-client/spk-file/{par1}', 'App\Http\Controllers\AdminClient\report@spk_file');
+
+
+    Route::get('admin-client/notification', 'App\Http\Controllers\AdminClient\Notif@index');
+    Route::post('admin-client/notification-read', 'App\Http\Controllers\AdminClient\Notif@read');
+    Route::get('admin-client/notification-data', 'App\Http\Controllers\AdminClient\Notif@getdata');
     
 });

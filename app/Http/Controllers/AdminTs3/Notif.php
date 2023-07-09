@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Bengkel;
+namespace App\Http\Controllers\AdminTs3;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -43,11 +43,11 @@ class Notif extends Controller
 
 
 		$data = array(  'title'     => 'Notification',
-                        'content'   => 'bengkel/notif/index',
+                        'content'   => 'admin-ts3/notif/index',
                         // 'notif'   => $notif,
                         'count_notif'   => $count_notif
                     );
-        return view('bengkel/layout/wrapper',$data);
+        return view('admin-ts3/layout/wrapper',$data);
     }
 
 

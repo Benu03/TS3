@@ -42,6 +42,11 @@ Route::group(['middleware' => ['pic']],function(){
     Route::get('pic/report/history-service', 'App\Http\Controllers\Pic\report@history_service');
     Route::get('pic/report/history-service-detail/{par1}', 'App\Http\Controllers\Pic\report@history_service_detail');
     Route::post('pic/get-history-service', 'App\Http\Controllers\Pic\report@getHistoryService');
-  
+
+
+     
+    Route::get('pic/notification', 'App\Http\Controllers\Pic\Notif@index');
+    Route::post('pic/notification-read', 'App\Http\Controllers\Pic\Notif@read');
+    Route::get('pic/notification-data', 'App\Http\Controllers\Pic\Notif@getdata');
 
 });
