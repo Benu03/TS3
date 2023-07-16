@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Konfigurasi_model;
-use Image;
 use PDF;
 use DataTables;
 use Log;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
+
 
 class Spk extends Controller
 {
@@ -233,10 +235,12 @@ class Spk extends Controller
        $service_h = DB::connection('ts3')->table('mvm.v_service_admin_ts3')->where('mvm_spk_d_id',$id)->first();
        $service_upload = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$service_h->id)->where('detail_type', 'Upload')->get();
        $service_jasa = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$service_h->id)->where('detail_type', 'Pekerjaan')->get();
+
+       
        $service_part = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$service_h->id)->where('detail_type', 'Spare Part')->get();
 
-       $part 	= DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Part')->where('mst_regional_id',$service_h->mst_regional_id)->where('mst_client_id',$service_h->mst_client_id)->get();
-       $jobs 	=  DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Jasa')->where('mst_regional_id',$service_h->mst_regional_id)->where('mst_client_id',$service_h->mst_client_id)->get();
+       $part 	= DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Part')->where('mst_regional_id',$service_h->mst_regional_id)->where('mst_client_id',$service_h->mst_client_id)->distinct()->get();
+       $jobs 	=  DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Jasa')->where('mst_regional_id',$service_h->mst_regional_id)->where('mst_client_id',$service_h->mst_client_id)->distinct()->get();
 
 
         $data = array(  'title'         => 'Adjustment SPK Service',
@@ -285,67 +289,267 @@ class Spk extends Controller
     {
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
 
-                try 
-                {
-                    DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')
-                    ->where('mvm_service_vehicle_h_id',$request->id)
-                    ->where('detail_type', 'Pekerjaan')->delete();
+                // try 
+                // {
+                //     DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')
+                //     ->where('mvm_service_vehicle_h_id',$request->id)
+                //     ->where('detail_type', 'Pekerjaan')->delete();
 
-                    foreach($request->jasa_id as $key => $val){
+                //     foreach($request->jasa_id as $key => $val){
                
-                                $datajobs = [
-                                    'mvm_service_vehicle_h_id' => $request->id,
-                                    'detail_type' => 'Pekerjaan',
-                                    'unique_data' => $val,
-                                    'remark_adjustment' => 'Revisi Admin',
-                                    'source'    => 'mst_price_service (Jasa)',
-                                    'created_date'    => date("Y-m-d h:i:sa"),
-                                    'user_created'     => $request->session()->get('username')
-                                ];
+                //                 $datajobs = [
+                //                     'mvm_service_vehicle_h_id' => $request->id,
+                //                     'detail_type' => 'Pekerjaan',
+                //                     'unique_data' => $val,
+                //                     'remark_adjustment' => 'Revisi Admin',
+                //                     'source'    => 'mst_price_service (Jasa)',
+                //                     'created_date'    => date("Y-m-d h:i:sa"),
+                //                     'user_created'     => $request->session()->get('username')
+                //                 ];
                 
-                                DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datajobs);
+                //                 DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datajobs);
 
                     
-                    }
+                //     }
 
               
                    
 
-                    DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')
-                    ->where('mvm_service_vehicle_h_id',$request->id)
-                    ->where('detail_type', 'Spare Part')->delete();
+                //     DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')
+                //     ->where('mvm_service_vehicle_h_id',$request->id)
+                //     ->where('detail_type', 'Spare Part')->delete();
               
-                    foreach($request->part_id as $key => $val){
+                //     foreach($request->part_id as $key => $val){
                        
-                            $datapart = [
-                                'mvm_service_vehicle_h_id' => $request->id,
-                                'detail_type' => 'Spare Part',
-                                'unique_data' => $val,
-                                'remark_adjustment' => 'Revisi Admin',
-                                'source'    => 'mst_price_service (Part)',
-                                'created_date'    => date("Y-m-d h:i:sa"),
-                                'user_created'     => $request->session()->get('username')
-                            ];
-                            DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datapart);
+                //             $datapart = [
+                //                 'mvm_service_vehicle_h_id' => $request->id,
+                //                 'detail_type' => 'Spare Part',
+                //                 'unique_data' => $val,
+                //                 'remark_adjustment' => 'Revisi Admin',
+                //                 'source'    => 'mst_price_service (Part)',
+                //                 'created_date'    => date("Y-m-d h:i:sa"),
+                //                 'user_created'     => $request->session()->get('username')
+                //             ];
+                //             DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datapart);
                         
-                    }
+                //     }
                     
 
-                }
-                catch (\Illuminate\Database\QueryException $e) {
-                    DB::rollback();
-                    return redirect('admin-ts3/spk-list')->with(['warning' => $e]);
-                }
+                // }
+                // catch (\Illuminate\Database\QueryException $e) {
+                //     DB::rollback();
+                //     return redirect('admin-ts3/spk-list')->with(['warning' => $e]);
+                // }
 
 
         return redirect('admin-ts3/spk-list')->with(['sukses' => 'Data telah diupdate']);  
     }
     
     
+        
+    public function servicedeletedetailjasa($id)
+    {
+
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+     
+        try{
+        DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
     
+        
+        DB::commit();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Detail jasa tidak ditemukan.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail jasa berhasil dihapus.'
+        ]);
+
+    }
+
+    public function servicedeletedetailpart($id)
+    {
+
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+     
+        try{
+        DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
+    
+        
+        DB::commit();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Detail jasa tidak ditemukan.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail jasa berhasil dihapus.'
+        ]);
+
+    }
 
    
+    public function serviceinsertdetailjasa(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+
+        try{
+            $datajobs = [
+                'mvm_service_vehicle_h_id' => $request->servicehid,
+                'detail_type' => 'Pekerjaan',
+                'unique_data' => $request->job_id,
+                'value_data' => $request->value,
+                'remark_adjustment' => 'Revisi Admin',
+                'source'    => 'mst_price_service (Jasa)',
+                'created_date'    => date("Y-m-d h:i:sa"),
+                'user_created'     => $request->session()->get('username')
+            ];
+    
+            DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datajobs);
+    
+        
+            
+            DB::commit();
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                DB::rollback();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Detail jasa tidak ditemukan.'
+                ], 404);
+            }
+
+
+        return response()->json([
+            'message' => 'Data berhasil disisipkan.'
+        ]);
+    }
+
+
+    public function serviceinsertdetailpart(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+
+        try{
+            $datapart = [
+                'mvm_service_vehicle_h_id' => $request->servicehid,
+                'detail_type' => 'Spare Part',
+                'unique_data' => $request->partId,
+                'value_data' => $request->value_part,
+                'remark_adjustment' => 'Revisi Admin',
+                'source'    => 'mst_price_service (Part)',
+                'created_date'    => date("Y-m-d h:i:sa"),
+                'user_created'     => $request->session()->get('username')
+            ];
+    
+            DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datapart);
+    
+        
+            
+            DB::commit();
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+                DB::rollback();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Detail jasa tidak ditemukan.'
+                ], 404);
+            }
+
+
+        return response()->json([
+            'message' => 'Data berhasil disisipkan.'
+        ]);
+    }
+    
   
+    public function servicedeletedetailfoto($id)
+    {
+
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+     
+        try{
+        DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
+            
+        
+        DB::commit();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Detail foto tidak ditemukan.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail foto berhasil dihapus.'
+        ]);
+
+    }
+
+
+    public function serviceinsertdetailfoto(Request $request)
+    {
+        if (session()->get('username') == "") {
+            return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        Log::info($request);
+    
+        try {
+            $service_no = $request->servicehno;
+            $image = $request->file('upload_foto');
+            $filename = $service_no . '-' . mt_rand(0, 100) . '.jpg';
+            $destinationPath = storage_path('data/service/' . date("Y") . '/' . date("m") . '/' . $service_no);
+    
+            if (!file_exists($destinationPath)) {
+                File::makeDirectory($destinationPath, 0755, true);
+            }
+            
+            $img = Image::make($image->getRealPath());
+            $img->resize(850, 850, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $filename);
+    
+            $dataupload = [
+                'mvm_service_vehicle_h_id' => $request->servicehid,
+                'detail_type' => 'Upload',
+                'unique_data' => $filename,
+                'value_data' => $request->value_foto,
+                'source'    => $destinationPath,
+                'remark_adjustment' => 'Revisi Admin',
+                'created_date'    => date("Y-m-d h:i:sa"),
+                'user_created'     => session()->get('username')
+            ];
+    
+            DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($dataupload);
+    
+            return response()->json([
+                'message' => 'Data berhasil disisipkan.'
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menyisipkan detail foto.'
+            ], 500);
+        }
+    }
 
    
 }

@@ -40,7 +40,8 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet') }}">
   <!-- sweetalert -->
-  <script src="{{ asset('assets/sweetalert/js/sweetalert.min.js') }}"></script>
+  {{-- <script src="{{ asset('assets/sweetalert/js/sweetalert.min.js') }}"></script> --}}
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- angular -->
   <script src="{{ asset('assets/angular/angular.min.js') }}"></script>  
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/sweetalert/css/sweetalert.css') }}">

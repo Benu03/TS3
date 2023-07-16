@@ -228,7 +228,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/spk-service-edit/{par1}', 'App\Http\Controllers\AdminTs3\Spk@spk_service_edit');
     Route::post('admin-ts3/spk-service-edit-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_service_edit_proses');
     Route::get('admin-ts3/spk-service-adjustments/{par1}', 'App\Http\Controllers\AdminTs3\Spk@spk_service_adjustments');
-    Route::post('admin-ts3/spk-service-adjustments-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_service_adjustments_proses');
+    Route::get('admin-ts3/spk-service-adjustments-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_service_adjustments_proses');
     
 
     Route::get('admin-ts3/report/history-service', 'App\Http\Controllers\AdminTs3\Report@history_service');
@@ -288,7 +288,13 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/notification-read', 'App\Http\Controllers\AdminTs3\Notif@read');
     Route::get('admin-ts3/notification-data', 'App\Http\Controllers\AdminTs3\Notif@getdata');
 
+    Route::get('admin-ts3/spk/service-delete-detail-jasa/{par1}', 'App\Http\Controllers\AdminTs3\Spk@servicedeletedetailjasa');
+    Route::post('admin-ts3/spk/service-insert-detail-jasa', 'App\Http\Controllers\AdminTs3\Spk@serviceinsertdetailjasa');
 
-    
+    Route::get('admin-ts3/spk/service-delete-detail-part/{par1}', 'App\Http\Controllers\AdminTs3\Spk@servicedeletedetailpart');
+    Route::post('admin-ts3/spk/service-insert-detail-part', 'App\Http\Controllers\AdminTs3\Spk@serviceinsertdetailpart');
+
+    Route::get('admin-ts3/spk/service-delete-detail-foto/{par1}', 'App\Http\Controllers\AdminTs3\Spk@servicedeletedetailfoto');
+    Route::post('admin-ts3/spk/service-insert-detail-foto', 'App\Http\Controllers\AdminTs3\Spk@serviceinsertdetailfoto');
     
 });
