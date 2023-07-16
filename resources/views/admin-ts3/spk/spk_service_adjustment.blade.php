@@ -147,33 +147,119 @@
 		
 		<div class="form-group row">
 			<div class="col-sm-6">
-
+				<div class="card">
+					<div class="card-body">
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Jasa</label>
-					<div class="col-sm-9">			
-						<select name="jasa_id[]" id="jasa_id" class="form-control select2" multiple="multiple">
+				
+					<table class="table table-sm table-striped   table-sm" style="font-size: 13px;">
+						<thead>
+							<tr class="table-warning">
+								<th class="text-left">
+									JASA
+								</th>
+								<th colspan="2" scope="col" class="text-right">
+								  <button type="button" class="btn btn-info btn-sm text-right" data-toggle="modal" data-target="#AddJasaServiceAdmin">
+									<i class="fas fa-plus-circle"></i> Add Jasa
+								  </button>
+								  @include('admin-ts3/spk/service_add_jasa_admin')
+								</th>
+							  </tr>
+						  <tr>
+							<th width="30%">Name</th>
+							<th width="30%">Value</th>
+							<th class="text-center" width="10%">Action</th>
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr>
+							<?php foreach($service_jasa as $sj) { ?>
+							<td>
+								<?php echo  $sj->attribute.' ('.$sj->unique_data.')'   ?>
+							</td>
+							<td><?php echo $sj->value_data ?> </td>
+							<td class="text-center"> 
+								<a href="" data-id="<?php echo $sj->service_d_id ?>" class="btn btn-danger btn-sm delete-link-jasa">
+								<i class="fa fa-trash"></i></a>
+							</td>
+						  </tr>
+						     
+    						<?php  } ?> 
+						</tbody>
 						
-									<?php foreach($jobs as $jb) { ?>
-									<option value="<?php echo $jb->mst_price_service_id ?>" 
-									  <?php     
+					  </table>
+					
 
-									  foreach ($service_jasa as $sj) {
-											  if($sj->unique_data == $jb->mst_price_service_id) { echo 'selected'; } 
-									  }
-									  ?>			
-									  ><?php echo $jb->service_name.' ('.$jb->kode.')' ?></option>
-								  <?php } ?>		
+					
+				</div>
 
-								
+			</div>
+		</div>
+				
 
+			</div>
+			<div class="col-sm-6"> 
+				<div class="card">
+					<div class="card-body">
+				<div class="form-group row">
+				
+					<table class="table table-sm table-striped   table-sm " style="font-size: 13px;">
+						<thead>
+							<tr class="table-secondary">
+								<th class="text-left">
+									SPARE PART
+								</th>
+								<th colspan="2" scope="col" class="text-right">
+								  <button type="button" class="btn btn-info btn-sm text-right" data-toggle="modal" data-target="#AddPartServiceAdmin">
+									<i class="fas fa-plus-circle"></i> Add Part
+								  </button>
+								  @include('admin-ts3/spk/service_add_part_admin')
+								</th>
+							  </tr>
+						  <tr>
+							<th width="30%">Name</th>
+							<th width="30%">Value</th>
+							<th class="text-center" width="10%">Action</th>
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr>
+							<?php foreach($service_part as $pr) { ?>
+							<td>
+								<?php echo  $pr->attribute.' ('.$pr->unique_data.')'   ?>
+							</td>
+							<td><?php echo $pr->value_data ?> </td>
+							<td class="text-center"> 
+								<a href="" data-id="<?php echo $pr->service_d_id ?>" class="btn btn-danger btn-sm delete-link-part">
+								<i class="fa fa-trash"></i></a>
+							</td>
+						  </tr>
+						     
+    						<?php  } ?> 
+						</tbody>
+						
+					  </table>
+					
 
-
-						  </select>
-					</div>
+					
 				</div>
 
 
-				<div class="row form-group">
+		
+			</div>
+				
+			</div> 
+		</div>
+			
+		</div>
+
+
+				
+		<div class="form-group row">
+			<div class="col-sm-6">
+
+
+
+				{{-- <div class="row form-group">
 					<label class="col-md-3 text-right">Foto Kendaraan <span class="text-danger">*</span></label>
 					<div class="col-md-9">
 
@@ -188,49 +274,89 @@
 
 
 					</div>
-				</div> 
-
-			</div>
-			<div class="col-sm-6">
+				</div>  --}}
 
 
-				
+
+				<div class="card">
+					<div class="card-body">
 				<div class="form-group row">
-					<label class="col-sm-3 control-label text-right">Spare part</label>
-					<div class="col-sm-9">			
-						<select name="part_id[]" id="part_id" class="form-control select2" multiple="multiple">
+				
+					<table class="table table-sm table-striped   table-sm " style="font-size: 13px;">
+						<thead>
+							<tr class="table-secondary">
+								<th class="text-left">
+									FOTO SERVICE
+								</th>
+								<th colspan="2" scope="col" class="text-right">
+								  <button type="button" class="btn btn-info btn-sm text-right" data-toggle="modal" data-target="#AddFotoServiceAdmin">
+									<i class="fas fa-plus-circle"></i> Add Foto
+								  </button>
+								  @include('admin-ts3/spk/service_add_foto_admin')
+								</th>
+							  </tr>
+						  <tr>
+							<th width="30%">File</th>
+							<th width="30%">Value</th>
+							<th class="text-center" width="10%">Action</th>
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr>
+							<?php foreach($service_upload as $su) { ?>
+							<td>
+								
+								<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#DetailImage<?php echo $su->service_d_id ?>">
+									<i class="fas fa-eye"></i>  <?php echo $su->attribute ?>
+								</button>   
 						
+								@include('admin-ts3/spk/service_image_history') 
 
-								<?php foreach($part as $pt) { ?>
-									<option value="<?php echo $pt->mst_price_service_id ?>" 
-									  <?php     
+							</td>
+							<td>
 
-									  foreach ($service_part as $sp) {
-											  if($sp->unique_data == $pt->mst_price_service_id) { echo 'selected'; } 
-									  }
-									  ?>			
-									  ><?php echo $pt->service_name.' ('.$pt->kode.')' ?></option>
-								  <?php } ?>		
+								<?php echo $su->value_data ?>
 
+							</td>
+							<td class="text-center"> 
+								<a href="" data-id="<?php echo $su->service_d_id ?>" class="btn btn-danger btn-sm delete-link-foto">
+								<i class="fa fa-trash"></i></a>
+							</td>
+						  </tr>
+						     
+    						<?php  } ?> 
+						</tbody>
+						
+					  </table>
+					
 
-
-						  </select>
-					</div>
+					
 				</div>
 
+
+		
+			</div>
+				
+			</div> 
+
+
+					
+			</div>
+			<div class="col-sm-6">
 				<div class="form-group row">
 	
 					<div class="col-sm-12 text-center">
 						<div class="form-group pull-right btn-group">
-							<input type="submit" name="submit" class="btn btn-primary " value="Proses Data">
-							<input type="reset" name="reset" class="btn btn-success " value="Reset">
+
+					
+							
+							<a href="{{ asset('admin-ts3/spk-service-adjustments-proses') }}" class="btn btn-success">Proses Data</a>
+							{{-- <input type="reset" name="reset" class="btn btn-success " value="Reset"> --}}
 							<a href="{{ asset('admin-ts3/spk-list') }}" class="btn btn-danger">Kembali</a>
 						</div>
 					</div>
 					<div class="clearfix"></div>
 				</div>
-
-				
 			</div>
 			
 		</div>
@@ -238,5 +364,293 @@
 
 </form>
 
+<script>
+	$(document).ready(function() {
+	  // Tambahkan event listener klik pada tombol hapus
+	  $(document).on("click", ".delete-link-jasa", function(e) {
+		e.preventDefault();
+	
+		// Dapatkan ID item yang akan dihapus
+		var itemId = $(this).attr("data-id");
+	
+		// Tampilkan dialog konfirmasi
+		swal({
+		  title: "Apakah Anda yakin?",
+		  text: "Tindakan ini tidak dapat dibatalkan.",
+		  icon: "warning",
+		  buttons: {
+			cancel: "Batal",
+			confirm: "Hapus"
+		  },
+		  dangerMode: true
+		}).then(function(result) {
+		  if (result) {
+			// Kirim permintaan AJAX untuk menghapus item
+			$.ajax({
+			  url: "{{ asset('admin-ts3/spk/service-delete-detail-jasa') }}/" + itemId,
+			  method: "GET",
+			  success: function(response) {
+				// Tangani respon berhasil
+				// Misalnya, Anda dapat menghapus baris yang dihapus dari tabel
+				$("tr[data-id='" + itemId + "']").remove();
+	
+				swal("Dihapus", "Item telah dihapus.", "success");
+				location.reload();
+			  },
+			  error: function(error) {
+				// Tangani respon error
+				console.error("Gagal menghapus item:", error);
+			  }
+			}).catch(function(error) {
+			  // Tangani kesalahan dalam promise
+			  console.error("Gagal menghapus item:", error);
+			});
+		  }
+		});
+	  });
+	});
 
 
+
+
+
+</script>
+	
+
+
+<script>
+		$(document).ready(function() {
+		  // Tambahkan event listener klik pada tombol "Add"
+		  $(".add_more_jobs").on("click", function() {
+			// Dapatkan nilai input
+		
+			var url = "{{ url('admin-ts3/spk/service-insert-detail-jasa') }}";
+			var servicehid = $("#servicehid").val();
+			var jobId = $("#jobs").val();
+			var value = $("input[name='value_jobs']").val();
+		
+			// Buat objek data yang akan dikirimkan dalam permintaan
+			var data = {
+			  _token: '{{ csrf_token() }}',
+			  servicehid: servicehid,
+			  job_id: jobId,
+			  value: value
+			};
+		
+			// Kirim permintaan AJAX untuk menyisipkan data
+			$.ajax({
+			  url: url,
+			  method: "POST",
+			  data: data,
+			  success: function(response) {
+				// Tangani respon berhasil
+				// Misalnya, Anda dapat memperbarui tampilan tabel atau melakukan tindakan lain yang diperlukan
+		
+				// Menutup modal "Add Jasa"
+				$("#AddJasaServiceAdmin").modal("hide");
+				swal("Sukses", "Data berhasil ditambahkan!", "success");
+				// Memuat ulang tabel untuk menampilkan data baru
+				location.reload();
+			  },
+			  error: function(error) {
+				// Tangani respon error
+				console.error("Gagal menyisipkan data:", error);
+			  }
+			});
+		  });
+		});
+</script>
+
+
+<script>
+	$(document).ready(function() {
+	  // Tambahkan event listener klik pada tombol hapus
+	  $(document).on("click", ".delete-link-part", function(e) {
+		e.preventDefault();
+	
+		// Dapatkan ID item yang akan dihapus
+		var itemId = $(this).attr("data-id");
+	
+		// Tampilkan dialog konfirmasi
+		swal({
+		  title: "Apakah Anda yakin?",
+		  text: "Tindakan ini tidak dapat dibatalkan.",
+		  icon: "warning",
+		  buttons: {
+			cancel: "Batal",
+			confirm: "Hapus"
+		  },
+		  dangerMode: true
+		}).then(function(result) {
+		  if (result) {
+			// Kirim permintaan AJAX untuk menghapus item
+			$.ajax({
+			  url: "{{ asset('admin-ts3/spk/service-delete-detail-part') }}/" + itemId,
+			  method: "GET",
+			  success: function(response) {
+				// Tangani respon berhasil
+				// Misalnya, Anda dapat menghapus baris yang dihapus dari tabel
+				$("tr[data-id='" + itemId + "']").remove();
+	
+				swal("Dihapus", "Item telah dihapus.", "success");
+				location.reload();
+			  },
+			  error: function(error) {
+				// Tangani respon error
+				console.error("Gagal menghapus item:", error);
+			  }
+			}).catch(function(error) {
+			  // Tangani kesalahan dalam promise
+			  console.error("Gagal menghapus item:", error);
+			});
+		  }
+		});
+	  });
+	});
+
+
+</script>
+
+
+
+<script>
+	$(document).ready(function() {
+	  // Tambahkan event listener klik pada tombol "Add"
+	  $(".add_more_part").on("click", function() {
+		// Dapatkan nilai input
+	
+		var url = "{{ url('admin-ts3/spk/service-insert-detail-part') }}";
+		var servicehid = $("#servicehid").val();
+		var partId = $("#part").val();
+		var value_part = $("input[name='value_part']").val();
+	
+		// Buat objek data yang akan dikirimkan dalam permintaan
+		var data = {
+		  _token: '{{ csrf_token() }}',
+		  servicehid: servicehid,
+		  partId: partId,
+		  value_part: value_part
+		};
+	
+		// Kirim permintaan AJAX untuk menyisipkan data
+		$.ajax({
+		  url: url,
+		  method: "POST",
+		  data: data,
+		  success: function(response) {
+			// Tangani respon berhasil
+			// Misalnya, Anda dapat memperbarui tampilan tabel atau melakukan tindakan lain yang diperlukan
+	
+			// Menutup modal "Add Jasa"
+			$("#AddPartServiceAdmin").modal("hide");
+			swal("Sukses", "Data berhasil ditambahkan!", "success");
+			// Memuat ulang tabel untuk menampilkan data baru
+			location.reload();
+		  },
+		  error: function(error) {
+			// Tangani respon error
+			console.error("Gagal menyisipkan data:", error);
+		  }
+		});
+	  });
+	});
+</script>
+
+
+<script>
+	$(document).ready(function() {
+	  // Tambahkan event listener klik pada tombol hapus
+	  $(document).on("click", ".delete-link-foto", function(e) {
+		e.preventDefault();
+	
+		// Dapatkan ID item yang akan dihapus
+		var itemId = $(this).attr("data-id");
+	
+		// Tampilkan dialog konfirmasi
+		swal({
+		  title: "Apakah Anda yakin?",
+		  text: "Tindakan ini tidak dapat dibatalkan.",
+		  icon: "warning",
+		  buttons: {
+			cancel: "Batal",
+			confirm: "Hapus"
+		  },
+		  dangerMode: true
+		}).then(function(result) {
+		  if (result) {
+			// Kirim permintaan AJAX untuk menghapus item
+			$.ajax({
+			  url: "{{ asset('admin-ts3/spk/service-delete-detail-foto') }}/" + itemId,
+			  method: "GET",
+			  success: function(response) {
+				// Tangani respon berhasil
+				// Misalnya, Anda dapat menghapus baris yang dihapus dari tabel
+				$("tr[data-id='" + itemId + "']").remove();
+	
+				swal("Dihapus", "Item telah dihapus.", "success");
+				location.reload();
+			  },
+			  error: function(error) {
+				// Tangani respon error
+				console.error("Gagal menghapus item:", error);
+			  }
+			}).catch(function(error) {
+			  // Tangani kesalahan dalam promise
+			  console.error("Gagal menghapus item:", error);
+			});
+		  }
+		});
+	  });
+	});
+
+
+
+
+
+</script>
+
+
+
+<script>
+$(document).ready(function() {
+  // Tambahkan event listener klik pada tombol "Add"
+  $(".add_more_foto").on("click", function() {
+    // Dapatkan nilai input
+    var servicehid = $("#servicehid").val();
+    var servicehno = $("#servicehno").val();
+    var value_foto = $("input[name='value_foto']").val();
+    var fileInput = $("input[name='upload_foto']").get(0).files[0]; // Dapatkan file gambar yang diunggah
+
+    // Buat objek FormData
+    var formData = new FormData();
+    formData.append('_token', '{{ csrf_token() }}');
+    formData.append('servicehid', servicehid);
+    formData.append('servicehno', servicehno);
+    formData.append('value_foto', value_foto);
+    formData.append('upload_foto', fileInput);
+
+    // Kirim permintaan AJAX untuk menyisipkan data
+    $.ajax({
+      url: "{{ url('admin-ts3/spk/service-insert-detail-foto') }}",
+      method: "POST",
+      data: formData,
+      contentType: false, // Set contentType ke false untuk menghindari default "application/x-www-form-urlencoded"
+      processData: false, // Set processData ke false agar jQuery tidak memproses data FormData
+      success: function(response) {
+        // Tangani respon berhasil
+        // Misalnya, Anda dapat memperbarui tampilan tabel atau melakukan tindakan lain yang diperlukan
+
+        // Menutup modal "Add Jasa"
+        $("#AddFotoServiceAdmin").modal("hide");
+        swal("Sukses", "Data berhasil ditambahkan!", "success");
+        // Memuat ulang tabel untuk menampilkan data baru
+        location.reload();
+      },
+      error: function(error) {
+        // Tangani respon error
+        console.error("Gagal menyisipkan data:", error);
+      }
+    });
+  });
+});
+</script>
