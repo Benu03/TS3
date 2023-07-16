@@ -13,7 +13,7 @@
 		<input type="hidden" name="id" value="<?php echo $service_h->id ?>">
 	
 		<div class="form-group row">
-			<div class="col-sm-5">
+			<div class="col-sm-6">
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Service No</label>
 					<div class="col-sm-9">
@@ -69,6 +69,19 @@
 				</div>
 
 				
+			
+
+				
+
+
+			
+
+				
+
+
+			</div>
+			
+			<div class="col-sm-6">
 				<div class="row form-group">
 					<label class="col-md-3 text-right">NOPOL <span class="text-danger">*</span></label>
 					<div class="col-md-9">
@@ -76,7 +89,6 @@
 					</div>
 				</div>
 
-				
 				<div class="row form-group">
 					<label class="col-md-3 text-right">No Rangka <span class="text-danger">*</span></label>
 					<div class="col-md-9">
@@ -111,36 +123,6 @@
 					<input type="text" name="status_service" class="form-control" placeholder="status_service" value="<?php echo $service_h->status_service ?>"   required readonly>
 					</div>
 				</div>
-
-
-			
-
-				
-
-
-			</div>
-			<div class="col-sm-7">
-				<div class="row form-group">
-					<label class="col-md-3 text-right">No Rangka <span class="text-danger">*</span></label>
-					<div class="col-md-9">
-					<input type="text" name="norangka" class="form-control" placeholder="No Rangka" value="<?php echo $service_h->norangka ?>" required readonly>
-					</div>
-				</div>
-
-				
-				<div class="row form-group">
-					<label class="col-md-3 text-right">No Mesin <span class="text-danger">*</span></label>
-					<div class="col-md-9">
-					<input type="text" name="nomesin" class="form-control" placeholder="No Mesin" value="<?php echo $service_h->nomesin ?>" required readonly>
-					</div>
-				</div>
-				<div class="row form-group">
-					<label class="col-md-3 text-right">Tipe/Tahun <span class="text-danger">*</span></label>
-					<div class="col-md-9">
-					<input type="text" name="tipe_tahun" class="form-control" placeholder="Tipe/Tahun" value="<?php echo $service_h->type.'/'.$service_h->tahun ?>" required readonly>
-					</div>
-				</div>
-
 				
 					
 
@@ -153,6 +135,18 @@
 						<textarea name="remark" id="remark" class="form-control" placeholder="Remark" readonly><?php echo $service_h->remark_driver ?></textarea>
 					</div>
 				</div>
+
+
+				
+
+			
+
+			</div>
+			
+		</div>
+		
+		<div class="form-group row">
+			<div class="col-sm-6">
 
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Jasa</label>
@@ -173,10 +167,34 @@
 								
 
 
+
 						  </select>
 					</div>
 				</div>
 
+
+				<div class="row form-group">
+					<label class="col-md-3 text-right">Foto Kendaraan <span class="text-danger">*</span></label>
+					<div class="col-md-9">
+
+							<?php foreach($service_upload as $su) { ?>
+								
+								<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#DetailImage<?php echo $su->service_d_id ?>">
+									<i class="fas fa-eye"></i>  <?php echo $su->attribute ?>
+								</button>   
+						
+								@include('admin-ts3/spk/service_image_history') 
+							<?php } ?>
+
+
+					</div>
+				</div> 
+
+			</div>
+			<div class="col-sm-6">
+
+
+				
 				<div class="form-group row">
 					<label class="col-sm-3 control-label text-right">Spare part</label>
 					<div class="col-sm-9">			
@@ -200,27 +218,6 @@
 					</div>
 				</div>
 
-					<div class="row form-group">
-						<label class="col-md-3 text-right">Foto Kendaraan <span class="text-danger">*</span></label>
-						<div class="col-md-9">
-
-								<?php foreach($service_upload as $su) { ?>
-									
-									<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#DetailImage<?php echo $su->service_d_id ?>">
-										<i class="fas fa-eye"></i>  <?php echo $su->attribute ?>
-									</button>   
-							
-									@include('admin-ts3/spk/service_image_history') 
-								<?php } ?>
-
-
-						</div>
-					</div> 
-
-
-				<div class="clearfix"><hr></div>
-
-		
 				<div class="form-group row">
 	
 					<div class="col-sm-12 text-center">
@@ -233,12 +230,13 @@
 					<div class="clearfix"></div>
 				</div>
 
+				
 			</div>
 			
 		</div>
 
-		
-
 
 </form>
+
+
 
