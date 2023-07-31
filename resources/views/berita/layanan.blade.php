@@ -23,8 +23,17 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Layanan')->
             <a href="#"><img src="{{ asset('assets/upload/image/'.$berita->gambar) }}" alt="{{ $title }}" class="img img-fluid img-thumbnail"></a>
          </div>
          
-         
       </div>
+       
+      @if($berita->sop_layanan != null)
+         <div class="row">
+            <div class="embed-responsive embed-responsive-4by3">
+               <iframe src="{{ asset('berita/sop-layanan/'.$berita->sop_layanan) }}#toolbar=0" type="application/pdf" width="100%"> </iframe>
+            </div>
+         </div>
+      @endif
+
+
    </div>
 </div>
 </section>
