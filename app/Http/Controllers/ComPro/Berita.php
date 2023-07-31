@@ -63,6 +63,7 @@ class Berita extends Controller
         $model  = new Berita_model();
         $berita = $model->read($slug_berita);
         $layanan = DB::connection('ts3')->table('cp.berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
+
         if(!$berita)
         {
             return redirect('berita');
@@ -127,4 +128,18 @@ class Berita extends Controller
                     );
         return view('layout/wrapper',$data);
     }
+
+    public function sop_layanan($sop_layanan)
+    {
+
+        $file = storage_path('data/template/').$sop_layanan.'.pdf';       
+        if(file_exists($file)) 
+        {            
+        $headers = ['Content-Type' => 'application/pdf'];            
+        return response()->download($file, 'Test File', $headers, 'inline');
+        } else {            
+        abort(404, 'File not found!');        
+        }    
+    }
+    
 }
