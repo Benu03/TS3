@@ -15,26 +15,9 @@
 <div class="row">
 
 
-    {{-- <div class="btn-group">
-      {{-- <button class="btn btn-danger" type="submit" name="hapus" onClick="check();" >
-          <i class="fa fa-trash"></i>
-      </button>  --}}
-        {{-- <button type="button" class="btn btn-success " data-toggle="modal" data-target="#Tambah">
-            <i class="fa fa-plus"></i> Tambah SPK Baru
-        </button>
-   </div>  --}}
+
    <div class="col-md-12">
-        {{-- <div class="form-group">
-            <label>Date range:</label>
-            <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                 <i class="far fa-calendar-alt"></i>
-                </span>
-            </div>
-            <input type="text" class="form-control float-right" id="reservation">
-            </div> --}}
-            
+
         
             
             <div class="form-group row">
@@ -71,7 +54,18 @@
                           </button>
 
                     </div>
+
+
                 </div>
+
+                <div class="col-sm-2 text-right">
+                   
+                        <button type="button" name="export" id="export" class="btn btn-success" value="Export Data">
+                            <i class="far fa-file-excel"></i> Export 
+                          </button>
+                 
+                </div>
+
                 <div class="clearfix"></div>
             </div>
                
@@ -230,7 +224,7 @@
                 $('#RekapInvoicedataTable').DataTable().destroy();
                 fetch_data(from_date, to_date);
             } else{
-                alert('Both Date is required');
+                swal ( "Oops.." ,  "Date Filter Belum Di input" ,  "warning" )
             }
 
         });
@@ -242,6 +236,65 @@
             $('#to_date').val('');
             $('#RekapInvoicedataTable').DataTable().destroy();
             fetch_data();
+        });
+
+
+        $('#export').click(function(){
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+
+            if (from_date != '' && to_date != '') 
+            {
+                // Tampilkan animasi pengunduhan
+                var downloadButton = $('#export');
+                downloadButton.text('Downloading...');
+                downloadButton.attr('disabled', true);
+
+            // Kirim permintaan AJAX ke kontroler Anda untuk mendapatkan data
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                url: "{{  asset('admin-ts3/export-rekap-invoice') }}",
+                type: "POST",
+                data: {
+                    from_date: from_date,
+                    to_date: to_date
+                },
+            success: function(response) {
+            // Buat workbook Excel baru
+            var wb = XLSX.utils.book_new();
+
+            // Buat worksheet
+            var ws = XLSX.utils.json_to_sheet(response.data);
+
+            // Tambahkan worksheet ke workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+            // Buat objek Blob yang berisi data file Excel
+
+            var blob = new Blob([new Uint8Array(XLSX.write(wb, { bookType: 'xlsx', type: 'array' }))], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            });
+
+            // Animasi delay sebelum pengunduhan dimulai
+            setTimeout(function() {
+                // Pengaktifan pengunduhan
+                downloadButton.html('<i class="far fa-file-excel"></i> Export');
+                downloadButton.attr('disabled', false);
+
+                // Trigger pengunduhan file Excel
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'Rekap-Invoice.xlsx';
+                a.click();
+            }, 1000); // Durasi animasi dalam milidetik
+                    },
+                    error: function() {
+                        swal('Oops..', 'Terjadi kesalahan saat memuat data.', 'error');
+                    }
+                });
+            } else {
+                swal('Oops..', 'Date Filter Belum Di input', 'warning');
+            }
         });
 
     });

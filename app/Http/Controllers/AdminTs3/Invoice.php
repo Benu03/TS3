@@ -436,7 +436,7 @@ class Invoice extends Controller
 
            // preparing email data dan insert  table auth.user_mail
             $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
-            $url_img = env('APP_URL').'/assets/upload/image/2.png';
+            $url_img = 'https://ts3.co.id/assets/upload/image/2.png';
             $body = '<html lang="en">
             <head>
                 <meta charset="UTF-8">

@@ -118,6 +118,8 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/report/history-service', 'App\Http\Controllers\AdminClient\report@history_service');
     Route::get('admin-client/report/history-service-detail/{par1}', 'App\Http\Controllers\AdminClient\report@history_service_detail');
     Route::post('admin-client/get-history-service', 'App\Http\Controllers\AdminClient\report@getHistoryService');
+    Route::post('admin-client/export-history-service', 'App\Http\Controllers\AdminClient\report@exportHistoryService');
+    
 
     Route::get('admin-client/export/regional', 'App\Http\Controllers\AdminClient\Regional@export');
     Route::get('admin-client/export/area', 'App\Http\Controllers\AdminClient\Area@export');
@@ -127,6 +129,7 @@ Route::group(['middleware' => ['adminclient']],function(){
   
     Route::get('admin-client/report/rekap-invoice', 'App\Http\Controllers\AdminClient\report@rekap_invoice');
     Route::post('admin-client/get-rekap-invoice', 'App\Http\Controllers\AdminClient\report@getRekapInvoice');
+    Route::post('admin-client/export-rekap-invoice', 'App\Http\Controllers\AdminClient\report@exportRekapInvoice');
 
 
     Route::get('admin-client/report/spk-history', 'App\Http\Controllers\AdminClient\report@spk_history');

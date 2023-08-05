@@ -58,6 +58,7 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <script src="{{ asset('assets/timepicker/timepicker.min.js') }}"></script>
   <link href="{{ asset('assets/timepicker/timepicker.min.css') }}" rel="stylesheet"/>
   <script src="{{ asset('assets/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
   <style type="text/css" media="screen">
     body {
       background-color: white !important;

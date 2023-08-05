@@ -234,6 +234,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/report/history-service', 'App\Http\Controllers\AdminTs3\Report@history_service');
     Route::get('admin-ts3/report/history-service-detail/{par1}', 'App\Http\Controllers\AdminTs3\Report@history_service_detail');
     Route::post('admin-ts3/get-history-service', 'App\Http\Controllers\AdminTs3\Report@getHistoryService');
+    Route::post('admin-ts3/export-history-service', 'App\Http\Controllers\AdminTs3\Report@exportHistoryService');
+
 
     Route::get('admin-ts3/report/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminTs3\Report@get_image_service_detail');
     Route::get('admin-ts3/report/summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@summary_bengkel');
@@ -241,6 +243,7 @@ Route::group(['middleware' => ['admints3']],function(){
 
     Route::get('admin-ts3/report/rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@rekap_invoice');
     Route::post('admin-ts3/get-rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@getRekapInvoice');
+    Route::post('admin-ts3/export-rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@exportRekapInvoice');
 
     Route::get('admin-ts3/report/due-date-service', 'App\Http\Controllers\AdminTs3\Report@due_date_service');
     Route::get('admin-ts3/report/ar', 'App\Http\Controllers\AdminTs3\Report@ar');
@@ -264,6 +267,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/invoice-create', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create');
     Route::post('admin-ts3/get-invoice', 'App\Http\Controllers\AdminTs3\Invoice@get_invoice');   
     Route::post('admin-ts3/invoice-create-detail-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create_detail_proses');
+
+
     Route::post('admin-ts3/invoice/submit', 'App\Http\Controllers\AdminTs3\Invoice@invoice_submit');
     Route::post('admin-ts3/invoice-bengkel-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_bengkel_proses');
     Route::get('admin-ts3/invoice-generate-ts3/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_generate_ts3');

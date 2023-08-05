@@ -70,7 +70,7 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
   <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
   <style type="text/css" media="screen">
    .tooltip {
