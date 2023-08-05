@@ -269,6 +269,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/invoice-generate-ts3/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_generate_ts3');
     Route::post('admin-ts3/invoice-admin-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_admin_proses');
 
+    Route::get('admin-ts3/invoice-export-excel-ts3/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_export_excel_ts3');
+
     Route::post('admin-ts3/get-area-client', 'App\Http\Controllers\AdminTs3\Branch@get_area_client');   
     Route::post('admin-ts3/get-pic-client', 'App\Http\Controllers\AdminTs3\Branch@get_pic_client');   
 

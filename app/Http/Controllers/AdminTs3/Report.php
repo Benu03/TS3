@@ -233,11 +233,15 @@ class Report extends Controller
                                             </div>
                                         </div>
                                         <div class="row"> 
-                                        <div class="col-md-12 text-right">
+                                                <div class="col-md-12 text-right">
                                      
-                                                        <a href="' . asset("admin-ts3/invoice-generate-ts3/{$row->id}") . '" class="btn btn-secondary">
+                                                        <a href="' . asset("admin-ts3/invoice-export-excel-ts3/{$row->id}") . '" class="btn btn-success">
+                                                        <i class="far fa-file-excel"></i> Export Excel
+                                                        </a>
+
+                                                        <a href="' . asset("admin-ts3/invoice-generate-ts3/{$row->id}") . '" class="btn btn-danger">
                                                         <i class="far fa-file-pdf"></i> Generate Invoice
-                                                    </a>
+                                                        </a>
                                              
                                               </div>  
                                         

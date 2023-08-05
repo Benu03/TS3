@@ -32,6 +32,14 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Berita')->o
          
          
       </div>
+
+      @if($read->sop_layanan != null)
+      <div class="row text center">
+         <div class="embed-responsive embed-responsive-4by3"> 
+            <iframe src="{{ asset('berita/sop-layanan/'.$read->sop_layanan) }}#toolbar=0" type="application/pdf" width="80%"> </iframe>
+         </div>
+      </div>
+      @endif
    </div>
 </div>
 </section>

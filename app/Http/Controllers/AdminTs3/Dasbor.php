@@ -46,10 +46,9 @@ class Dasbor extends Controller
                 "name" => $mt->client_name,
                 "y" => $mt->total
             ];
+
+
         }
-
-
-
 
 		$data = array(  'title'     => $site->namaweb,
                         'content'   => 'admin-ts3/dasbor/index',
@@ -58,7 +57,7 @@ class Dasbor extends Controller
                         'galeri'    => $galeri,
                         'staff'    => $staff,
                         "dataPointsrating" => json_encode($dataPointsrating),
-                        "dataPointsmotor" => json_encode($dataPointsmotor)
+                        "dataPointsmotor" => $dataPointsmotor
                     );
         return view('admin-ts3/layout/wrapper',$data);
     }
