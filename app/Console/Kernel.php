@@ -25,8 +25,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->call('App\Jobs\SendEmailAutomatic@handle')->everyMinute()->runInBackground();
-        $schedule->call('App\Jobs\SpkDone@handle')->hourly()->runInBackground();
+        
+        $schedule->call('App\Jobs\SendEmailAutomatic@handle')->everyMinute()->description('SendEmailAutomatic -> everyMinute')->runInBackground();
+        $schedule->call('App\Jobs\SpkDone@handle')->hourly()->description('SpkDone -> hourly')->runInBackground();
+        $schedule->call('App\Jobs\ServiceDueDate@handle')->dailyAt('08:00')->description('ServiceDueDate -> dailyAt 08:00')->runInBackground();
+        // $schedule->call('App\Jobs\ServiceDueDate@handle')->everyMinute()->description('ServiceDueDate -> dailyAt 08:00')->runInBackground();
+
     }
 
     /**
