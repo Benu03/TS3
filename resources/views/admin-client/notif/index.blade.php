@@ -45,7 +45,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="myModalLabel">Judul Modal</h5>
@@ -73,10 +73,17 @@
         .table-bg-light {
             background-color: #5ffccd !important;
         }
+
+
     </style>
 
 
     <script>
+
+    function redirectToURL(url) {
+            window.location.href = url;
+        }
+        
         $(document).ready(function() {
             var table = $('#notif4').DataTable({
                 lengthChange: false,

@@ -273,8 +273,8 @@
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/due-date-service') }}" class="nav-link"><i class="far fa-calendar-times nav-icon"></i><p>Service Due Date</p></a>
               </li>
 
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/ar') }}" class="nav-link"><i class="fas fa-industry nav-icon"></i><p>Report AR </p></a>
-              </li>
+              {{-- <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/ar') }}" class="nav-link"><i class="fas fa-industry nav-icon"></i><p>Report AR </p></a>
+              </li> --}}
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/laba-rugi') }}" class="nav-link"><i class="fas fa-chart-line nav-icon"></i><p>Laba Rugi</p></a>
               </li>
             </ul>

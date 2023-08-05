@@ -233,11 +233,15 @@ class Report extends Controller
                                             </div>
                                         </div>
                                         <div class="row"> 
-                                        <div class="col-md-12 text-right">
+                                                <div class="col-md-12 text-right">
                                      
-                                                        <a href="' . asset("admin-ts3/invoice-generate-ts3/{$row->id}") . '" class="btn btn-secondary">
+                                                        <a href="' . asset("admin-ts3/invoice-export-excel-ts3/{$row->id}") . '" class="btn btn-success">
+                                                        <i class="far fa-file-excel"></i> Export Excel
+                                                        </a>
+
+                                                        <a href="' . asset("admin-ts3/invoice-generate-ts3/{$row->id}") . '" class="btn btn-danger">
                                                         <i class="far fa-file-pdf"></i> Generate Invoice
-                                                    </a>
+                                                        </a>
                                              
                                               </div>  
                                         
@@ -505,7 +509,67 @@ class Report extends Controller
    
 
 
+    public function exportRekapInvoice(Request $request)
+    {
+        if (Session()->get('username') == "") {
+            return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        if ($request->ajax()) 
+        {
+            if(!empty($request->from_date)) 
+            {
+                $invoiceList = DB::connection('ts3')->table('mvm.v_rekap_invoice')->selectRaw("invoice_no as INVOICE_NO, invoice_type as INVOICE_TYPE, 
+                status as STATUS, created_date as INVOICE_DATE, create_by as CREATED_INVOICE, regional as REGIONAL,
+                client_name as CLIENT,pph as PPH, ppn as PPN,jasa_total as TOTAL_JASA, part_total as TOTAL_PART, pph+COALESCE(ppn, 0)+jasa_total+part_total as TOTAL")->whereBetween('created_date', array($request->from_date, $request->to_date))
+                    ->get();
+            } 
+            else 
+            {
+                $invoiceList = DB::connection('ts3')->table('mvm.v_rekap_invoice')->selectRaw("invoice_no as INVOICE_NO, invoice_type as INVOICE_TYPE, 
+                status as STATUS, created_date as INVOICE_DATE, create_by as CREATED_INVOICE, regional as REGIONAL,
+                client_name as CLIENT,pph as PPH, ppn as PPN,jasa_total as TOTAL_JASA, part_total as TOTAL_PART, pph+COALESCE(ppn, 0)+jasa_total+part_total as TOTAL")->get();
+            }
+        }
+        return response()->json(['data' => $invoiceList]);
+
+    }
   
+
+     
+    public function exportHistoryService(Request $request)
+    {
+
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        if ($request->ajax()) 
+        {
+            if(!empty($request->from_date)) {
+
+                // dd($request->from_date);
+
+                $service 	= DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("spk_no,
+                service_no, nopol, norangka, nomesin, tahun, 
+                type as tipe,  status_service, tanggal_service, 
+                nama_driver, last_km,bengkel_name  as bengkel, mekanik,
+                tgl_last_service,regional,area, branch as cabang, pic_branch as pic_cabang, 
+                tanggal_schedule,remark_ts3 as remark")
+                    ->whereBetween('tanggal_service', array($request->from_date, $request->to_date))
+                    ->get();
+
+            } else {
+
+                $service 	= DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("spk_no,
+                service_no, nopol, norangka, nomesin, tahun, 
+                type as tipe,  status_service, tanggal_service, 
+                nama_driver, last_km,bengkel_name  as bengkel, mekanik,
+                tgl_last_service,regional,area,branch as cabang, pic_branch as pic_cabang, 
+                tanggal_schedule,remark_ts3 as remark")->get();
+
+            }
+        }
+            return response()->json(['data' => $service]);
+    }
+    
 
    
 }

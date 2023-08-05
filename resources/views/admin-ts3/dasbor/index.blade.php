@@ -102,6 +102,10 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <script>
   $(function() {
+
+
+
+
       Highcharts.chart('mvm-count-client-chart', {
           chart: {
               plotBackgroundColor: null,
@@ -116,12 +120,16 @@
                 text: ''
             },
             xAxis: {
-                categories: ['CLIENT','MBM', 'BTPNS'
-                ]
+                categories:[
+            <?php foreach ($dataPointsmotor as $item) { ?>
+                '<?= $item['name'] ?>',
+            <?php } ?>
+        ]
+        
             },
             yAxis: {
                 title: {
-                    text: 'Vehicle'
+                    text: 'Count Vehicle'
                 }
             },
             plotOptions: {
@@ -133,11 +141,9 @@
                 }
             },
             series: [{
-                name: 'MBM',
-                data: [5320]
-            }, {
-                name: 'BTPNS',
-                data: [1420]
+              name: 'Client',
+              colorByPoint: true,
+              data: <?= json_encode($dataPointsmotor) ?>
             }]
       });
   });

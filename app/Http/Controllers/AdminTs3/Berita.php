@@ -204,6 +204,7 @@ class Berita extends Controller
                             'judul_berita'  => 'required|unique:ts3.cp.berita',
                             'isi'           => 'required',
                             'gambar'        => 'file|image|mimes:jpeg,png,jpg|max:8024',
+                            'pdf'        => 'file|mimes:pdf|max:5120',
                             ]);
         // UPLOAD START
         $image                  = $request->file('gambar');
@@ -222,6 +223,25 @@ class Berita extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_berita = Str::slug($request->judul_berita, '-');
+
+            if(!empty($pdf)) 
+            {
+                $filepdf    = $request->file('pdf')->getClientOriginalName();
+                $nameFilepdf = $slug_berita;
+                $destinationPathpdf = storage_path('data/template/');
+
+                if (!file_exists($destinationPathpdf)) {
+                    File::makeDirectory($destinationPathpdf,0777,true);
+                    }
+
+                $pdf->move($destinationPathpdf,$nameFilepdf.'.pdf');
+
+            }
+            else
+            {
+                $nameFilepdf = null;
+            }
+
             DB::connection('ts3')->table('cp.berita')->insert([
                 'id_kategori'       => $request->id_kategori,
                 'id_user'           => Session()->get('id_user'),
@@ -235,10 +255,30 @@ class Berita extends Controller
                 'keywords'          => $request->keywords,
                 'tanggal_publish'   => date('Y-m-d',strtotime($request->tanggal_publish)).' '.$request->jam_publish,
                 'urutan'            => $request->urutan,
-                'tanggal_post'      => date('Y-m-d H:i:s')
+                'tanggal_post'      => date('Y-m-d H:i:s'),
+                'sop_layanan'        => $nameFilepdf
             ]);
         }else{
             $slug_berita = Str::slug($request->judul_berita, '-');
+
+            if(!empty($pdf)) 
+            {
+                $filepdf    = $request->file('pdf')->getClientOriginalName();
+                $nameFilepdf = $slug_berita;
+                $destinationPathpdf = storage_path('data/template/');
+
+                if (!file_exists($destinationPathpdf)) {
+                    File::makeDirectory($destinationPathpdf,0777,true);
+                    }
+
+                $pdf->move($destinationPathpdf,$nameFilepdf.'.pdf');
+
+            }
+            else
+            {
+                $nameFilepdf = null;
+            }
+
             DB::connection('ts3')->table('cp.berita')->insert([
                 'id_kategori'       => $request->id_kategori,
                 'id_user'           => Session()->get('id_user'),
@@ -251,7 +291,8 @@ class Berita extends Controller
                 'keywords'          => $request->keywords,
                 'tanggal_publish'   => date('Y-m-d',strtotime($request->tanggal_publish)).' '.$request->jam_publish,
                 'urutan'            => $request->urutan,
-                'tanggal_post'      => date('Y-m-d H:i:s')
+                'tanggal_post'      => date('Y-m-d H:i:s'),
+                'sop_layanan'        => $nameFilepdf
             ]);
         }
         if($request->jenis_berita=="Berita") {
@@ -269,9 +310,11 @@ class Berita extends Controller
                             'judul_berita'   => 'required',
                             'isi'           => 'required',
                             'gambar'        => 'file|image|mimes:jpeg,png,jpg|max:8024',
+                            'pdf'        => 'file|mimes:pdf|max:5120',
                             ]);
         // UPLOAD START
         $image                  = $request->file('gambar');
+        $pdf                  = $request->file('pdf');
         if(!empty($image)) {
             $filenamewithextension  = $request->file('gambar')->getClientOriginalName();
             $filename               = pathinfo($filenamewithextension, PATHINFO_FILENAME);
@@ -287,6 +330,28 @@ class Berita extends Controller
             $image->move($destinationPath, $input['nama_file']);
             // END UPLOAD
             $slug_berita = Str::slug($request->judul_berita, '-');
+
+            
+            if(!empty($pdf)) 
+            {
+                $filepdf    = $request->file('pdf')->getClientOriginalName();
+                $nameFilepdf = $slug_berita;
+                $destinationPathpdf = storage_path('data/template/');
+
+                if (!file_exists($destinationPathpdf)) {
+                    File::makeDirectory($destinationPathpdf,0777,true);
+                    }
+
+                $pdf->move($destinationPathpdf,$nameFilepdf.'.pdf');
+
+            }
+            else
+            {
+                $nameFilepdf = null;
+            }
+
+
+
             DB::connection('ts3')->table('cp.berita')->where('id_berita',$request->id_berita)->update([
                 'id_kategori'       => $request->id_kategori,
                 'id_user'           => Session()->get('id_user'),
@@ -299,10 +364,34 @@ class Berita extends Controller
                 'icon'              => $request->icon,
                 'keywords'          => $request->keywords,
                 'tanggal_publish'   => date('Y-m-d',strtotime($request->tanggal_publish)).' '.$request->jam_publish,
-                'urutan'            => $request->urutan
+                'urutan'            => $request->urutan,
+                'sop_layanan'        => $nameFilepdf
+
             ]);
         }else{
+
+           
+
+
+
             $slug_berita = Str::slug($request->judul_berita, '-');
+
+            if(!empty($pdf)) 
+            {
+                $filepdf    = $request->file('pdf')->getClientOriginalName();
+                $nameFilepdf = $slug_berita;
+                $destinationPathpdf = storage_path('data/template/');
+                if (!file_exists($destinationPathpdf)) {
+                    File::makeDirectory($destinationPathpdf,0777,true);
+                    }
+                $pdf->move($destinationPathpdf,$nameFilepdf.'.pdf');
+
+            }
+            else
+            {
+                $nameFilepdf = null;
+            }
+
             DB::connection('ts3')->table('cp.berita')->where('id_berita',$request->id_berita)->update([
                 'id_kategori'       => $request->id_kategori,
                 'id_user'           => Session()->get('id_user'),
@@ -314,7 +403,8 @@ class Berita extends Controller
                 'icon'              => $request->icon,
                 'keywords'          => $request->keywords,
                 'tanggal_publish'   => date('Y-m-d',strtotime($request->tanggal_publish)).' '.$request->jam_publish,
-                'urutan'            => $request->urutan
+                'urutan'            => $request->urutan,
+                'sop_layanan'       => $nameFilepdf
             ]);
         }
         if($request->jenis_berita=="Berita") {

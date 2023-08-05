@@ -94,6 +94,13 @@
 </div>
 
 <div class="row form-group">
+  <label class="col-md-3 text-right">Upload File PDF</label>
+  <div class="col-md-6">
+<input type="file" name="pdf" class="form-control" placeholder="Upload File PDF">
+</div>
+</div>
+
+<div class="row form-group">
   <label class="col-md-3 text-right"></label>
   <div class="col-md-9">
 <div class="form-group">

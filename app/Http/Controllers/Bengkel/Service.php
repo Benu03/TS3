@@ -14,8 +14,6 @@ class Service extends Controller
 {
 
 
-
-
     public function index()
     {
         if(Session()->get('username')=="") {

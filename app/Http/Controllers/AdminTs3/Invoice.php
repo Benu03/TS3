@@ -10,6 +10,8 @@ use Image;
 use PDF;
 use Log;
 use File;
+use App\Exports\AdminTs3\InvoiceExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Invoice extends Controller
 {
@@ -434,7 +436,7 @@ class Invoice extends Controller
 
            // preparing email data dan insert  table auth.user_mail
             $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
-            $url_img = env('APP_URL').'/assets/upload/image/2.png';
+            $url_img = 'https://ts3.co.id/assets/upload/image/2.png';
             $body = '<html lang="en">
             <head>
                 <meta charset="UTF-8">
@@ -758,6 +760,26 @@ class Invoice extends Controller
 		return redirect('admin-ts3/invoice/client')->with(['sukses' => 'Invoice Proses Selesai']);
 
 	}
+
+
+    public function invoice_export_excel_ts3($id)
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $invoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('id',$id)->first();       
+        // $invoice_detail = DB::connection('ts3')->table('mvm.v_invoice_detail_admin')->where('invoice_no',$invoice->invoice_no)->get();
+        $fileName = preg_replace('/\//', '-', $invoice->invoice_no);
+        return Excel::download(new InvoiceExport($id), $fileName.'.xlsx');
+
+
+
+
+    }   
+    
 
   
 
