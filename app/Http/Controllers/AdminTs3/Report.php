@@ -438,10 +438,31 @@ class Report extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
     
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
+        $laba_rugi = DB::connection('ts3')->table('mvm.v_chart_report_laba_rugi_series')
+                    // ->whereRaw("to_char(tanggal_pengerjaan,'mm') in ('05','06')")
+                    // ->where('year_spk', '2023')
+                    ->whereNotNull('type1')
+                    ->whereNotNull('type2')
+                    ->get();
+
+
+        $dataPointslaba_rugi = [];
+     
+        foreach ($laba_rugi as $lrp) {            
+            $dataPointslaba_rugi[] = [
+                "spk_no" => $lrp->spk_no,
+                "type1" => $lrp->type1,
+                "type2" => $lrp->type2,
+                "total1" => $lrp->total1,
+                "total2" => $lrp->total2               
+
+            ];
+        }
+     
 
 		$data = array(   'title'     => 'Laba Rugi',
-                         'nopol'      => $nopol,
+                         'laba_rugi'      => $laba_rugi,
+                         'dataPointslaba_rugi' => $dataPointslaba_rugi,
                         'content'   => 'admin-ts3/report/laba_rugi'
                     );
         return view('admin-ts3/layout/wrapper',$data);

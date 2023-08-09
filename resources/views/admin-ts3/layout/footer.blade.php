@@ -51,6 +51,13 @@ $awal = $sek-100;
     yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
   });
 
+  $('.monthPicker').datepicker({
+    format: "mm/yyyy",
+        startView: "months",
+        minViewMode: "months",
+        autoclose: true 
+    });
+
   $( ".tanggalan" ).datepicker({
     inline: true,
     changeYear: true,
