@@ -145,7 +145,7 @@ class Branch extends Controller
     public function delete($id)
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-     
+        Log::info($id);
         DB::connection('ts3')->table('mst.mst_branch')->where('id',$id)->delete();
         return redirect('admin-ts3/branch')->with(['sukses' => 'Data telah dihapus']);
     }
