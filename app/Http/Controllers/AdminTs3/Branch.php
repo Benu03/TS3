@@ -182,7 +182,7 @@ class Branch extends Controller
                $btn = '<div class="btn-group">
                <a href="'. asset('admin-ts3/branch/edit/'.$row->id).'" 
                  class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-               <a href="'. asset('admin-ts3/branch/delete/'.$row->id).'" class="btn btn-danger btn-sm">
+               <a href="'. asset('admin-ts3/branch/delete/'.$row->id).'"  class="btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i></a>
                </div>';
                 return $btn;
