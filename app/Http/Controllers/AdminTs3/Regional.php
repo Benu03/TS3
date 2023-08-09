@@ -136,7 +136,7 @@ class Regional extends Controller
                $btn = '<div class="btn-group">
                <a href="'. asset('admin-ts3/regional/edit/'.$row->id).'" 
                  class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-               <a href="'. asset('admin-ts3/regional/delete/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+               <a href="'. asset('admin-ts3/regional/delete/'.$row->id).'" class="btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i></a>
                </div>';
                 return $btn;
