@@ -145,7 +145,7 @@ class Branch extends Controller
     public function delete($id)
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-     
+        Log::info($id);
         DB::connection('ts3')->table('mst.mst_branch')->where('id',$id)->delete();
         return redirect('admin-ts3/branch')->with(['sukses' => 'Data telah dihapus']);
     }
@@ -182,7 +182,7 @@ class Branch extends Controller
                $btn = '<div class="btn-group">
                <a href="'. asset('admin-ts3/branch/edit/'.$row->id).'" 
                  class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-               <a href="'. asset('admin-ts3/branch/delete/'.$row->id).'" class="btn btn-danger btn-sm  delete-link">
+               <a href="'. asset('admin-ts3/branch/delete/'.$row->id).'" class="btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i></a>
                </div>';
                 return $btn;
