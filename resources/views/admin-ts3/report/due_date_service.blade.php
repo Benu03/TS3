@@ -38,36 +38,62 @@
         
             
 				<div class="form-group row">
-					<label class="col-sm-2 control-label text-left">Tanggal Transaksi</label>
-					<div class="col-sm-3">
+				
+					<div class="col-sm-2">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                 <i class="far fa-calendar-alt"></i>
+                                 From <i class="far fa-calendar-alt ml-2"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control float-right" id="reservation">
+                            <input type="text" name="from_date" id="from_date" class="form-control tanggal" placeholder="From Date" value="" data-date-format="yyyy-mm-dd">	
                             </div> 
 					</div>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                 To <i class="far fa-calendar-alt ml-2"></i>
+                                </span>
+                            </div>
+                            <input type="text" name="to_date"  id="to_date" class="form-control tanggal" placeholder="To Date" value="" data-date-format="yyyy-mm-dd">	
+                            </div> 
+					</div>
+
+
                     <div class="col-sm-6">
 						<div class="form-group pull-right btn-group">
-							<input type="submit" name="submit" class="btn btn-primary " value="Filter Data">
-							<input type="reset" name="reset" class="btn btn-success " value="Reset">
+                            <button type="button" name="filter" id="filter" class="btn btn-primary" value="Filter Data">
+                                <i class="fas fa-filter"></i> Filter Data
+                              </button>
+                            <button type="button" name="refresh"  id="refresh" class="btn btn-warning " value="Refresh">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                              </button>
+    
 						</div>
 					</div>
+
+                    <div class="col-sm-2 text-right">
+                   
+                        <button type="button" name="export" id="export" class="btn btn-success" value="Export Data">
+                            <i class="far fa-file-excel"></i> Export 
+                          </button>
+                 
+                    </div>
+
                     <div class="clearfix"></div>
 				</div>
 
                
     {{-- </div>        --}}
-</div> 
+    </div> 
 
 </div>
 
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+<table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%" style="font-size: 12px;">
 <thead>
     <tr class="bg-info">
         {{-- <th width="5%">
@@ -77,48 +103,174 @@
                 </button>
             </div>
         </th> --}}
-        <th width="15%">SPK Nomor</th>
-        <th width="15%">Jumlah Vehicle</th>   
-        <th width="15%">Status</th> 
-        <th width="15%">Amount</th>  
-        <th width="15%">Tanggal Pengerjaan</th> 
-        <th width="15%">User Post</th>    
-        <th width="15%">Date Post</th>    
+        <th width="10%">Client</th>
+        <th width="10%">Nopol</th>
+        <th width="10%">No Rangka</th>   
+        <th width="10%">No Mesin</th> 
+        <th width="15%">Type</th>  
+        <th width="6%">Last Km</th> 
+        <th width="10%">Tanggal Last Service</th> 
+  
 </tr>
 </thead>
-<tbody>
-{{-- 
-    {{-- <?php $i=1; foreach($area as $ar) { ?> --}}
 
-    {{-- <td class="text-center">
-        <div class="icheck-primary">
-                  <input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $ar->id ?>" id="check<?php echo $i ?>">
-                   <label for="check<?php echo $i ?>"></label>
-        </div> --}}
-        {{-- <small class="text-center"><?php echo $i ?></small> --}}
-    {{-- </td>
-    <td><?php echo $ar->regional_slug ?></td>
-    <td><?php echo $ar->area ?></td>
-    <td>
-        <div class="btn-group">
-        <a href="{{ asset('admin-ts3/area/edit/'.$ar->id) }}" 
-          class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-
-          <a href="{{ asset('admin-ts3/area/delete/'.$ar->id) }}" class="btn btn-danger btn-sm  delete-link">
-            <i class="fa fa-trash"></i></a>
-        </div>
-
-    </td>
-</tr> --}}
-{{-- 
-<?php $i++; } ?>  --}}
-
-</tbody>
 </table>
 </div>
 </div>
 </form>
 
-<script>
-    $('#reservation').daterangepicker()
-</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        fetch_data()
+        function fetch_data(from_date = '', to_date = ''){                    
+                $('#dataTable').DataTable({
+                    pageLength: 10,
+                    lengthChange: true,
+                    bFilter: true,
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    order: [[3, 'desc']],
+                    oLanguage: {
+                        sZeroRecords: "Tidak Ada Data",
+                        sSearch: "Pencarian _INPUT_",
+                        sLengthMenu: "_MENU_",
+                        sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                        sInfoEmpty: "0 data",
+                        oPaginate: {
+                            sNext: "<i class='fa fa-angle-right'></i>",
+                            sPrevious: "<i class='fa fa-angle-left'></i>"
+                        }
+                    },
+                    ajax: {
+                        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                        url:"{{  asset('admin-ts3/get-due-date-service') }}",
+                        type: "POST",
+                        data: function (d) {
+                        d.from_date = from_date;
+                        d.to_date = to_date;
+                    }
+                             
+                    },
+                    columns: [
+                        { 
+                            data: 'client_name', 
+                            name: 'client_name', 
+        
+                        },
+                        {
+                            name: 'nopol',
+                            data: 'nopol'
+                        },
+                        {
+                            name: 'norangka',
+                            data: 'norangka'
+                        },
+                        {
+                            name: 'nomesin',
+                            data: 'nomesin'
+                        },
+                        {
+                            name: 'type',
+                            data: 'type'
+                        },
+                        {
+                            name: 'last_km',
+                            data: 'last_km'
+                        },
+                        {
+                            name: 'tgl_last_service',
+                            data: 'tgl_last_service'
+                        },
+                       
+                    ]
+                });
+            }  
+            
+
+            $('#filter').click(function(){
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+
+            if(from_date != '' &&  to_date != ''){
+                $('#dataTable').DataTable().destroy();
+                fetch_data(from_date, to_date);
+            } else{
+                swal('Oops..', 'Date Filter Belum Di input', 'warning');
+            }
+
+        });
+
+        $('#refresh').click(function(){
+            $('#from_date').val('');
+            $('#to_date').val('');
+            $('#dataTable').DataTable().destroy();
+            fetch_data();
+        });
+
+        $('#export').click(function(){
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+
+            if (from_date != '' && to_date != '') 
+            {
+                // Tampilkan animasi pengunduhan
+                var downloadButton = $('#export');
+                downloadButton.text('Downloading...');
+                downloadButton.attr('disabled', true);
+
+            // Kirim permintaan AJAX ke kontroler Anda untuk mendapatkan data
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                url: "{{  asset('admin-ts3/export-due-date-service') }}",
+                type: "POST",
+                data: {
+                    from_date: from_date,
+                    to_date: to_date
+                },
+            success: function(response) {
+            // Buat workbook Excel baru
+            var wb = XLSX.utils.book_new();
+
+            // Buat worksheet
+            var ws = XLSX.utils.json_to_sheet(response.data);
+
+            // Tambahkan worksheet ke workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+            // Buat objek Blob yang berisi data file Excel
+
+            var blob = new Blob([new Uint8Array(XLSX.write(wb, { bookType: 'xlsx', type: 'array' }))], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            });
+
+            // Animasi delay sebelum pengunduhan dimulai
+            setTimeout(function() {
+                // Pengaktifan pengunduhan
+                downloadButton.html('<i class="far fa-file-excel"></i> Export');
+                downloadButton.attr('disabled', false);
+
+                // Trigger pengunduhan file Excel
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'Due-Date-Service.xlsx';
+                a.click();
+            }, 1000); // Durasi animasi dalam milidetik
+                    },
+                    error: function() {
+                        swal('Oops..', 'Terjadi kesalahan saat memuat data.', 'error');
+                    }
+                });
+            } else {
+                swal('Oops..', 'Date Filter Belum Di input', 'warning');
+            }
+        });
+            
+        
+    });
+
+
+
+    </script>

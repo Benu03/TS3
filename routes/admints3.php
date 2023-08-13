@@ -185,6 +185,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/vehicle/proses-edit', 'App\Http\Controllers\AdminTs3\Vehicle@proses_edit');
     Route::get('admin-ts3/vehicle/delete/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete');
     Route::get('admin-ts3/vehicle/detail/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@detail');
+    Route::get('admin-ts3/template-upload-vehicle', 'App\Http\Controllers\AdminTs3\Vehicle@template_upload_vehicle');
+    Route::post('admin-ts3/upload-vehicle-proses', 'App\Http\Controllers\AdminTs3\Vehicle@upload_vehicle_proses');
 
     Route::get('admin-ts3/get-vehicle', 'App\Http\Controllers\AdminTs3\Vehicle@getVehicle');
     
@@ -239,13 +241,20 @@ Route::group(['middleware' => ['admints3']],function(){
 
     Route::get('admin-ts3/report/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminTs3\Report@get_image_service_detail');
     Route::get('admin-ts3/report/summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@summary_bengkel');
+    Route::post('admin-ts3/get-summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@getSummaryBengkel');
+    Route::post('admin-ts3/export-summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@exportSummaryBengkel');
 
+
+    
+    
 
     Route::get('admin-ts3/report/rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@rekap_invoice');
     Route::post('admin-ts3/get-rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@getRekapInvoice');
     Route::post('admin-ts3/export-rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@exportRekapInvoice');
 
     Route::get('admin-ts3/report/due-date-service', 'App\Http\Controllers\AdminTs3\Report@due_date_service');
+    Route::post('admin-ts3/get-due-date-service', 'App\Http\Controllers\AdminTs3\Report@getdue_date_service');
+    Route::post('admin-ts3/export-due-date-service', 'App\Http\Controllers\AdminTs3\Report@exportDueDateService');
     Route::get('admin-ts3/report/ar', 'App\Http\Controllers\AdminTs3\Report@ar');
     Route::get('admin-ts3/report/laba-rugi', 'App\Http\Controllers\AdminTs3\Report@laba_rugi');
     Route::get('admin-ts3/report/export-laba-rugi', 'App\Http\Controllers\AdminTs3\Report@export_laba_rugi');

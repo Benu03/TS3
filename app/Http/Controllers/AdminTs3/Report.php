@@ -114,10 +114,10 @@ class Report extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
     
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
+        // $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
 
 		$data = array(   'title'     => 'Summary Bengkel',
-                         'nopol'      => $nopol,
+                        //  'nopol'      => $nopol,
                         'content'   => 'admin-ts3/report/summary_bengkel'
                     );
         return view('admin-ts3/layout/wrapper',$data);
@@ -406,14 +406,62 @@ class Report extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
     
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
+        // $nopol = DB::connection('ts3')->table('mst.v_vehicle')->get();
 
 		$data = array(   'title'     => 'Due Date Service',
-                         'nopol'      => $nopol,
+                        //  'nopol'      => $nopol,
                         'content'   => 'admin-ts3/report/due_date_service'
                     );
         return view('admin-ts3/layout/wrapper',$data);
     }
+
+
+    
+    public function getdue_date_service(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        if ($request->ajax()) {
+           
+            if(!empty($request->from_date)) {
+                
+                $service 	= DB::connection('ts3')->table('mst.v_vehicle_last_service')
+                ->whereBetween('tgl_last_service', array($request->from_date, $request->to_date))->get();
+
+            } else {
+            $service 	= DB::connection('ts3')->table('mst.v_vehicle_last_service')->get();
+            }
+
+
+        return DataTables::of($service)->make(true);
+       
+        }
+
+    }
+
+    public function getSummaryBengkel(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        if ($request->ajax()) {
+           
+            
+            if(!empty($request->month)) {
+
+                
+                $service 	= DB::connection('ts3')->table('mvm.v_summary_invoice_bengkel_group')
+                ->where('month', $request->month)
+                ->where('year_invoice', $request->year)->get();
+
+            } else {
+             $service 	= DB::connection('ts3')->table('mvm.v_summary_invoice_bengkel_group')->get();
+            }
+
+
+        return DataTables::of($service)->make(true);
+       
+        }
+
+    }
+
 
     public function ar()
     {
@@ -591,6 +639,51 @@ class Report extends Controller
             return response()->json(['data' => $service]);
     }
     
+    public function exportDueDateService(Request $request)
+    {
 
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        if ($request->ajax()) 
+        {
+            if(!empty($request->from_date)) {
+
+                // dd($request->from_date);
+
+                $service 	= DB::connection('ts3')->table('mst.v_vehicle_last_service')->selectRaw("client_name, nopol, norangka, nomesin, type, tahun_pembuatan,tgl_last_service,last_km, nama_stnk,remark, created_date, updated_at, create_by, update_by")
+                    ->whereBetween('tgl_last_service', array($request->from_date, $request->to_date))
+                    ->get();
+
+            } else {
+
+                $service 	= DB::connection('ts3')->table('mst.v_vehicle_last_service')->selectRaw("client_name, nopol, norangka, nomesin, type, tahun_pembuatan,tgl_last_service,last_km, nama_stnk,remark, created_date, updated_at, create_by, update_by")->get();
+
+            }
+        }
+            return response()->json(['data' => $service]);
+    }
+
+
+
+    public function exportSummaryBengkel(Request $request)
+    {
+
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        if ($request->ajax()) 
+        {
+            if(!empty($request->month)) {
+
+                $service 	= DB::connection('ts3')->table('mvm.v_summary_invoice_bengkel_group')->selectRaw("bengkel_alias,bengkel_name,month_invoice, year_invoice, pic, phone_pic, wa_pic, email_pic, total")
+                ->where('month', $request->month)
+                ->where('year_invoice', $request->year)->get();
+
+            } else {
+
+                $service 	= DB::connection('ts3')->table('mvm.v_summary_invoice_bengkel_group')->selectRaw("bengkel_alias,bengkel_name,month_invoice, year_invoice, pic, phone_pic, wa_pic, email_pic, total")->get();
+
+            }
+        }
+            return response()->json(['data' => $service]);
+    }
+    
    
 }
