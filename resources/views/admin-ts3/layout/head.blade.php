@@ -49,14 +49,14 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   {{-- <script src="{{ asset('assets/sweetalert/js/sweetalert.min.js') }}"></script> --}}
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- angular -->
-  <script src="{{ asset('assets/angular/angular.min.js') }}"></script>  
+  {{-- <script src="{{ asset('assets/angular/angular.min.js') }}"></script>   --}}
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/sweetalert/css/sweetalert.css') }}">
   <!-- jQuery -->
   <!-- <script src="{{ asset('assets/admin/plugins/jquery/jquery.min.js') }}"></script> -->
   <script src="{{ asset('assets/jquery-ui/external/jquery/jquery.js') }}"></script>
   <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js') }}"></script> -->
   <!-- JQUERY CHAINED -->
-  <script src="{{ asset('assets/js/jquery.chained.min.js" type="text/javascript') }}"></script> 
+  {{-- <script src="{{ asset('assets/js/jquery.chained.min.js" type="text/javascript') }}"></script>  --}}
   <!-- jQuery UI 1.11.4 -->
   <script src="{{ asset('assets/admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
   <link href="{{ asset('assets/admin/plugins/jquery-ui/jquery-ui.min.css') }}" rel="stylesheet">
@@ -77,6 +77,8 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+  
 
   <style type="text/css" media="screen">
    .tooltip {
@@ -203,6 +205,7 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
                 width: 50%;
                 margin: 15px auto;
             }
+     
   </style>
 
   

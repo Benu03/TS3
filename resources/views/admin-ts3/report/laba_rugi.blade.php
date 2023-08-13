@@ -12,17 +12,58 @@
 </p> --}}
 <form action="{{ asset('admin-client/report/proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
-<div class="row">
 
-        <div class="col-sm-4">
-            <div class="input-group">
+<div class="row">
+        <div class="col-sm-3">
+           
                 <div class="input-group-prepend">
                     <span class="input-group-text">
-                    Period <i class="far fa-calendar-alt ml-2"></i>
+                    Month <i class="far fa-calendar-alt ml-2"></i>
                     </span>
+                    <select name="month" id="month">
+                        <option value="1" <?php if(date("n") == 1) echo 'selected'; ?>>January</option>
+                        <option value="2" <?php if(date("n") == 2) echo 'selected'; ?>>February</option>
+                        <option value="3" <?php if(date("n") == 3) echo 'selected'; ?>>March</option>
+                        <option value="4" <?php if(date("n") == 4) echo 'selected'; ?>>April</option>
+                        <option value="5" <?php if(date("n") == 5) echo 'selected'; ?>>May</option>
+                        <option value="6" <?php if(date("n") == 6) echo 'selected'; ?>>June</option>
+                        <option value="7" <?php if(date("n") == 7) echo 'selected'; ?>>July</option>
+                        <option value="8" <?php if(date("n") == 8) echo 'selected'; ?>>August</option>
+                        <option value="9" <?php if(date("n") == 9) echo 'selected'; ?>>September</option>
+                        <option value="10" <?php if(date("n") == 10) echo 'selected'; ?>>October</option>
+                        <option value="11" <?php if(date("n") == 11) echo 'selected'; ?>>November</option>
+                        <option value="12" <?php if(date("n") == 12) echo 'selected'; ?>>December</option>
+                    </select>
+                    
                 </div>
-                <input type="text" name="month_spk" id="month_spk" class="form-control monthPicker"  value="">	
-                </div> 
+       
+        </div>
+
+        <div class="col-sm-2">
+           
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                Year <i class="far fa-calendar-alt ml-2"></i>
+                </span>
+                <select id="yearSelect">
+                    <?php
+                    $currentYear = date("Y");
+                    $startYear = $currentYear - 2;
+                    $endYear = $currentYear + 2;
+                    
+                    for ($year = $startYear; $year <= $endYear; $year++) {
+                        echo '<option value="' . $year . '"';
+                        
+                        if ($year == $currentYear) {
+                            echo ' selected';
+                        }
+                        
+                        echo '>' . $year . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+   
         </div>
        
 

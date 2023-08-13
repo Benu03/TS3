@@ -9,6 +9,7 @@
 @endif
 <p>
 @include('admin-ts3/vehicle/tambah')
+@include('admin-ts3/vehicle/upload')
 </p>
 <form action="{{ asset('admin-ts3/vehicle/proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
@@ -25,6 +26,9 @@
 </div>
 </div>
 <div class="col-md-4 text-right">
+    <button type="button" class="btn btn-secondary " data-toggle="modal" data-target="#upload">
+        <i class="fas fa-file-upload"></i> Upload
+    </button>
     <a href="{{ asset('admin-ts3/export/vehicle') }}" class="btn btn-success">       
         <i class="fas fa-file-excel"></i> Export Excel
     </a>

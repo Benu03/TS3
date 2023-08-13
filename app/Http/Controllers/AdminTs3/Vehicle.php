@@ -5,10 +5,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Image;
+use Illuminate\Support\Facades\File;
 use DataTables;
 use Log;
 use App\Exports\AdminTs3\VehicleExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\VehicleTempImport;
+use Storage;
+use App\Models\Vehicle_model;
+
 
 class Vehicle extends Controller
 {
@@ -30,6 +35,170 @@ class Vehicle extends Controller
                     );
         
         return view('admin-ts3/layout/wrapper',$data);
+    }
+
+
+    public function template_upload_vehicle()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        $file_path = storage_path('data/template/VEHICLE_LIST_TEMPLATE.xlsx');
+        return response()->download($file_path);
+    }
+
+
+    
+
+    public function upload_vehicle_proses(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        request()->validate([
+            'vehicle'   => 'file|mimes:xlsx,xls|max:5120|required',
+            ]);
+
+            $vehicle_file       = $request->file('vehicle');
+
+            try
+            {
+
+                $nama_file = date("ymd_s").'_'.$vehicle_file->getClientOriginalName();
+                $dir_file =storage_path('data/vehicle/'.date("Y").'/'.date("m").'/');
+                // $DirFile ='data/spk/';
+                if (!file_exists($dir_file)) {
+                File::makeDirectory($dir_file,0777,true);
+                }
+
+                Log::info('done upload '.$nama_file);
+
+                Excel::import(new VehicleTempImport(), $vehicle_file);
+                $vehicle_file->move($dir_file,$nama_file);
+
+                DB::commit();
+            }
+            catch (\Exception $e) {
+                DB::rollback();
+                return redirect('admin-ts3/vehicle')->with(['warning' => $e]);
+            }    
+
+            $return =  $this->postingvehicle($username = Session()->get('username')); 
+
+
+            return redirect('admin-ts3/vehicle')->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
+    }
+
+
+
+    public function postingvehicle($username)
+    {
+     
+
+        $checkvehicle =  Vehicle_model::GetTempVehicle($username); 
+
+        foreach($checkvehicle as $x => $val) 
+        {
+             $resultArray = json_decode(json_encode($val), true);
+
+             $checttypeVehicle = DB::connection('ts3')->table('mst.mst_vehicle_type')->select('id')->where('type',$resultArray['type'])->where('tahun_pembuatan',$resultArray['tahun_pembuatan'])->first();
+
+             $checknopol = DB::connection('ts3')->table('mst.mst_vehicle')->select('nopol')->where('nopol',$resultArray['nopol'])->first();
+
+                if(!isset($checknopol))
+                {
+
+                        if(isset($checttypeVehicle))
+                        {
+                            // $check client id di sini
+                            $clientCheck = DB::connection('ts3')->table('mst.mst_client')->select('id')->where('client_name',$resultArray['client'])->first();
+
+                            if(isset($clientCheck))
+                            {
+
+                                DB::connection('ts3')->table('mst.mst_vehicle')->insert([
+                                'mst_client_id'	=> $clientCheck->id,
+                                'nopol'   => strtoupper(str_replace(' ', '', $resultArray['nopol'])),
+                                'norangka'   => strtoupper(str_replace(' ', '', $resultArray['norangka'])),
+                                'nomesin'   => strtoupper(str_replace(' ', '', $resultArray['nomesin'])),
+                                'mst_vehicle_type_id'   => $checttypeVehicle->id,
+                                'tgl_last_service'   => $resultArray['tgl_last_service'],
+                                'last_km'   => $resultArray['last_km'],
+                                'nama_stnk'   => $resultArray['nama_stnk'],
+                                'remark'   => '',
+                                'created_date'    => date("Y-m-d h:i:sa"),
+                                'create_by'     => Session()->get('username')
+                            ]);        
+                                
+                            }
+                            else
+                            {
+                                DB::connection('ts3')->table('mst.mst_temp_vehicle')->where('user_upload',$username)->delete();
+                                Log::info('Client Tidak Terdaftar '.$resultArray['client']);
+                                return 'Data Client Tidak Terdaftar';
+
+                            }
+            
+
+                        }
+                        else
+                        {
+                            $clientCheck = DB::connection('ts3')->table('mst.mst_client')->select('id')->where('client_name',$resultArray['client'])->first();
+
+                            if(isset($clientCheck))
+                            {
+
+
+                                 $idType = DB::connection('ts3')->table('mst.mst_vehicle_type')->insertGetId([
+                                'group_vehicle'   => 'Motor',
+                                'type'   => $resultArray['type'],
+                                'tahun_pembuatan'	=> $resultArray['tahun_pembuatan'],
+                                'desc'	=> '',
+                                'mst_client_id'	=> $clientCheck->id,
+                                'created_date'    => date("Y-m-d h:i:sa"),
+                                'create_by'     => Session()->get('username')
+                            ]);
+
+                            DB::connection('ts3')->table('mst.mst_vehicle')->insert([
+                                'mst_client_id'	=> $clientCheck->id,
+                                'nopol'   => strtoupper(str_replace(' ', '', $resultArray['nopol'])),
+                                'norangka'   => strtoupper(str_replace(' ', '', $resultArray['norangka'])),
+                                'nomesin'   => strtoupper(str_replace(' ', '', $resultArray['nomesin'])),
+                                'mst_vehicle_type_id'   => $idType,
+                                'tgl_last_service'   => $resultArray['tgl_last_service'],
+                                'last_km'   => $resultArray['last_km'],
+                                'nama_stnk'   => $resultArray['nama_stnk'],
+                                'remark'   => '',
+                                'created_date'    => date("Y-m-d h:i:sa"),
+                                'create_by'     => Session()->get('username')
+                            ]);
+
+                            }
+                            else
+                            {
+                                DB::connection('ts3')->table('mst.mst_temp_vehicle')->where('user_upload',$username)->delete();
+                                Log::info('Client Tidak Terdaftar '.$resultArray['client']);
+                                return 'Data Client Tidak Terdaftar';
+
+                            }
+
+
+                        }    
+                 } 
+                 else
+                 { 
+                    Log::info('Vehcicle Sudah ada '.$resultArray['nopol']);
+
+                 }       
+
+        }
+
+
+        DB::connection('ts3')->table('mst.mst_temp_vehicle')->where('user_upload',$username)->delete();
+
+        return 'File berhasil Di Upload, mohon Untuk Di Review';
+
     }
 
 

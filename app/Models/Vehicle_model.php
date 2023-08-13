@@ -13,4 +13,15 @@ class Vehicle_model extends Model
             ->get();
         return $query;
     }
+
+
+    public function GetTempVehicle($username)
+    {
+    	$query = DB::connection('ts3')->table('mst.mst_temp_vehicle')
+                ->where('user_upload', $username)->get();
+        return $query;
+    }
+
+
+
 }

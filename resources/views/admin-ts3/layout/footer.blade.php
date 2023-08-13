@@ -51,12 +51,26 @@ $awal = $sek-100;
     yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
   });
 
-  $('.monthPicker').datepicker({
-    format: "mm/yyyy",
-        startView: "months",
-        minViewMode: "months",
-        autoclose: true 
-    });
+
+
+  $(".monthPicker").datepicker({
+    inline: true,
+    changeYear: true,
+    changeMonth: true,
+    dateFormat: "MM yy",
+    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>",
+    beforeShow: function (input, inst) {
+        setTimeout(function () {
+            inst.dpDiv.find('.ui-datepicker-calendar').hide();
+        }, 0);
+    },
+    showButtonPanel: true,
+    onClose: function (dateText, inst) {
+        var selectedMonth = inst.selectedMonth + 1; // Bulan dimulai dari 0 (Januari)
+        var selectedYear = inst.selectedYear;
+        $(this).val($.datepicker.formatDate('MM yy', new Date(selectedYear, selectedMonth - 1, 1)));
+    }
+  });
 
   $( ".tanggalan" ).datepicker({
     inline: true,
