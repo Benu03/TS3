@@ -209,5 +209,60 @@ class Branch extends Controller
 
 
 
+    
+    public function template_upload_branch()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        $file_path = storage_path('data/template/BRANCH_LIST_TEMPLATE.xlsx');
+        return response()->download($file_path);
+    }
+
+
+    
+
+    public function upload_branch_proses(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        request()->validate([
+            'branch'   => 'file|mimes:xlsx,xls|max:5120|required',
+            ]);
+
+            $branch_file       = $request->file('branch');
+
+            try
+            {
+                DB::connection('ts3')->beginTransaction();
+                $nama_file = date("ymd_s").'_'.$branch_file->getClientOriginalName();
+                $dir_file =storage_path('data/branch/'.date("Y").'/'.date("m").'/');
+                // $DirFile ='data/spk/';
+                if (!file_exists($dir_file)) {
+                File::makeDirectory($dir_file,0777,true);
+                }
+
+                Log::info('done upload '.$nama_file);
+
+                Excel::import(new BranchTempImport(), $branch_file);
+                $branch_file->move($dir_file,$nama_file);
+
+                DB::connection('ts3')->commit();
+            }
+            catch (\Exception $e) {
+                DB::connection('ts3')->rollback();
+                return redirect('admin-ts3/vehicle')->with(['warning' => $e]);
+            }    
+
+            // $return =  $this->postingvehicle($username = Session()->get('username')); 
+
+
+            return redirect('admin-ts3/branch')->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
+    }
+
+
+
 
 }

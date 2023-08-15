@@ -140,6 +140,7 @@ class Invoice extends Controller
         if(count($checkInvoice) == 0)
         {
         try{
+            DB::beginTransaction();
             $service_id =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->insertgetID([
                 'invoice_no'   => $request->invoice_no,
                 'invoice_type'	=> 'BENGKEL TO TS3',
@@ -228,7 +229,7 @@ class Invoice extends Controller
             
                 try{
                    
-        
+                    DB::beginTransaction();
                     foreach($request->id as $serno){
                         $service_jasa = DB::connection('ts3')->table('mvm.v_service_detail_invoice_bengkel')->where('service_no',$serno)->where('detail_type','Pekerjaan')->get(); 
                        

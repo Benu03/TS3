@@ -157,6 +157,9 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/branch/edit/{par1}', 'App\Http\Controllers\AdminTs3\Branch@edit');
     Route::post('admin-ts3/branch/proses_edit', 'App\Http\Controllers\AdminTs3\Branch@proses_edit');
     Route::get('admin-ts3/branch/delete/{par1}', 'App\Http\Controllers\AdminTs3\Branch@delete');
+    Route::get('admin-ts3/template-upload-branch', 'App\Http\Controllers\AdminTs3\Branch@template_upload_branch');
+    Route::post('admin-ts3/upload-branch-proses', 'App\Http\Controllers\AdminTs3\Branch@upload_branch_proses');
+
 
     Route::get('admin-ts3/get-branch', 'App\Http\Controllers\AdminTs3\Branch@getBranch');
 

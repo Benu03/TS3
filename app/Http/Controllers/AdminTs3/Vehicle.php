@@ -64,7 +64,7 @@ class Vehicle extends Controller
 
             try
             {
-
+                DB::connection('ts3')->beginTransaction();
                 $nama_file = date("ymd_s").'_'.$vehicle_file->getClientOriginalName();
                 $dir_file =storage_path('data/vehicle/'.date("Y").'/'.date("m").'/');
                 // $DirFile ='data/spk/';
@@ -77,10 +77,10 @@ class Vehicle extends Controller
                 Excel::import(new VehicleTempImport(), $vehicle_file);
                 $vehicle_file->move($dir_file,$nama_file);
 
-                DB::commit();
+                DB::connection('ts3')->commit();
             }
             catch (\Exception $e) {
-                DB::rollback();
+                DB::connection('ts3')->rollback();
                 return redirect('admin-ts3/vehicle')->with(['warning' => $e]);
             }    
 
