@@ -175,7 +175,7 @@ class Invoice extends Controller
                     $invoice_detail = DB::connection('ts3')->table('mvm.mvm_invoice_d')->whereIn('mvm_invoice_h_id',$id)->get();  
                 
                     try 
-                    { DB::connection('ts3')->beginTransaction()
+                    { DB::connection('ts3')->beginTransaction();
                     foreach($invoice_detail as $val)
                     {
                         $dataPreparing = [
@@ -235,7 +235,7 @@ class Invoice extends Controller
                     {
 
                         try 
-                        { DB::connection('ts3')->beginTransaction()
+                        { DB::connection('ts3')->beginTransaction();
 
                             $invoice_h_admin =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->insertgetID([
                             'invoice_no'   => $request->invoice_no,
@@ -390,7 +390,7 @@ class Invoice extends Controller
             $CheckInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_d')->selectRaw("reference_no")->where('invoice_no',$request->invoice_no)->groupBy('reference_no')->get();
           
             try{   
-                DB::connection('ts3')->beginTransaction()
+                DB::connection('ts3')->beginTransaction();
             foreach($CheckInvoice as $val)
             {
 
