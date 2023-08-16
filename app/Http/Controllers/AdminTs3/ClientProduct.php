@@ -60,7 +60,7 @@ class ClientProduct extends Controller
         $imagereq = $request->file('img_client');
         if(!empty($imagereq)) {
             try{
-                DB::connection('ts3')->beginTransaction()
+                DB::connection('ts3')->beginTransaction();
                 $image  = $request->file('img_client');
                 $filename =  $request->client_name.'-'.date("ymdhis").'.jpg';
                 $destinationPath =storage_path('data/image/client');
@@ -102,7 +102,7 @@ class ClientProduct extends Controller
              }
           
             catch (\Illuminate\Database\QueryException $e) {
-                DB::connection('ts3')->rollback()
+                DB::connection('ts3')->rollback();
                 return redirect('admin-ts3/client')->with(['warning' => $e]);
             }
         }
@@ -110,7 +110,7 @@ class ClientProduct extends Controller
         {
 
             try{
-                DB::connection('ts3')->beginTransaction()
+                DB::connection('ts3')->beginTransaction();
             $id_client = DB::connection('ts3')->table('mst.mst_client')->insertGetId([
                 'client_name'   => $request->client_name,
                 'legal_name'   => $request->legal_name,
@@ -137,7 +137,7 @@ class ClientProduct extends Controller
              }
           
             catch (\Illuminate\Database\QueryException $e) {
-                DB::connection('ts3')->rollback()
+                DB::connection('ts3')->rollback();
                 return redirect('admin-ts3/client')->with(['warning' => $e]);
             }
 
@@ -266,7 +266,7 @@ class ClientProduct extends Controller
 
                                 }
                                 catch (\Illuminate\Database\QueryException $e) {
-                                    DB::connection('ts3')->rollback()
+                                    DB::connection('ts3')->rollback();
                                     return redirect('admin-ts3/client')->with(['warning' => $e]);
                                 }
 
@@ -274,7 +274,7 @@ class ClientProduct extends Controller
                             else
                             {
                                 try{  
-                                    DB::connection('ts3')->beginTransaction()
+                                    DB::connection('ts3')->beginTransaction();
                                     DB::connection('ts3')->table('mst.mst_client')->where('id',$request->id)->update([
                                         'client_name'   => $request->client_name,
                                         'legal_name'   => $request->legal_name,
@@ -301,7 +301,7 @@ class ClientProduct extends Controller
                                     DB::connection('ts3')->commit();
                                 }
                                 catch (\Illuminate\Database\QueryException $e) {
-                                    DB::connection('ts3')->rollback()
+                                    DB::connection('ts3')->rollback();
                                     return redirect('admin-ts3/client')->with(['warning' => $e]);
                                 }
 

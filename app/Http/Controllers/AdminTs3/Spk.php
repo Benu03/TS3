@@ -353,7 +353,7 @@ class Spk extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         try{
-            DB::connection('ts3')->beginTransaction()
+            DB::connection('ts3')->beginTransaction();
         DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
     
         
@@ -380,7 +380,7 @@ class Spk extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         try{
-            DB::connection('ts3')->beginTransaction()
+            DB::connection('ts3')->beginTransaction();
         DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
     
         
@@ -408,7 +408,7 @@ class Spk extends Controller
 
 
         try{
-            DB::connection('ts3')->beginTransaction()
+            DB::connection('ts3')->beginTransaction();
             $datajobs = [
                 'mvm_service_vehicle_h_id' => $request->servicehid,
                 'detail_type' => 'Pekerjaan',
@@ -427,7 +427,7 @@ class Spk extends Controller
             DB::connection('ts3')->commit();
             }
             catch (\Illuminate\Database\QueryException $e) {
-                DB::connection('ts3')->rollback()
+                DB::connection('ts3')->rollback();
                 return response()->json([
                     'success' => false,
                     'message' => 'Detail jasa tidak ditemukan.'
@@ -447,7 +447,7 @@ class Spk extends Controller
 
 
         try{
-            DB::connection('ts3')->beginTransaction()
+            DB::connection('ts3')->beginTransaction();
             $datapart = [
                 'mvm_service_vehicle_h_id' => $request->servicehid,
                 'detail_type' => 'Spare Part',
@@ -466,7 +466,7 @@ class Spk extends Controller
             DB::connection('ts3')->commit();
             }
             catch (\Illuminate\Database\QueryException $e) {
-                DB::connection('ts3')->rollback()
+                DB::connection('ts3')->rollback();
                 return response()->json([
                     'success' => false,
                     'message' => 'Detail jasa tidak ditemukan.'
@@ -486,14 +486,14 @@ class Spk extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         try{
-            DB::connection('ts3')->beginTransaction()
+            DB::connection('ts3')->beginTransaction();
         DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
             
         
         DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::connection('ts3')->rollback()
+            DB::connection('ts3')->rollback();
             return response()->json([
                 'success' => false,
                 'message' => 'Detail foto tidak ditemukan.'

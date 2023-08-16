@@ -212,9 +212,10 @@ class Invoice extends Controller
                                     'ppn'	            => $sumTotalInvoice->ppn
                                 ]);   
 
+                                DB::connection('ts3')->commit();
                             }
                             catch (\Illuminate\Database\QueryException $e) {
-                                DB::connection('ts3')->rollback()
+                                DB::connection('ts3')->rollback();
                                 return redirect('admin-ts3/invoice-create')->with(['warning' => $e]);
                             }
                 
@@ -287,7 +288,7 @@ class Invoice extends Controller
                                         DB::connection('ts3')->commit();
                                         }
                                     catch (\Illuminate\Database\QueryException $e) {
-                                        DB::connection('ts3')->rollback()
+                                        DB::connection('ts3')->rollback();
                                         return redirect('admin-ts3/invoice-create')->with(['warning' => $e]);
                                     }
                         
@@ -406,7 +407,7 @@ class Invoice extends Controller
             DB::connection('ts3')->commit();
                 }
                 catch (\Illuminate\Database\QueryException $e) {
-                    DB::connection('ts3')->rollback()
+                    DB::connection('ts3')->rollback();
                     return redirect('admin-ts3/invoice/client')->with(['warning' => $e]);
                 }
     
