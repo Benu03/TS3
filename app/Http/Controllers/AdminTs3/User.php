@@ -69,14 +69,14 @@ class User extends Controller
                 $user   =   DB::connection('ts3')->table('auth.users')->where('id_user',$id_usernya[$i])->first();
        
                 try
-                { 
+                { DB::connection('ts3')->beginTransaction();
                         DB::connection('ts3')->table('mst.mst_user_client')->where('username',$user->username)->delete();
                         DB::connection('ts3')->table('auth.users')->where('id_user',$id_usernya[$i])->delete();
-                        DB::commit();
+                        DB::connection('ts3')->commit();
 
                 }
                 catch (\Illuminate\Database\QueryException $e) {
-                    DB::rollback();
+                    DB::connection('ts3')->rollback();
                     return redirect('admin-ts3/user')->with(['warning' => $e]);
                 }
             }
@@ -113,7 +113,7 @@ class User extends Controller
             // END UPLOAD
 
             try{   
-            
+                DB::connection('ts3')->beginTransaction();
            DB::connection('ts3')->table('auth.users')->insert([
                 'nama'          => $request->nama,
                 'email'	        => $request->email,
@@ -137,17 +137,18 @@ class User extends Controller
 
             
              }
-            DB::commit();
+            DB::connection('ts3')->commit();
 
             }
             catch (\Illuminate\Database\QueryException $e) {
-                DB::rollback();
+                DB::connection('ts3')->rollback();
                 return redirect('admin-ts3/client')->with(['warning' => $e]);
             }
 
         }else{
 
             try{  
+                DB::connection('ts3')->beginTransaction();
             DB::connection('ts3')->table('auth.users')->insert([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -167,11 +168,11 @@ class User extends Controller
                 'create_by'     => $request->session()->get('username')
             ]);
          }
-         DB::commit();
+         DB::connection('ts3')->commit();
 
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::rollback();
+            DB::connection('ts3')->rollback();
             return redirect('admin-ts3/client')->with(['warning' => $e]);
         }
         }
@@ -218,7 +219,7 @@ class User extends Controller
           
             try{  
                 
-                
+                DB::connection('ts3')->beginTransaction();
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -257,11 +258,11 @@ class User extends Controller
                 }
 
              }
-             DB::commit();
+             DB::connection('ts3')->commit();
 
             }
             catch (\Illuminate\Database\QueryException $e) {
-                DB::rollback();
+                DB::connection('ts3')->rollback();
                 return redirect('admin-ts3/client')->with(['warning' => $e]);
             }
             
@@ -270,7 +271,7 @@ class User extends Controller
         }else{
             $slug_user = Str::slug($request->nama, '-');
             try{
-         
+                DB::connection('ts3')->beginTransaction();
            DB::connection('ts3')->table('auth.users')->where('id_user',$request->id_user)->update([
                 'nama'          => $request->nama,
                 'email'         => $request->email,
@@ -308,11 +309,11 @@ class User extends Controller
                 }
 
              }
-             DB::commit();
+             DB::connection('ts3')->commit();
 
             }
             catch (\Illuminate\Database\QueryException $e) {
-                DB::rollback();
+                DB::connection('ts3')->rollback();
                 return redirect('admin-ts3/client')->with(['warning' => $e]);
             }
             
@@ -326,14 +327,19 @@ class User extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
+       
+        $userdata = DB::connection('ts3')->table('auth.users')->where('id_user',$username)->first();
+
         try{
-        DB::connection('ts3')->table('mst.mst_user_client')->where('username',$username)->delete();
-    	DB::connection('ts3')->table('auth.users')->where('username',$username)->delete();
+
+            DB::connection('ts3')->beginTransaction();
+            DB::connection('ts3')->table('mst.mst_user_client')->where('username',$userdata->username)->delete();
+            DB::connection('ts3')->table('auth.users')->where('username',$userdata->username)->delete();
         
-        DB::commit();
+            DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::rollback();
+            DB::connection('ts3')->rollback();
             return redirect('admin-ts3/price-service')->with(['warning' => $e]);
         }
 

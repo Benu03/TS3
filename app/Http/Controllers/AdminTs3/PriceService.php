@@ -49,7 +49,7 @@ class PriceService extends Controller
         
 
           try{
-                    
+            DB::connection('ts3')->beginTransaction();
         $id_price = DB::connection('ts3')->table('mst.mst_price_service')->insertGetId([
             'kode'	=> $request->kode,
             'service_name'   => $request->service_name,
@@ -69,10 +69,10 @@ class PriceService extends Controller
 
             DB::connection('ts3')->table('mst.mst_price_service_x_regional')->insert($datasets);
         }
-        DB::commit();
+        DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::rollback();
+            DB::connection('ts3')->rollback();
             return redirect('admin-ts3/price-service')->with(['warning' => $e]);
         }
         
@@ -112,6 +112,7 @@ class PriceService extends Controller
                                 'price_service_type' 	   => 'required',
 					        ]);
                      try{
+                        DB::connection('ts3')->beginTransaction();
                             DB::connection('ts3')->table('mst.mst_price_service')->where('id',$request->id)->update([
                                 'service_name'   => $request->service_name,
                                 'price_bengkel_to_ts3'	=> $request->price_bengkel_to_ts3,
@@ -130,9 +131,10 @@ class PriceService extends Controller
                     
                                 DB::connection('ts3')->table('mst.mst_price_service_x_regional')->insert($datasets);
                             }
+                            DB::connection('ts3')->commit();
                         }
                         catch (\Illuminate\Database\QueryException $e) {
-                            DB::rollback();
+                            DB::connection('ts3')->rollback();
                             return redirect('admin-ts3/price-service')->with(['warning' => $e]);
                         }
 

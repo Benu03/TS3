@@ -3,13 +3,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Vehicle_model extends Model
+class Branch_model extends Model
 {
 
 
-    public function GetTempVehicle($username)
+    public function GetBranchTemp($username)
     {
-    	$query = DB::connection('ts3')->table('tmp.tmp_vehicle')
+    	$query = DB::connection('ts3')->table('tmp.tmp_branch')
                 ->where('user_upload', $username)->get();
         return $query;
     }

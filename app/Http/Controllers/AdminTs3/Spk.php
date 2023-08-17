@@ -337,7 +337,7 @@ class Spk extends Controller
 
                 // }
                 // catch (\Illuminate\Database\QueryException $e) {
-                //     DB::rollback();
+                //     DB::connection('ts3')->rollback()
                 //     return redirect('admin-ts3/spk-list')->with(['warning' => $e]);
                 // }
 
@@ -353,13 +353,14 @@ class Spk extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         try{
+            DB::connection('ts3')->beginTransaction();
         DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
     
         
-        DB::commit();
+        DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::rollback();
+            DB::connection('ts3')->rollback()
             return response()->json([
                 'success' => false,
                 'message' => 'Detail jasa tidak ditemukan.'
@@ -379,13 +380,14 @@ class Spk extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         try{
+            DB::connection('ts3')->beginTransaction();
         DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
     
         
-        DB::commit();
+        DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::rollback();
+            DB::connection('ts3')->rollback()
             return response()->json([
                 'success' => false,
                 'message' => 'Detail jasa tidak ditemukan.'
@@ -406,6 +408,7 @@ class Spk extends Controller
 
 
         try{
+            DB::connection('ts3')->beginTransaction();
             $datajobs = [
                 'mvm_service_vehicle_h_id' => $request->servicehid,
                 'detail_type' => 'Pekerjaan',
@@ -421,10 +424,10 @@ class Spk extends Controller
     
         
             
-            DB::commit();
+            DB::connection('ts3')->commit();
             }
             catch (\Illuminate\Database\QueryException $e) {
-                DB::rollback();
+                DB::connection('ts3')->rollback();
                 return response()->json([
                     'success' => false,
                     'message' => 'Detail jasa tidak ditemukan.'
@@ -444,6 +447,7 @@ class Spk extends Controller
 
 
         try{
+            DB::connection('ts3')->beginTransaction();
             $datapart = [
                 'mvm_service_vehicle_h_id' => $request->servicehid,
                 'detail_type' => 'Spare Part',
@@ -459,10 +463,10 @@ class Spk extends Controller
     
         
             
-            DB::commit();
+            DB::connection('ts3')->commit();
             }
             catch (\Illuminate\Database\QueryException $e) {
-                DB::rollback();
+                DB::connection('ts3')->rollback();
                 return response()->json([
                     'success' => false,
                     'message' => 'Detail jasa tidak ditemukan.'
@@ -482,13 +486,14 @@ class Spk extends Controller
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
         try{
+            DB::connection('ts3')->beginTransaction();
         DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('id',$id)->delete();
             
         
-        DB::commit();
+        DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::rollback();
+            DB::connection('ts3')->rollback();
             return response()->json([
                 'success' => false,
                 'message' => 'Detail foto tidak ditemukan.'
@@ -512,6 +517,7 @@ class Spk extends Controller
         Log::info($request);
     
         try {
+            
             $service_no = $request->servicehno;
             $image = $request->file('upload_foto');
             $filename = $service_no . '-' . mt_rand(0, 100) . '.jpg';

@@ -96,6 +96,7 @@ class Service extends Controller
         $bengkel 	= DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
 
         try {
+            DB::beginTransaction();
           $service_id =   DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->insertGetId([
                 'mvm_spk_d_id'   => $request->id,
                 'tanggal_service'	=> $request->tanggal_service,

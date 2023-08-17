@@ -8,6 +8,7 @@ use App\Models\User_model;
 use App\Helpers\Website;
 use App\Http\Controllers\Feature\EmailContoller;
 use App\Jobs\SendEmailAutomatic;
+use Log;
 
 class Login extends Controller
 {

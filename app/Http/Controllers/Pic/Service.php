@@ -10,6 +10,7 @@ use Image;
 use PDF;
 use Log;
 use Illuminate\Support\Facades\File;
+use DataTables;
 
 class Service extends Controller
 {
@@ -365,7 +366,204 @@ class Service extends Controller
     }
     
 
-  
+    
 
+  
+    public function ServiceDueDate(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        
+        if ($request->ajax()) {
+            $sericeduedate 	= DB::connection('ts3')->table('mvm.v_service_due_date_pic')->where('pic_branch',Session()->get('username'))->get();
+            return DataTables::of($sericeduedate)->addColumn('action', function($row){
+             
+                $btn = '<a href="#" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#vehicle' . $row->id . '"><i class="fa fa-eye"></i></a>';
+                $vehicle  = DB::connection('ts3')->table('mst.v_vehicle')->where('nopol',$row->nopol)->first();
+              
+               
+                $modal = '
+                <div class="modal fade" id="vehicle' . $row->id . '" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="max-width:1200px; max-height:1200px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title mr-4" id="myModalLabel">Detail (' . $row->nopol . ')</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">                                    
+                                            <div class="col-md-3">
+                                            <!-- Profile Image -->
+                                            <div class="card card-primary card-outline">
+                                                <div class="card-body box-profile">
+                                            <div class="text-center">
+                                                <img class="img img-thumbnail img-fluid" src="' . asset('assets/upload/image/thumbs/motor.png').'" >
+                                            </div>
+
+                                            <h3 class="profile-username text-center">'.$vehicle->nopol.'</h3>
+                                            <h3 class="profile-username text-center">' . $vehicle->gambar_unit.'</h3>
+                                            </div>
+                                            <!-- /.card-body -->
+                                            </div>
+                                            <!-- /.card -->
+                                            </div>
+                                            <div class="col-md-9">
+                                            <div class="card card-primary">
+                                            <div class="card-header">
+                                                    <h3 class="card-title">Detail Data Motor  ' .  $vehicle->client_name.'</h3>
+                                                    </div>
+                                                    <!-- /.card-header -->
+                                                    <div class="card-body">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="25%">Nopol</th>
+                                                        <th>' .  $vehicle->nopol.'</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>No Rangka</td>
+                                                        <td>' . $vehicle->norangka.'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>No Mesin</td>
+                                                        <td>' . $vehicle->nomesin .'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Type</td>
+                                                        <td>' . $vehicle->type.'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tahun Pembuatan</td>
+                                                        <td>' . $vehicle->tahun_pembuatan.'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tanggal Last Service</td>
+                                                        <td>' . $vehicle->tgl_last_service.'</td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td>Create Date</td>
+                                                        <td>' . $vehicle->created_date.'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Create By</td>
+                                                        <td>' . $vehicle->create_by.'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Update Date</td>
+                                                        <td>' . $vehicle->updated_at.'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Update By</td>
+                                                        <td>' . $vehicle->update_by.'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Remark</td>
+                                                        <td>' . $vehicle->remark.'</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </div>
+
+
+
+                                         </div>
+                                         <div class="row">
+
+                                         <div class="col-md-12">
+                                         <div class="card">  
+                                             <div class="card-header">
+                                             Service Detail
+                                             </div>
+                                                 <div class="card-body">  
+                                                     <div class="table-responsive-md">
+                                                         <table class="table table-bordered table-sm" style="font-size: 12px;">
+                                                                 <thead>
+                                                                 <tr class="bg-light">                                                      
+                                                             
+                                                                     <th width="15%">Detail Action</th>   
+                                                                     <th width="15%">Attribute</th> 
+                                                                         <th width="15%">Value Attibute</th>                                                 
+                                                                 </tr>
+                                                                 </thead>
+             
+                                                                 <tbody>';
+                                                                 $lastservice = DB::connection('ts3')->table('mvm.v_service_history')->where('nopol', $row->nopol)->where('tanggal_service', $row->tgl_last_service)->first();
+
+                                                                 $sdetail  = DB::connection('ts3')->table('mvm.v_service_detail_history')->where('id',$lastservice->mvm_service_vehicle_h_id)->get();
+
+                                                                 foreach ($sdetail as $ind) {
+                                                                    $modal .= '
+                                                                        <tr>
+                                                                            <td>' . $ind->detail_type . '</td>
+                                                                            <td>';
+                                                                            
+                                                                    if ($ind->detail_type == 'Upload') {
+                                                                        $modal .= '
+                                                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailImage' . $ind->service_d_id . '">
+                                                                                <i class="fa fa-eye"></i> ' . $ind->attribute . '
+                                                                            </button>';
+                                                                        
+                                                                        // Include the content of the modal directly here
+                                                                        $modal .= view('pic.service.service_image_history', ['ind' => $ind])->render();
+                                                                    } else {
+                                                                        $modal .= $ind->attribute;
+                                                                    }
+                                                                    
+                                                                    $modal .= '
+                                                                            </td>
+                                                                            <td>' . $ind->value_data . '</td>
+                                                                        </tr>';
+                                                                }
+                                                                
+                                        $modal .= '           
+                                                                     </tbody>
+                                                         
+                                                             </table>
+             
+                                                     </div>
+                                                 </div>           
+                                             </div>   
+             
+             
+                                                
+                                         </div>           
+                                        
+
+                                    </div>
+                                 </div>
+                                </div>';
+                return $btn . $modal;
+                 })->rawColumns(['action'])->make(true);
+       
+        }
+
+    }
    
+
+    public function get_image_service_detail_pic($id)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        
+
+        $image = DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('unique_data',$id)->first();
+  
+ 
+        $storagePath =  $image->source.'/'.$image->unique_data;
+
+
+        if(!file_exists($storagePath))
+        return redirect('pic/dasbor')->with(['warning' => 'File Tidak Di temukan']);
+        
+        else{
+            return response()->file($storagePath);
+        }
+
+    }  
 }

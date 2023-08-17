@@ -38,6 +38,7 @@ class Bengkel extends Controller
 					        'bengkel_name' 	   => 'required|unique:ts3.mst.mst_bengkel',
 					        ]);
         try{
+            DB::connection('ts3')->beginTransaction();
           $maxId = DB::connection('ts3')->table('mst.mst_bengkel')->selectRaw('max(id) as id')->first();
           $seq = $maxId->id + 1;
 
@@ -56,7 +57,7 @@ class Bengkel extends Controller
             DB::commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::rollback();
+            DB::connection('ts3')->rollback();
             return redirect('admin-ts3/bengkel')->with(['warning' => $e]);
         }
 
@@ -88,6 +89,7 @@ class Bengkel extends Controller
                                 'bengkel_name' 	   => 'required',
 					        ]);
                             try{
+                                DB::connection('ts3')->beginTransaction();
                             DB::connection('ts3')->table('mst.mst_bengkel')->where('id',$request->id)->update([
                                 'bengkel_name'	=> $request->bengkel_name,
                                 'pic_bengkel'   => $request->pic_bengkel,
@@ -98,10 +100,10 @@ class Bengkel extends Controller
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   
-                            DB::commit();
+                            DB::connection('ts3')->commit();
                         }
                         catch (\Illuminate\Database\QueryException $e) {
-                            DB::rollback();
+                            DB::connection('ts3')->rollback();
                             return redirect('admin-ts3/bengkel')->with(['warning' => $e]);
                         }
         return redirect('admin-ts3/bengkel')->with(['sukses' => 'Data telah diupdate']);                                             
