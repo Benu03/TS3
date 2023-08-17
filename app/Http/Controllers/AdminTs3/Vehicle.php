@@ -134,7 +134,7 @@ class Vehicle extends Controller
                             }
                             else
                             {
-                                DB::connection('ts3')->table('mst.mst_temp_vehicle')->where('user_upload',$username)->delete();
+                                DB::connection('ts3')->table('tmp.tmp_vehicle')->where('user_upload',$username)->delete();
                                 Log::info('Client Tidak Terdaftar '.$resultArray['client']);
                                 return 'Data Client Tidak Terdaftar';
 

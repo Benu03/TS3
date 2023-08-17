@@ -9,6 +9,10 @@ use DataTables;
 use Log;
 use App\Exports\AdminTs3\BranchExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Branch_model;
+use App\Imports\BranchTempImport;
+use Storage;
+use Illuminate\Support\Facades\File;
 
 class Branch extends Controller
 {
@@ -234,6 +238,8 @@ class Branch extends Controller
 
             $branch_file       = $request->file('branch');
 
+            dd($branch_file);
+
             try
             {
                 DB::connection('ts3')->beginTransaction();
@@ -253,15 +259,20 @@ class Branch extends Controller
             }
             catch (\Exception $e) {
                 DB::connection('ts3')->rollback();
-                return redirect('admin-ts3/vehicle')->with(['warning' => $e]);
+                return redirect('admin-ts3/branch')->with(['warning' => $e]);
             }    
 
-            // $return =  $this->postingvehicle($username = Session()->get('username')); 
+            $return =  $this->postingBranch($username = Session()->get('username')); 
 
 
             return redirect('admin-ts3/branch')->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
     }
 
+    public function postingBranch($username)
+    {
+     
+
+    }
 
 
 

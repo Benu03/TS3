@@ -37,7 +37,7 @@ class VehicleTempImport implements ToModel, WithStartRow
     
             $tglLastService = date('Y-m-d', strtotime('1899-12-30 +' . $row[6] . ' days'));
     
-            DB::connection('ts3')->table('mst.mst_temp_vehicle')->insert([
+            DB::connection('ts3')->table('tmp.tmp_vehicle')->insert([
                 'client' => strtoupper(str_replace(' ', '', $row[0])),
                 'nopol' => strtoupper(str_replace(' ', '', $row[1])),
                 'norangka' => strtoupper(str_replace(' ', '', $row[2])),

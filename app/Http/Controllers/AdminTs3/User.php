@@ -327,12 +327,16 @@ class User extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
      
+       
+        $userdata = DB::connection('ts3')->table('auth.users')->where('id_user',$username)->first();
+
         try{
+
             DB::connection('ts3')->beginTransaction();
-        DB::connection('ts3')->table('mst.mst_user_client')->where('username',$username)->delete();
-    	DB::connection('ts3')->table('auth.users')->where('username',$username)->delete();
+            DB::connection('ts3')->table('mst.mst_user_client')->where('username',$userdata->username)->delete();
+            DB::connection('ts3')->table('auth.users')->where('username',$userdata->username)->delete();
         
-        DB::connection('ts3')->commit();
+            DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
             DB::connection('ts3')->rollback();
