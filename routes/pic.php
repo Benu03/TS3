@@ -49,4 +49,8 @@ Route::group(['middleware' => ['pic']],function(){
     Route::post('pic/notification-read', 'App\Http\Controllers\Pic\Notif@read');
     Route::get('pic/notification-data', 'App\Http\Controllers\Pic\Notif@getdata');
 
+    Route::get('pic/get-service-due-date', 'App\Http\Controllers\Pic\Service@ServiceDueDate');
+
+    Route::get('pic/service/get-image-service-detail/{par1}', 'App\Http\Controllers\Pic\Service@get_image_service_detail_pic');
+
 });

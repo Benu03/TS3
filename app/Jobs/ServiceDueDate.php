@@ -61,6 +61,37 @@ class ServiceDueDate implements ShouldQueue
             
             
         }
+
+
+        $duedate2 = DB::connection('ts3')->table('mvm.v_service_due_date_pic')->whereRaw("tgl_last_service = (now()::date - '2 mons  1 days'::interval)")->get();
+
+        $result2= [];
+        foreach($duedate2 as $x => $val) 
+        {
+            $resultArray = json_decode(json_encode($val), true);
+            $nopol2 = $resultArray['nopol'];
+            $result2[] =$nopol;
+           
+
+           
+            DB::connection('ts3')->table('ntf.ntf_notification')->insert([
+                'title'   => 'Service Due Date '.$nopol2,
+                // 'detail'	=> 'Service Kendaraan Dengan nopol '.$nopol.' perlu di lakukan,'.'
+                // <p><a href="#" role="button" class="btn btn-secondary popover-test" onclick="redirectToURL('."https://localhost:8080/admin-client/vehicle-schedule-service".')">Buka Halaman</a></p>',
+                'detail'	=> 'Service Kendaraan Dengan nopol '.$nopol2.' perlu di lakukan Tanggal Terakhir Service '.$resultArray['tgl_last_service'].' dengan KM terakhir '.$resultArray['last_km'],
+                'created_date'    => date("Y-m-d h:i:sa"),
+                'username'     => $resultArray['pic_branch'],
+                'ntf_category_id'     => 1
+            ]);
+            
+            
+        }
+
+
+
+
+
+
         Log::info($result);
 
      }

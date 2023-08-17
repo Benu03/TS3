@@ -195,7 +195,7 @@ class Vehicle extends Controller
         }
 
 
-        DB::connection('ts3')->table('mst.mst_temp_vehicle')->where('user_upload',$username)->delete();
+        DB::connection('ts3')->table('tmp.tmp_vehicle')->where('user_upload',$username)->delete();
 
         return 'File berhasil Di Upload, mohon Untuk Di Review';
 

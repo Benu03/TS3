@@ -238,7 +238,7 @@ class Branch extends Controller
 
             $branch_file       = $request->file('branch');
 
-            dd($branch_file);
+      
 
             try
             {
@@ -265,12 +265,116 @@ class Branch extends Controller
             $return =  $this->postingBranch($username = Session()->get('username')); 
 
 
-            return redirect('admin-ts3/branch')->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
+            return redirect('admin-ts3/branch')->with(['sukses' => $return]);  
     }
 
     public function postingBranch($username)
     {
      
+        $Checkbranchtemp =  Branch_model::GetBranchTemp($username); 
+
+        foreach($Checkbranchtemp as $x => $val) 
+        {
+
+             $resultArray = json_decode(json_encode($val), true);
+             $checkbranch = DB::connection('ts3')->table('mst.mst_branch')->where('branch',$resultArray['branch'])->first();
+
+             if(!isset($checkbranch))
+             {      
+                $clientCheck = DB::connection('ts3')->table('mst.mst_client')->select('id')->where('client_name',$resultArray['client'])->first();
+                if(isset($clientCheck))
+                {
+
+                    $checkregional = DB::connection('ts3')->table('mst.mst_regional')->where('regional',$resultArray['regional'])->first();
+                    
+
+                    if(isset($checkregional))
+                    {
+                        $checkarea = DB::connection('ts3')->table('mst.mst_area')->where('area',$resultArray['area'])->first();
+                        if(isset($checkarea))
+                        {
+
+                            DB::connection('ts3')->table('mst.mst_branch')->insert([
+                                'mst_area_id'   => $checkarea->id,
+                                'branch'	=> $resultArray['branch'],
+                                'pic_branch'	=> $resultArray['pic_branch'],
+                                'phone'	=> $resultArray['phone'],
+                                'address'	=> $resultArray['address'],
+                                'created_date'    => date("Y-m-d h:i:sa"),
+                                'create_by'     => $username
+                            ]);
+                        }
+                        else
+                        {
+                            $idare =   DB::connection('ts3')->table('mst.mst_area')->insertGetId([
+                                'mst_regional_id'   => $checkregional->id,
+                                'area'	=> $resultArray['area'],
+                                'created_date'    => date("Y-m-d h:i:sa"),
+                                'create_by'     => $$username
+                            ]);
+    
+                            DB::connection('ts3')->table('mst.mst_branch')->insert([
+                                'mst_area_id'   => $idare,
+                                'branch'	=> $resultArray['branch'],
+                                'pic_branch'	=> $resultArray['pic_branch'],
+                                'phone'	=> $resultArray['phone'],
+                                'address'	=> $resultArray['address'],
+                                'created_date'    => date("Y-m-d h:i:sa"),
+                                'create_by'     => $username
+                            ]);
+                        }
+
+                    }
+                    else 
+                    {
+                        $idreg = DB::connection('ts3')->table('mst.mst_regional')->insertGetId([
+                            'mst_client_id'   => $clientCheck->id,
+                            'regional'	=> $resultArray['regional'],
+                            'created_date'    => date("Y-m-d h:i:sa"),
+                            'create_by'     => $username
+                        ]);
+
+                        $idare =   DB::connection('ts3')->table('mst.mst_area')->insertGetId([
+                            'mst_regional_id'   => $idreg,
+                            'area'	=> $resultArray['area'],
+                            'created_date'    => date("Y-m-d h:i:sa"),
+                            'create_by'     => $username
+                        ]);
+
+                        DB::connection('ts3')->table('mst.mst_branch')->insert([
+                            'mst_area_id'   => $idare,
+                            'branch'	=> $resultArray['branch'],
+                            'pic_branch'	=> $resultArray['pic_branch'],
+                            'phone'	=> $resultArray['phone'],
+                            'address'	=> $resultArray['address'],
+                            'created_date'    => date("Y-m-d h:i:sa"),
+                            'create_by'     => $username
+                        ]);
+
+
+                    }
+
+
+                }
+                else
+                {
+                
+                    Log::info('Client Belum Terdaftar '.$resultArray['client']);
+                    return 'Client Belum Terdaftar '.$resultArray['client'];
+                }
+
+             }
+             else
+             {
+                 Log::info('Branch Sudah ada '.$resultArray['branch']);
+                 return 'Branch Sudah ada '.$resultArray['branch'];
+             }
+
+
+        }
+        DB::connection('ts3')->table('tmp.tmp_branch')->where('user_upload',$username)->delete();
+
+        return 'File berhasil Di Upload, mohon Untuk Di Review';
 
     }
 

@@ -35,18 +35,16 @@ class BranchTempImport implements ToModel, WithStartRow
                 return null;
             }
     
-            $tglLastService = date('Y-m-d', strtotime('1899-12-30 +' . $row[6] . ' days'));
+            // $tglLastService = date('Y-m-d', strtotime('1899-12-30 +' . $row[6] . ' days'));
     
-            DB::connection('ts3')->table('mst.mst_temp_vehicle')->insert([
-                'client' => strtoupper(str_replace(' ', '', $row[0])),
-                'nopol' => strtoupper(str_replace(' ', '', $row[1])),
-                'norangka' => strtoupper(str_replace(' ', '', $row[2])),
-                'nomesin' => strtoupper(str_replace(' ', '', $row[3])),
-                'type' => $row[4],
-                'tahun_pembuatan' => strtoupper(str_replace(' ', '', $row[5])),
-                'tgl_last_service' => $tglLastService,
-                'last_km' => $row[7],
-                'nama_stnk' => $row[8],
+            DB::connection('ts3')->table('tmp.tmp_branch')->insert([
+                'client' => strtoupper(trim($row[0])),
+                'regional' => strtoupper(trim($row[1])),
+                'area' => trim($row[2]),
+                'branch' => trim($row[3]),
+                'pic_branch' => trim($row[4]),
+                'phone' => trim($row[5]),
+                'address' => trim($row[6]),
                 'upload_date' => date("Y-m-d h:i:sa"), 
                 'user_upload' => Session()->get('username'),
             ]);

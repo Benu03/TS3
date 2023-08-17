@@ -247,8 +247,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/get-summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@getSummaryBengkel');
     Route::post('admin-ts3/export-summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@exportSummaryBengkel');
 
-
-    
+    Route::post('admin-ts3/get-laba-rugi', 'App\Http\Controllers\AdminTs3\Report@getLabaRugi');
     
 
     Route::get('admin-ts3/report/rekap-invoice', 'App\Http\Controllers\AdminTs3\Report@rekap_invoice');
@@ -302,6 +301,7 @@ Route::group(['middleware' => ['admints3']],function(){
   
     Route::get('admin-ts3/report/spk-history', 'App\Http\Controllers\AdminTs3\Report@spk_history');
     Route::post('admin-ts3/get-spk-history', 'App\Http\Controllers\AdminTs3\Report@getSPKHistory');
+    
  
     Route::get('admin-ts3/notification', 'App\Http\Controllers\AdminTs3\Notif@index');
     Route::post('admin-ts3/notification-read', 'App\Http\Controllers\AdminTs3\Notif@read');

@@ -99,7 +99,7 @@ class Report extends Controller
         $storagePath =  $image->source.'/'.$image->unique_data;
 
         if(!file_exists($storagePath))
-        return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);
+        return redirect('admin-ts3/history_service')->with(['warning' => 'Fila Tidak Di temukan']);
         
         else{
             return response()->file($storagePath);
@@ -462,6 +462,31 @@ class Report extends Controller
 
     }
 
+
+    public function getLabaRugi(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        if ($request->ajax()) {
+           
+            
+
+            if(!empty($request->month)) {                
+                $service 	= DB::connection('ts3')->table('mvm.v_chart_report_laba_rugi_series')
+                ->where('month', $request->month)
+                ->where('year_spk', $request->year)->get();
+
+            } else {
+             $service 	= DB::connection('ts3')->table('mvm.v_chart_report_laba_rugi_series')->get();
+            }
+
+
+        return DataTables::of($service)->make(true);
+       
+        }
+
+    }
+
+    
 
     public function ar()
     {
