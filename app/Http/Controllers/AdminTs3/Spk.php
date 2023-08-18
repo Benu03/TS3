@@ -360,7 +360,7 @@ class Spk extends Controller
         DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::connection('ts3')->rollback()
+            DB::connection('ts3')->rollback();
             return response()->json([
                 'success' => false,
                 'message' => 'Detail jasa tidak ditemukan.'
@@ -387,7 +387,7 @@ class Spk extends Controller
         DB::connection('ts3')->commit();
         }
         catch (\Illuminate\Database\QueryException $e) {
-            DB::connection('ts3')->rollback()
+            DB::connection('ts3')->rollback();
             return response()->json([
                 'success' => false,
                 'message' => 'Detail jasa tidak ditemukan.'
