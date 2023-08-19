@@ -24,14 +24,6 @@ class Notif extends Controller
         $username = Session()->get('username');
         $threeMonthsAgo = Carbon::now()->subMonths(3);
 
-        // $notif          = DB::connection('ts3')->table('ntf.v_notif_list')
-        //                         ->where(function ($query) use ($username) {
-        //                             $query->where('username', $username)
-        //                                 ->orWhereNull('username');
-        //                         })
-        //                         ->whereDate('created_date', '>', $threeMonthsAgo)
-        //                         ->orderBy('created_date', 'desc')
-        //                         ->get();
         $count_notif     = DB::connection('ts3')->table('ntf.v_notif_list')
                                 ->where(function ($query) use ($username) {
                                     $query->where('username', $username)
