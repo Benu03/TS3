@@ -212,7 +212,7 @@ class ClientProduct extends Controller
                             $imagereq = $request->file('img_client');
                             if(!empty($imagereq)) {
                                 try{    
-                                    DB::connection('ts3')->beginTransaction()    
+                                    DB::connection('ts3')->beginTransaction();    
                                     $check = DB::connection('ts3')->table('mst.mst_client')->where('id',$request->id)->first();
 
                                  
