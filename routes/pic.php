@@ -53,4 +53,13 @@ Route::group(['middleware' => ['pic']],function(){
 
     Route::get('pic/service/get-image-service-detail/{par1}', 'App\Http\Controllers\Pic\Service@get_image_service_detail_pic');
 
+
+    Route::get('pic/spk-status', 'App\Http\Controllers\Pic\Spk@spk_status');
+    Route::get('pic/spk-history', 'App\Http\Controllers\Pic\Spk@spk_history');
+    Route::get('pic/spk-file/{par1}', 'App\Http\Controllers\Pic\Spk@spk_file');
+    Route::post('pic/get-spk-history', 'App\Http\Controllers\Pic\Spk@getSPKHistory');
+
+
+
+
 });

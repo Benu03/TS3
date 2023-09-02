@@ -63,6 +63,24 @@
           </li>
           {{-- <li class="nav-item"><a href="{{ asset('pic/advisor-service') }}" class="nav-link"><i class="fas fa-hand-point-up nav-icon"></i><p>Service Advisor</p></a>
           </li> --}}
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-file-signature nav-icon"></i>
+              <p>SPK Proses<i class="fas fa-angle-left right"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+            
+              <li class="nav-item ml-4"><a href="{{ asset('pic/spk-status') }}" class="nav-link"><i class="fas fa-map-signs nav-icon"></i><p>SPK Status</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('pic/spk-history') }}" class="nav-link"><i class="fas fa-list-alt nav-icon"></i><p>SPK History</p></a>
+              </li>
+
+            </ul>
+          </li>              
+
+
+
           <li class="nav-item"><a href="{{ asset('pic/report/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
           </li>
           
