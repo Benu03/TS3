@@ -71,13 +71,14 @@
                   </button>
               </div>
           </th>
-          <th width="15%">Service no</th>
-          <th width="12%">NOPOL</th>
+          <th width="12%">SPK No</th>
+          <th width="12%">Service no</th>
+          <th width="8%">NOPOL</th>
           <th width="12%">Tanggal Service</th>   
-          <th width="12%">Status Service</th> 
+          <th width="8%">Status Service</th> 
           <th width="12%">PIC Cabang Service</th>  
-          <th width="15%">Nama Driver</th>    
-          <th width="15%">Mekanik</th> 
+          <th width="10%">Nama Driver</th>    
+          <th width="10%">Mekanik</th> 
           <th>ACTION</th>
 </tr>
 </thead>
@@ -91,6 +92,7 @@
         </div>
     
     </td>
+    <td><?php echo $dt->spk_no ?></td>
     <td><?php echo $dt->service_no ?></td>
     <td><?php echo $dt->nopol ?></td>
     <td><?php echo $dt->tanggal_service ?></td>
