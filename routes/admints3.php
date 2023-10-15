@@ -79,6 +79,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/kategori_galeri/edit', 'App\Http\Controllers\AdminTs3\Kategori_galeri@edit');
     Route::get('admin-ts3/kategori_galeri/delete/{par1}', 'App\Http\Controllers\AdminTs3\Kategori_galeri@delete');
 
+    Route::get('admin-ts3/kontak', 'App\Http\Controllers\AdminTs3\Kontak@index');
+
     Route::get('admin-ts3/berita', 'App\Http\Controllers\AdminTs3\Berita@index');
     Route::get('admin-ts3/berita/cari', 'App\Http\Controllers\AdminTs3\Berita@cari');
     Route::get('admin-ts3/berita/status_berita/{par1}', 'App\Http\Controllers\AdminTs3\Berita@status_berita');

@@ -25,7 +25,6 @@ class Feature
               $signature = hash('sha256',implode($all_headers['timerequest']).$KeySig->value_1); 
               Log::info('Check Signature'); 
 
-
             if(empty($signature)){
                 //Log::error('Unauthorized Access Using Token ' . $all_headers['token'][0]);
                 return response()->json(
