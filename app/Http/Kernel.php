@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'adminclient' => \App\Http\Middleware\AdminClient::class,
         'bengkel' => \App\Http\Middleware\Bengkel::class,
         'pic' => \App\Http\Middleware\Pic::class,
+        'pic_reg' => \App\Http\Middleware\PicReg::class,
         'feature' => \App\Http\Middleware\Feature::class,
     ];
 }

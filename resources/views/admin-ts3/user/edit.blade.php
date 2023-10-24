@@ -134,7 +134,7 @@
 						var select = document.getElementById('role');
 						var datarole = select.options[select.selectedIndex].value;
 								console.log(datarole);
-								if (datarole == "3" || datarole == "5" ) {
+								if (datarole == "3" || datarole == "5" || data == "6" ) {
 									$('#div_customer').show();
 									} 
 									else {
@@ -150,7 +150,7 @@
 					   			$("#role").change(function () {
 										var data = $(this).val();
 										
-											if (data == "3" || data == "5" ) {
+											if (data == "3" || data == "5" || data == "6" ) {
 											$('#div_customer').show();
 											} 
 											else {

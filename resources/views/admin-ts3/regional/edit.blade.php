@@ -33,6 +33,17 @@
 	</div>
 </div>
 
+<div class="form-group row">
+	<label class="col-sm-3 control-label text-right">PIC Regional</label>
+	<div class="col-sm-9">
+		<select name="pic_regional" id="pic_regional" class="form-control select2">
+			
+			<?php foreach($userbranch as $ub) { ?>
+			  <option value="<?php echo $ub->username ?>"  <?php if($regional->pic_regional==$ub->username) { echo 'selected'; } ?>><?php echo $ub->nama ?></option>
+			<?php } ?>
+		  </select>
+	</div>
+</div>
 
 
 <div class="form-group row">
