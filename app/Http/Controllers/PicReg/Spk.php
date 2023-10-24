@@ -38,9 +38,9 @@ class Spk extends Controller
                             'waiting'      => $waiting,
                             'onprogress'      => $onprogress,
                             'spk'      => $spk,
-                        'content'   => 'pic/spk/spk_status'
+                        'content'   => 'pic-regional/spk/spk_status'
                     );
-        return view('pic/layout/wrapper',$data);
+        return view('pic-regional/layout/wrapper',$data);
     }
 
 
@@ -72,9 +72,9 @@ class Spk extends Controller
 
 		$data = array(   'title'     => 'SPK History',
                         //  'spk_history'      => $spk_history,
-                        'content'   => 'pic/spk/spk_history'
+                        'content'   => 'pic-regional/spk/spk_history'
                     );
-        return view('pic/layout/wrapper',$data);
+        return view('pic-regional/layout/wrapper',$data);
     }
 
    
@@ -102,7 +102,7 @@ class Spk extends Controller
 
 
         return DataTables::of($service)->addColumn('file', function($row){
-               $btn = '<a href="'. asset('pic/spk-file/'.$row->nama_file).'" 
+               $btn = '<a href="'. asset('pic-regional/spk-file/'.$row->nama_file).'" 
                class="btn btn-success btn-sm" ><i class="fa fa-file"></i></a>';
                 return $btn;
                 })

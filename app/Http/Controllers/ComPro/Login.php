@@ -90,6 +90,15 @@ class Login extends Controller
                             return redirect('pic/dasbor')->with(['sukses' => 'Anda berhasil login']);
 
                         }
+                        elseif($user->id_role == 6) 
+                        {
+                            $request->session()->put('id_user', $user->id_user);
+                            $request->session()->put('nama', $user->nama);
+                            $request->session()->put('username', $user->username);
+                            $request->session()->put('id_role', $user->id_role);
+                            return redirect('pic-regional/dasbor')->with(['sukses' => 'Anda berhasil login']);
+
+                        }
                         else{
 
                             return redirect('login')->with(['warning' => 'Mohon maaf,Role Akses Anda Belum Terdaftar']);

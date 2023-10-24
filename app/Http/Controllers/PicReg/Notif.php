@@ -43,11 +43,11 @@ class Notif extends Controller
 
 
 		$data = array(  'title'     => 'Notification',
-                        'content'   => 'pic/notif/index',
+                        'content'   => 'pic-regional/notif/index',
                         // 'notif'   => $notif,
                         'count_notif'   => $count_notif
                     );
-        return view('pic/layout/wrapper',$data);
+        return view('pic-regional/layout/wrapper',$data);
     }
 
 

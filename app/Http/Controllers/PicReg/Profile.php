@@ -30,9 +30,9 @@ class Profile extends Controller
 		$data = array(  'title'     => 'Profile',
                         'user'     =>  $user,
                         'user_m'     => $user_m,
-                        'content'   => 'pic/dasbor/profile'
+                        'content'   => 'pic-regional/dasbor/profile'
                     );
-        return view('pic/layout/wrapper',$data);
+        return view('pic-regional/layout/wrapper',$data);
     }
 
     public function ubah_password(Request $request)
@@ -40,7 +40,7 @@ class Profile extends Controller
 
         if($request->password1 <> $request->password2){
 
-            return redirect('pic/profile')->with(['warning' => 'Password Tidak sama']);
+            return redirect('pic-regional/profile')->with(['warning' => 'Password Tidak sama']);
         }
         else
         {
@@ -49,7 +49,7 @@ class Profile extends Controller
                 'updated_at'    => date("Y-m-d h:i:sa"),
                 'update_by'     => Session()->get('username')
             ]);
-        return redirect('pic/profile')->with(['sukses' => 'Password berhasil Di Update']);  
+        return redirect('pic-regional/profile')->with(['sukses' => 'Password berhasil Di Update']);  
         }
 
     }

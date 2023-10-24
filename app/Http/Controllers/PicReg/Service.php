@@ -39,181 +39,12 @@ class Service extends Controller
 		$data = array(   'title'     => 'List Service',
                          'service'      => $service,
                          'countservice' => $countservice,
-                        'content'   => 'pic/service/index'
+                        'content'   => 'pic-regional/service/index'
                     );
-        return view('pic/layout/wrapper',$data);
+        return view('pic-regional/layout/wrapper',$data);
     }
 
-    public function direct()
-    {
-        if(Session()->get('username')=="") {
-            $last_page = url()->full();
-            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
-        }
-    
-        $userclient = DB::connection('ts3')->table('mst.v_user_client')->where('username', Session()->get('username'))->first();
-        $nopol = DB::connection('ts3')->table('mst.v_vehicle')->where('client_name',$userclient->client_name)->get();
-        $branch = DB::connection('ts3')->table('mst.v_branch_client')->where('pic_branch',Session()->get('username'))->get();
-
-        $mst_branch_id = [];
-
-        foreach($branch  as $key => $val){
-            $mst_branch_id[] = $val->id;
-        }
-
-
-        $direct = DB::connection('ts3')->table('mvm.v_service_direct')->whereIn('mst_branch_id',$mst_branch_id)->get();
-        
-		$data = array(   'title'     => 'Direct Service',
-                         'nopol'      => $nopol,
-                         'branch'      => $branch,
-                         'direct'      => $direct,
-                        'content'   => 'pic/service/direct'
-                    );
-        return view('pic/layout/wrapper',$data);
-    }
-
-    public function service_remark(Request $request)
-    {
-
-        if(Session()->get('username')=="") {
-            $last_page = url()->full();
-            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
-        }
-      
-
-  
-        if($request->id == null)
-        {
-            return redirect('pic/list-service')->with(['warning' => 'Data Tidak Ada Yang Di pilih']);
-        }
-
-
-        request()->validate([
-            'remark' => 'required',
-            'rating'     => 'required',
-            ]);
-
-        $id       = $request->id;
-       
-        for($i=0; $i < sizeof($id);$i++) {
-
-            if($id[$i] == null)
-            {
-                return redirect('pic/list-service')->with(['warning' => 'Data Menunggu Proses Service Terlebih Dahulu']);
-            }
-
-            $id_spk_d =  DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id[$i])->first();
-
-            try{ 
-            DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$id[$i])->update([
-                'remark_pic_branch'   => $request->remark,
-                'pic_branch_date_post'   => date("Y-m-d h:i:sa")          
-                ]); 
-                
-            DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$id_spk_d->mvm_spk_d_id)->update([
-                    'status_service'   => 'APPROVAL'             
-                    ]);
-                    DB::connection('ts3')->table('mvm.mvm_service_rating')->insert([
-                        'rating'   => $request->rating,
-                        'service_no'   => $id_spk_d->service_no,
-                        'created_date'    => date("Y-m-d h:i:sa"),
-                        'create_by'     => $request->session()->get('username')
-                    ]);
-        
-                    DB::commit();
-            }
-            catch (\Illuminate\Database\QueryException $e) {
-                    DB::rollback();
-                    return redirect('pic/list-service')->with(['warning' => $e]);
-                }
-    
    
-        }
-
-        return redirect('pic/list-service')->with(['sukses' => 'Data telah Proses']);
-
-    }
-    
-
-    public function tambah_direct_service(Request $request)
-    {
-        if(Session()->get('username')=="") {
-            $last_page = url()->full();
-            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
-        }
-        request()->validate([
-            'nopol' => 'required',
-            'mst_branch_id'     => 'required',
-            'km' 	   => 'required',
-            'tanggal_pengerjaan' 	   => 'required',
-            'jenis_pekerjaan' 	   => 'required',
-            'keluhan' 	   => 'required',
-            'nama_driver' 	   => 'required',
-            'kontak_driver' 	   => 'required',
-            ]);
-
-            $image   = $request->file('foto_kendaraan');
-            if(!empty($image)) {
-
-                $filename ='DRT-'.$request->nopol.date("s").'.jpg';
-                $destinationPath =storage_path('data/direct/'.date("Y").'/'.date("m").'/');
-                
-                if (!file_exists($destinationPath)) {
-                File::makeDirectory($destinationPath,0755,true);
-                }
-                $img = Image::make($image->path());
-                $img->resize(850, 850, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($destinationPath.'/'.$filename);
-
-                
-
-                $service_id =   DB::connection('ts3')->table('mvm.mvm_direct_service')->insert([
-                    'nopol'   => $request->nopol,
-                    'status'	=> 'REQUEST',
-                    'mst_branch_id'	=> $request->mst_branch_id,
-                    'km'	=> $request->km,
-                    'tanggal_pengerjaan'	=> $request->tanggal_pengerjaan,
-                    'jenis_pekerjaan'	=> $request->jenis_pekerjaan,
-                    'keluhan'	=> $request->keluhan,
-                    'nama_driver'	=> $request->nama_driver,
-                    'kontak_driver'	=> $request->kontak_driver,
-                    'foto_kendaraan'	=> $filename,
-                    'path_foto'	=> $destinationPath,
-                    'created_date'    => date("Y-m-d h:i:sa"),
-                    'create_by'     => $request->session()->get('username'),
-                    'service_type_mvm' => 'Direct',
-    
-                ]); 
-
-
-            }
-            else{
-
-            $service_id =   DB::connection('ts3')->table('mvm.mvm_direct_service')->insert([
-                'nopol'   => $request->nopol,
-                'status'	=> 'REQUEST',
-                'mst_branch_id'	=> $request->mst_branch_id,
-                'km'	=> $request->km,
-                'tanggal_pengerjaan'	=> $request->tanggal_pengerjaan,
-                'jenis_pekerjaan'	=> $request->jenis_pekerjaan,
-                'keluhan'	=> $request->keluhan,
-                'nama_driver'	=> $request->nama_driver,
-                'kontak_driver'	=> $request->kontak_driver,
-                // 'foto_kendaraan'	=> $request->foto_kendaraan,
-                'created_date'    => date("Y-m-d h:i:sa"),
-                'create_by'     => $request->session()->get('username'),
-                'service_type_mvm' => 'Direct',
-
-            ]); 
-
-        }
-
-
-        return redirect('pic/direct-service')->with(['sukses' => 'Data telah Terkirim']);
-
-    }
 
     public function get_image_direct($id)
     {
@@ -243,7 +74,7 @@ class Service extends Controller
         $storagePath =  $image->source.'/'.$image->unique_data;
         
         if(!file_exists($storagePath))
-        return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);
+        return redirect('pic-regional/dasbor')->with(['warning' => 'File Tidak Di temukan']);
         
         else{
             return response()->file($storagePath);
@@ -276,7 +107,7 @@ class Service extends Controller
 
         DB::connection('ts3')->table('mvm.mvm_direct_service')->where('id',$id)->delete();
 
-        return redirect('pic/direct-service')->with(['sukses' => 'Data telah Di Hapus']);
+        return redirect('pic-regional/direct-service')->with(['sukses' => 'Data telah Di Hapus']);
 
     }
 
@@ -294,9 +125,9 @@ class Service extends Controller
         $data = array(   'title'     => 'Service Advisor',
             'service'      => $service,
             'sdetail' => $sdetail,
-            'content'   => 'pic/service/service_advisor'
+            'content'   => 'pic-regional/service/service_advisor'
             );
-            return view('pic/layout/wrapper',$data);
+            return view('pic-regional/layout/wrapper',$data);
 
 
     }
@@ -337,12 +168,12 @@ class Service extends Controller
         }
         catch (\Illuminate\Database\QueryException $e) {
                 DB::rollback();
-                return redirect('pic/list-service')->with(['warning' => $e]);
+                return redirect('pic-regional/list-service')->with(['warning' => $e]);
             }
 
 
 
-        return redirect('pic/list-service')->with(['sukses' => 'Data telah Proses']);
+        return redirect('pic-regional/list-service')->with(['sukses' => 'Data telah Proses']);
 
     }
     
@@ -358,9 +189,9 @@ class Service extends Controller
 
 		$data = array(   'title'     => 'History Service',
                          'history'      => $history,
-                        'content'   => 'pic/service/history_service'
+                        'content'   => 'pic-regional/service/history_service'
                     );
-        return view('pic/layout/wrapper',$data);
+        return view('pic-regional/layout/wrapper',$data);
 
 
     }
@@ -375,7 +206,7 @@ class Service extends Controller
 
         
         if ($request->ajax()) {
-            $sericeduedate 	= DB::connection('ts3')->table('mvm.v_service_due_date_pic')->where('pic_branch',Session()->get('username'))->get();
+            $sericeduedate 	= DB::connection('ts3')->table('mvm.v_service_history')->where('pic_regional',Session()->get('username'))->get();
             return DataTables::of($sericeduedate)->addColumn('action', function($row){
              
                 $btn = '<a href="#" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#vehicle' . $row->id . '"><i class="fa fa-eye"></i></a>';
@@ -507,7 +338,7 @@ class Service extends Controller
                                                                             </button>';
                                                                         
                                                                         // Include the content of the modal directly here
-                                                                        $modal .= view('pic.service.service_image_history', ['ind' => $ind])->render();
+                                                                        $modal .= view('pic-regional.service.service_image_history', ['ind' => $ind])->render();
                                                                     } else {
                                                                         $modal .= $ind->attribute;
                                                                     }
@@ -559,7 +390,7 @@ class Service extends Controller
 
 
         if(!file_exists($storagePath))
-        return redirect('pic/dasbor')->with(['warning' => 'File Tidak Di temukan']);
+        return redirect('pic-regional/dasbor')->with(['warning' => 'File Tidak Di temukan']);
         
         else{
             return response()->file($storagePath);
