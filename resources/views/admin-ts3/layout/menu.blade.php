@@ -148,6 +148,13 @@
           </li>
 
           <li class="nav-item">
+            <a href="{{ asset('admin-ts3/kontak') }}" class="nav-link">
+              <i class="nav-icon fas fa-envelope-square"></i>
+              <p>Kontak</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="{{ asset('admin-ts3/berita/jenis_berita/Layanan') }}" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>Layanan</p>

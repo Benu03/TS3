@@ -46,19 +46,48 @@ class EmailContoller extends Controller
                         $sender = $resultArray['from'];
     
                             
-                            Mail::mailer('smtp')->send([], [], function ($message) use ($body,$to,$cc,$subject) {
-                            $message->to($to); 
-                            if (isset($cc)){ $message->cc($cc); 
-                            if (isset($bcc)){ $message->bcc($bcc); }    }    
-                            $message->subject($subject);
-                            $message->from('ts3.notif@gmail.com','TS3 Indonesia');
-                            $message->setBody($body, 'text/html');});
-                            $msgCounter++;
+                            // Mail::mailer('smtp')->send([], [], function ($message) use ($body,$to,$cc,$subject) {
+                            // $message->to($to); 
+                            // if (isset($cc)){ $message->cc($cc); 
+                            // if (isset($bcc)){ $message->bcc($bcc); }    }    
+                            // $message->subject($subject);
+                            // $message->from('noreply@ts3.co.id','TS3 Indonesia');
+                            // $message->setBody($body, 'text/html');});
+
+                            Mail::mailer('smtp')->send([], [], function ($message) use ($body, $to, $cc, $subject) {
+                              $message->to($to);
+                          
+                              if (isset($cc)) {
+                                  $message->cc($cc);
+                              }
+                          
+                              if (isset($bcc)) {
+                                  $message->bcc($bcc);
+                              }
+                          
+                              $message->subject($subject);
+                              $message->from('noreply@ts3.co.id', 'TS3 Indonesia');
+                              $message->setBody($body, 'text/html');
+                          });
+                          
+                          if (Mail::failures()) {
+                              // Email tidak berhasil terkirim
+                              // Lakukan sesuatu di sini, seperti logging kesalahan atau menandai email sebagai "gagal"
+                              Log::info(Mail::failures());
+
+                          } else {
+                              // Email berhasil terkirim
+                              // Lakukan sesuatu di sini, seperti mengupdate status email yang terkirim
+                              $msgCounter++;
                            
-                            DB::connection('ts3')->table('auth.user_mail')->where('id',$emailid)->update([
-                                'is_send'   => true,
-                                'send_date'	    => date("Y-m-d h:i:sa")
-                            ]);   
+                              DB::connection('ts3')->table('auth.user_mail')->where('id',$emailid)->update([
+                                  'is_send'   => true,
+                                  'send_date'	    => date("Y-m-d h:i:sa")
+                              ]);   
+                          }
+
+
+                           
                            
                     }
                     else
@@ -76,7 +105,7 @@ class EmailContoller extends Controller
                             if (isset($cc)){ $message->cc($cc); 
                             if (isset($bcc)){ $message->bcc($bcc); }    }    
                             $message->subject($subject);
-                            $message->from('ts3.notif@gmail.com','TS3 Indonesia');
+                            $message->from('noreply@ts3.co.id','TS3 Indonesia');
                             $message->attach($path);
                             $message->setBody($body, 'text/html');});
                             $msgCounter++;

@@ -110,10 +110,10 @@
     });
 
     $('#div_customer').hide();
-  $('document').ready(function () {
+    $('document').ready(function () {
                        $("#role").change(function () {
                        var data = $(this).val();
-                       if (data == "3" || data == "5" ) {
+                       if (data == "3" || data == "5" || data == "6" ) {
                        $('#div_customer').show();
                        } 
                        else {

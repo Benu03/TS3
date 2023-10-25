@@ -37,6 +37,7 @@ class Regional extends Controller
     	request()->validate([
 					        'mst_client_id' => 'required',
 					        'regional' 	   => 'required|unique:ts3.mst.mst_regional',
+                            'pic_regional' => 'required',
 					        ]);
 
 
@@ -44,7 +45,8 @@ class Regional extends Controller
             'mst_client_id'   => $request->mst_client_id,
             'regional'	=> $request->regional,
             'created_date'    => date("Y-m-d h:i:sa"),
-            'create_by'     => $request->session()->get('username')
+            'create_by'     => $request->session()->get('username'),
+            'pic_regional'	=> $request->pic_regional
         ]);
         return redirect('admin-ts3/regional')->with(['sukses' => 'Data telah ditambah']);
     }
@@ -56,10 +58,12 @@ class Regional extends Controller
            
             $regional 	= DB::connection('ts3')->table('mst.v_regional')->where('id',$id)->first();
             $client 	= DB::connection('ts3')->table('mst.mst_client')->where('client_type','B2B')->get();
-           
+            $user_branch 	= DB::connection('ts3')->table('auth.users')->where('id_role','6')->get();
+
 		    $data = array(  'title'         => 'Edit Regional',
                             'regional'      => $regional,
                             'client'        => $client,
+                            'userbranch'      => $user_branch,
                             'content'       => 'admin-ts3/regional/edit'
                     );
         
@@ -72,11 +76,13 @@ class Regional extends Controller
     	request()->validate([
 					        'client'     => 'required',
                             'regional' => 'required',
+                            'pic_regional' => 'required',
 					        ]);
 
                             DB::connection('ts3')->table('mst.mst_regional')->where('id',$request->id)->update([
                                 'mst_client_id'   => $request->client,
                                 'regional'	    => $request->regional,
+                                'pic_regional'	    => $request->pic_regional,
                                 'updated_at'    => date("Y-m-d h:i:sa"),
                                 'update_by'     => $request->session()->get('username')
                             ]);   
@@ -163,6 +169,27 @@ class Regional extends Controller
         return Excel::download(new RegionalExport, 'REGIONAL-MVM.xlsx');
     }
     
+
+    public function get_pic_regional()
+    {
+
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $mst_client_id = $_POST['mst_client_id'];
+        log::info($mst_client_id);
+
+        $pic = DB::connection('ts3')->table('auth.v_list_user_client')
+                ->where('is_active',1)
+                ->where('mst_client_id',$mst_client_id)
+                ->where('role','pic_regional')
+                ->pluck('username','nama');
+    
+        return response()->json($pic);
+     
+    }
 
 
 

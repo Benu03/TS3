@@ -127,7 +127,7 @@ class User extends Controller
             ]);
 
             
-            if($request->role == 3  || $request->role == 5) {
+            if($request->role == 3  || $request->role == 5 || $request->role == 6) {
             DB::connection('ts3')->table('mst.mst_user_client')->insert([
                 'username'   	=> $request->username,
                 'mst_client_id'   	=> $request->customer,
@@ -160,7 +160,7 @@ class User extends Controller
                 'is_active'     => true
             ]);
 
-            if($request->role == 3  || $request->role == 5) {
+            if($request->role == 3  || $request->role == 5 || $request->role == 6) {
             DB::connection('ts3')->table('mst.mst_user_client')->insert([
                 'username'   	=> $request->username,
                 'mst_client_id'   	=> $request->customer,
@@ -237,7 +237,7 @@ class User extends Controller
 
             $UserClientCheck = DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->count();
             
-            if($request->role == 3  || $request->role == 5) {
+            if($request->role == 3  || $request->role == 5 || $request->role == 6) {
                 if($UserClientCheck == 0)
                 {
                     DB::connection('ts3')->table('mst.mst_user_client')->insert([
@@ -288,7 +288,7 @@ class User extends Controller
          
             $UserClientCheck = DB::connection('ts3')->table('mst.mst_user_client')->where('username',$request->username)->count();
             
-            if($request->role == 3  || $request->role == 5) {
+            if($request->role == 3  || $request->role == 5 || $request->role == 6) {
                 if($UserClientCheck == 0)
                 {
                     DB::connection('ts3')->table('mst.mst_user_client')->insert([

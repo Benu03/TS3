@@ -45,8 +45,9 @@
                 </button>
             </div>
         </th>
-        <th width="30%">Client</th>
-        <th width="40%">Regional</th>    
+        <th width="25%">Client</th>
+        <th width="25%">Regional</th>    
+        <th width="25%">PIC Regional</th>   
         <th>ACTION</th>
 </tr>
 </thead>
@@ -99,6 +100,10 @@ $(document).ready(function() {
                     {
                         name: 'regional',
                         data: 'regional'
+                    },
+                    {
+                        name: 'pic_regional',
+                        data: 'pic_regional'
                     },
                     {
                         data: 'action', 

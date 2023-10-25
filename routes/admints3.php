@@ -79,6 +79,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/kategori_galeri/edit', 'App\Http\Controllers\AdminTs3\Kategori_galeri@edit');
     Route::get('admin-ts3/kategori_galeri/delete/{par1}', 'App\Http\Controllers\AdminTs3\Kategori_galeri@delete');
 
+    Route::get('admin-ts3/kontak', 'App\Http\Controllers\AdminTs3\Kontak@index');
+
     Route::get('admin-ts3/berita', 'App\Http\Controllers\AdminTs3\Berita@index');
     Route::get('admin-ts3/berita/cari', 'App\Http\Controllers\AdminTs3\Berita@cari');
     Route::get('admin-ts3/berita/status_berita/{par1}', 'App\Http\Controllers\AdminTs3\Berita@status_berita');
@@ -288,7 +290,9 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/invoice-export-excel-ts3/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@invoice_export_excel_ts3');
 
     Route::post('admin-ts3/get-area-client', 'App\Http\Controllers\AdminTs3\Branch@get_area_client');   
-    Route::post('admin-ts3/get-pic-client', 'App\Http\Controllers\AdminTs3\Branch@get_pic_client');   
+    Route::post('admin-ts3/get-pic-client', 'App\Http\Controllers\AdminTs3\Branch@get_pic_client');  
+    
+    Route::post('admin-ts3/get-pic-regional', 'App\Http\Controllers\AdminTs3\Regional@get_pic_regional'); 
 
 
     Route::get('admin-ts3/export/bengkel', 'App\Http\Controllers\AdminTs3\Bengkel@export');
