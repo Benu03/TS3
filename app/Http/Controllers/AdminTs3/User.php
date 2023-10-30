@@ -197,16 +197,13 @@ class User extends Controller
         if(isset($request->active)){ $isactive = 1;} else { $isactive = 0; }
         if(isset($request->confirm)){ $isconfirm = 'true'; } else { $isconfirm = 'false'; }
 
-
-
-
         $image                  = $request->file('gambar');
         if(!empty($image)) {
             // UPLOAD START
             $filenamewithextension  = $request->file('gambar')->getClientOriginalName();
             $filename               = pathinfo($filenamewithextension, PATHINFO_FILENAME);
             $input['nama_file']     = Str::slug($filename, '-').'-'.time().'.'.$image->getClientOriginalExtension();
-            $destinationPath        = './assets/upload/user/thumbs/';
+            $destinationPath        = './assets/upload/user/thumbs';
             $img = Image::make($image->path());
             $img->resize(850, 850, function ($constraint) {
                 $constraint->aspectRatio();
