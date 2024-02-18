@@ -80,6 +80,8 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/kategori_galeri/delete/{par1}', 'App\Http\Controllers\AdminTs3\Kategori_galeri@delete');
 
     Route::get('admin-ts3/kontak', 'App\Http\Controllers\AdminTs3\Kontak@index');
+    Route::get('admin-ts3/get-kontak', 'App\Http\Controllers\AdminTs3\Kontak@getKontak');
+
 
     Route::get('admin-ts3/berita', 'App\Http\Controllers\AdminTs3\Berita@index');
     Route::get('admin-ts3/berita/cari', 'App\Http\Controllers\AdminTs3\Berita@cari');

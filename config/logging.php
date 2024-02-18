@@ -58,7 +58,7 @@ return [
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'TS3-LOG',
+            'username' => 'TS3 APP-LOG',
             'emoji' => ':boom:',
             'level' => 'error',
         ],

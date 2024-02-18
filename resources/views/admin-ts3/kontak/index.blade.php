@@ -25,12 +25,12 @@
                 </button>
             </div>
         </th>
-        <th width="15%">Area</th>
-        <th width="15%">Branch</th>   
-        <th width="15%">PIC Branch</th>    
-        <th width="10%">Phone</th>   
-        <th width="20%">Address</th>    
-        <th>ACTION</th>
+        <th width="15%">Fullname</th>
+        <th width="15%">Email</th>   
+        <th width="15%">Phone</th>    
+        <th width="20%">Subject</th>   
+
+        <th width="10%">ACTION</th>
 </tr>
 </thead>
 
@@ -39,7 +39,7 @@
 </div>
 </form>
 
-{{-- <script type="text/javascript"> --}}
+<script type="text/javascript">
     $(document).ready(function() { 
         fetch_data()
         function fetch_data(){                    
@@ -62,7 +62,7 @@
                         }
                     },
                     ajax: {
-                        url:"{{  asset('admin-ts3/get-branch') }}",
+                        url:"{{  asset('admin-ts3/get-kontak') }}",
                         type: "GET"
                              
                     },
@@ -75,24 +75,20 @@
                             searchable: false
                         },
                         {
-                            name: 'area_slug',
-                            data: 'area_slug'
+                            name: 'fullname',
+                            data: 'fullname'
                         },
                         {
-                            name: 'branch',
-                            data: 'branch'
-                        },
-                        {
-                            name: 'pic_branch',
-                            data: 'pic_branch'
+                            name: 'email',
+                            data: 'email'
                         },
                         {
                             name: 'phone',
                             data: 'phone'
                         },
                         {
-                            name: 'address',
-                            data: 'address'
+                            name: 'subject',
+                            data: 'subject'
                         },
                         {
                             data: 'action', 
