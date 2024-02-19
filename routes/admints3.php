@@ -81,6 +81,8 @@ Route::group(['middleware' => ['admints3']],function(){
 
     Route::get('admin-ts3/kontak', 'App\Http\Controllers\AdminTs3\Kontak@index');
     Route::get('admin-ts3/get-kontak', 'App\Http\Controllers\AdminTs3\Kontak@getKontak');
+    Route::get('admin-ts3/kontak/reply/{par1}', 'App\Http\Controllers\AdminTs3\Kontak@reply');
+    Route::post('admin-ts3/kontak/reply-process', 'App\Http\Controllers\AdminTs3\Kontak@reply-process');
 
 
     Route::get('admin-ts3/berita', 'App\Http\Controllers\AdminTs3\Berita@index');

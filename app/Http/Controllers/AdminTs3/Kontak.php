@@ -18,14 +18,27 @@ class Kontak extends Controller
     {
     	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
        
-		$kontak 	=  DB::connection('ts3')->table('cp.kategori')->orderBy('urutan','ASC')->get();
+		
 
 		$data = array(  'title'       => 'Kontak',
-						'kontak'    => $kontak,
                         'content'     => 'admin-ts3/kontak/index'
                     );
         return view('admin-ts3/layout/wrapper',$data);
     }
+
+    public function reply($id_kontak)
+    {
+    	if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+       
+		$kontak 	=  DB::connection('ts3')->table('cp.kontak')->where('id',$id_kontak)->first();
+
+		$data = array(  'title'       => 'Reply Kontak',
+						'kontak'    => $kontak,
+                        'content'     => 'admin-ts3/kontak/reply'
+                    );
+        return view('admin-ts3/layout/wrapper',$data);
+    }
+
 
 
     public function getKontak(Request $request)
@@ -39,8 +52,6 @@ class Kontak extends Controller
                $btn = '<div class="btn-group">
                <a href="'. asset('admin-ts3/kontak/reply/'.$row->id).'" 
                  class="btn btn-warning btn-sm"><i class="fa fa-reply"></i></a>
-               <a href="'. asset('admin-ts3/kontak/view/'.$row->id).'" class="btn btn-success btn-sm">
-                    <i class="fa fa-eye"></i></a>
                </div>';
                 return $btn;
                 })->addColumn('check', function($row){
