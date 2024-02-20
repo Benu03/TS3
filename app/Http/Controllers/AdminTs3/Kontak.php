@@ -10,6 +10,8 @@ use Image;
 use App\Models\Kontak_model;
 use DataTables;
 use Log;
+use App\Mail\MailSend;
+use Illuminate\Support\Facades\Mail;
 
 class Kontak extends Controller
 {
@@ -39,6 +41,77 @@ class Kontak extends Controller
         return view('admin-ts3/layout/wrapper',$data);
     }
 
+
+    public function replyProcess(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        if($request->reply_via == 'phone' ){
+
+            try{
+                DB::connection('ts3')->beginTransaction();
+            DB::connection('ts3')->table('cp.kontak')->where('id',$request->id_kontak)->update([
+                'updated_date'       => date("Y-m-d h:i:sa"),
+                'updated_by'       => $request->session()->get('username'),
+                'message_reply'     => $request->message_reply,
+                'reply_via'   		=> $request->reply_via,
+                'is_reply'  => true
+            ]);
+
+             DB::connection('ts3')->commit();
+            
+             return redirect('admin-ts3/kontak')->with(['sukses' => 'Pesan Anda Telah Terkirim.!!']);
+          } catch (\Illuminate\Database\QueryException $e) {
+             DB::connection('ts3')->rollback();
+             Log::channel('slack')->critical("Critical error occurred while inserting contact: " . $e->getMessage());
+             return redirect('admin-ts3/kontak/reply/'.$request->id_kontak)->with(['warning' => 'Terjadi kesalahan saat mengirim data. Mohon coba lagi nanti.']);
+         }
+
+
+        }
+        else{
+
+            try{
+      
+
+                $body = $request->message_reply;
+                $to   = strtolower(trim($request->email));
+                $subject = $request->subject;
+                $sender =  'noreply@ts3.co.id';
+
+                Mail::mailer('smtp')->send([], [], function ($message) use ($body, $to, $subject, $sender) {
+                    $message->to($to)
+                            ->subject($subject)
+                            ->from($sender, 'TS3 Indonesia')
+                            ->setBody($body, 'text/html');
+                });
+                
+
+                DB::connection('ts3')->beginTransaction();
+                DB::connection('ts3')->table('cp.kontak')->where('id',$request->id_kontak)->update([
+                'updated_date'       => date("Y-m-d h:i:sa"),
+                'updated_by'       => $request->session()->get('username'),
+                'message_reply' => $request->message_reply,
+                'reply_via'   		=> $request->reply_via,
+                'is_reply'  => true
+            ]);
+
+            
+             DB::connection('ts3')->commit();            
+             return redirect('admin-ts3/kontak')->with(['sukses' => 'Pesan Anda Telah Terkirim.!!']);
+          } catch (\Illuminate\Database\QueryException $e) {
+             DB::connection('ts3')->rollback();
+             Log::channel('slack')->critical("Critical error occurred while inserting contact: " . $e->getMessage());
+             return redirect('admin-ts3/kontak/reply/'.$request->id_kontak)->with(['warning' => 'Terjadi kesalahan saat mengirim data. Mohon coba lagi nanti.']);
+         }
+
+        }
+        
+
+
+
+    }
+    
 
 
     public function getKontak(Request $request)

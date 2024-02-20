@@ -13,6 +13,9 @@
 <form action="{{ asset('admin-ts3/kontak/reply-process') }}" method="post" accept-charset="utf-8">
     {{ csrf_field() }}
     <input type="hidden" name="id_kontak" value="{{ $kontak->id }}">
+    <input type="hidden" name="message" value="{{ $kontak->message }}">
+    <input type="hidden" name="subject" value="{{ $kontak->subject }}">
+    <input type="hidden" name="email" value="{{ $kontak->email }}">
     <div class="form-group row">
         <label class="col-md-3 text-right">Full Name</label>
         <div class="col-md-3">
@@ -53,11 +56,11 @@
         <label class="col-md-3 text-right">Reply via</label>
         <div class="col-md-9">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="reply_via" id="replyPhone" value="phone">
+                <input class="form-check-input" type="radio" name="reply_via" id="replyPhone" value="phone" required>
                 <label class="form-check-label" for="replyPhone">Phone</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="reply_via" id="replyEmail" value="email">
+                <input class="form-check-input" type="radio" name="reply_via" id="replyEmail" value="email" required>
                 <label class="form-check-label" for="replyEmail">Email</label>
             </div>
         </div>
@@ -66,7 +69,7 @@
     <div class="form-group row">
         <label class="col-md-3 text-right">Message Reply</label>
         <div class="col-md-5">
-            <textarea name="message_reply" class="form-control" rows="5" placeholder="Message Reply"></textarea>
+            <textarea name="message_reply" class="form-control" rows="5" placeholder="Message Reply" required></textarea>
         </div>
     </div>    
     

@@ -82,7 +82,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/kontak', 'App\Http\Controllers\AdminTs3\Kontak@index');
     Route::get('admin-ts3/get-kontak', 'App\Http\Controllers\AdminTs3\Kontak@getKontak');
     Route::get('admin-ts3/kontak/reply/{par1}', 'App\Http\Controllers\AdminTs3\Kontak@reply');
-    Route::post('admin-ts3/kontak/reply-process', 'App\Http\Controllers\AdminTs3\Kontak@reply-process');
+    Route::post('admin-ts3/kontak/reply-process', 'App\Http\Controllers\AdminTs3\Kontak@replyProcess');
 
 
     Route::get('admin-ts3/berita', 'App\Http\Controllers\AdminTs3\Berita@index');
@@ -207,6 +207,19 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/vehicle-type/delete-vehicle-type/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@delete_vehicle_type');
 
     Route::get('admin-ts3/get-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@getVehicletype');
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     Route::get('admin-ts3/spare-part', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@index');
     Route::post('admin-ts3/spare-part/tambah', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@tambah');
