@@ -59,5 +59,10 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::post('bengkel/notification-read', 'App\Http\Controllers\Bengkel\Notif@read');
     Route::get('bengkel/notification-data', 'App\Http\Controllers\Bengkel\Notif@getdata');
 
+
+    //other feature
+    Route::get('bengkel/other-feature/vehicle-check', 'App\Http\Controllers\Bengkel\OtherFeature@VehicleCheck');
+    Route::get('bengkel/other-feature/gps-check', 'App\Http\Controllers\Bengkel\OtherFeature@GpsCheck');
+
     
 });

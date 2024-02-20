@@ -42,40 +42,60 @@
           <li class="batas"><hr></li>
 
 
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="fas fa-paste nav-icon"></i>
-              <p>Service<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item ml-4"><a href="{{ asset('bengkel/list-service') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>List Service</p></a>
-              </li>
-              {{-- <li class="nav-item ml-4"><a href="{{ asset('bengkel/direct-service') }}" class="nav-link"><i class="fas fa-directions nav-icon"></i><p>Direct Service</p></a>
-              </li> --}}
-             
-            </ul>
-          </li>    
-  
-          <li class="nav-item"><a href="{{ asset('bengkel/invoice') }}" class="nav-link"><i class="nav-icon fas fa-money-check"></i><p> Invoice</p></a></li>
-
-             {{-- report  --}}
-             <li class="nav-item has-treeview">
+            <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="fas fa-paste nav-icon"></i>
-                <p>Report<i class="fas fa-angle-left right"></i></p>
+                <p>Service<i class="fas fa-angle-left right"></i></p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
+                <li class="nav-item ml-4"><a href="{{ asset('bengkel/list-service') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i><p>List Service</p></a>
                 </li>
-                {{-- <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
+                {{-- <li class="nav-item ml-4"><a href="{{ asset('bengkel/direct-service') }}" class="nav-link"><i class="fas fa-directions nav-icon"></i><p>Direct Service</p></a>
                 </li> --}}
-                <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/rekap-invoice') }}" class="nav-link"><i class="fas fa-calculator nav-icon"></i><p>Rekap Invoice</p></a>
-                </li>
-  
-  
-               
+              
               </ul>
-            </li>             
+            </li>    
+    
+            <li class="nav-item"><a href="{{ asset('bengkel/invoice') }}" class="nav-link"><i  class="nav-icon fas fa-money-check"></i><p> Invoice</p></a></li>
+
+              {{-- report  --}}
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="fas fa-paste nav-icon"></i>
+                  <p>Report<i class="fas fa-angle-left right"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
+                  </li>
+                  {{-- <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
+                  </li> --}}
+                  <li class="nav-item ml-4"><a href="{{ asset('bengkel/report/rekap-invoice') }}" class="nav-link"><i class="fas fa-calculator nav-icon"></i><p>Rekap Invoice</p></a>
+                  </li>
+    
+    
+                
+                </ul>
+            </li>    
+          
+            
+         
+        
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                <i class="fas fa-search nav-icon"></i>
+                  <p>Other Feature<i class="fas fa-angle-left right"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item ml-4"><a href="{{ asset('bengkel/other-feature/vehicle-check') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i> <p> Vehicle Check</p></a>
+                  </li>
+                  <li class="nav-item ml-4"><a href="{{ asset('bengkel/other-feature/gps-check') }}" class="nav-link"><i class="fas fa-map-marked-alt nav-icon"></i> <p> GPS Check</p></a>
+                  </li>       
+    
+                
+                </ul>
+            </li>    
+
+           
 
         </ul>
       </nav>

@@ -209,18 +209,6 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/get-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@getVehicletype');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     Route::get('admin-ts3/spare-part', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@index');
     Route::post('admin-ts3/spare-part/tambah', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@tambah');
     Route::post('admin-ts3/spare-part/proses', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@proses');
