@@ -64,5 +64,8 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::get('bengkel/other-feature/vehicle-check', 'App\Http\Controllers\Bengkel\OtherFeature@VehicleCheck');
     Route::get('bengkel/other-feature/gps-check', 'App\Http\Controllers\Bengkel\OtherFeature@GpsCheck');
 
+
+
+    Route::post('bengkel/gps-posting', 'App\Http\Controllers\Bengkel\Gps@gpsPosting');
     
 });

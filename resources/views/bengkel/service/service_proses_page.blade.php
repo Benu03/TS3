@@ -116,9 +116,24 @@
     <div class="form-group row">
         <div class="col-sm-6">
 
-            <div class="card card-info">
+                <div class="card card-light">
                 <div class="card-header">
-                    <h3 class="card-title">Pekerjaan</h3>
+                <div class="row">
+                <div class="col-md-6">
+                <h3 class="card-title">Pekerjaan</h3>
+                </div>
+                <div class="col-md-6">
+                <div class="custom-control custom-switch text-md-right">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" >
+                    <label class="custom-control-label" name="gpslabel" for="customSwitch1">GPS Install</label>
+                </div>
+
+                </div>
+            </div>
+
+                  
+                   
+
                 </div>
                 <div class="card-body">
 
@@ -251,6 +266,137 @@
     </div>
 </form>
 
+
+
+<div class="modal fade" id="gpsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">GPS Install Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+              
+
+            <div class="row form-group">
+                <label class="col-md-3 text-right">Serial Number <span class="text-danger">*</span></label>
+                <div class="col-md-9">
+                    <input type="text" name="sn_gps" class="form-control" placeholder="SN GPS"  required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 control-label text-right">Tanggal Pemasangan</label>
+                <div class="col-sm-9">
+                    <input type="text" name="install_date" class="form-control tanggal" placeholder="Tanggal Pemasangan" data-date-format="yyyy-mm-dd">	
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 control-label text-right">Evidance</label>
+                <div class="col-sm-9">
+                <input type="file" name="uploadgps1" class="form-control" placeholder="Upload File Install GPS" required>	
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 control-label text-right"></label>
+                <div class="col-sm-9">
+                <input type="file" name="uploadgps2" class="form-control" placeholder="Upload File Install GPS">	
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 control-label text-right"></label>
+                <div class="col-sm-9">
+                <input type="file" name="uploadgps3" class="form-control" placeholder="Upload File Install GPS">	
+                </div>
+            </div>
+
+    
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="simpan_gps">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $('#simpan_gps').click(function(){
+            // Ambil nilai input
+            var nopol = $('input[name="nopol"]').val();
+            var install_date = $('input[name="install_date"]').val();
+            var sn_gps = $('input[name="sn_gps"]').val();
+            var install_date = $('input[name="install_date"]').val();
+            var uploadgps1 = $('input[name="uploadgps1"]').prop('files')[0];
+            var uploadgps2 = $('input[name="uploadgps2"]').prop('files')[0];
+            var uploadgps3 = $('input[name="uploadgps3"]').prop('files')[0];
+
+            // Buat FormData objek
+            var formData = new FormData();
+            formData.append('nopol', nopol);
+            formData.append('sn_gps', sn_gps);
+            formData.append('install_date', install_date);
+            formData.append('uploadgps1', uploadgps1);
+            formData.append('uploadgps2', uploadgps2);
+            formData.append('uploadgps3', uploadgps3);
+
+            // Kirim data ke server menggunakan AJAX
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                url: "{{ asset('bengkel/gps-posting') }}", 
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                   
+                    swal("Sukses", "Data GPS berhasil disimpan!", "success").then(function() {
+                        $('#gpsmodal').modal('hide');   
+                       
+                    });
+
+                    $('label.gpslabel').append('<i class="fas fa-check"></i>');
+                
+                },
+                error: function(xhr, status, error) {
+                    swal("Warning", "Terjadi kesalahan saat menyimpan data GPS: " + error, "warning").then(function() {
+                        $('#customSwitch1').prop('checked', false);
+                    });
+                    
+                  
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function(){
+        $('#customSwitch1').click(function(){
+            if($(this).is(":checked")) {
+                $('#gpsmodal').modal('show');
+            } else {
+                $('#gpsmodal').modal('hide');
+            }
+        });
+
+        $('#gpsmodal').on('hidden.bs.modal', function () {
+            $('#customSwitch1').prop('checked', false);
+        });
+    });
+</script>
 
 <script>
 $(document).ready(function() {
