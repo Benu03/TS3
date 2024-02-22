@@ -67,5 +67,8 @@ Route::group(['middleware' => ['bengkel']],function(){
 
 
     Route::post('bengkel/gps-posting', 'App\Http\Controllers\Bengkel\Gps@gpsPosting');
+
+
+    Route::post('vehicle-check-process', 'App\Http\Controllers\Bengkel\Vehicle@vehicleCheck');
     
 });

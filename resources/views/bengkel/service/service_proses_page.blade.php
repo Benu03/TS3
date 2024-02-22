@@ -319,6 +319,14 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <label class="col-sm-3 control-label text-right">Remark</label>
+                <div class="col-sm-9">
+                <textarea name="remarkgps" id="remarkgps" class="form-control" placeholder="Remark Gps"></textarea>
+                </div>
+            </div>
+         
+
     
             </div>
             <div class="modal-footer">
@@ -340,6 +348,7 @@
             var uploadgps1 = $('input[name="uploadgps1"]').prop('files')[0];
             var uploadgps2 = $('input[name="uploadgps2"]').prop('files')[0];
             var uploadgps3 = $('input[name="uploadgps3"]').prop('files')[0];
+            var remarkgps = $('textarea[name="remarkgps"]').val();
 
             // Buat FormData objek
             var formData = new FormData();
@@ -349,6 +358,7 @@
             formData.append('uploadgps1', uploadgps1);
             formData.append('uploadgps2', uploadgps2);
             formData.append('uploadgps3', uploadgps3);
+            formData.append('remarkgps', remarkgps);
 
             // Kirim data ke server menggunakan AJAX
             $.ajax({
@@ -360,12 +370,14 @@
                 processData: false,
                 success: function(response) {
                    
-                    swal("Sukses", "Data GPS berhasil disimpan!", "success").then(function() {
-                        $('#gpsmodal').modal('hide');   
-                       
-                    });
+                    $('#gpsmodal').modal('hide'); // Menutup modal setelah request berhasil
 
-                    $('label.gpslabel').append('<i class="fas fa-check"></i>');
+                    swal("Sukses", "Data GPS berhasil disimpan!", "success").then(function() {
+                        $('#customSwitch1').prop('checked', true); // Mengatur switch ke posisi tercentang
+                    });
+                  
+                 
+                    
                 
                 },
                 error: function(xhr, status, error) {

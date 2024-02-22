@@ -60,7 +60,7 @@ class Invoice extends Controller
       
         $invoice = DB::connection('ts3')->table('mvm.v_invoice_admin_ts3')->whereIn('status',['PROSES','REQUEST'])->where('invoice_type','TS3 TO CLIENT')->get();
         
-		$data = array(   'title'     => 'Invoice To Cliet',
+		$data = array(   'title'     => 'Invoice To Client',
                          'invoice'      => $invoice,                   
                          'countinvoicets3pro' => $countinvoicets3pro,
                          'countinvoicets3req' => $countinvoicets3req,

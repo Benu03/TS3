@@ -60,13 +60,20 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <div class="btn-group">
+    <div class="col-md-6">
+        <div class="btn-group mr-2">
            <a href="{{ asset('admin-ts3/invoice-create') }}" 
-            class="btn btn-warning"><i class="fas fa-receipt"></i> Create Invoice</a>
+            class="btn btn-warning"><i class="fas fa-receipt"></i> Create Invoice Service</a>
         
        </div> 
+
+       <div class="btn-group">
+            <a href="{{ asset('admin-ts3/invoice-create-gps') }}" class="btn" style="background-color: #15edac; color: #000000; border-color: #15edac;">
+                <i class="fas fa-receipt"></i> Create Invoice GPS
+            </a>
+        </div>
   </div>
+  
   </div>
   
 <div class="clearfix"><hr></div>

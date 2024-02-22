@@ -185,6 +185,14 @@ class Service extends Controller
                 'update_by'     => $request->session()->get('username')
             ]); 
 
+
+            DB::connection('ts3')->table('mvm.mvm_gps_process')->where('nopol',$request->nopol)->where('status','pemasangan')->whereNull('service_no')->update([
+                'status' => 'service',
+                'service_no' => $service_no
+              
+            ]); 
+
+
             $datahis = [
                 'mvm_service_vehicle_h_id' => $service_id,
                 'mst_bengkel_id' => $bengkel->id,
