@@ -325,4 +325,11 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/spk/service-delete-detail-foto/{par1}', 'App\Http\Controllers\AdminTs3\Spk@servicedeletedetailfoto');
     Route::post('admin-ts3/spk/service-insert-detail-foto', 'App\Http\Controllers\AdminTs3\Spk@serviceinsertdetailfoto');
     
+    
+
+    Route::get('admin-ts3/invoice-create-gps', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create_gps');
+
+
+
+    
 });

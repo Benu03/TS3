@@ -70,7 +70,8 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   {{-- <script src="{{ asset('assets/timepicker/timepicker.min.js') }}"></script> --}}
   {{-- <link href="{{ asset('assets/timepicker/timepicker.min.css') }}" rel="stylesheet"/> --}}
   <script src="{{ asset('assets/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
- 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
  
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
 

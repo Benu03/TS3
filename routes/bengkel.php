@@ -70,5 +70,8 @@ Route::group(['middleware' => ['bengkel']],function(){
 
 
     Route::post('vehicle-check-process', 'App\Http\Controllers\Bengkel\Vehicle@vehicleCheck');
-    
+    Route::get('gps-evidance/{par1}', 'App\Http\Controllers\Bengkel\Vehicle@GpsEvidance');
+
+
+    Route::post('gps-check-process', 'App\Http\Controllers\Bengkel\Vehicle@GpsCheck');
 });

@@ -16,7 +16,7 @@
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                 Nopol <i class="fas fa-motorcycle ml-2"></i></i>
+                                 Nopol <i class="fas fa-motorcycle ml-2"></i>
                                 </span>
                             </div>
                             <input type="text" name="nopol" id="nopol" class="form-control" placeholder="Nopol Kendaraan" >	

@@ -786,8 +786,49 @@ class Invoice extends Controller
 
   
 
-   
+    public function invoice_create_gps()
+    {
 
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+
+        $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','DRAFT')->where('invoice_type','TS3 TO CLIENT GPS')->where('create_by',Session()->get('username'))->first();
+
+
+        if(isset($checkInvoice) == false){
+
+            $month = $this->getRomawi(date("m"));
+            $invoicenocheck = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_type','TS3 TO CLIENT GPS')->orderBy('created_date','DESC')->first();
+     
+            if($invoicenocheck == null)
+            {
+                $invoice_no   = '1'.'/INV.GPS.TS3'.'/'.$month.'/'.date("Y");  
+            }
+            else
+            {
+                $y = explode('/', $invoicenocheck->invoice_no);
+                $seq = $y[0]+1;
+                $invoice_no   = $seq.'/INV.TS3'.'/'.$month.'/'.date("Y");  
+            }
+          
+                     
+        }
+        else{
+            $invoice_no = $checkInvoice->invoice_no;
+        }
+
+        $invoicelist =  DB::connection('ts3')->table('mvm.mvm_gps_process')->where('status','service')->whereNull('invoice_no')->get();       
+
+        	$data = array(   'title'     => 'Invoice Client GPS',
+                         'invoicelist'      => $invoicelist,
+                         'invoice_no'    => $invoice_no,
+                        'content'   => 'admin-ts3/invoice/invoice_gps'
+                    );
+        return view('admin-ts3/layout/wrapper',$data);
+
+    }
 
 
  
