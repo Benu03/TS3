@@ -12,6 +12,7 @@ use Log;
 use File;
 use App\Exports\AdminTs3\InvoiceExport;
 use Maatwebsite\Excel\Facades\Excel;
+use DataTables;
 
 class Invoice extends Controller
 {
@@ -415,6 +416,15 @@ class Invoice extends Controller
         }
         else
         {
+
+            $checkinv =   DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->first();
+
+            if(!isset( $checkinv))
+            {
+                return redirect('admin-ts3/invoice-create')->with(['warning' => 'Tidak ada data yang di calculasi']);
+            }
+
+
         
             DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_no',$request->invoice_no)->update([
                 'status'               => 'REQUEST'
@@ -784,8 +794,6 @@ class Invoice extends Controller
     }   
     
 
-  
-
     public function invoice_create_gps()
     {
 
@@ -794,15 +802,16 @@ class Invoice extends Controller
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
 
-        $checkInvoice = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('status','DRAFT')->where('invoice_type','TS3 TO CLIENT GPS')->where('create_by',Session()->get('username'))->first();
+        $checkInvoice = DB::connection('ts3')->table('mvm.mvm_gps_process')->where('status_invoice','DRAFT')->where('invoice_type','TS3 TO CLIENT GPS')->first();
 
 
         if(isset($checkInvoice) == false){
 
             $month = $this->getRomawi(date("m"));
-            $invoicenocheck = DB::connection('ts3')->table('mvm.mvm_invoice_h')->where('invoice_type','TS3 TO CLIENT GPS')->orderBy('created_date','DESC')->first();
-     
-            if($invoicenocheck == null)
+            $invoicenocheck = DB::connection('ts3')->table('mvm.mvm_gps_process')->where('invoice_type','TS3 TO CLIENT GPS')->where('status','invoice')->orderBy('created_date','DESC')->first();
+
+
+            if($invoicenocheck == null) 
             {
                 $invoice_no   = '1'.'/INV.GPS.TS3'.'/'.$month.'/'.date("Y");  
             }
@@ -810,7 +819,7 @@ class Invoice extends Controller
             {
                 $y = explode('/', $invoicenocheck->invoice_no);
                 $seq = $y[0]+1;
-                $invoice_no   = $seq.'/INV.TS3'.'/'.$month.'/'.date("Y");  
+                $invoice_no   = $seq.'/INV.GPS.TS3'.'/'.$month.'/'.date("Y");  
             }
           
                      
@@ -831,7 +840,120 @@ class Invoice extends Controller
     }
 
 
- 
- 
+    public function invoice_gps_detail_proses(Request $request)
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+   
+        if($request->idgps == null)
+        {
+            return redirect('admin-ts3/invoice-create-gps')->with(['warning' => 'Data Tidak Ada Yang Di pilih']);
+        }
+        if(!isset($request->invoice_date))
+        {
+            return redirect('admin-ts3/invoice-create-gps')->with(['warning' => 'Tanggal Invoice Belum Di Input']);
+        }
+
+       
+
+    
+            
+                        DB::connection('ts3')->table('mvm.mvm_gps_process')->whereIn('id',$request->idgps)->update([
+                            'invoice_no'         => $request->invoice_no,
+                            'invoice_date'         => $request->invoice_date,
+                            'status'   => 'invoice',
+                        'status_invoice'   => 'PROSES',
+                        'updated_date'    => date("Y-m-d h:i:sa"),
+                        'updated_by'         => $request->session()->get('username')
+                        ]);   
+
+                       
+                            
+                        return redirect('admin-ts3/invoice-create-gps')->with(['sukses' => 'Data telah Berhasil Di proses']);
+                    
+
+
+             
+            
+        
+        
+
+    }
+    
+    
+    
+    public function get_invoice_gps(Request $request)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        
+        if ($request->ajax()) {
+        $gps 	= DB::connection('ts3')->table('mvm.v_invoice_gps')->get();
+
+      
+
+        return DataTables::of($gps)->addColumn('action', function($row){
+            $noinvoice = str_replace('/', '', $row->invoice_no);
+               $btn = '<div class="btn-group">
+               <a href="'. asset('admin-ts3/invoice-gps-generate/'.$noinvoice).'" 
+                 class="btn btn-secondary btn-sm"><i class="fa fa-file-contract"></i></a>
+               <a href="'. asset('admin-ts3/invoice-gps-cancel/'.$noinvoice).'" class="btn btn-danger btn-sm delete-btn">
+                    <i class="fa fa-trash"></i></a>
+               </div>';
+                return $btn;
+                })
+        ->rawColumns(['action'])->make(true);
+       
+        }
+
+
+    }
+
+    public function InvoiceGpscancel($invoice)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+   
+        try{   
+            DB::connection('ts3')->beginTransaction();  
+
+          
+            DB::connection('ts3')->table('mvm.mvm_gps_process')
+            ->whereRaw("replace(invoice_no, '/','') = ?", [$invoice])
+            ->update([
+                'invoice_no' => null,
+                'invoice_date' => null,
+                'status' => 'service',
+                'status_invoice' => null,
+                'updated_date' => null,
+                'updated_by' => null
+            ]);
+
+
+            DB::connection('ts3')->commit();
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::connection('ts3')->rollback();
+            Log::channel('slack')->critical("Critical error occurred while inserting contact: " . $e->getMessage());
+            return redirect('admin-ts3/invoice-create-gps')->with(['warning' => $e]);
+        }
+
+        return redirect('admin-ts3/invoice-create-gps')->with(['sukses' => 'Data telah Berhasil Di Reset']);
+
+    }
+
+
+    public function InvoiceGpsGenerate($invoice)
+    {
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+
+        dd($invoice);
+
+    }
+    
+    
+
  
  }

@@ -13,60 +13,52 @@
 							<div class="row">
 								<div class="col-md-12">	
 
-									<div class="table-responsive mailbox-messages">
-								
-											<table id="example4" class="display table table-bordered table-sm " cellspacing="0" width="100%" style="font-size: 12px;">
-											<thead>
-												<tr class="bg-info">
-													<th width="5%">
-														<div class="mailbox-controls">
-															<!-- Check all button -->
-															<button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-															</button>
-														</div>
-													</th>        
-													<th width="12%">Invoice Nomor</th>
-													<th width="12%">Regional</th>
-													<th width="10%">Jasa</th>  
-													<th width="10%">Part</th>  
-													<th width="10%">Bengkel</th>  
-										
-											</tr>
-											</thead>
-											<tbody>
-												<?php $i=1; foreach($invoicebkl as $in) { ?>
-													<tr>
-														<td class="text-center">
-															<div class="icheck-primary">
-																	<input type="checkbox" class="icheckbox_flat-blue " name="id[]" value="<?php echo $in->id ?>" id="check<?php echo $i ?>">
-																	<label for="check<?php echo $i ?>"></label>
-															</div>
-															{{-- <small class="text-center"><?php echo $i ?></small> --}}
-														</td>
-											
-													<td><?php echo $in->invoice_no ?></td>
-													<td><?php echo $in->regional ?></td>
-													<td><?php echo "Rp " . number_format($in->jasa,0,',','.'); ?></td>
-													<td><?php echo "Rp " . number_format($in->part,0,',','.'); ?></td>
-													<td><?php echo $in->bengkel_name ?></td>
-													
-												</tr>
-												
-												<?php $i++; } ?> 
-											
-											</tbody>
-											</table>
-							
-										</div>
-								
 
+								        
+                <div class="table-responsive mailbox-messages">
+                    <table id="invoicedatatables" name="invoicedatatables" class="display table table-bordered table-sm" cellspacing="0" width="100%" style="font-size: 10px; max-width: none;">
+                        <thead>
+                            <tr class="bg-info">
+							<th> <!-- Sesuaikan lebar kolom dengan persentase yang sesuai -->
+            <div class="mailbox-controls">
+                <!-- Tombol Check all -->
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i></button>
+            </div>
+        </th>        
+        <th>Invoice Nomor</th>
+        <th>Regional</th>
+        <th>Jasa</th>  
+        <th>Part</th>  
+        <th>Bengkel</th>  
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach($invoicebkl as $in) { ?>
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="icheck-primary">
+                                            <input type="checkbox" class="icheckbox_flat-blue" name="id[]" value="<?php echo $in->id ?>" id="check<?php echo $i ?>">
+                                            <label for="check<?php echo $i ?>"></label>
+                                        </div>
+                                    </td>
+                                    <td><?php echo $in->invoice_no ?></td>
+                                    <td><?php echo $in->regional ?></td>
+                                    <td><?php echo "Rp " . number_format($in->jasa,0,',','.'); ?></td>
+                                    <td><?php echo "Rp " . number_format($in->part,0,',','.'); ?></td>
+                                    <td><?php echo $in->bengkel_name ?></td>
+                                </tr>
+                                <?php $i++; } ?> 
+                        </tbody>
+                    </table>
+                </div>
+       
 
+								
 
 								<div class="form-group row">
 								
 									<div class="col-sm-12 text-center">
 										<div class="form-group pull-right btn-group">
-											{{-- <input type="submit" name="submit" class="btn btn-primary " value="Simpan Data"> --}}
 											<button class="btn btn-primary" type="submit" name="invoice_create" onClick="check();" >
 												<i class="fa fa-plus"></i> Submit
 											</button> 
@@ -115,5 +107,27 @@
 	 });
 	};
 	
-	
+
 	</script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+	var table = $('#invoicedatatables').DataTable({
+        // "sScrollY": sScrollY + "px", // Set tinggi tabel
+        "bPaginate": false, // Nonaktifkan paginasi
+        "bJQueryUI": true, // Gunakan tema jQuery UI
+        "bScrollCollapse": true, // Aktifkan gulir collapse
+        "bAutoWidth": false, // Aktifkan penyesuaian lebar otomatis
+    });
+
+    // Bungkus tabel dengan div untuk membuat header tabel tetap
+    $('#invoicedatatables').wrap('<div class="dataTables_scroll" />');
+
+  
+
+    // Menyesuaikan lebar kolom setelah konten tabel dimuat sepenuhnya
+    $(window).on('load', function() {
+        table.columns.adjust().draw();
+    });
+});
+</script>

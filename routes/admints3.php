@@ -328,8 +328,10 @@ Route::group(['middleware' => ['admints3']],function(){
     
 
     Route::get('admin-ts3/invoice-create-gps', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create_gps');
-
-
-
+    Route::post('admin-ts3/invoice-gps-detail-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_gps_detail_proses');
+    Route::get('admin-ts3/get-invoice-gps', 'App\Http\Controllers\AdminTs3\Invoice@get_invoice_gps');
+    Route::get('admin-ts3/invoice-gps-cancel/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@InvoiceGpscancel');
+    Route::get('admin-ts3/invoice-gps-generate/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@InvoiceGpsGenerate');
+    
     
 });

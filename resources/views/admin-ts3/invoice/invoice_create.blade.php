@@ -67,10 +67,10 @@
 
 
 {{-- </form> --}}
-
+<!-- 
 <script>
     $('#reservation').daterangepicker()
-</script>
+</script> -->
 
 
 

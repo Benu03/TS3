@@ -8,6 +8,11 @@
    return true;
 }
 </script>
+
+
+
+
+
 <script>
 tinymce.init({
   selector: '.simple',
@@ -358,10 +363,12 @@ $(document).on("click", ".approval-link", function(e){
     $('#example4').DataTable({
       "paging": true,
       "lengthChange": false,
+      "scrollCollapse": true,
       "searching": true,
       "ordering": true,
       "info": false,
       "autoWidth": false,
+      
     });
   });
 

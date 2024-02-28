@@ -48,6 +48,7 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <!-- sweetalert -->
   {{-- <script src="{{ asset('assets/sweetalert/js/sweetalert.min.js') }}"></script> --}}
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <!-- angular -->
   {{-- <script src="{{ asset('assets/angular/angular.min.js') }}"></script>   --}}
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/sweetalert/css/sweetalert.css') }}">
@@ -206,8 +207,24 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
                 width: 50%;
                 margin: 15px auto;
             }
+   .dataTables_scroll
+    {
+      max-height: 500px; 
+      overflow-y: auto;
+      position:relative;
+    }
+    .dataTables_scrollHeadInner table {
+    width: 100% !important;
+  }
+  .dataTables_scrollHeadInner th {
+      white-space: nowrap !important;
+      text-overflow: ellipsis !important;
+      overflow: hidden !important;
+      min-width: 100px !important; /* Sesuaikan dengan ukuran minimum yang diinginkan */
+  }
      
   </style>
+
 
   
 </head>
