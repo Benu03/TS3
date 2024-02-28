@@ -195,7 +195,14 @@
 </form>
 
 
-
+<script>
+    function reloadPageAfterDownload() {
+        // After the download, reload the page after a delay
+        setTimeout(function(){
+            window.location.reload();
+        }, 5000); 
+    }
+</script>
 
 
 
