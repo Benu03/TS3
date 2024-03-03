@@ -333,5 +333,15 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/invoice-gps-cancel/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@InvoiceGpscancel');
     Route::get('admin-ts3/invoice-gps-generate/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@InvoiceGpsGenerate');
     Route::get('admin-ts3/invoice-gps-finish/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@updateInvoiceStatus');
-    
+
+    Route::get('admin-ts3/other-feature/vehicle-check', 'App\Http\Controllers\AdminTs3\OtherFeature@VehicleCheck');
+    Route::get('admin-ts3/other-feature/gps-check', 'App\Http\Controllers\AdminTs3\OtherFeature@GpsCheck');
+    Route::post('admin-ts3/gps-posting', 'App\Http\Controllers\AdminTs3\Gps@gpsPosting');
+
+
+    Route::post('admin-ts3/vehicle-check-process', 'App\Http\Controllers\AdminTs3\Vehicle@vehicleCheck');
+    Route::get('admin-ts3/gps-evidance/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@GpsEvidance');
+
+
+    Route::post('admin-ts3/gps-check-process', 'App\Http\Controllers\AdminTs3\Vehicle@GpsCheck');
 });

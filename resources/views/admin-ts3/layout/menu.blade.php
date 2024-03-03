@@ -287,6 +287,21 @@
             </ul>
           </li>             
     
+
+          <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                <i class="fas fa-search nav-icon"></i>
+                  <p>Other Feature<i class="fas fa-angle-left right"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/other-feature/vehicle-check') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i> <p> Vehicle Check</p></a>
+                  </li>
+                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/other-feature/gps-check') }}" class="nav-link"><i class="fas fa-map-marked-alt nav-icon"></i> <p> GPS Check</p></a>
+                  </li>       
+    
+                
+                </ul>
+            </li>    
          
 
           
