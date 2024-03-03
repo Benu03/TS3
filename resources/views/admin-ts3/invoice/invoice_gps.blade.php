@@ -195,14 +195,48 @@
 </form>
 
 
-<script>
-    function reloadPageAfterDownload() {
-        // After the download, reload the page after a delay
-        setTimeout(function(){
-            window.location.reload();
-        }, 5000); 
-    }
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Ketika tombol unduh diklik
+        $(".download-btn").click(function(e) {
+            e.preventDefault(); // Menghentikan perilaku default tautan
+
+            // Mengambil data invoice dari atribut 'data-invoice'
+            var invoiceNo = $(this).data("invoice");
+
+            $.ajax({
+                headers: {
+				'X-CSRF-TOKEN': '{{ csrf_token() }}'
+			},
+		 type: "POST",
+		 url: "{{ asset('admin-ts3/invoice-gps-generate')}}", 
+                data: { invoice_no: invoiceNo }, // Kirim data invoice ke controller
+                xhrFields: {
+                    responseType: 'blob' // Mengatur tipe respons menjadi blob
+                },
+                success: function(response, status, xhr) {
+                    // Membuat URL objek blob
+                    var url = window.URL.createObjectURL(response);
+
+                    // Membuat elemen <a> sementara
+                    var a = document.createElement("a");
+                    a.style.display = "none";
+                    a.href = url;
+                    a.download = invoiceNo + ".pdf"; // Nama file yang diunduh
+                    document.body.appendChild(a);
+                    a.click(); // Memulai unduhan
+                    window.URL.revokeObjectURL(url); // Bebaskan sumber daya URL
+                },
+                error: function(xhr, status, error) {
+                    // Penanganan kesalahan jika diperlukan
+                    console.error(error);
+                }
+            });
+        });
+    });
 </script>
+
 
 
 
@@ -332,15 +366,26 @@ $(document).on("click", ".delete-btn", function(e){
     console.log(url);
     swal({
         title: "Yakin akan menghapus data ini?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: 'btn btn-danger',
-        cancelButtonClass: 'btn btn-success',
+        icon: "warning",
+        buttons: true,
+        cancel: {
+            text: "Cancel",
+            value: null,
+            visible: false,
+            className: "",
+            closeModal: true,
+        },
+        confirm: {
+            text: "OK",
+            value: true,
+            visible: true,
+            className: "",
+            closeModal: true
+        },
         buttonsStyling: false,
-        confirmButtonText: "Delete",
-        cancelButtonText: "Cancel",
-        closeOnConfirm: false,
-        showLoaderOnConfirm: true
+
+        closeModal: false
+
     }).then(function(isConfirm) {
         if (isConfirm) {
             // Jika pengguna mengonfirmasi, lakukan penghapusan menggunakan AJAX
@@ -356,4 +401,115 @@ $(document).on("click", ".delete-btn", function(e){
         }
     });
 });
+</script>
+
+
+
+
+<script>
+$(document).on("click", ".download-btn", function(e){
+    e.preventDefault();
+    var url = $(this).attr("href");
+    console.log(url);
+    swal({
+        title: "Apakah anda ingin generate invoice?",
+        icon: "info",
+        buttons: true,
+        cancel: {
+            text: "Cancel",
+            value: null,
+            visible: false,
+            className: "",
+            closeModal: true,
+        },
+        confirm: {
+            text: "OK",
+            value: true,
+            visible: true,
+            className: "",
+            closeModal: true
+        },
+        buttonsStyling: false,
+
+        closeModal: false
+
+    }).then(function(isConfirm) {
+        if (isConfirm) {
+            console.log('download');
+            $.ajax({
+                url: url,
+                success: function(resp) {
+                    
+                    window.location.href = url;
+                 
+                        refreshDataTable();
+                 
+
+                }
+            });
+
+    
+
+        } else {
+            swal.close();
+        }
+    });
+});
+
+
+
+
+$(document).on("click", ".finish-btn", function(e){
+    e.preventDefault();
+    var url = $(this).attr("href");
+    console.log(url);
+    swal({
+        title: "Apakah anda ingin menyelesaikan Invoice ini?",
+        icon: "info",
+        buttons: true,
+        cancel: {
+            text: "Cancel",
+            value: null,
+            visible: false,
+            className: "",
+            closeModal: true,
+        },
+        confirm: {
+            text: "OK",
+            value: true,
+            visible: true,
+            className: "",
+            closeModal: true
+        },
+        buttonsStyling: false,
+
+        closeModal: false
+
+    }).then(function(isConfirm) {
+        if (isConfirm) {
+           
+            $.ajax({
+                url: url,
+                success: function(resp) {
+                    
+                       
+                 
+                        refreshDataTable(); 
+                        swal ( "Berhasil" ,  "Invoice berhasil di" ,  "success" )
+
+                }   
+            });
+
+    
+
+        } else {
+            swal.close();
+        }
+    });
+});
+
+
+function refreshDataTable() {
+    $('#dataTable').DataTable().ajax.reload();
+}
 </script>

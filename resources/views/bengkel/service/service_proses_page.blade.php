@@ -289,7 +289,7 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-3 control-label text-right">Tanggal Pemasangan</label>
+                <label class="col-sm-3 control-label text-right">Tanggal Pemasangan <span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input type="text" name="install_date" class="form-control tanggal" placeholder="Tanggal Pemasangan" data-date-format="yyyy-mm-dd">	
                 </div>
@@ -297,7 +297,7 @@
 
 
             <div class="form-group row">
-                <label class="col-sm-3 control-label text-right">Evidance</label>
+                <label class="col-sm-3 control-label text-right">Evidance <span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                 <input type="file" name="uploadgps1" class="form-control" placeholder="Upload File Install GPS" required>	
                 </div>
@@ -465,6 +465,7 @@ async function submitForm() {
         buttons: false,
         closeOnClickOutside: false,
         closeOnEsc: false,
+        position: "center"
       });
 
       // Kirim data form ke controller menggunakan Ajax

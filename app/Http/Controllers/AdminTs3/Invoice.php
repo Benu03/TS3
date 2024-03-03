@@ -856,10 +856,9 @@ class Invoice extends Controller
         {
             return redirect('admin-ts3/invoice-create-gps')->with(['warning' => 'Data Tidak Ada Yang Di pilih']);
         }
-        if(!isset($request->invoice_date))
-        {
-            return redirect('admin-ts3/invoice-create-gps')->with(['warning' => 'Tanggal Invoice Belum Di Input']);
-        }
+       
+        $invoiceDate = isset($request->invoice_date) ? $request->invoice_date : date("Y-m-d");
+
 
        
 
@@ -867,7 +866,7 @@ class Invoice extends Controller
             
                         DB::connection('ts3')->table('mvm.mvm_gps_process')->whereIn('id',$request->idgps)->update([
                             'invoice_no'         => $request->invoice_no,
-                            'invoice_date'         => $request->invoice_date,
+                            'invoice_date'         => $invoiceDate,
                             'status'   => 'invoice',
                         'status_invoice'   => 'PROSES',
                         'updated_date'    => date("Y-m-d h:i:sa"),
@@ -899,13 +898,30 @@ class Invoice extends Controller
         $gps 	= DB::connection('ts3')->table('mvm.v_invoice_gps')->get();
         return DataTables::of($gps)->addColumn('action', function($row){
             $noinvoice = str_replace('/', '', $row->invoice_no);
+            $statusinvoice = $row->status_invoice;
+
+            if($statusinvoice == 'DONE'){
+
                $btn = '<div class="btn-group">
                <a href="'. asset('admin-ts3/invoice-gps-generate/'.$noinvoice).'" 
-                 class="btn btn-secondary btn-sm" ><i class="fa fa-file-contract"></i></a>
-               <a href="'. asset('admin-ts3/invoice-gps-cancel/'.$noinvoice).'" class="btn btn-danger btn-sm delete-btn">
-                    <i class="fa fa-trash"></i></a>
-               </div>';
-                return $btn;
+                 class="btn btn-primary btn-sm download-btn" data-toggle="tooltip" data-placement="top" title="Generate"><i class="fa fa-file-contract"></i></a>';
+            }
+            else
+            {
+
+                $btn = '<div class="btn-group">
+                <a href="'. asset('admin-ts3/invoice-gps-generate/'.$noinvoice).'" 
+                  class="btn btn-primary btn-sm download-btn" data-toggle="tooltip" data-placement="top" title="Generate"><i class="fa fa-file-contract"></i></a>
+                <a href="'. asset('admin-ts3/invoice-gps-cancel/'.$noinvoice).'" class="btn btn-warning btn-sm delete-btn" data-toggle="tooltip" data-placement="top" title="Reset">
+                <i class="fas fa-sync-alt"></i></a>
+                <a href="'. asset('admin-ts3/invoice-gps-finish/'.$noinvoice).'" class="btn btn-success btn-sm finish-btn" data-toggle="tooltip" data-placement="top" title="Finish">
+                <i class="fas fa-check-circle"></i></a>
+                </div>';
+            }
+
+    
+
+                return $btn ;
                 })
         ->rawColumns(['action'])->make(true);
        
@@ -963,7 +979,6 @@ class Invoice extends Controller
         $logo =  storage_path('data/image/logo_pdf.png');
 
         $terbilang = $this->terbilang($invoice->amount);
-      
     
 
         $pdf = PDF::loadview('admin-ts3/invoice/pdf/invoice_generate_gps',['terbilang' =>$terbilang,'invoice'=>$invoice, 'invoice_detail' => $invoice_detail, 'logo' => $logo, 'config' => $config ])->setPaper('a4');
@@ -997,18 +1012,31 @@ class Invoice extends Controller
             $pdf->save($destinationPath . $name_file);
 
 
-            // DB::connection('ts3')->table('mvm.mvm_gps_process')->whereRaw("replace(invoice_no, '/','') = ?", [$invoicedata])->update([
-            //     'status'   => 'done',
-            // 'status_invoice'   => 'DONE',
-            // 'updated_date'    => date("Y-m-d h:i:sa"),
-            // 'updated_by'         => Session()->get('username')
-            // ]);   
+            // $this->updateInvoiceStatus($invoicedata);
 
-            return $pdf->download($invoice->invoice_no.'.pdf')->header('Refresh', '5');
+            return $pdf->download($invoice->invoice_no.'.pdf');
 
 
     }
+
+    public function updateInvoiceStatus($invoicedata)
+    {
+        if (Session()->get('username') == "") {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
     
+        DB::connection('ts3')->table('mvm.mvm_gps_process')->whereRaw("replace(invoice_no, '/','') = ?", [$invoicedata])->update([
+            'status' => 'done',
+            'status_invoice' => 'DONE',
+            'updated_date' => now(),
+            'updated_by' => Session()->get('username')
+        ]);
+    
+    //     return redirect('admin-ts3/invoice-create-gps')->with(['sukses' => 'Invoice telah Berhasil di selesaikan']);
+    }
+        
+
+
    
 
         

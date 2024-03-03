@@ -34,7 +34,10 @@ class Gps extends Controller
             $install_date = strtotime($request->install_date);
             $expired_date = date('Y-m-d', strtotime('+3 years', $install_date));
 
-            $existing_entry = DB::connection('ts3')->table('mst.mst_vehicle_gps')->where('sn', $sn)->first();
+            $existing_entry = DB::connection('ts3')
+            ->table('mst.mst_vehicle_gps')
+            ->where('nopol', $request->nopol)
+            ->first();
 
             $image1 = $request->file('uploadgps1');
             $path = storage_path('data/gps/'.$sn.'/');
@@ -50,7 +53,7 @@ class Gps extends Controller
 
             Log::info($request->uploadgps1);
 
-            if ($existing_entry === null)
+            if ($existing_entry == null)
             {
                 try{
 
@@ -93,10 +96,6 @@ class Gps extends Controller
                         $imggps3 = null;
                     }
                     
-                    DB::connection('ts3')->table('mst.mst_vehicle_gps')->where('nopol' ,$request->nopol )->update([
-                        'is_active'   => false
-                    ]);
-
                 
                     DB::connection('ts3')->table('mst.mst_vehicle_gps')->insert([
                         'sn'	=> $sn,
@@ -106,19 +105,23 @@ class Gps extends Controller
                         'evidance_1' => $path.$uploadgps1,
                         'evidance_2' => $imggps2,
                         'evidance_3' => $imggps3,
+                        'is_active'   => false,
                         'remark'	=> $request->remarkgps,
                         'created_by'     => $request->session()->get('username')
                     ]);
         
 
-                  
+                  $amount = DB::connection('ts3')->table('mst.mst_general')->where('name', 'amount_gps')->first();
                         $gps = [
-                            'nopol' => $request->nopol,
-                            'sn_gps' => $sn,
-                            'install_date' =>  $request->install_date,
-                            'status' => 'pemasangan',
-                            'remark' => $request->remarkgps,
-                            'created_by' => $request->session()->get('username')
+                        'nopol' => $request->nopol,
+                        'sn_gps' => $sn,
+                        'install_date' =>  $request->install_date,
+                        'status' => 'pemasangan',
+                        'remark' => $request->remarkgps,
+                        'client_invoice' => 'MDM',
+                        'invoice_type' => 'TS3 TO CLIENT GPS',
+                        'amount' => $amount->value_2,
+                        'created_by' => $request->session()->get('username')
                         ];
                     
                         DB::connection('ts3')->table('mvm.mvm_gps_process')->insert($gps);
@@ -144,24 +147,75 @@ class Gps extends Controller
                     $install_date = strtotime($request->install_date);
                     $expired_date = date('Y-m-d', strtotime('+3 years', $install_date));
 
-                    DB::connection('ts3')->table('mst.mst_vehicle_gps')->where('sn' ,$sn )->update([
-                        'nopol'   => $request->nopol,
+                    if ($request->hasFile('uploadgps2')) {
+                        $image2 = $request->file('uploadgps2');
+                        $path = storage_path('data/gps/'.$sn.'/');
+                        $uploadgps2 = $request->nopol.'_2'.'.jpg';
+                        
+                        if (!File::exists($path)) {
+                            File::makeDirectory($path, 0755, true);
+                        }
+                        
+                        $img2 = Image::make($image2->path());
+                        $img2->resize(850, 850, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($path.$uploadgps2);
+                    
+                        $imggps2 = $path.$uploadgps2;
+                    } else {
+                        $imggps2 = null;
+                    }
+                    
+                    // Pemeriksaan upload untuk gambar ketiga
+                    if ($request->hasFile('uploadgps3')) {
+                        $image3 = $request->file('uploadgps3');
+                        $path = storage_path('data/gps/'.$sn.'/');
+                        $uploadgps3 = $request->nopol.'_3'.'.jpg';
+                        
+                        if (!File::exists($path)) {
+                            File::makeDirectory($path, 0755, true);
+                        }
+                        
+                        $img3 = Image::make($image3->path());
+                        $img3->resize(850, 850, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save($path.$uploadgps3);
+                    
+                        $imggps3 = $path.$uploadgps3;
+                    } else {
+                        $imggps3 = null;
+                    }
+
+                    DB::connection('ts3')->table('mst.mst_vehicle_gps')->where('nopol' ,$request->nopol)->update([
+                        'sn'   => $sn,
                         'install_date'	=> $request->install_date,
                         'expired_date'	=> $expired_date,
                         'remark'	=> $request->remarkgps,
+                        'evidance_1' => $path.$uploadgps1,
+                        'evidance_2' => $imggps2,
+                        'evidance_3' => $imggps3,
                         'created_by'  => $request->session()->get('username')
                     ]);
 
 
 
-                    DB::connection('ts3')->table('mvm.mvm_gps_process')->where('sn_gps' ,$sn ) ->whereNull('service_no')
-                    ->where('status','pemasangan')
+
+
+
+                    $amount = DB::connection('ts3')->table('mst.mst_general')->where('name', 'amount_gps')->first();
+
+
+
+
+                    DB::connection('ts3')->table('mvm.mvm_gps_process')->where('nopol' ,$request->nopol )->whereNull('service_no')->where('status','pemasangan')
                     ->update([
-                        'nopol' => $request->nopol,
                         'sn_gps' => $sn,
                         'install_date' =>  $request->install_date,
                         'status' => 'pemasangan',
                         'remark' => $request->remarkgps,
+                        'client_invoice' => 'MDM',
+                        'invoice_type' => 'TS3 TO CLIENT GPS',
+                        'amount' => $amount->value_2,
                         'created_by' => $request->session()->get('username')
                     ]);                
 
