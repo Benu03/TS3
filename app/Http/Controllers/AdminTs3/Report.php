@@ -38,33 +38,34 @@ class Report extends Controller
 
     public function getHistoryService(Request $request)
     {
-        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-
-        if ($request->ajax()) {
-            if(!empty($request->from_date)) {
-
-                // dd($request->from_date);
-
-                $service 	= DB::connection('ts3')->table('mvm.v_service_history')
-                    ->whereBetween('tanggal_service', array($request->from_date, $request->to_date))
-                    ->get();
-
-            } else {
-
-             $service 	= DB::connection('ts3')->table('mvm.v_service_history')->get();
-
-            }
-
-        return DataTables::of($service)->addColumn('action', function($row){
-               $btn = '<a href="'. asset('admin-ts3/report/history-service-detail/'.$row->service_no).'" 
-               class="btn btn-success btn-sm" target="_blank"><i class="fa fa-eye"></i></a>';
-                return $btn;
-                })
-        ->rawColumns(['action'])->make(true);
-       
+        if (Session()->get('username') == "") {
+            return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-
+    
+        if ($request->ajax()) {
+            $query = DB::connection('ts3')->table('mvm.v_service_history');
+    
+            if (!empty($request->from_date) && !empty($request->to_date)) {
+                $query->whereBetween('tanggal_service', [$request->from_date, $request->to_date]);
+            }
+    
+            if (!empty($request->spkno)) {
+                $query->where('spk_no', 'ILIKE', '%' . $request->spkno . '%');
+            }
+    
+            $service = $query->get();
+    
+            return DataTables::of($service)
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . asset('admin-ts3/report/history-service-detail/' . $row->service_no) . '" 
+                        class="btn btn-success btn-sm" target="_blank"><i class="fa fa-eye"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
+    
 
 
     public function history_service_detail($id)
@@ -635,33 +636,27 @@ class Report extends Controller
     {
 
         if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
-        if ($request->ajax()) 
-        {
-            if(!empty($request->from_date)) {
-
-                // dd($request->from_date);
-
-                $service 	= DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("spk_no,
-                service_no, nopol, norangka, nomesin, tahun, 
-                type as tipe,  status_service, tanggal_service, 
-                nama_driver, last_km,bengkel_name  as bengkel, mekanik,
-                tgl_last_service,regional,area, branch as cabang, pic_branch as pic_cabang, 
-                tanggal_schedule,remark_ts3 as remark")
-                    ->whereBetween('tanggal_service', array($request->from_date, $request->to_date))
-                    ->get();
-
-            } else {
-
-                $service 	= DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("spk_no,
-                service_no, nopol, norangka, nomesin, tahun, 
-                type as tipe,  status_service, tanggal_service, 
-                nama_driver, last_km,bengkel_name  as bengkel, mekanik,
-                tgl_last_service,regional,area,branch as cabang, pic_branch as pic_cabang, 
-                tanggal_schedule,remark_ts3 as remark")->get();
-
+        if ($request->ajax()) {
+            $query = DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("
+                spk_no, service_no, nopol, norangka, nomesin, tahun, 
+                type as tipe, status_service, tanggal_service, 
+                nama_driver, last_km, bengkel_name as bengkel, mekanik,
+                tgl_last_service, regional, area, branch as cabang, pic_branch as pic_cabang, 
+                tanggal_schedule, remark_ts3 as remark
+            ");
+    
+            if (!empty($request->from_date) && !empty($request->to_date)) {
+                $query->whereBetween('tanggal_service', [$request->from_date, $request->to_date]);
             }
-        }
+    
+            if (!empty($request->spkno)) {
+                $query->where('spk_no', 'ILIKE', '%' . $request->spkno . '%');
+            }
+    
+            $service = $query->get();
+    
             return response()->json(['data' => $service]);
+        }
     }
     
     public function exportDueDateService(Request $request)
