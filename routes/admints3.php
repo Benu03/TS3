@@ -249,6 +249,11 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::post('admin-ts3/export-history-service', 'App\Http\Controllers\AdminTs3\Report@exportHistoryService');
 
 
+    Route::get('admin-ts3/report/realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@realisasi_spk');
+    Route::post('admin-ts3/get-realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@getRealisasiSPK');
+    Route::post('admin-ts3/export-realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@exportRealisasiSPK');
+
+
     Route::get('admin-ts3/report/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminTs3\Report@get_image_service_detail');
     Route::get('admin-ts3/report/summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@summary_bengkel');
     Route::post('admin-ts3/get-summary-bengkel', 'App\Http\Controllers\AdminTs3\Report@getSummaryBengkel');

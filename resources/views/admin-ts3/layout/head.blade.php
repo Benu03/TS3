@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\DB;
 use App\Models\Nav_model;
-$site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
+$site = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
 ?>
 
