@@ -758,7 +758,7 @@ class Report extends Controller
         if ($request->ajax()) {
             $query = DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("
                 nopol, norangka, nomesin,  regional,  area, branch as cabang, spk_no, service_no, 
-                tgl_last_service as tgl_service,remark_ts3 as keterangan
+                tanggal_service,remark_ts3 as keterangan
             ");
     
             if (!empty($request->from_date) && !empty($request->to_date)) {
