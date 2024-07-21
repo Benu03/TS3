@@ -69,12 +69,15 @@ class Service extends Controller
 
         $part 	= DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Part')->where('mst_regional_id',$service->mst_regional_id)->where('mst_client_id',$service->mst_client_id)->get();
         $jobs 	=  DB::connection('ts3')->table('mst.v_service_item_motor')->where('price_service_type','Jasa')->where('mst_regional_id',$service->mst_regional_id)->where('mst_client_id',$service->mst_client_id)->get();
-      
+        
+        $gps = DB::connection('ts3')->table('mst.mst_vehicle_gps')->where('nopol',$service->nopol)->first();
  
         $data = array(   'title'     => 'Service '.$service->nopol,
                          'service'      => $service,
                          'part'      => $part,
                          'jobs'      => $jobs,
+                         'gps'      => $gps,
+
                         'content'   => 'bengkel/service/service_proses_page'
                     );
         return view('bengkel/layout/wrapper',$data);

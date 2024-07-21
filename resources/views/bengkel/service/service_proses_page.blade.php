@@ -114,9 +114,9 @@
 
     <div class="clearfix"><hr></div>
     <div class="form-group row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
 
-                <div class="card card-light">
+                <div class="card card-info">
                 <div class="card-header">
                 <div class="row">
                 <div class="col-md-6">
@@ -124,8 +124,10 @@
                 </div>
                 <div class="col-md-6">
                 <div class="custom-control custom-switch text-md-right">
+                    @if($gps == null)
                     <input type="checkbox" class="custom-control-input" id="customSwitch1" >
                     <label class="custom-control-label" name="gpslabel" for="customSwitch1">GPS Install</label>
+                    @endif
                 </div>
 
                 </div>
@@ -167,7 +169,9 @@
 
             </div>
         </div>
-        <div class="col-sm-6">
+        </div>
+        <div class="form-group row">
+        <div class="col-sm-12">
 
             <div class="card card-warning">
                 <div class="card-header">
