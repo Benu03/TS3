@@ -97,8 +97,6 @@ class Service extends Controller
         $service_no = 'MVM-'.$request->nopol.'-'.date("Ymd");
         $bengkel 	= DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
 
-       
-
 
         try {
             DB::beginTransaction();
@@ -156,32 +154,40 @@ class Service extends Controller
                 DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datapart);
             }
 
+            $uploadedFilenames = [];
 
-            foreach($request->upload as $key => $val){
+            foreach($request->upload_data as $key => $data){
 
-                $image  = $request->file('upload')[$key];
-                $filename = $service_no.'-'.$key.'.jpg';
                 $destinationPath =storage_path('data/service/'.date("Y").'/'.date("m").'/').$service_no;
+                $parsedData = json_decode($data, true);
                 
-                if (!file_exists($destinationPath)) {
-                File::makeDirectory($destinationPath,0755,true);
-                }
-                $img = Image::make($image->path());
-                $img->resize(850, 850, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($destinationPath.'/'.$filename);
-
-
+                $uploadedFilenames[] = $parsedData['filename'];
                 $dataupload = [
                     'mvm_service_vehicle_h_id' => $service_id,
                     'detail_type' => 'Upload',
-                    'unique_data' => $filename,
-                    'value_data' => $request->value_upload[$key],
+                    'unique_data' => $parsedData['filename'],
+                    'value_data' => $parsedData['remark'],
                     'source'    => $destinationPath,
                     'created_date'    => date("Y-m-d h:i:sa"),
                     'user_created'     => $request->session()->get('username')
                 ];
                 DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($dataupload);
+            }
+
+            $allFiles = File::files($destinationPath);
+
+            foreach ($allFiles as $file) {
+                if (!in_array($file->getFilename(), $uploadedFilenames)) {
+                    File::delete($file->getPathname());
+                }
+            }
+
+            $allFiles = File::files($destinationPath);
+
+            foreach ($allFiles as $file) {
+                if (!in_array($file->getFilename(), $uploadedFilenames)) {
+                    File::delete($file->getPathname());
+                }
             }
          
 

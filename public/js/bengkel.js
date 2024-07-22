@@ -42,7 +42,6 @@ $(document).ready(function () {
         table.row
             .add([
                 pekerjaanCount,
-                `<input type="hidden" name="pekerjaan_ids[]" value="${pekerjaanId}">${pekerjaanName}`,
                 `<input type="hidden" name="pekerjaan_data[]" value='${JSON.stringify(
                     { id: pekerjaanId, remark: remark }
                 )}'>${pekerjaanName}`,
@@ -134,11 +133,10 @@ $(document).ready(function () {
         table.row
             .add([
                 partCount,
-                `<input type="hidden" name="part_ids[]" value="${partId}">${partName}`,
-                `<input type="hidden" name="remarks_part[]" value="${remark}">${remark}`,
                 `<input type="hidden" name="part_data[]" value='${JSON.stringify(
                     { id: partId, remark: remark }
                 )}'>${partName}`,
+                `<input type="hidden" name="remarks_part[]" value="${remark}">${remark}`,
                 `<a href="javascript:;" class="remove_data">
                 <i class="fas fa-times"></i>
             </a>`,
@@ -181,106 +179,6 @@ $(document).ready(function () {
         });
     }
 });
-
-// $(document).ready(function () {
-//     $("#submitUpload").on("click", function () {
-//         const fileInput = $("#fileInput")[0].files;
-//         const remarkInput = $("#remarkInput").val().trim();
-//         const allowedFileTypes = ["image/jpeg", "image/png", "video/mp4"];
-//         const fileTableBody = $("#fileTable tbody");
-
-//         // Validasi input
-//         if (fileInput.length === 0) {
-//             alert("Please select at least one file.");
-//             return;
-//         }
-
-//         if (!remarkInput) {
-//             alert("Please input remark.");
-//             return;
-//         }
-
-//         $("#fileInfo").empty();
-//         fileTableBody.empty(); // Clear existing table rows
-
-//         let validFiles = true;
-
-//         Array.from(fileInput).forEach((file) => {
-//             if (!allowedFileTypes.includes(file.type)) {
-//                 alert(
-//                     "Invalid file type. Please upload JPG, PNG images or MP4 videos."
-//                 );
-//                 validFiles = false;
-//                 return;
-//             }
-
-//             // Check file size (Optional: limit size to 10MB)
-//             if (file.size > 10 * 1024 * 1024) {
-//                 alert(
-//                     "File is too large. Please upload a file smaller than 10MB."
-//                 );
-//                 validFiles = false;
-//                 return;
-//             }
-//         });
-
-//         if (validFiles) {
-//             uploadFiles(fileInput, remarkInput);
-//         }
-
-//         $("#fileInput").val("");
-//         $("#remarkInput").val("");
-//     });
-
-//     $("#fileTable").on("click", ".remove-file", function () {
-//         $(this).closest("tr").remove();
-//     });
-
-//     function uploadFiles(files, remark) {
-//         const formData = new FormData();
-//         const id = $("#idInput").val().trim();
-//         const nopol = $("#nopolInput").val().trim();
-//         const uploadUrl = $("#uploadFileUrl").val();
-//         const csrfToken = $('meta[name="csrf-token"]').attr("content");
-
-//         // Menambahkan setiap file ke FormData
-//         Array.from(files).forEach((file) => {
-//             formData.append("file[]", file); // Nama "file[]" akan di-parse sebagai array di Laravel
-//         });
-//         formData.append("remark", remark);
-//         formData.append("id", id);
-//         formData.append("nopol", nopol);
-
-//         $.ajax({
-//             headers: { "X-CSRF-TOKEN": csrfToken },
-//             url: uploadUrl,
-//             type: "POST",
-//             data: formData,
-//             processData: false,
-//             contentType: false,
-//             success: function (response) {
-//                 if (response.success) {
-//                     alert("Files uploaded successfully!");
-//                     const fileName = file.name;
-//                     fileTableBody.append(`
-//                         <tr>
-//                             <td>${fileName}</td>
-//                             <td>${remarkInput}</td>
-//                             <td><button type="button" class="btn btn-danger btn-sm remove-file">Remove</button></td>
-//                         </tr>
-//                     `);
-
-//                     $("#uploadModal").modal("hide");
-//                 } else {
-//                     alert("Failed to upload files: " + response.message);
-//                 }
-//             },
-//             error: function (jqXHR, textStatus, errorThrown) {
-//                 alert("Error occurred: " + textStatus);
-//             },
-//         });
-//     }
-// });
 
 $(document).ready(function () {
     $("#submitUpload").on("click", function () {
@@ -361,6 +259,7 @@ $(document).ready(function () {
             contentType: false,
             success: function (response) {
                 $("#loader").hide();
+                $("#submitUpload").prop("disabled", false);
                 if (response.success) {
                     swal(
                         "Success",
@@ -373,9 +272,18 @@ $(document).ready(function () {
                                     <td>${data.filename}</td>
                                     <td>${data.remark}</td>
                                     <td><button type="button" class="btn btn-danger btn-sm remove-file">Remove</button></td>
+                                     <input type="hidden" name="upload_data[]" value='${JSON.stringify(
+                                         {
+                                             filename: data.filename,
+                                             remark: data.remark,
+                                         }
+                                     )}'>
                                 </tr>
+                             
+           
                             `);
                         });
+
                         $("#fileInput").val("");
                         $("#remarkInput").val("");
                         $("#uploadModal").modal("hide");
