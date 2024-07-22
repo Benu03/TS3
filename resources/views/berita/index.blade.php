@@ -12,7 +12,7 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Berita')->o
 <section class="wf100 p80 blog">
    <div class="blog-grid">
       <div class="container">
-         <div class="row">
+                      <div class="row">
             <?php foreach($berita as $berita) { ?>
             <!--Blog Small Post Start-->
             <div class="col-md-6 col-sm-12">

@@ -1,3 +1,36 @@
+<style>
+    
+    #tableModule tbody td:nth-child(1) {
+            text-align: center;
+        }
+
+        #tableModule tbody td:nth-child(3) {
+            text-align: center;
+        }
+
+        #tableModule thead{
+            background-color: #F2F2F2;
+            color: #2E308A !important;
+            border-radius-top-left-radius: 10px !important;
+            border-radius-top-right-radius: 10px !important;
+        }
+
+        #tableModule thead th{
+            font-weight: 600 !important;
+        }
+
+        #tableModule thead th:nth-child(1), th:nth-child(2) {
+            border-right: 0px;
+        }
+
+        @media (max-width: 768px) {
+            .dataTables_wrapper .dataTables_filter {
+                width: 100% !important;
+                float: left;
+            }
+        }
+</style>
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -8,7 +41,7 @@
     </div>
 @endif
 
-<form id="serviceProcessBengkel" action="{{ asset('bengkel/service-proses') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+<form id="serviceProcessBengkel" action="{{ url('bengkel/service-proses') }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
     {{ csrf_field() }}
     <input type="hidden" name="id" value="{{ $service->id }}">
     <input type="hidden" name="pic_branch" value="{{ $service->pic_branch }}">
@@ -37,12 +70,12 @@
                 </div>
             </div>
 
-            <div class="row form-group">
-                <label class="col-md-3 text-right">Regional <span class="text-danger">*</span></label>
-                <div class="col-md-9">
-                    <input type="text" name="regional" class="form-control" placeholder="Regional" value="{{ $service->regional }}" required readonly>
-                </div>
-            </div>
+                        <div class="row form-group">
+                            <label class="col-md-3 text-right">Regional <span class="text-danger">*</span></label>
+                            <div class="col-md-9">
+                                <input type="text" name="regional" class="form-control" placeholder="Regional" value="{{ $service->regional }}" required readonly>
+                            </div>
+                        </div>
 
 
             <div class="row form-group">
@@ -114,106 +147,179 @@
 
     <div class="clearfix"><hr></div>
     <div class="form-group row">
-        <div class="col-sm-12">
-
-                <div class="card card-info">
+        <div class="col-sm-6">
+            <div class="card card-info">
                 <div class="card-header">
-                <div class="row">
-                <div class="col-md-6">
-                <h3 class="card-title">Pekerjaan</h3>
-                </div>
-                <div class="col-md-6">
-                <div class="custom-control custom-switch text-md-right">
-                    @if($gps == null)
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1" >
-                    <label class="custom-control-label" name="gpslabel" for="customSwitch1">GPS Install</label>
-                    @endif
-                </div>
-
-                </div>
-            </div>
-
-                  
-                   
-
-                </div>
-                <div class="card-body">
-
-                    <div class="row form-group">
-
-                        <div class="col-sm-12">
-                            <div id="show_item_jobs">
-                                <div class="row form-group">
-                                    <div class="col-sm-5">
-                                        <select name="jobs[]" class="form-control select2">
-                                            @foreach($jobs as $jb)
-                                            <option value="{{ $jb->mst_price_service_id }}">{{ $jb->service_name.' ('.$jb->kode.')' }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <input type="text" name="value_jobs[]" class="form-control" placeholder="Remark" value="{{ old('value_jobs') }}" required>
-                                    </div>
-                                    <div class="col-sm-2 text-right">
-                                        <button class="btn btn-success add_more_jobs" type="button">
-                                            <i class="fas fa-plus-circle"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">Pekerjaan</h3>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="custom-control custom-switch text-md-right">
+                                @if($gps == null)
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                <label class="custom-control-label" name="gpslabel" for="customSwitch1">GPS Install</label>
+                                @endif
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-group">
+                                <select name="pekerjaan" class="form-control select2" id="pekerjaan" style="width: 100%;">
+                                    <option value="">-- Select Pekerjaan --</option>
+                                    @foreach ($jobs as $item)
+                                        <option value="{{ $item->mst_price_service_id }}"
+                                            data-pekerjaan="{{ $item->service_name.' ('.$item->kode.')' }}">{{ $item->service_name.' ('.$item->kode.')' }}</option>
+                                    @endforeach
+                                </select>
+                                <input type="hidden" id="selectedpekerjaanInput" name="selectedpekerjaan">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <input type="text" name="remarkpekerjaan" class="form-control" placeholder="Remark">
+                                {{-- <input type="hidden" id="remarkpekerjaanInput" name="remarkpekerjaan"> --}}
+                            </div>
+                        </div>
+    
+                        <div class="col-md-2 col-sm-2 col-xs-2 text-right">
+                            <button class="btn btn-success add_data_pekerjaan clickable" type="button">
+                                <i class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+    
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="tablepekerjaan" class="table table-sm table-bordered w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 5%;">No</th>
+                                        <th style="width: 25%;">Pekerjaan</th>
+                                        <th style="width: 45%;">Remark</th>
+                                        <th style="width: 15%; text-align: center;">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-        <div class="form-group row">
-        <div class="col-sm-12">
-
+    
+        <div class="col-sm-6">
             <div class="card card-warning">
                 <div class="card-header">
                     <h3 class="card-title">Spare Part</h3>
                 </div>
                 <div class="card-body">
-
-                    <div class="row form-group">
-
-                        <div class="col-sm-12">
-                            <div id="show_item_part">
-                                <div class="row form-group">
-                                    <div class="col-sm-5">
-                                        <select name="part[]" class="form-control select2">
-                                            @foreach($part as $pt)
-                                            <option value="{{ $pt->mst_price_service_id }}">{{ $pt->service_name.' ('.$pt->kode.')' }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <input type="text" name="value_part[]" class="form-control" placeholder="Remark" value="{{ old('value_part') }}" required>
-                                    </div>
-                                    <div class="col-sm-2 text-right">
-                                        <button class="btn btn-success add_more_part" type="button">
-                                            <i class="fas fa-plus-circle"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5">
+                            <div class="form-group">
+                                <select name="part" class="form-control select2" id="part" style="width: 100%;">
+                                    <option value="">-- Select Part --</option>
+                                    @foreach($part as $pt)
+                                        <option value="{{ $pt->mst_price_service_id }}"
+                                            data-part="{{ $pt->service_name.' ('.$pt->kode.')' }}">{{ $pt->service_name.' ('.$pt->kode.')' }}</option>
+                                    @endforeach
+                                </select>
+                                <input type="hidden" id="selectedpartInput" name="selectedpart">
                             </div>
                         </div>
-
+                        <div class="col-md-5 col-sm-5 col-xs-5">
+                            <div class="form-group">
+                                <input type="text" name="remarkpart" class="form-control" placeholder="Remark">
+                                {{-- <input type="hidden" id="remarkpartInput" name="remarkpart"> --}}
+                            </div>
+                        </div>
+    
+                        <div class="col-md-2 col-sm-2 col-xs-2 text-right">
+                            <button class="btn btn-success add_data_part clickable" type="button">
+                                <i class="fas fa-plus-circle"></i>
+                            </button>
+                        </div>
+    
                     </div>
-
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="tablepart" class="table table-sm table-bordered w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 5%;">No</th>
+                                        <th style="width: 25%;">Part</th>
+                                        <th style="width: 45%;">Remark</th>
+                                        <th style="width: 15%; text-align: center;">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
         </div>
     </div>
-
+    
+   
+    
     <div class="clearfix"><hr></div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">Upload Service</h3>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button type="button" id="uploadBtn" class="btn btn-success" data-toggle="modal" data-target="#uploadModal">Upload File</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <table id="fileTable" class="table table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Remark</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data file akan muncul di sini -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Remark Driver</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <textarea name="remark_driver" id="remark_driver" class="form-control" placeholder="Remark Driver">{{ old('remark_driver') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{{-- 
     <div class="form-group row">
         <div class="col-sm-8">
 
@@ -255,7 +361,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="clearfix"><hr></div>
     <div class="form-group row ">
@@ -341,6 +447,46 @@
 </div>
 
 
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="fileInput">Choose file</label>
+                        <input type="file" class="form-control-file" id="fileInput" name="file" multiple>
+                    </div>
+                    <div class="form-group">
+                        <label for="remarkInput">Remark</label>
+                        <input type="text" class="form-control" id="remarkInput" name="remark" placeholder="Enter remark">
+                        <input type="hidden" id="idInput" class="form-control mt-2" value="{{ $service->id }}">
+                        <input type="hidden" id="nopolInput" class="form-control mt-2"value="{{ $service->nopol }}">
+                        <input type="hidden" id="uploadFileUrl" value="{{ route('bengkel.upload-file') }}">
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                    </div>
+                </form>
+                <div id="loader" class="text-center" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitUpload">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ asset('js/bengkel.js') }}" defer></script>
 <script>
     $(document).ready(function(){
         $('#simpan_gps').click(function(){
@@ -501,101 +647,5 @@ async function submitForm() {
 
 </script>
 
-
-
-
-<script type="text/javascript">
-    $(document).ready(function() {
-      $(".add_more_part").click(function(e){ 
-          e.preventDefault();
-		  $("#show_item_part").prepend(`<div class="row form-group">														
-															<div class="col-sm-5">
-																<select name="part[]" class="form-control select2">
-																<?php foreach($part as $pt) { ?>
-																<option value="<?php echo $pt->mst_price_service_id ?>"><?php echo $pt->service_name.' ('.$pt->kode.')'  ?></option>
-																<?php } ?>													
-																</select>
-															</div>
-															<div class="col-sm-5">
-																<input type="text" name="value_part[]" class="form-control" placeholder="" value="{{ old('value_part') }}" required>
-															</div>
-															<div class="col-sm-2 text-right">
-																<button class="btn btn-danger remove_more_part" type="button">
-																	<i class="fas fa-minus-circle"></i>
-																</button>
-															</div>
-													</div>`);
-                 // Inisialisasi ulang Select2 pada elemen select baru
-        $(".select2").select2();
-      });
-
-	  $(document).on('click','.remove_more_part', function(e){
-		e.preventDefault();
-		let row_item_part = $(this).parent().parent();
-		$(row_item_part).remove();
-	  });
-
-    });
-</script>
-
-
-<script type="text/javascript">
-    $(document).ready(function() {
-      $(".add_more_jobs").click(function(e){ 
-          e.preventDefault();
-		  $("#show_item_jobs").prepend(`<div class="row form-group">													
-															<div class="col-sm-5">
-																<select name="jobs[]" class="form-control select2">
-																<?php foreach($jobs as $jb) { ?>
-																<option value="<?php echo $jb->mst_price_service_id ?>"><?php echo $jb->service_name.' ('.$jb->kode.')' ?></option>
-																<?php } ?>													
-																</select>
-															</div>
-															<div class="col-sm-5">
-																<input type="text" name="value_jobs[]" class="form-control" placeholder="" value="{{ old('value_jobs') }}" required>
-															</div>
-															<div class="col-sm-2 text-right">
-																<button class="btn btn-danger remove_more_jobs" type="button">
-																	<i class="fas fa-minus-circle"></i>
-																</button>
-															</div>`);
-      });
-
-	  $(document).on('click','.remove_more_jobs', function(e){
-		e.preventDefault();
-		let row_item_jobs = $(this).parent().parent();
-		$(row_item_jobs).remove();
-	  });
-
-    });
-</script>
-
-
-<script type="text/javascript">
-    $(document).ready(function() {
-      $(".add_more_upload").click(function(e){ 
-          e.preventDefault();
-		  $("#show_item_upload").prepend(`<div class="row form-group">													
-															<div class="col-sm-5">
-																<input type="file" name="upload[]" class="form-control" placeholder="Upload File Service" required>	
-															</div>
-															<div class="col-sm-5">
-																<input type="text" name="value_upload[]" class="form-control" placeholder="Remark" value="{{ old('value_upload') }}" required>
-															</div>
-															<div class="col-sm-2 text-right">
-																<button class="btn btn-danger remove_more_upload" type="button">
-																	<i class="fas fa-minus-circle"></i>
-																</button>
-															</div>`);
-      });
-
-	  $(document).on('click','.remove_more_upload', function(e){
-		e.preventDefault();
-		let row_item_upload = $(this).parent().parent();
-		$(row_item_upload).remove();
-	  });
-
-    });
-</script>
 
 

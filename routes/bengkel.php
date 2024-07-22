@@ -24,6 +24,8 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::get('bengkel/summary-bengkel', 'App\Http\Controllers\Bengkel\Invoice@summary_bengkel');
     Route::get('bengkel/service-proses-page/{par1}', 'App\Http\Controllers\Bengkel\Service@service_proses_page');
     Route::post('bengkel/service-proses', 'App\Http\Controllers\Bengkel\Service@service_proses');
+
+    Route::post('bengkel/upload-file', [App\Http\Controllers\Bengkel\Service::class, 'upload_file'])->name('bengkel.upload-file');
     Route::get('bengkel/invoice', 'App\Http\Controllers\Bengkel\Invoice@index');
     Route::get('bengkel/invoice-create', 'App\Http\Controllers\Bengkel\Invoice@invoice_create');
     Route::post('bengkel/invoice-create-detail-proses', 'App\Http\Controllers\Bengkel\Invoice@invoice_create_detail');
