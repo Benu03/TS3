@@ -59,6 +59,8 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   {{-- <link href="{{ asset('assets/timepicker/timepicker.min.css') }}" rel="stylesheet"/> --}}
   {{-- <script src="{{ asset('assets/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script> --}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
   <style type="text/css" media="screen">
     body {
       background-color: white !important;

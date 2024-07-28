@@ -37,6 +37,7 @@ class Notif extends Controller
                                     $query->where('username', $username)
                                         ->orWhereNull('username');
                                 })
+                                ->whereDate('created_date', '>', $threeMonthsAgo)
                                 ->WhereNull('is_read')
                                 ->count();           
 
@@ -95,7 +96,7 @@ class Notif extends Controller
                                 ->whereDate('created_date', '>', $threeMonthsAgo)
                                 ->orderBy('created_date', 'desc')
                                 ->get();
-
+                   
         return response()->json(['data' => $notif]);
     }
 

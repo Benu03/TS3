@@ -8,7 +8,7 @@
     </div>
 @endif
 
-<form action="{{ asset('admin-ts3/report/proses') }}" method="post" accept-charset="utf-8">
+<form action="{{ asset('admin-client/report/proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
 
@@ -153,7 +153,7 @@
                     },
                     ajax: {
                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                        url:"{{  url('admin-ts3/get-realisasi-spk') }}",
+                        url:"{{  url('admin-client/get-realisasi-spk') }}",
                         type: "POST",
                         data: function (d) {
                         d.from_date = from_date;
@@ -256,7 +256,7 @@
            
             $.ajax({
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                url: "{{ url('admin-ts3/export-realisasi-spk') }}", // Pastikan URL ini sesuai dengan route Anda
+                url: "{{ url('admin-client/export-realisasi-spk') }}", // Pastikan URL ini sesuai dengan route Anda
                 type: "POST",
                 data: {
                     from_date: from_date,
@@ -373,6 +373,111 @@
 </script>
 
 
+<!-- <script>
+    $('#export').click(function(){
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var spkno = $('#spkno').val();
+        var regional = $('#regional').val();
+
+        if (from_date !== '' || to_date !== '' || spkno !== '' || regional !== '') {
+            var downloadButton = $('#export');
+            downloadButton.text('Downloading...');
+            downloadButton.attr('disabled', true);
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                url: "{{ url('admin-client/export-realisasi-spk') }}",
+                type: "POST",
+                data: {
+                    from_date: from_date,
+                    to_date: to_date,
+                    spkno: spkno,
+                    regional: regional
+                },
+                success: function(response) {
+                    var urutkan = 1;
+
+                    var data = response.data.map(item => {
+                        return {
+                            'No': urutkan++,
+                            'No Polisi': item.nopol,
+                            'No Rangka': item.norangka,
+                            'No Mesin': item.nomesin,
+                            'Regional': item.regional,
+                            'Area': item.area,
+                            'Cabang': item.cabang,
+                            'SPK No': item.spk_no,
+                            'Tanggal Service': item.tanggal_service,
+                            'Keterangan': item.remark
+                        };
+                    });
+
+                    var wb = XLSX.utils.book_new();
+                    var ws = XLSX.utils.json_to_sheet([]);
+
+                    // Mengubah nama kolom
+                    var headerText = `REALISASI SPK PERIOD ${from_date} SAMPAI DENGAN ${to_date}`;
+                    XLSX.utils.sheet_add_aoa(ws, [[headerText]], { origin: 'A1' });
+
+                    // Menggabungkan sel A1 hingga J1 (10 kolom)
+                    ws['!merges'] = [{
+                        s: { r: 0, c: 0 },
+                        e: { r: 0, c: 9 }
+                    }];
+
+                    // Menyusun style untuk header A1
+                    if (!ws['A1'].s) ws['A1'].s = {};
+                    ws['A1'].s.font = { bold: true };
+                    ws['A1'].s.alignment = { horizontal: 'center' };
+
+                    // Menambahkan baris kosong setelah header teks
+                    XLSX.utils.sheet_add_aoa(ws, [[]], { origin: 'A2' });
+
+                    // Menambahkan header kolom di A3
+                    XLSX.utils.sheet_add_aoa(ws, [
+                        ['No', 'No Polisi', 'No Rangka', 'No Mesin', 'Regional', 'Area', 'Cabang', 'SPK No', 'Tanggal Service', 'Keterangan']
+                    ], { origin: 'A3' });
+
+                    // Menambahkan data di baris ke-4
+                    XLSX.utils.sheet_add_json(ws, data, { origin: 'A4', skipHeader: true });
+
+                    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+                    var blob = new Blob([new Uint8Array(XLSX.write(wb, { bookType: 'xlsx', type: 'array' }))], {
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                    });
+
+                    setTimeout(function() {
+                        downloadButton.html('<i class="far fa-file-excel"></i> Export');
+                        downloadButton.attr('disabled', false);
+
+                        var now = new Date();
+                        var day = String(now.getDate()).padStart(2, '0');
+                        var month = String(now.getMonth() + 1).padStart(2, '0');
+                        var year = String(now.getFullYear()).slice(-2);
+                        var hours = String(now.getHours()).padStart(2, '0');
+                        var minutes = String(now.getMinutes()).padStart(2, '0');
+                        var seconds = String(now.getSeconds()).padStart(2, '0');
+                        var timestamp = parseInt(`${year}${month}${day}${hours}${minutes}${seconds}`, 10);
+
+                        var a = document.createElement('a');
+                        a.href = URL.createObjectURL(blob);
+                        a.download = `Realisasi-SPK-${timestamp}.xlsx`;
+                        a.click();
+                    }, 1000);
+                },
+                error: function() {
+                    swal('Oops..', 'Terjadi kesalahan saat memuat data.', 'error');
+                    downloadButton.html('<i class="far fa-file-excel"></i> Export');
+                    downloadButton.attr('disabled', false);
+                }
+            });
+        } else {
+            swal('Oops..', 'filter harus diisi.', 'warning');
+        }
+    });
+</script> -->
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -394,7 +499,7 @@
             try {
                 const response = await $.ajax({
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                    url: "{{ url('admin-ts3/export-realisasi-spk') }}",
+                    url: "{{ url('admin-client/export-realisasi-spk') }}",
                     type: "POST",
                     data: {
                         from_date: from_date,
