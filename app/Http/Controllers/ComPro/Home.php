@@ -11,7 +11,7 @@ use App\Models\Download_model;
 use PDF;
 use App\Http\Controllers\Feature\EmailContoller;
 use App\Jobs\SendEmailAutomatic;
-
+use Log;
 class Home extends Controller
 {
     // Homepage
@@ -80,35 +80,33 @@ class Home extends Controller
     public function kirim_kontak(Request $request)
     {
       
-        $site = DB::connection('ts3')->table('cp.konfigurasi')->first();
-        $email = $site->smtp_user;
-
-       $token = hash('sha256',random_bytes(64).$site->namaweb);
-      
-             DB::connection('ts3')->table('auth.user_token')->insert([
-                'email'	=> $email,
-                'token'   => $token,
-                'created_date'    => date("Y-m-d h:i:sa")
-            ]);
-            $url_img = env('APP_URL').'/assets/upload/image/2.png';
+        if (!isset($request->fullname) || !isset($request->email) || !isset($request->contact) || !isset($request->subject) || !isset($request->pesan)) {
+            return redirect('kontak')->with(['warning' => 'Form Anda tidak boleh kosong']);
+        }
         
-
-            $body = '<b>Dear Rekan TS3</b><br><br>Nama Lengkap : '.$request->fullname.'<br>Email : '.$request->email.'<br>Contact : '.$request->contact.'<br>Pesan : '.$request->pesan.'<br><br>Best Regards<br>TS3 Indonesia<br><img src="'.$url_img.'"   width="70" height="70"  class="img-fluid" ><hr><b>TS3 Indonesia<br>Jl. Basudewa Raya 3A Ruko River View Kel Bulustalan <br>Kec Semarang Selatan 50245</b>';
-             
-            DB::connection('ts3')->table('auth.user_mail')->insert([
-                'type_request' => 'CONTACT US',
-                'from' => $site->smtp_user,
-                'to' => $email,
-                'cc' => null,
-                'bcc' => null,
-                'subject' => 'CONTACT US - '.$request->subject,
-                'body' => $body,
-                'attachment' => null
+        
+        try {
+            DB::connection('ts3')->beginTransaction();
+            
+            DB::connection('ts3')->table('cp.kontak')->insert([
+                'fullname'    => $request->fullname,
+                'email'       => $request->email,
+                'phone'       => $request->contact,
+                'subject'     => $request->subject,
+                'message'     => $request->pesan,
+                'is_reply'    => false,
+                'created_by'  => $request->email
             ]);
-
-            SendEmailAutomatic::dispatch();
-
-            return redirect('/')->with(['sukses' => 'Pesan Anda Telah Terkirim Ke Admin TS3..!!']);
+        
+            DB::connection('ts3')->commit();
+            
+            return redirect('kontak')->with(['sukses' => 'Pesan Anda Telah Terkirim Ke Admin TS3..!!']);
+         } catch (\Illuminate\Database\QueryException $e) {
+            DB::connection('ts3')->rollback();
+            Log::channel('slack')->critical("Critical error occurred while inserting contact: " . $e->getMessage());
+            
+            return redirect('kontak')->with(['warning' => 'Terjadi kesalahan saat menyimpan data. Mohon coba lagi nanti.']);
+        }
     }
 
 

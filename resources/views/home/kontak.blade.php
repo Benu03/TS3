@@ -76,3 +76,101 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Kontak')->o
    <br><br>
 </section>
 <!--Contact End--> 
+
+<script>
+   @if ($message = Session::get('sukses'))
+   // Notifikasi
+   swal ( "Berhasil" ,  "<?php echo $message ?>" ,  "success" )
+   @endif
+ 
+   @if ($message = Session::get('warning'))
+   // Notifikasi
+   swal ( "Oops.." ,  "<?php echo $message ?>" ,  "warning" )
+   @endif
+ 
+   // Popup Delete
+   $(document).on("click", ".delete-link", function(e){
+   e.preventDefault();
+   url = $(this).attr("href");
+   swal({
+     title:"Yakin akan menghapus data ini?",
+     type: "warning",
+     showCancelButton: true,
+     confirmButtonClass: 'btn btn-danger',
+     cancelButtonClass: 'btn btn-success',
+     buttonsStyling: false,
+     confirmButtonText: "Delete",
+     cancelButtonText: "Cancel",
+     closeOnConfirm: false,
+     showLoaderOnConfirm: true,
+   },
+   function(isConfirm){
+     if(isConfirm){
+       $.ajax({
+         url: url,
+         success: function(resp){
+           window.location.href = url;
+         }
+       });
+     }
+     return false;
+   });
+   });
+   // Popup disable
+   $(document).on("click", ".disable-link", function(e){
+   e.preventDefault();
+   url = $(this).attr("href");
+   swal({
+     title:"Yakin akan menonaktifkan data ini?",
+     type: "warning",
+     showCancelButton: true,
+     confirmButtonClass: 'btn btn-danger',
+     cancelButtonClass: 'btn btn-success',
+     buttonsStyling: false,
+     confirmButtonText: "Non Aktifkan",
+     cancelButtonText: "Cancel",
+     closeOnConfirm: false,
+     showLoaderOnConfirm: true,
+   },
+   function(isConfirm){
+     if(isConfirm){
+       $.ajax({
+         url: url,
+         success: function(resp){
+           window.location.href = url;
+         }
+       });
+     }
+     return false;
+   });
+   });
+ 
+ // Popup approval
+   $(document).on("click", ".approval-link", function(e){
+   e.preventDefault();
+   url = $(this).attr("href");
+   swal({
+     title:"Anda yakin ingin menyetujui data ini?",
+     type: "info",
+     showCancelButton: true,
+     confirmButtonClass: 'btn btn-danger',
+     cancelButtonClass: 'btn btn-success',
+     buttonsStyling: false,
+     confirmButtonText: "Ya, Setujui",
+     cancelButtonText: "Cancel",
+     closeOnConfirm: false,
+     showLoaderOnConfirm: true,
+   },
+   function(isConfirm){
+     if(isConfirm){
+       $.ajax({
+         url: url,
+         success: function(resp){
+           window.location.href = url;
+         }
+       });
+     }
+     return false;
+   });
+ });
+ </script>

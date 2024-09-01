@@ -140,5 +140,11 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/notification', 'App\Http\Controllers\AdminClient\Notif@index');
     Route::post('admin-client/notification-read', 'App\Http\Controllers\AdminClient\Notif@read');
     Route::get('admin-client/notification-data', 'App\Http\Controllers\AdminClient\Notif@getdata');
+
+
+
+    Route::get('admin-client/report/realisasi-spk', 'App\Http\Controllers\AdminClient\Report@realisasi_spk');
+    Route::post('admin-client/get-realisasi-spk', 'App\Http\Controllers\AdminClient\Report@getRealisasiSPK');
+    Route::post('admin-client/export-realisasi-spk', 'App\Http\Controllers\AdminClient\Report@exportRealisasiSPK');
     
 });

@@ -23,13 +23,16 @@
 
       <?php
       use Illuminate\Support\Facades\DB;   
-      
+      use Carbon\Carbon;
+
       $username = Session()->get('username');
+      $threeMonthsAgo = Carbon::now()->subMonths(3);
       $notif          = DB::connection('ts3')->table('ntf.v_notif_list')
                         ->where(function ($query) use ($username) {
                               $query->where('username', $username)
                                   ->orWhereNull('username');
                           })
+                          ->whereDate('created_date', '>', $threeMonthsAgo)
                          ->orderBy('created_date', 'desc')
                          ->limit(10)
                         ->get();
@@ -38,15 +41,16 @@
                               $query->where('username', $username)
                                   ->orWhereNull('username');
                           })
+                          ->whereDate('created_date', '>', $threeMonthsAgo)
                           ->WhereNull('is_read')
                           ->count();                  
       ?>
 
     <li class="nav-item dropdown">
       <a class="nav-link text-info" data-toggle="dropdown" href="#" aria-expanded="true" >
-       <i class="fas fa-bell mr-3"></i> 
+       <i class="fas fa-bell mr-4"></i> 
        @if ($count_notif > 0)
-       <span class="badge navbar-badge">{{ $count_notif }}</span>
+       <span class="badge navbar-badge ml-2">{{ $count_notif }}</span>
         @endif
       </a> 
 

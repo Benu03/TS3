@@ -80,6 +80,10 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/kategori_galeri/delete/{par1}', 'App\Http\Controllers\AdminTs3\Kategori_galeri@delete');
 
     Route::get('admin-ts3/kontak', 'App\Http\Controllers\AdminTs3\Kontak@index');
+    Route::get('admin-ts3/get-kontak', 'App\Http\Controllers\AdminTs3\Kontak@getKontak');
+    Route::get('admin-ts3/kontak/reply/{par1}', 'App\Http\Controllers\AdminTs3\Kontak@reply');
+    Route::post('admin-ts3/kontak/reply-process', 'App\Http\Controllers\AdminTs3\Kontak@replyProcess');
+
 
     Route::get('admin-ts3/berita', 'App\Http\Controllers\AdminTs3\Berita@index');
     Route::get('admin-ts3/berita/cari', 'App\Http\Controllers\AdminTs3\Berita@cari');
@@ -204,6 +208,7 @@ Route::group(['middleware' => ['admints3']],function(){
 
     Route::get('admin-ts3/get-vehicle-type', 'App\Http\Controllers\AdminTs3\Vehicle@getVehicletype');
 
+
     Route::get('admin-ts3/spare-part', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@index');
     Route::post('admin-ts3/spare-part/tambah', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@tambah');
     Route::post('admin-ts3/spare-part/proses', 'App\Http\Controllers\AdminTs3\SparepartPekerjaan@proses');
@@ -242,6 +247,11 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/report/history-service-detail/{par1}', 'App\Http\Controllers\AdminTs3\Report@history_service_detail');
     Route::post('admin-ts3/get-history-service', 'App\Http\Controllers\AdminTs3\Report@getHistoryService');
     Route::post('admin-ts3/export-history-service', 'App\Http\Controllers\AdminTs3\Report@exportHistoryService');
+
+
+    Route::get('admin-ts3/report/realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@realisasi_spk');
+    Route::post('admin-ts3/get-realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@getRealisasiSPK');
+    Route::post('admin-ts3/export-realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@exportRealisasiSPK');
 
 
     Route::get('admin-ts3/report/get-image-service-detail/{par1}', 'App\Http\Controllers\AdminTs3\Report@get_image_service_detail');
@@ -320,4 +330,23 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/spk/service-delete-detail-foto/{par1}', 'App\Http\Controllers\AdminTs3\Spk@servicedeletedetailfoto');
     Route::post('admin-ts3/spk/service-insert-detail-foto', 'App\Http\Controllers\AdminTs3\Spk@serviceinsertdetailfoto');
     
+    
+
+    Route::get('admin-ts3/invoice-create-gps', 'App\Http\Controllers\AdminTs3\Invoice@invoice_create_gps');
+    Route::post('admin-ts3/invoice-gps-detail-proses', 'App\Http\Controllers\AdminTs3\Invoice@invoice_gps_detail_proses');
+    Route::get('admin-ts3/get-invoice-gps', 'App\Http\Controllers\AdminTs3\Invoice@get_invoice_gps');
+    Route::get('admin-ts3/invoice-gps-cancel/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@InvoiceGpscancel');
+    Route::get('admin-ts3/invoice-gps-generate/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@InvoiceGpsGenerate');
+    Route::get('admin-ts3/invoice-gps-finish/{par1}', 'App\Http\Controllers\AdminTs3\Invoice@updateInvoiceStatus');
+
+    Route::get('admin-ts3/other-feature/vehicle-check', 'App\Http\Controllers\AdminTs3\OtherFeature@VehicleCheck');
+    Route::get('admin-ts3/other-feature/gps-check', 'App\Http\Controllers\AdminTs3\OtherFeature@GpsCheck');
+    Route::post('admin-ts3/gps-posting', 'App\Http\Controllers\AdminTs3\Gps@gpsPosting');
+
+
+    Route::post('admin-ts3/vehicle-check-process', 'App\Http\Controllers\AdminTs3\Vehicle@vehicleCheck');
+    Route::get('admin-ts3/gps-evidance/{par1}', 'App\Http\Controllers\AdminTs3\Vehicle@GpsEvidance');
+
+
+    Route::post('admin-ts3/gps-check-process', 'App\Http\Controllers\AdminTs3\Vehicle@GpsCheck');
 });

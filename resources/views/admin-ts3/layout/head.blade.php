@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\DB;
 use App\Models\Nav_model;
-$site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
+$site = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
 ?>
 
@@ -48,6 +48,7 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <!-- sweetalert -->
   {{-- <script src="{{ asset('assets/sweetalert/js/sweetalert.min.js') }}"></script> --}}
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <!-- angular -->
   {{-- <script src="{{ asset('assets/angular/angular.min.js') }}"></script>   --}}
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/sweetalert/css/sweetalert.css') }}">
@@ -70,15 +71,20 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   {{-- <script src="{{ asset('assets/timepicker/timepicker.min.js') }}"></script> --}}
   {{-- <link href="{{ asset('assets/timepicker/timepicker.min.css') }}" rel="stylesheet"/> --}}
   <script src="{{ asset('assets/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
- 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
  
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
 
   <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> -->
 
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx-style/0.9.14/xlsx-style.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
   <style type="text/css" media="screen">
    .tooltip {
@@ -205,8 +211,25 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
                 width: 50%;
                 margin: 15px auto;
             }
+   .dataTables_scroll
+    {
+      max-height: 500px; 
+      overflow-y: auto;
+      position:relative;
+    }
+    .dataTables_scrollHeadInner table {
+    width: 100% !important;
+  }
+  .dataTables_scrollHeadInner th {
+      white-space: nowrap !important;
+      text-overflow: ellipsis !important;
+      overflow: hidden !important;
+      min-width: 100px !important; /* Sesuaikan dengan ukuran minimum yang diinginkan */
+  }
      
+  
   </style>
+
 
   
 </head>

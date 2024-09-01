@@ -14,6 +14,11 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 <!-- Font Awesome -->
 <link rel="stylesheet" href="{{ asset('assets/admin/plugins/fontawesome-free/css/all.min.css') }}">
 <!-- CSS FILES START -->
+{{-- <script src="{{ asset('assets/sweetalert/js/sweetalert.min.js') }}"></script> --}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- angular -->
+{{-- <script src="{{ asset('assets/angular/angular.min.js') }}"></script>   --}}
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/sweetalert/css/sweetalert.css') }}">
 <link href="{{ asset('assets/aws/css/custom.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/aws/css/color.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/aws/css/responsive.css') }}" rel="stylesheet">

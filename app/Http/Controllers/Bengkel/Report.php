@@ -10,6 +10,7 @@ use Image;
 use PDF;
 use DataTables;
 use Log;
+use Storage;
 
 class Report extends Controller
 {
@@ -80,6 +81,7 @@ class Report extends Controller
 
         $ar = DB::connection('ts3')->table('mvm.v_service_history')->where('service_no', $id)->first();
 
+
 		$data = array(   'title'     => 'History Service '.$ar->service_no,
                          'ar'      => $ar,
                         'content'   => 'bengkel/report/service_detail_history'
@@ -91,29 +93,44 @@ class Report extends Controller
 
 
 
-
-
     public function get_image_service_detail($id)
     {
-        if(Session()->get('username')=="") {
+        if (Session()->get('username') == "") {
             $last_page = url()->full();
-            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+            return redirect('login?redirect=' . $last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-
-        $image = DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('unique_data',$id)->first();
-
-        $service = DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->where('id',$image->mvm_service_vehicle_h_id)->first();
-        
-        $storagePath =  $image->source.'/'.$image->unique_data;
-
-        if(!file_exists($storagePath))
-        return redirect('bengkel/report/history-service')->with(['warning' => 'File Tidak Di temukan']);
-        
-        else{
-            return response()->file($storagePath);
+    
+        $item = DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('unique_data', $id)->first();
+    
+        if (!$item) {
+            return response()->json(['error' => 'File not found'], 404);
         }
-
-    }  
+    
+        $filename = $item->unique_data;
+        $filePath = $item->source;
+    
+        // Menggunakan path penyimpanan Laravel, biasanya berada di dalam folder storage/app
+        $fullPath = $filePath . '/' . $filename;
+    
+        // Periksa apakah file ada di sistem
+        if (!file_exists($fullPath)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+    
+        // Mendapatkan MIME type file
+        $mimeType = mime_content_type($fullPath);
+    
+        // Mendapatkan ekstensi file
+        $fileExtension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $supportedExtensions = ['png', 'jpg', 'mp4'];
+    
+        if (in_array($fileExtension, $supportedExtensions)) {
+            return response()->file($fullPath, ['Content-Type' => $mimeType]);
+        } else {
+            return response()->json(['error' => 'Unsupported file type'], 400);
+        }
+    }
+    
 
   
     public function summary_bengkel()

@@ -10,7 +10,7 @@
   }
 </style>
 <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: linear-gradient(to bottom, #1d1c1c, #25872a); border-top-right-radius: 15px;">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #03830a; border-top-right-radius: 15px;">
     <!-- Brand Logo -->
     <a href="{{ asset('admin-ts3/dasbor') }}" class="brand-link">
       <img src="{{ asset('assets/upload/image/'.website('icon')) }}"
@@ -269,12 +269,14 @@
             <ul class="nav nav-treeview">
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/history-service') }}" class="nav-link"><i class="fas fa-history nav-icon"></i><p>History Service</p></a>
               </li>
-              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/realisasi-spk') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>Realisasi SPK</p></a>
               </li>
 
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/rekap-invoice') }}" class="nav-link"><i class="fas fa-calculator nav-icon"></i><p>Rekap Invoice</p></a>
               </li>
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/spk-history') }}" class="nav-link"><i class="fas fa-file-alt nav-icon"></i><p>SPK History</p></a>
+              </li>
+              <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/summary-bengkel') }}" class="nav-link"><i class="fas fa-warehouse nav-icon"></i><p>Summary Bengkel</p></a>
               </li>
 
               <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/report/due-date-service') }}" class="nav-link"><i class="far fa-calendar-times nav-icon"></i><p>Service Due Date</p></a>
@@ -287,7 +289,25 @@
             </ul>
           </li>             
     
+
+          <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                <i class="fas fa-search nav-icon"></i>
+                  <p>Other Feature<i class="fas fa-angle-left right"></i></p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/other-feature/vehicle-check') }}" class="nav-link"><i class="fas fa-motorcycle nav-icon"></i> <p> Vehicle Check</p></a>
+                  </li>
+                  <li class="nav-item ml-4"><a href="{{ asset('admin-ts3/other-feature/gps-check') }}" class="nav-link"><i class="fas fa-map-marked-alt nav-icon"></i> <p> GPS Check</p></a>
+                  </li>       
+    
+                
+                </ul>
+          </li>    
          
+         <br>
+         <br>
+         <br>
 
           
         </ul>
@@ -325,5 +345,5 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-{{-- <div class="table-responsive konten"> --}}
+
 @include($content)

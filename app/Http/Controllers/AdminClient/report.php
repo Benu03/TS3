@@ -377,6 +377,81 @@ class report extends Controller
         return response()->json(['data' => $invoiceList]);
 
     }
+
+
+
+
+    public function realisasi_spk()
+    {
+        if(Session()->get('username')=="") {
+            $last_page = url()->full();
+            return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+        $regional 	= DB::connection('ts3')->table('mst.v_regional')->get();
+
+		$data = array(   'title'     => 'Realisasi SPK',
+                        'regional'      => $regional,
+                        'content'   => 'admin-client/report/realisasi_spk'
+                    );
+        return view('admin-client/layout/wrapper',$data);
+
+
+    }
+
+    public function getRealisasiSPK(Request $request)
+    {
+        if (Session()->get('username') == "") {
+            return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        if ($request->ajax()) {
+            $query = DB::connection('ts3')->table('mvm.v_service_history');
+    
+            if (!empty($request->from_date) && !empty($request->to_date)) {
+                $query->whereBetween('tanggal_service', [$request->from_date, $request->to_date]);
+            }
+          
+    
+            if (!empty($request->regional)) {
+                $query->where('regional', $request->regional);
+            }
+
+            if (!empty($request->spkno)) {
+                $query->where('spk_no', 'ILIKE', '%' . $request->spkno . '%');
+            }
+    
+            $service = $query->get();
+            return DataTables::of($service)->make(true);
+        }
+    }
+    
+
+    public function exportRealisasiSPK(Request $request)
+    {
+
+        if(Session()->get('username')=="") { return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);}
+        if ($request->ajax()) {
+            $query = DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("
+                nopol, norangka, nomesin,  regional,  area, branch as cabang, spk_no, service_no, 
+                tanggal_service,remark_ts3 as keterangan
+            ");
+    
+            if (!empty($request->from_date) && !empty($request->to_date)) {
+                $query->whereBetween('tanggal_service', [$request->from_date, $request->to_date]);
+            }
+            if (!empty($request->regional)) {
+                $query->where('regional', $request->regional);
+            }
+    
+            if (!empty($request->spkno)) {
+                $query->where('spk_no', 'ILIKE', '%' . $request->spkno . '%');
+            }
+    
+            $service = $query->get();
+    
+            return response()->json(['data' => $service]);
+        }
+    }
   
 
 

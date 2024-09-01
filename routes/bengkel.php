@@ -24,6 +24,8 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::get('bengkel/summary-bengkel', 'App\Http\Controllers\Bengkel\Invoice@summary_bengkel');
     Route::get('bengkel/service-proses-page/{par1}', 'App\Http\Controllers\Bengkel\Service@service_proses_page');
     Route::post('bengkel/service-proses', 'App\Http\Controllers\Bengkel\Service@service_proses');
+
+    Route::post('bengkel/upload-file', [App\Http\Controllers\Bengkel\Service::class, 'upload_file'])->name('bengkel.upload-file');
     Route::get('bengkel/invoice', 'App\Http\Controllers\Bengkel\Invoice@index');
     Route::get('bengkel/invoice-create', 'App\Http\Controllers\Bengkel\Invoice@invoice_create');
     Route::post('bengkel/invoice-create-detail-proses', 'App\Http\Controllers\Bengkel\Invoice@invoice_create_detail');
@@ -59,5 +61,19 @@ Route::group(['middleware' => ['bengkel']],function(){
     Route::post('bengkel/notification-read', 'App\Http\Controllers\Bengkel\Notif@read');
     Route::get('bengkel/notification-data', 'App\Http\Controllers\Bengkel\Notif@getdata');
 
-    
+
+    //other feature
+    Route::get('bengkel/other-feature/vehicle-check', 'App\Http\Controllers\Bengkel\OtherFeature@VehicleCheck');
+    Route::get('bengkel/other-feature/gps-check', 'App\Http\Controllers\Bengkel\OtherFeature@GpsCheck');
+
+
+
+    Route::post('bengkel/gps-posting', 'App\Http\Controllers\Bengkel\Gps@gpsPosting');
+
+
+    Route::post('vehicle-check-process', 'App\Http\Controllers\Bengkel\Vehicle@vehicleCheck');
+    Route::get('gps-evidance/{par1}', 'App\Http\Controllers\Bengkel\Vehicle@GpsEvidance');
+
+
+    Route::post('gps-check-process', 'App\Http\Controllers\Bengkel\Vehicle@GpsCheck');
 });

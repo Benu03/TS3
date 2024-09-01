@@ -7,33 +7,15 @@
         </ul>
     </div>
 @endif
-{{-- <p>
-  @include('admin-client/spk/tambah_upload')
-</p> --}}
+
 <form action="{{ asset('admin-ts3/report/proses') }}" method="post" accept-charset="utf-8">
 {{ csrf_field() }}
 <div class="row">
 
 
-    {{-- <div class="btn-group">
-      {{-- <button class="btn btn-danger" type="submit" name="hapus" onClick="check();" >
-          <i class="fa fa-trash"></i>
-      </button>  --}}
-        {{-- <button type="button" class="btn btn-success " data-toggle="modal" data-target="#Tambah">
-            <i class="fa fa-plus"></i> Tambah SPK Baru
-        </button>
-   </div>  --}}
+  
    <div class="col-md-12">
-        {{-- <div class="form-group">
-            <label>Date range:</label>
-            <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                 <i class="far fa-calendar-alt"></i>
-                </span>
-            </div>
-            <input type="text" class="form-control float-right" id="reservation">
-            </div> --}}
+        
             
         
             
@@ -61,6 +43,9 @@
 					</div>
 
 
+
+
+
                     <div class="col-sm-6">
 						<div class="form-group pull-right btn-group">
                             <button type="button" name="filter" id="filter" class="btn btn-primary" value="Filter Data">
@@ -74,15 +59,35 @@
 					</div>
 
                     <div class="col-sm-2 text-right">
+
+                    <button type="button" name="export-pdf" id="export-pdf" class="btn btn-danger" value="Export Data">
+                            <i class="far fa-file-pdf"></i> PDF 
+                          </button>
                    
                         <button type="button" name="export" id="export" class="btn btn-success" value="Export Data">
-                            <i class="far fa-file-excel"></i> Export 
+                            <i class="far fa-file-excel"></i> XLSX 
                           </button>
                  
                     </div>
 
-                    <div class="clearfix"></div>
+                   
 				</div>
+                <div class="form-group row">
+                <div class="col-sm-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                 SPK No 
+                                </span>
+                            </div>
+                            <input type="text" name="spkno"  id="spkno" class="form-control" placeholder="SPK No" value="" >
+                               
+					</div>
+
+                </div>
+
+
+                <div class="clearfix"></div>
 
                
     {{-- </div>        --}}
@@ -104,6 +109,7 @@
             </div>
         </th> --}}
         <th width="12%">Service No</th>
+        <th width="7%">SPK NO</th>   
         <th width="7%">Nopol</th>   
         <th width="7%">Status</th> 
         <th width="8%">Tanggal Service</th>
@@ -128,7 +134,7 @@
 <script type="text/javascript">
     $(document).ready(function() { 
         fetch_data()
-        function fetch_data(from_date = '', to_date = ''){                    
+        function fetch_data(from_date = '', to_date = '', spkno){                    
                 $('#dataTable').DataTable({
                     pageLength: 10,
                     lengthChange: true,
@@ -150,11 +156,12 @@
                     },
                     ajax: {
                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                        url:"{{  asset('admin-ts3/get-history-service') }}",
+                        url:"{{  url('admin-ts3/get-history-service') }}",
                         type: "POST",
                         data: function (d) {
                         d.from_date = from_date;
                         d.to_date = to_date;
+                        d.spkno = spkno;
                     }
                              
                     },
@@ -163,6 +170,10 @@
                             data: 'service_no', 
                             name: 'service_no', 
         
+                        },
+                        {
+                            name: 'spk_no',
+                            data: 'spk_no'
                         },
                         {
                             name: 'nopol',
@@ -220,84 +231,238 @@
             $('#filter').click(function(){
             var from_date = $('#from_date').val();
             var to_date = $('#to_date').val();
+            var spkno = $('#spkno').val();
 
-            if(from_date != '' &&  to_date != ''){
-                $('#dataTable').DataTable().destroy();
-                fetch_data(from_date, to_date);
-            } else{
-                swal('Oops..', 'Date Filter Belum Di input', 'warning');
-            }
+            $('#dataTable').DataTable().destroy();
+                fetch_data(from_date, to_date, spkno);
+
+            // if(from_date != '' &&  to_date != ''){
+            //     $('#dataTable').DataTable().destroy();
+            //     fetch_data(from_date, to_date, spkno);
+            // } else{
+            //     swal('Oops..', 'Date Filter Belum Di input', 'warning');
+            // }
 
         });
 
         $('#refresh').click(function(){
             $('#from_date').val('');
             $('#to_date').val('');
+            $('#spkno').val('');
             $('#dataTable').DataTable().destroy();
             fetch_data();
         });
 
+      
+
+
+
+
+
         $('#export').click(function(){
-            var from_date = $('#from_date').val();
-            var to_date = $('#to_date').val();
+    var from_date = $('#from_date').val();
+    var to_date = $('#to_date').val();
+    var spkno = $('#spkno').val();
 
-            if (from_date != '' && to_date != '') 
-            {
-                // Tampilkan animasi pengunduhan
-                var downloadButton = $('#export');
-                downloadButton.text('Downloading...');
-                downloadButton.attr('disabled', true);
+    if (from_date !== '' || to_date !== '' || spkno !== '') {
+        // Tampilkan animasi pengunduhan
+        var downloadButton = $('#export');
+        downloadButton.text('Downloading...');
+        downloadButton.attr('disabled', true);
 
-            // Kirim permintaan AJAX ke kontroler Anda untuk mendapatkan data
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                url: "{{  asset('admin-ts3/export-history-service') }}",
-                type: "POST",
-                data: {
-                    from_date: from_date,
-                    to_date: to_date
-                },
+        // Kirim permintaan AJAX ke kontroler Anda untuk mendapatkan data
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+            url: "{{ asset('admin-ts3/export-history-service') }}",
+            type: "POST",
+            data: {
+                from_date: from_date,
+                to_date: to_date,
+                spkno: spkno
+            },
             success: function(response) {
-            // Buat workbook Excel baru
-            var wb = XLSX.utils.book_new();
+                // Mengubah nama kolom
+                var data = response.data.map(item => {
+                    return {
+                        'No Mesin': item.nomesin,
+                        'Tahun': item.tahun,
+                        'Tipe': item.tipe,
+                        'Status Service': item.status_service,
+                        'Tanggal Service': item.tanggal_service,
+                        // 'Nama Driver': item.nama_driver,
+                        // 'Last KM': item.last_km,
+                        // 'Bengkel': item.bengkel,
+                        // 'Mekanik': item.mekanik,
+                        'Tanggal Last Service': item.tgl_last_service,
+                        // 'Regional': item.regional,
+                        // 'Area': item.area,
+                        // 'Cabang': item.cabang,
+                        // 'PIC Cabang': item.pic_cabang,
+                        // 'Tanggal Schedule': item.tanggal_schedule,
+                        // 'Remark': item.remark
+                    };
+                });
 
-            // Buat worksheet
-            var ws = XLSX.utils.json_to_sheet(response.data);
+                // Buat workbook dan worksheet
+                var wb = XLSX.utils.book_new();
+                var ws = XLSX.utils.json_to_sheet(data);
 
-            // Tambahkan worksheet ke workbook
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                // Menambahkan header "REALISASI SPK PERIOD from_date SAMPAI DENGAN to_date" di baris pertama dan membuatnya bold
+                var headerText = `REALISASI SPK PERIOD ${from_date} SAMPAI DENGAN ${to_date}`;
+                XLSX.utils.sheet_add_aoa(ws, [[headerText]], { origin: 'A1' });
+                ws['A1'].s = { font: { bold: true } };
 
-            // Buat objek Blob yang berisi data file Excel
+                // Menambahkan baris kosong di baris kedua
+                XLSX.utils.sheet_add_aoa(ws, [[]], { origin: 'A2' });
 
-            var blob = new Blob([new Uint8Array(XLSX.write(wb, { bookType: 'xlsx', type: 'array' }))], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            });
+                // Menambahkan nama kolom di baris ketiga
+                XLSX.utils.sheet_add_aoa(ws, [
+                    ['No Mesin', 'Tahun', 'Tipe', 'Status Service', 'Tanggal Service', 'Nama Driver', 'Last KM', 'Bengkel', 'Mekanik', 'Tanggal Last Service', 'Regional', 'Area', 'Cabang', 'PIC Cabang', 'Tanggal Schedule', 'Remark']
+                ], { origin: 'A3' });
 
-            // Animasi delay sebelum pengunduhan dimulai
-            setTimeout(function() {
-                // Pengaktifan pengunduhan
+                // Menambahkan worksheet ke workbook
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+                // Buat objek Blob yang berisi data file Excel
+                var blob = new Blob([new Uint8Array(XLSX.write(wb, { bookType: 'xlsx', type: 'array' }))], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                });
+
+                // Animasi delay sebelum pengunduhan dimulai
+                setTimeout(function() {
+                    // Pengaktifan pengunduhan
+                    downloadButton.html('<i class="far fa-file-excel"></i> Export');
+                    downloadButton.attr('disabled', false);
+
+                    // Trigger pengunduhan file Excel
+                    var a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = 'History-Service.xlsx';
+                    a.click();
+                }, 1000); // Durasi animasi dalam milidetik
+            },
+            error: function() {
+                swal('Oops..', 'Terjadi kesalahan saat memuat data.', 'error');
+                // Mengembalikan tombol ke keadaan semula jika terjadi kesalahan
                 downloadButton.html('<i class="far fa-file-excel"></i> Export');
                 downloadButton.attr('disabled', false);
-
-                // Trigger pengunduhan file Excel
-                var a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'History-Service.xlsx';
-                a.click();
-            }, 1000); // Durasi animasi dalam milidetik
-                    },
-                    error: function() {
-                        swal('Oops..', 'Terjadi kesalahan saat memuat data.', 'error');
-                    }
-                });
-            } else {
-                swal('Oops..', 'Date Filter Belum Di input', 'warning');
             }
         });
-            
+    } else {
+        swal('Oops..', 'Filter Belum Di input', 'warning');
+    }
+});
+
         
     });
 
 
 
     </script>
+
+<script>
+$('#export-pdf').click(function(){
+    var from_date = $('#from_date').val();
+    var to_date = $('#to_date').val();
+    var spkno = $('#spkno').val();
+
+    if (from_date !== '' || to_date !== '' || spkno !== '') {
+        // Tampilkan animasi pengunduhan
+        var downloadButton = $('#export-pdf');
+        downloadButton.text('Downloading...');
+        downloadButton.attr('disabled', true);
+
+        // Kirim permintaan AJAX ke kontroler Anda untuk mendapatkan data
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+            url: "{{ asset('admin-ts3/export-history-service') }}",
+            type: "POST",
+            data: {
+                from_date: from_date,
+                to_date: to_date,
+                spkno: spkno
+            },
+            success: function(response) {
+                // Mengubah nama kolom
+                var data = response.data.map(item => {
+                    return {
+                        'No Mesin': item.nomesin,
+                        'Tahun': item.tahun,
+                        'Tipe': item.tipe,
+                        'Status Service': item.status_service,
+                        'Tanggal Service': item.tanggal_service,
+                        'Nama Driver': item.nama_driver,
+                        'Last KM': item.last_km,
+                        'Bengkel': item.bengkel,
+                        'Mekanik': item.mekanik,
+                        'Tanggal Last Service': item.tgl_last_service,
+                        'Regional': item.regional,
+                        'Area': item.area,
+                        'Cabang': item.cabang,
+                        'PIC Cabang': item.pic_cabang,
+                        'Tanggal Schedule': item.tanggal_schedule,
+                        'Remark': item.remark
+                    };
+                });
+
+                // Buat dokumen PDF dengan orientasi landscape
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation: 'landscape' });
+
+                // Menambahkan header
+                doc.setFontSize(16);
+                doc.setFont('Helvetica', 'bold');
+                doc.text(`REALISASI SPK PERIOD ${from_date} SAMPAI DENGAN ${to_date}`, 14, 20);
+                
+                // Menambahkan baris kosong
+                doc.text('', 14, 30);
+
+                // Menambahkan tabel
+                doc.autoTable({
+                    startY: 40,
+                    head: [['No Mesin', 'Tahun', 'Tipe', 'Status Service', 'Tanggal Service', 'Nama Driver', 'Last KM', 'Bengkel', 'Mekanik', 'Tanggal Last Service', 'Regional', 'Area', 'Cabang', 'PIC Cabang', 'Tanggal Schedule', 'Remark']],
+                    body: data.map(item => [
+                        item['No Mesin'],
+                        item['Tahun'],
+                        item['Tipe'],
+                        item['Status Service'],
+                        item['Tanggal Service'],
+                        item['Nama Driver'],
+                        item['Last KM'],
+                        item['Bengkel'],
+                        item['Mekanik'],
+                        item['Tanggal Last Service'],
+                        item['Regional'],
+                        item['Area'],
+                        item['Cabang'],
+                        item['PIC Cabang'],
+                        item['Tanggal Schedule'],
+                        item['Remark']
+                    ]),
+                    headStyles: { fillColor: [22, 160, 133] }, // Warna header tabel
+                    margin: { top: 40 },
+                    // Pilihan landscape untuk tabel
+                    pageBreak: 'auto',
+                });
+
+                // Simpan PDF dan unduh
+                doc.save('History-Service.pdf');
+
+                // Kembalikan tombol ke keadaan semula
+                setTimeout(function() {
+                    downloadButton.html('<i class="far fa-file-pdf"></i> Export PDF');
+                    downloadButton.attr('disabled', false);
+                }, 1000); // Durasi animasi dalam milidetik
+            },
+            error: function() {
+                swal('Oops..', 'Terjadi kesalahan saat memuat data.', 'error');
+                // Mengembalikan tombol ke keadaan semula jika terjadi kesalahan
+                downloadButton.html('<i class="far fa-file-pdf"></i> PDF');
+                downloadButton.attr('disabled', false);
+            }
+        });
+    } else {
+        swal('Oops..', 'Filter Belum Di input', 'warning');
+    }
+});
+</script>
