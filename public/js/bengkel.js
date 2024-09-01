@@ -211,10 +211,10 @@ $(document).ready(function () {
                 return;
             }
 
-            if (file.size > 10 * 1024 * 1024) {
+            if (file.size > 5 * 1024 * 1024) {
                 swal(
                     "Error",
-                    "File is too large. Please upload a file smaller than 10MB",
+                    "File is too large. Please upload a file smaller than 5MB",
                     "error"
                 );
 
@@ -250,6 +250,7 @@ $(document).ready(function () {
         formData.append("id", id);
         formData.append("nopol", nopol);
 
+        console.log(formData);
         $.ajax({
             headers: { "X-CSRF-TOKEN": csrfToken },
             url: uploadUrl,
@@ -289,6 +290,7 @@ $(document).ready(function () {
                         $("#uploadModal").modal("hide");
                     });
                 } else {
+                    $("#submitUpload").prop("disabled", false);
                     swal(
                         "Error",
                         "Failed to upload files: " + response.message,
@@ -298,6 +300,7 @@ $(document).ready(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#loader").hide(); // Hide loader
+                $("#submitUpload").prop("disabled", false);
                 $("#fileInput").val("");
                 $("#remarkInput").val("");
                 swal("Error", "Error occurred: " + textStatus, "error");
