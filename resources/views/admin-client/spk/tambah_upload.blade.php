@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="Tambah"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="Tambah"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -65,7 +65,12 @@
 					<label class="col-sm-3 control-label text-right"></label>
 					<div class="col-sm-9">
 						<div class="form-group pull-right btn-group">
-							<input type="submit" name="submit" class="btn btn-primary " value="Simpan Data">
+							{{-- <input type="submit" name="submit" class="btn btn-primary " value="Simpan Data"> --}}
+							<button type="submit" id="submitButton" class="btn btn-primary">
+								Simpan Data
+								<span id="loadingIcon" class="spinner-border spinner-border-sm" style="display: none;" role="status" aria-hidden="true"></span>
+							  </button>
+							  
 							<input type="reset" name="reset" class="btn btn-success " value="Reset">
 							<button type="button" class="btn btn-danger " data-dismiss="modal">Close</button>
 						</div>
@@ -79,5 +84,4 @@
 	</div>
 </div>
 
-
-
+  
