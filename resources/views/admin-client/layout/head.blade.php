@@ -69,6 +69,9 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+  <!-- BlockUI -->
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> --}}
 
   <style type="text/css" media="screen">
     body {
@@ -193,5 +196,14 @@ $site                 = DB::connection('ts3')->table('cp.konfigurasi')->first();
             }
   </style>
 
-  
+<style>
+  #submitButton {
+    display: inline-flex;
+    align-items: center;
+  }
+  #loadingIcon {
+    margin-left: 10px; /* Sesuaikan jarak antara teks dan ikon */
+  }
+</style>
+
 </head>

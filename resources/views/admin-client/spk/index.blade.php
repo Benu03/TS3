@@ -129,3 +129,17 @@ $(document).on("click", ".upload-link", function(e){
 
 
 </script>
+
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#fileUploadForm').on('submit', function() {
+      var submitButton = $('#submitButton');
+      var loadingIcon = $('#loadingIcon');
+      submitButton.prop('disabled', true); // Menonaktifkan tombol submit
+      submitButton.html('Processing... <span id="loadingIcon" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'); // Mengubah teks tombol dan menambahkan ikon loading
+      loadingIcon.show(); // Menampilkan ikon loading
+    });
+  });
+</script>

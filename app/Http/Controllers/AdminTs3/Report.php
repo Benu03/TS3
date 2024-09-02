@@ -777,6 +777,43 @@ class Report extends Controller
             return response()->json(['data' => $service]);
         }
     }
+
     
-   
+    public function exportPDFRealisasiSPK(Request $request)
+    {
+        if(Session()->get('username') == "") {
+            return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        $query = DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("
+            nopol, norangka, nomesin,  regional,  area, branch as cabang, spk_no, service_no, 
+            tanggal_service, remark_ts3 as keterangan
+        ");
+    
+        if (!empty($request->from_date) && !empty($request->to_date)) {
+            $query->whereBetween('tanggal_service', [$request->from_date, $request->to_date]);
+        }
+        if (!empty($request->regional)) {
+            $query->where('regional', $request->regional);
+        }
+    
+        if (!empty($request->spkno)) {
+            $query->where('spk_no', 'ILIKE', '%' . $request->spkno . '%');
+        }
+    
+        $service = $query->get();
+    
+        $data = [
+            'from_date' => $request->from_date,
+            'to_date' => $request->to_date,
+            'spkno' => $request->spkno,
+            'regional' => $request->regional,
+            'realisasi_spk' => $service
+        ];
+    
+        $pdf = PDF::loadView('pdf.realisasi-spk', $data)->setPaper('a4', 'landscape');
+    
+        return $pdf->download('Realisasi-SPK-' . now()->format('YmdHis') . '.pdf');
+    }
+    
 }

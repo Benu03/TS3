@@ -22,6 +22,7 @@ Route::group(['middleware' => ['adminclient']],function(){
     Route::get('admin-client/spk', 'App\Http\Controllers\AdminClient\Spk@index');
     Route::get('admin-client/template-upload', 'App\Http\Controllers\AdminClient\Spk@template_upload');
     Route::post('admin-client/spk-upload', 'App\Http\Controllers\AdminClient\Spk@spk_upload');
+    Route::post('admin-client/get-temp-spk', 'App\Http\Controllers\AdminClient\Spk@getTempspk');
     Route::get('admin-client/spk-detail/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_detail');
     Route::get('admin-client/spk-temp-detail/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_temp_detail');
     Route::get('admin-client/spk-reset/{par1}', 'App\Http\Controllers\AdminClient\Spk@spk_temp_reset');

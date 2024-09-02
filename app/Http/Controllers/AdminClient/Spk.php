@@ -14,6 +14,7 @@ use App\Imports\SPKTempImportMBM;
 use Maatwebsite\Excel\Facades\Excel;
 use Log;
 use Storage;
+use DataTables;
 
 
 
@@ -36,12 +37,15 @@ class Spk extends Controller
         {
             $result = json_decode(json_encode($spk_detail), true);
             $spk_seq  = $result[0]['spk_seq']; 
+            
             return redirect('admin-client/spk-temp-detail/'.$spk_seq)->with(['sukses' => 'File berhasil Di Upload, mohon Untuk Di Review']);  
         }
         else
         {
 
             $userclient = DB::connection('ts3')->table('mst.v_user_client')->where('username', Session()->get('username'))->first();
+
+            
             
             $spk = DB::connection('ts3')->table('mvm.mvm_spk_h')->where('mst_client_id', $userclient->mst_client_id)->get();
                 
@@ -125,6 +129,45 @@ class Spk extends Controller
 
     }
 
+    public function getTempspk(Request $request)
+    {
+        if (Session()->get('username') == "") {
+            return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        if ($request->ajax()) {
+            $spk_seq = $request->spk_seq;
+            
+            // Menyesuaikan query sesuai permintaan Anda
+            $spk_detail = DB::connection('ts3')->table('mvm.mvm_temp_spk as a')
+                ->leftJoin('mst.v_vehicle as b', 'a.nopol', '=', 'b.nopol')
+                ->leftJoin('mst.v_branch as c', 'a.branch', '=', 'c.branch')
+                ->where('a.spk_seq', $spk_seq)
+                ->select('a.*', 'b.id as nopol_id', 'c.branch as branch_mst', 
+                         DB::raw("CASE 
+                                    WHEN b.id IS NULL AND c.branch IS NULL THEN 1
+                                    ELSE 0
+                                  END as invalid_data"))
+                ->get();
+    
+            return DataTables::of($spk_detail)
+                ->addColumn('info', function ($row) {
+                    if ($row->nopol_id == null && $row->branch_mst == null) {
+                        return '<button type="button" class="btn btn-outline-warning btn-xs mr-1" data-toggle="tooltip" data-html="true" title="Data Vehicle belum terdaftar"><i class="fas fa-info-circle"></i></button>
+                                <button type="button" class="btn btn-outline-secondary btn-xs mr-1" data-toggle="tooltip" data-html="true" title="Data Branch belum terdaftar"><i class="fas fa-info-circle"></i></button>';
+                    } elseif ($row->nopol_id == null) {
+                        return '<button type="button" class="btn btn-outline-warning btn-xs mr-1" data-toggle="tooltip" data-html="true" title="Data Vehicle belum terdaftar"><i class="fas fa-info-circle"></i></button>';
+                    } elseif ($row->branch_mst == null) {
+                        return '<button type="button" class="btn btn-outline-secondary btn-xs mr-1" data-toggle="tooltip" data-html="true" title="Data Branch belum terdaftar"><i class="fas fa-info-circle"></i></button>';
+                    } else {
+                        return 'Data lengkap';
+                    }
+                })
+                ->rawColumns(['info'])
+                ->make(true);
+        }
+    }
+
     public function spk_temp_detail($spk_seq)
     {
         if(Session()->get('username')=="") {
@@ -139,12 +182,14 @@ class Spk extends Controller
         {           
             return redirect('admin-client/spk')->with(['sukses' => 'File berhasil Di Upload, Tidak ada']);  
         }
+
+
         $spk = DB::connection('ts3')->table('mvm.v_temp_spk_h')->where('spk_seq', $spk_seq)->first();
-        $spk_detail = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq', $spk_seq)->get();
+        // $spk_detail = DB::connection('ts3')->table('mvm.mvm_temp_spk')->where('spk_seq', $spk_seq)->get();
 		       
 		$data = array(   'title'     => 'SPK Review',
                          'spk'      => $spk,
-                         'spk_detail'      => $spk_detail,
+                        //  'spk_detail'      => $spk_detail,
                         'content'   => 'admin-client/spk/spk_review'
                     );
         return view('admin-client/layout/wrapper',$data);

@@ -71,17 +71,7 @@
             </div>
           </div>
 
-        {{-- <div class="col-12 col-sm-6">
-            <div class="info-box">
-            <span class="info-box-icon bg-success elevation-1"><i class="fa fa-file-contract"></i></span>
-
-            <div class="info-box-content">
-               
-            </div>
-            <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div> --}}
+   
     </div>
 
 </div>
@@ -89,16 +79,11 @@
 <div class="clearfix"><hr></div>
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
-<table id="example1" class="display table table-bordered" cellspacing="0" width="100%">
+
+  <table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%">
 <thead>
     <tr class="bg-info">
-        {{-- <th width="5%">
-          <div class="mailbox-controls">
-                <!-- Check all button -->
-               <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
-            </div>
-        </th> --}}
+       
         <th width="10%">NOPOL</th>
         <th width="10%">NOMESIN</th>   
         <th width="15%">NORANGKA</th>  
@@ -109,49 +94,60 @@
       
 </tr>
 </thead>
-<tbody>
-
-    <?php $i=1; foreach($spk_detail as $sp) { ?>
-    <td><?php echo $sp->nopol ?></td>
-    <td><?php echo $sp->nomesin ?></td>
-    <td><?php echo $sp->norangka ?></td>
-    <td><?php echo $sp->tahun_pembuatan ?></td>
-    <td><?php echo $sp->type ?></td>
-    <td><?php echo $sp->branch ?></td>
-    <td><?php 
- 
-   
-        $vehicle = DB::connection('ts3')->table('mst.v_vehicle')->where('nopol',$sp->nopol)->first();
-        $branch = DB::connection('ts3')->table('mst.v_branch')->where('branch',$sp->branch)->first();
-  
-        if(empty($vehicle))
-        {          
-          echo '<button type="button" class="btn btn-outline-warning btn-xs mr-1" data-toggle="tooltip" data-html="true" 
-                title="Data Vehicle belum terdaftar">
-                <i class="fas fa-info-circle"></i>
-                </button>';
-        }
-        if(empty($branch))
-        {        
-          echo '<button type="button" class="btn btn-outline-secondary btn-xs mr-1" data-toggle="tooltip" data-html="true" 
-                title="Data Branch belum terdaftar">
-                <i class="fas fa-info-circle"></i>
-                </button>';
-               
-        }
-          
-
-    ?></td>
-       
-</tr>
-
-<?php $i++; } ?> 
-
-</tbody>
 </table>
 </div>
 </div>
 </form>
+
+
+<script type="text/javascript">
+ $(document).ready(function() {
+    fetch_data();
+
+    function fetch_data() {
+        $('#dataTable').DataTable({
+            pageLength: 10,
+            lengthChange: true,
+            bFilter: true,
+            destroy: true,
+            processing: true,
+            serverSide: true,
+            order: [[7, 'desc']], // Mengurutkan berdasarkan kolom 'invalid_data'
+            oLanguage: {
+                sZeroRecords: "Tidak Ada Data",
+                sSearch: "Pencarian _INPUT_",
+                sLengthMenu: "_MENU_",
+                sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                sInfoEmpty: "0 data",
+                oPaginate: {
+                    sNext: "<i class='fa fa-angle-right'></i>",
+                    sPrevious: "<i class='fa fa-angle-left'></i>"
+                }
+            },
+            ajax: {
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                url: "{{ url('admin-client/get-temp-spk') }}",
+                type: "POST",
+                data: function (d) {
+                    d.spk_seq = '{{ $spk->spk_seq }}'; // Pastikan $spk->spk_seq terdefinisi di blade template Anda
+                }
+            },
+            columns: [
+                { name: 'nopol', data: 'nopol' },
+                { name: 'nomesin', data: 'nomesin' },
+                { name: 'norangka', data: 'norangka' },
+                { name: 'tahun_pembuatan', data: 'tahun_pembuatan' },
+                { name: 'type', data: 'type' },
+                { name: 'nama_cabang', data: 'branch' },
+                { name: 'info', data: 'info', orderable: false, searchable: false },
+                { name: 'invalid_data', data: 'invalid_data', visible: false, searchable: false } // Kolom untuk mengurutkan data
+            ]
+        });
+    }
+});
+
+
+  </script>
 
 <script>
     function isNumber(evt) {
