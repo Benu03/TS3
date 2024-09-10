@@ -252,7 +252,9 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/report/realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@realisasi_spk');
     Route::post('admin-ts3/get-realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@getRealisasiSPK');
     // Route::post('admin-ts3/export-realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@exportRealisasiSPK');
-    Route::post('admin-ts3/export-realisasi-spk', 'App\Http\Controllers\AdminTs3\Report@exportRealisasiSPK');
+    Route::post('admin-ts3/export-realisasi-spk-pdf', 'App\Http\Controllers\AdminTs3\Report@exportPDFRealisasiSPK');
+    Route::post('admin-ts3/export-realisasi-spk-xlsx', 'App\Http\Controllers\AdminTs3\Report@exportXLSXRealisasiSPK');
+    
 
 
 

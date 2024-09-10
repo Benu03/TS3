@@ -10,6 +10,10 @@ use Image;
 use PDF;
 use DataTables;
 use Log;
+use File;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AdminTs3\RealisasiSPKExport;
+
 
 class Report extends Controller
 {
@@ -781,12 +785,12 @@ class Report extends Controller
     
     public function exportPDFRealisasiSPK(Request $request)
     {
-        if(Session()->get('username') == "") {
+        if (Session()->get('username') == "") {
             return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
     
         $query = DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("
-            nopol, norangka, nomesin,  regional,  area, branch as cabang, spk_no, service_no, 
+            nopol, norangka, nomesin, regional, area, branch as cabang, spk_no, service_no, 
             tanggal_service, remark_ts3 as keterangan
         ");
     
@@ -812,8 +816,61 @@ class Report extends Controller
         ];
     
         $pdf = PDF::loadView('pdf.realisasi-spk', $data)->setPaper('a4', 'landscape');
+        
+        // Mengonversi PDF menjadi base64
+        $pdfBase64 = base64_encode($pdf->output());
     
-        return $pdf->download('Realisasi-SPK-' . now()->format('YmdHis') . '.pdf');
+        Log::info('PDF generated and converted to base64 successfully');
+    
+        // Kembalikan PDF sebagai base64 ke frontend
+        return response()->json(['pdf_base64' => $pdfBase64]);
     }
+    
+    public function exportXLSXRealisasiSPK(Request $request)
+    {
+        // Validasi dan session check sama seperti pada export PDF
+        if(Session()->get('username') == "") {
+            return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        // Query untuk mengambil data
+        $query = DB::connection('ts3')->table('mvm.v_service_history')->selectRaw("
+            nopol, norangka, nomesin, regional, area, branch as cabang, spk_no, service_no, 
+            tanggal_service, remark_ts3 as keterangan
+        ");
+    
+        if (!empty($request->from_date) && !empty($request->to_date)) {
+            $query->whereBetween('tanggal_service', [$request->from_date, $request->to_date]);
+        }
+        if (!empty($request->regional)) {
+            $query->where('regional', $request->regional);
+        }
+        if (!empty($request->spkno)) {
+            $query->where('spk_no', 'ILIKE', '%' . $request->spkno . '%');
+        }
+    
+        $service = $query->get();
+    
+        // Data yang akan dimasukkan ke dalam file XLSX
+        $data = [
+            'from_date' => $request->from_date,
+            'to_date' => $request->to_date,
+            'spkno' => $request->spkno,
+            'regional' => $request->regional,
+            'realisasi_spk' => $service
+        ];
+    
+        // Generate file XLSX
+        $file = Excel::raw(new \App\Exports\AdminTs3\RealisasiSPKExport($data, $data['from_date'], $data['to_date'], $data['spkno'], $data['regional']), \Maatwebsite\Excel\Excel::XLSX);
+    
+        // Encode file menjadi base64
+        $base64File = base64_encode($file);
+    
+        return response()->json([
+            'file' => $base64File,
+            'fileName' => 'Realisasi-SPK-' . now()->format('YmdHis') . '.xlsx'
+        ]);
+    }
+    
     
 }
