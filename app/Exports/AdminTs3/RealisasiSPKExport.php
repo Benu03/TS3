@@ -29,29 +29,36 @@ class RealisasiSPKExport implements FromCollection, WithHeadings, ShouldAutoSize
 
     public function collection()
     {
-        $realisasi_spk = $this->data['realisasi_spk'];
-
+        $realisasi_spk = $this->data['realisasi_spk']; // Data yang Anda terima
+        
         return $realisasi_spk->map(function ($item, $index) {
-            return [
-                'no' => $index + 1,
-                'nopol' => $item->nopol ?? '',
-                'norangka' => $item->norangka ?? '',
-                'nomesin' => $item->nomesin ?? '',
-                'regional' => $item->regional ?? '',
-                'area' => $item->area ?? '',
-                'cabang' => $item->cabang ?? '',
-                'spk_no' => $item->spk_no ?? '',
-                'service_no' => $item->service_no ?? '',
-                'tanggal_service' => $item->tanggal_service ?? '',
-                'keterangan' => $item->keterangan ?? '',
-            ];
+            // Pastikan $item adalah object, bukan string atau tipe lainnya
+            if (is_object($item)) {
+                return [
+                    'no' => $index + 1, // Menambahkan nomor urut
+                    'nopol' => $item->nopol,
+                    'norangka' => $item->norangka,
+                    'nomesin' => $item->nomesin,
+                    'regional' => $item->regional,
+                    'area' => $item->area,
+                    'cabang' => $item->cabang,
+                    'spk_no' => $item->spk_no,
+                    'service_no' => $item->service_no,
+                    'tanggal_service' => $item->tanggal_service,
+                    'keterangan' => $item->keterangan,
+                ];
+            }
+    
+            // Jika $item bukan object, return array kosong atau handle sesuai kebutuhan
+            return [];
         });
     }
 
+    // Definisikan headings untuk file XLSX
     public function headings(): array
     {
         return [
-            'No',
+            'No', // Kolom nomor urut
             'No Polisi',
             'No Rangka',
             'No Mesin',
@@ -130,9 +137,9 @@ class RealisasiSPKExport implements FromCollection, WithHeadings, ShouldAutoSize
                 ]);
                 $sheet->getStyle('A3:K3')->getAlignment()->setHorizontal('center');
 
-                // Borders
-                $lastRow = $this->data['realisasi_spk']->count() + 3; // Adjust for title and headers
-                $sheet->getStyle('A3:K' . $lastRow)->applyFromArray([
+                // Data Row Styling
+                $lastRow = $this->data['realisasi_spk']->count() + 3; // Adjust for title, headers, and additional info
+                $sheet->getStyle('A4:K' . $lastRow)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
