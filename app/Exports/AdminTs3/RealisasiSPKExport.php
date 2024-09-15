@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class RealisasiSPKExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithEvents
+class RealisasiSPKExport implements FromCollection, ShouldAutoSize, WithStyles, WithEvents
 {
     protected $data;
     protected $from_date;
@@ -29,53 +29,29 @@ class RealisasiSPKExport implements FromCollection, WithHeadings, ShouldAutoSize
 
     public function collection()
     {
-        $realisasi_spk = $this->data['realisasi_spk']; // Data yang Anda terima
-        
-        return $realisasi_spk->map(function ($item, $index) {
-            // Pastikan $item adalah object, bukan string atau tipe lainnya
-            if (is_object($item)) {
-                return [
-                    'no' => $index + 1, // Menambahkan nomor urut
-                    'nopol' => $item->nopol,
-                    'norangka' => $item->norangka,
-                    'nomesin' => $item->nomesin,
-                    'regional' => $item->regional,
-                    'area' => $item->area,
-                    'cabang' => $item->cabang,
-                    'spk_no' => $item->spk_no,
-                    'service_no' => $item->service_no,
-                    'tanggal_service' => $item->tanggal_service,
-                    'keterangan' => $item->keterangan,
-                ];
-            }
-    
-            // Jika $item bukan object, return array kosong atau handle sesuai kebutuhan
-            return [];
-        });
-    }
+        $realisasi_spk = $this->data['realisasi_spk'];
 
-    // Definisikan headings untuk file XLSX
-    public function headings(): array
-    {
-        return [
-            'No', // Kolom nomor urut
-            'No Polisi',
-            'No Rangka',
-            'No Mesin',
-            'Regional',
-            'Area',
-            'Cabang',
-            'SPK No',
-            'Service No',
-            'Tanggal Service',
-            'Keterangan'
-        ];
+        return $realisasi_spk->map(function ($item, $index) {
+            return [
+                'no' => $index + 1, // Nomor urut
+                'nopol' => $item->nopol,
+                'norangka' => $item->norangka,
+                'nomesin' => $item->nomesin,
+                'regional' => $item->regional,
+                'area' => $item->area,
+                'cabang' => $item->cabang,
+                'spk_no' => $item->spk_no,
+                'service_no' => $item->service_no,
+                'tanggal_service' => $item->tanggal_service,
+                'keterangan' => $item->keterangan,
+            ];
+        });
     }
 
     public function styles(Worksheet $sheet)
     {
         return [
-            3    => ['font' => ['bold' => true]], // Header table styling
+            3 => ['font' => ['bold' => true]], // Style untuk header di baris ke-3
         ];
     }
 
@@ -85,7 +61,7 @@ class RealisasiSPKExport implements FromCollection, WithHeadings, ShouldAutoSize
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet;
 
-                // Title
+                // Menulis judul di baris ke-1
                 $sheet->setCellValue('A1', 'REALISASI SPK');
                 $sheet->mergeCells('A1:K1');
                 $sheet->getStyle('A1')->applyFromArray([
@@ -100,7 +76,7 @@ class RealisasiSPKExport implements FromCollection, WithHeadings, ShouldAutoSize
                 ]);
                 $sheet->getRowDimension(1)->setRowHeight(30);
 
-                // Period and Regional Information
+                // Informasi tanggal dan regional di baris ke-2
                 $headerText = '';
                 if ($this->from_date && $this->to_date) {
                     $headerText .= "PERIOD {$this->from_date} SAMPAI {$this->to_date}\n";
@@ -123,29 +99,55 @@ class RealisasiSPKExport implements FromCollection, WithHeadings, ShouldAutoSize
                 ]);
                 $sheet->getRowDimension(2)->setRowHeight(60);
 
-                // Header Row Styling
+                // Menulis header di baris ke-3
+                $sheet->setCellValue('A3', 'No');
+                $sheet->setCellValue('B3', 'No Polisi');
+                $sheet->setCellValue('C3', 'No Rangka');
+                $sheet->setCellValue('D3', 'No Mesin');
+                $sheet->setCellValue('E3', 'Regional');
+                $sheet->setCellValue('F3', 'Area');
+                $sheet->setCellValue('G3', 'Cabang');
+                $sheet->setCellValue('H3', 'SPK No');
+                $sheet->setCellValue('I3', 'Service No');
+                $sheet->setCellValue('J3', 'Tanggal Service');
+                $sheet->setCellValue('K3', 'Keterangan');
+
+                // Style untuk header
                 $sheet->getStyle('A3:K3')->applyFromArray([
                     'fill' => [
                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        'startColor' => [
-                            'rgb' => '16A085'
-                        ]
+                        'startColor' => ['rgb' => '16A085']
                     ],
-                    'font' => [
-                        'color' => ['rgb' => 'FFFFFF']
-                    ]
+                    'font' => ['color' => ['rgb' => 'FFFFFF']],
+                    'alignment' => ['horizontal' => 'center']
                 ]);
-                $sheet->getStyle('A3:K3')->getAlignment()->setHorizontal('center');
 
-                // Data Row Styling
-                $lastRow = $this->data['realisasi_spk']->count() + 3; // Adjust for title, headers, and additional info
+                // Menulis data di baris ke-4
+                $row = 4;
+                foreach ($this->data['realisasi_spk'] as $index => $item) {
+                    $sheet->setCellValue('A' . $row, $index + 1);
+                    $sheet->setCellValue('B' . $row, $item->nopol);
+                    $sheet->setCellValue('C' . $row, $item->norangka);
+                    $sheet->setCellValue('D' . $row, $item->nomesin);
+                    $sheet->setCellValue('E' . $row, $item->regional);
+                    $sheet->setCellValue('F' . $row, $item->area);
+                    $sheet->setCellValue('G' . $row, $item->cabang);
+                    $sheet->setCellValue('H' . $row, $item->spk_no);
+                    $sheet->setCellValue('I' . $row, $item->service_no);
+                    $sheet->setCellValue('J' . $row, $item->tanggal_service);
+                    $sheet->setCellValue('K' . $row, $item->keterangan);
+                    $row++;
+                }
+
+                // Style untuk data
+                $lastRow = $row - 1;
                 $sheet->getStyle('A4:K' . $lastRow)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
                             'color' => ['rgb' => '000000'],
-                        ],
-                    ],
+                        ]
+                    ]
                 ]);
             }
         ];
