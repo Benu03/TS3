@@ -64,7 +64,7 @@
                     <td>{{ $item->cabang }}</td>
                     <td>{{ $item->spk_no }}</td>
                     <td>{{ $item->tanggal_service }}</td>
-                    <td>{{ $item->remark }}</td>
+                    <td>{{ $item->keterangan }}</td>
                 </tr>
             @endforeach
         </tbody>

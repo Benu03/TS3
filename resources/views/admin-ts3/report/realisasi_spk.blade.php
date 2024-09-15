@@ -63,7 +63,7 @@
                             <i class="far fa-file-pdf"></i> PDF 
                           </button>
                    
-                        <button type="button" name="export" id="export" class="btn btn-success" value="Export Data">
+                        <button type="button" name="export" id="export-xlsx" class="btn btn-success" value="Export Data">
                             <i class="far fa-file-excel"></i> XLSX 
                           </button>
                  
@@ -241,7 +241,7 @@
 </script>
 
 <script>
-$('#export-pdf').click(function() {
+       $('#export-pdf').click(function() {
     var from_date = $('#from_date').val();
     var to_date = $('#to_date').val();
     var spkno = $('#spkno').val();
@@ -249,12 +249,69 @@ $('#export-pdf').click(function() {
 
     if (from_date !== '' || to_date !== '' || spkno !== '' || regional !== null) {
         var downloadButton = $('#export-pdf');
-        downloadButton.text('Downloading...');
+        downloadButton.html('<i class="fa fa-spinner fa-spin"></i> Downloading...');
+        downloadButton.attr('disabled', true);
+    } else {
+        swal('Oops..', 'Filter belum diinput', 'warning');
+        return; // Stop further execution if no filters are provided
+    }
+
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+        url: "{{ url('admin-ts3/export-realisasi-spk-pdf') }}",
+        type: "POST",
+        data: {
+            from_date: from_date,
+            to_date: to_date,
+            spkno: spkno,
+            regional: regional
+        },
+        success: function(response) {
+            if (response.pdf_base64) { // Pastikan server mengembalikan base64 string
+                var base64PDF = response.pdf_base64;
+                var linkSource = 'data:application/pdf;base64,' + base64PDF;
+                var downloadLink = document.createElement('a');
+                var fileName = 'Realisasi-SPK-' + new Date().toISOString().slice(0, 10) + '.pdf';
+                
+                downloadLink.href = linkSource;
+                downloadLink.download = fileName;
+                downloadLink.click();
+
+                downloadButton.html('<i class="far fa-file-pdf"></i> PDF');
+                downloadButton.attr('disabled', false);
+            } else {
+                swal('Oops..', 'Terjadi kesalahan saat memproses permintaan.', 'error');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            swal('Oops..', 'Terjadi kesalahan saat memproses permintaan.', 'error');
+            downloadButton.html('Export PDF');
+            downloadButton.attr('disabled', false);
+        }
+    });
+});
+
+
+</script>
+
+<script>
+    $('#export-xlsx').click(function() {
+    var from_date = $('#from_date').val();
+    var to_date = $('#to_date').val();
+    var spkno = $('#spkno').val();
+    var regional = $('#regional').val();
+
+    // Validasi input sama seperti di PDF
+    if (from_date !== '' || to_date !== '' || spkno !== '' || regional !== null) {
+        var downloadButton = $('#export-xlsx');
+        downloadButton.html('<i class="far fa-file-excel"></i> Downloading...');
         downloadButton.attr('disabled', true);
 
+        // Kirim permintaan POST ke server untuk generate XLSX
         $.ajax({
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-            url: "{{ url('admin-ts3/export-realisasi-spk') }}",
+            url: "{{ url('admin-ts3/export-realisasi-spk-xlsx') }}",
             type: "POST",
             data: {
                 from_date: from_date,
@@ -262,158 +319,30 @@ $('#export-pdf').click(function() {
                 spkno: spkno,
                 regional: regional
             },
-            xhrFields: {
-                responseType: 'blob' // Respons dalam bentuk blob untuk mendownload file
-            },
             success: function(response) {
-                var blob = new Blob([response], { type: 'application/pdf' });
+                // Proses file base64 untuk di-download
                 var link = document.createElement('a');
-                var url = window.URL.createObjectURL(blob);
-                link.href = url;
-                link.download = 'Realisasi-SPK-' + new Date().toISOString().slice(0, 10) + '.pdf';
-                document.body.appendChild(link);
+                link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + response.file;
+                link.download = response.fileName;
                 link.click();
-                setTimeout(function() {
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(url);
-                }, 0);
 
-                setTimeout(function() {
-                    downloadButton.html('<i class="far fa-file-pdf"></i> Export PDF');
-                    downloadButton.attr('disabled', false);
-                }, 1000); // Durasi animasi dalam milidetik
+                downloadButton.html('<i class="far fa-file-excel"></i> XLSX');
+                downloadButton.attr('disabled', false);
             },
             error: function(xhr, status, error) {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    var errorMessage = reader.result;
-                    swal('Oops..', 'Terjadi kesalahan saat memuat data: ' + errorMessage, 'error');
-                };
-                reader.onerror = function() {
-                    swal('Oops..', 'Terjadi kesalahan saat membaca respons error.', 'error');
-                };
-                
-                // Cek apakah respons adalah Blob atau bukan
-                if (xhr.response instanceof Blob) {
-                    reader.readAsText(xhr.response);
-                } else {
-                    swal('Oops..', 'Terjadi kesalahan saat memuat data.', 'error');
-                }
-                
-                downloadButton.html('<i class="far fa-file-pdf"></i> Export PDF');
+                console.error('Error: ', error);
+                swal('Oops..', 'Terjadi kesalahan saat memproses permintaan.', 'error');
+                downloadButton.html('<i class="far fa-file-excel"></i> XLSX');
                 downloadButton.attr('disabled', false);
             }
         });
     } else {
-        swal('Oops..', 'Filter Belum Di input', 'warning');
+        swal('Oops..', 'Filter belum diinput', 'warning');
     }
 });
 
 
-
 </script>
 
 
-
-
-
-
-<script>
-    $('#export').click(async function() {
-        var from_date = $('#from_date').val();
-        var to_date = $('#to_date').val();
-        var spkno = $('#spkno').val();
-        var regional = $('#regional').val();
-
-        if (from_date !== '' || to_date !== '' || spkno !== '' || regional !== '') {
-            var downloadButton = $('#export');
-            downloadButton.text('Downloading...');
-            downloadButton.attr('disabled', true);
-
-            try {
-                const response = await $.ajax({
-                    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                    url: "{{ url('admin-ts3/export-realisasi-spk') }}",
-                    type: "POST",
-                    data: {
-                        from_date: from_date,
-                        to_date: to_date,
-                        spkno: spkno,
-                        regional: regional
-                    }
-                });
-
-                const workbook = new ExcelJS.Workbook();
-                const worksheet = workbook.addWorksheet('Sheet1');
-
-                // Menentukan header text
-                let headerText = 'REALISASI SPK';
-                if (from_date && to_date) {
-                    headerText = `REALISASI SPK PERIOD ${from_date} SAMPAI ${to_date}`;
-                }
-                if (from_date && to_date && spkno) {
-                    headerText = `REALISASI SPK PERIOD ${from_date} SAMPAI ${to_date}\n${spkno}`;
-                }
-                if (from_date && to_date && regional) {
-                    headerText = `REALISASI SPK PERIOD ${from_date} SAMPAI ${to_date}\n${regional}`;
-                }
-                if (regional && !from_date && !to_date) {
-                    headerText = `REALISASI SPK ${regional}`;
-                }
-
-                // Menambahkan header text
-                worksheet.addRow([headerText]).font = { bold: true, size: 14 };
-                worksheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
-
-                // Menggabungkan sel A1 hingga J1 (10 kolom)
-                worksheet.mergeCells('A1:J1');
-
-                // Menambahkan baris kosong setelah header teks
-                worksheet.addRow([]);
-
-                // Menambahkan header kolom di A3
-                worksheet.addRow(['No', 'No Polisi', 'No Rangka', 'No Mesin', 'Regional', 'Area', 'Cabang', 'SPK No', 'Tanggal Service', 'Keterangan'])
-                          .font = { bold: true };
-                worksheet.getRow(3).alignment = { horizontal: 'center', vertical: 'middle' };
-
-                // Menambahkan data di baris ke-4
-                response.data.forEach((item, index) => {
-                    worksheet.addRow([
-                        index + 1,
-                        item.nopol,
-                        item.norangka,
-                        item.nomesin,
-                        item.regional,
-                        item.area,
-                        item.cabang,
-                        item.spk_no,
-                        item.tanggal_service,
-                        item.remark
-                    ]);
-                });
-
-                // Mengatur lebar kolom otomatis
-                worksheet.columns.forEach(column => {
-                    const maxLength = column.values.reduce((max, val) => Math.max(max, String(val).length), 0);
-                    column.width = maxLength + 2; // Adding extra space for padding
-                });
-
-                // Menyimpan file
-                const buffer = await workbook.xlsx.writeBuffer();
-                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                saveAs(blob, `Realisasi-SPK-${new Date().toISOString().slice(0, 19).replace(/[-T:]/g, '')}.xlsx`);
-
-                // Mengembalikan tombol ke kondisi semula
-                downloadButton.html('<i class="far fa-file-excel"></i> Export');
-                downloadButton.attr('disabled', false);
-            } catch (error) {
-                swal('Oops..', 'Terjadi kesalahan saat memuat data.', 'error');
-                downloadButton.html('<i class="far fa-file-excel"></i> Export');
-                downloadButton.attr('disabled', false);
-            }
-        } else {
-            swal('Oops..', 'Filter harus diisi.', 'warning');
-        }
-    });
-</script>
 

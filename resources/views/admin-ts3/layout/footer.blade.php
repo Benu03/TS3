@@ -32,7 +32,7 @@ tinymce.init({
 
 <?php 
 $sek  = date('Y');
-$awal = $sek-100;
+$awal = $sek-5;
 ?>
 
 <script>
@@ -45,7 +45,7 @@ $awal = $sek-100;
     changeYear: true,
     changeMonth: true,
     dateFormat: "dd-mm-yy",
-    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
+    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+5; echo $tahundepan; ?>"
   });
 
   $( ".tanggal" ).datepicker({
@@ -53,7 +53,7 @@ $awal = $sek-100;
     changeYear: true,
     changeMonth: true,
     dateFormat: "yy-mm-dd",
-    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
+    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+5; echo $tahundepan; ?>"
   });
 
 
@@ -63,7 +63,7 @@ $awal = $sek-100;
     changeYear: true,
     changeMonth: true,
     dateFormat: "MM yy",
-    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>",
+    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+5; echo $tahundepan; ?>",
     beforeShow: function (input, inst) {
         setTimeout(function () {
             inst.dpDiv.find('.ui-datepicker-calendar').hide();
@@ -82,7 +82,7 @@ $awal = $sek-100;
     changeYear: true,
     changeMonth: true,
     dateFormat: "dd-mm-yy",
-    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+2; echo $tahundepan; ?>"
+    yearRange: "<?php echo $awal ?>:<?php $tahundepan = date('Y')+5; echo $tahundepan; ?>"
   });
 
 </script>
