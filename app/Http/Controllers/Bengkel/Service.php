@@ -344,7 +344,7 @@ class Service extends Controller
         $storagePath =   $image->source.'/'.$image->unique_data;
 
         if(!file_exists($storagePath))
-        return redirect('pic/list-service')->with(['warning' => 'Fila Tidak Di temukan']);
+        return redirect('pic/list-service')->with(['warning' => 'File Tidak Di temukan']);
         
         else{
             return response()->file($storagePath);

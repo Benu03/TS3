@@ -25,19 +25,27 @@ class Spk extends Controller
             $last_page = url()->full();
             return redirect('login?redirect='.$last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
         }
-        $countspkplan = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')->wherein('status_service',['PLANING'])->count();
-        $countspkonchecldule = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')->wherein('status_service',['ONSCHEDULE'])->count();
-        $countspkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')->wherein('status_service',['SERVICE'])->count();
+        $countspk = DB::connection('ts3')->table('mvm.v_spk_detail')
+             ->select(
+                 DB::raw("COUNT(CASE WHEN status_service = 'PLANING' THEN 1 END) as countspkplan"),
+                 DB::raw("COUNT(CASE WHEN status_service = 'ONSCHEDULE' THEN 1 END) as countspkonchecldule"),
+                 DB::raw("COUNT(CASE WHEN status_service = 'SERVICE' THEN 1 END) as countspkservice")
+             )
+             ->where('spk_status', 'ONPROGRESS')
+             ->first();
+             
+             $countspkplan = $countspk->countspkplan;
+             $countspkonchecldule = $countspk->countspkonchecldule;
+             $countspkservice = $countspk->countspkservice;
 
-
-        $spkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')
-        ->wherein('status_service',['PLANING', 'ONSCHEDULE','SERVICE'])->orderByRaw('tanggal_schedule')->get();
+        // $spkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')
+        // ->wherein('status_service',['PLANING', 'ONSCHEDULE','SERVICE'])->orderByRaw('tanggal_schedule')->get();
         $bengkel 	= DB::connection('ts3')->table('mst.v_bengkel')->get();
 		$data = array(   'title'     => 'SPK List Service',
                          'countspkplan'      => $countspkplan,
                          'countspkonchecldule'      => $countspkonchecldule,
                          'countspkservice'      => $countspkservice,
-                         'spkservice'      => $spkservice,
+                        //  'spkservice'      => $spkservice,
                          'bengkel'  => $bengkel,
                         'content'   => 'admin-ts3/spk/spk_list'
                     );

@@ -78,12 +78,28 @@
 <div class="clearfix"><hr></div>
 
 
-<p>
-    <button type="button" class="btn btn-warning" name="proses_service" onClick="check();"   data-toggle="modal" data-target="#ProsesSpkService" >
-        <i class="fa fa-edit"> </i> Proses Mapping Service
-    </button> 
-    @include('admin-ts3/spk/spk_service_proses') 
-</p>
+<div class="d-flex justify-content-between mb-2">
+    <div>
+        <button type="button" class="btn btn-warning" name="proses_service" onClick="check();" data-toggle="modal" data-target="#ProsesSpkService">
+            <i class="fa fa-edit"></i> Proses Mapping Service
+        </button>
+        @include('admin-ts3/spk/spk_service_proses')
+    </div>
+
+    <div>
+        {{-- <button type="button" class="btn btn-info" name="add_service" onClick="Addservice();" data-toggle="modal" data-target="#AddService">
+            <i class="fa fa-cart-plus"></i> Add Vehicle Service
+        </button> --}}
+
+
+        <button type="button" class="btn" style="background-color: #d240ff; color: white;" name="add_service" onClick="Addservice();" data-toggle="modal" data-target="#AddService"> 
+            <i class="fa fa-cart-plus"></i> Add Vehicle Service
+</button>
+        @include('admin-ts3/spk/spk_service_add_extend')
+    </div>
+</div>
+
+
 <div class="table-responsive mailbox-messages">
     <div class="table-responsive mailbox-messages">
         <table id="dataTable" class="display table table-bordered" cellspacing="0" width="100%">
