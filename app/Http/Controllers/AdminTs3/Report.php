@@ -104,7 +104,7 @@ class Report extends Controller
         $storagePath =  $image->source.'/'.$image->unique_data;
 
         if(!file_exists($storagePath))
-        return redirect('admin-ts3/history_service')->with(['warning' => 'Fila Tidak Di temukan']);
+        return redirect('admin-ts3/history_service')->with(['warning' => 'File Tidak Di temukan']);
         
         else{
             return response()->file($storagePath);
