@@ -613,7 +613,8 @@ class Spk extends Controller
 
              
             $check = DB::connection('ts3')->table('mvm.mvm_spk_d')->where('spk_no',$spkh->spk_no)->where('nopol',$request->input('nopol_ext'))->first();
-            if ($spkh) {
+        
+            if ($check) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Nopol Kendaraan sudah di SPK terkait'
