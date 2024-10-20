@@ -41,12 +41,25 @@ class Spk extends Controller
         // $spkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')
         // ->wherein('status_service',['PLANING', 'ONSCHEDULE','SERVICE'])->orderByRaw('tanggal_schedule')->get();
         $bengkel 	= DB::connection('ts3')->table('mst.v_bengkel')->get();
+
+        $spkonprogress = DB::connection('ts3')
+        ->table('mvm.mvm_spk_h')
+        ->where('status', 'ONPROGRESS')
+        ->orderBy('id', 'desc') 
+        ->get();
+        
+        $nopol 	= DB::connection('ts3')->table('mst.mst_vehicle')->get();
+        $cabang 	= DB::connection('ts3')->table('mst.v_branch_client')->get();
+
+        
 		$data = array(   'title'     => 'SPK List Service',
                          'countspkplan'      => $countspkplan,
                          'countspkonchecldule'      => $countspkonchecldule,
                          'countspkservice'      => $countspkservice,
-                        //  'spkservice'      => $spkservice,
                          'bengkel'  => $bengkel,
+                         'spkonprogress'  => $spkonprogress,
+                         'nopol'  => $nopol,
+                         'cabang'  => $cabang,
                         'content'   => 'admin-ts3/spk/spk_list'
                     );
         return view('admin-ts3/layout/wrapper',$data);
@@ -565,5 +578,89 @@ class Spk extends Controller
         }
     }
 
+
+    public function spk_proses_extend(Request $request)
+    {
+
+        if (session()->get('username') == "") {
+            return redirect('login')->with(['warning' => 'Mohon maaf, Anda belum login']);
+        }
+    
+        $validatedData = $request->validate([
+            'spk_no_ext' => 'required',
+            'nopol_ext' => 'required',
+            'tanggal_schedule_ext' => 'required|date',
+            'mst_bengkel_id_etx' => 'required',
+            'cabang_id_etx' => 'required',
+            'remark_ext' => 'nullable|string',
+        ]);
+
+
+        Log::info($request);
+
+        DB::connection('ts3')->beginTransaction();
+        
+        try {
+
+            $spkh = DB::connection('ts3')->table('mvm.mvm_spk_h')->where('id', $request->input('spk_no_ext'))->first();
+
+            if (!$spkh) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'SPK tidak ditemukan'
+                ], 404);
+            }
+
+             
+            $check = DB::connection('ts3')->table('mvm.mvm_spk_d')->where('spk_no',$spkh->spk_no)->where('nopol',$request->input('nopol_ext'))->first();
+        
+            if ($check) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Nopol Kendaraan sudah di SPK terkait'
+                ], 404);
+            }
+
+
+        
+            DB::connection('ts3')->table('mvm.mvm_spk_d')->insert([
+                'spk_seq'       => $spkh->spk_seq,
+                'spk_no'        => $spkh->spk_no,
+                'nopol'         => $request->input('nopol_ext'),
+                'mst_branch_id' => $request->input('cabang_id_etx'),
+                'status_service' => 'ONSCHEDULE',
+                'tanggal_schedule'   => $request->input('tanggal_schedule_ext'),
+                'mst_bengkel_id'   =>  $request->input('mst_bengkel_id_etx'),
+                'remark_ts3'        => $request->input('remark_ext'),
+                'created_date'  => now(),
+                'create_by'     => session()->get('username'),
+                'source'        => 'Group'
+            ]);
+        
+            DB::connection('ts3')->table('mvm.mvm_spk_h')
+                ->where('id', $request->input('spk_no_ext'))
+                ->increment('count_vehicle');
+        
+            DB::connection('ts3')->commit();
+        
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data berhasil ditambahkan'
+            ]);
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat menambahkan data'
+            ], 500);
+        }
+
+
+
+    }
+    
    
 }

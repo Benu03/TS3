@@ -227,6 +227,7 @@ Route::group(['middleware' => ['admints3']],function(){
     Route::get('admin-ts3/spk-list', 'App\Http\Controllers\AdminTs3\Spk@spk_list');
     Route::get('admin-ts3/spk-file/{par1}', 'App\Http\Controllers\AdminTs3\Spk@spk_file');
     Route::post('admin-ts3/spk-proses', 'App\Http\Controllers\AdminTs3\Spk@spk_proses');
+    Route::post('admin-ts3/spk-proses-extend', 'App\Http\Controllers\AdminTs3\Spk@spk_proses_extend');
     Route::get('admin-ts3/spk-status', 'App\Http\Controllers\AdminTs3\Spk@spk_status');
     Route::get('admin-ts3/invoice', 'App\Http\Controllers\AdminTs3\Invoice@index');
     Route::get('admin-ts3/get-spk-list', 'App\Http\Controllers\AdminTs3\Spk@GetSpkList');
