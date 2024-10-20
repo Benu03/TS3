@@ -92,7 +92,7 @@
         </button> --}}
 
 
-        <button type="button" class="btn" style="background-color: #d240ff; color: white;" name="add_service" onClick="Addservice();" data-toggle="modal" data-target="#AddService"> 
+        <button type="button" class="btn" style="background-color: #d240ff; color: white;" name="add_service"  data-toggle="modal" data-target="#AddService"> 
             <i class="fa fa-cart-plus"></i> Add Vehicle Service
 </button>
         @include('admin-ts3/spk/spk_service_add_extend')
