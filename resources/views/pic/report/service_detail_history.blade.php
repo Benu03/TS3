@@ -128,9 +128,10 @@
 																	<td>
 																	@if($sd->detail_type == 'Upload')
 																										
-																	<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailImage<?php echo $sd->service_d_id ?>">
-																		<i class="fa fa-eye"></i>  <?php echo $sd->attribute ?>
-																	 </button>   
+																	<button type="button" class="btn btn-success btn-sm" onclick="showModal(<?php echo $sd->service_d_id ?>, '<?php echo $sd->attribute ?>', '<?php echo strtolower(pathinfo($sd->unique_data, PATHINFO_EXTENSION)) ?>')">
+																		<i class="fa fa-eye"></i> <?php echo $sd->attribute ?>
+																	</button>
+															   
 															   
 																	 @include('pic/report/service_image_history') 
 																	@else
