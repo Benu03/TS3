@@ -95,10 +95,10 @@ class Report extends Controller
 
     public function get_image_service_detail($id)
     {
-        if (Session()->get('username') == "") {
-            $last_page = url()->full();
-            return redirect('login?redirect=' . $last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
-        }
+        // if (Session()->get('username') == "") {
+        //     $last_page = url()->full();
+        //     return redirect('login?redirect=' . $last_page)->with(['warning' => 'Mohon maaf, Anda belum login']);
+        // }
     
         $item = DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->where('unique_data', $id)->first();
     
