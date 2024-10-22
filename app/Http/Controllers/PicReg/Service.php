@@ -333,12 +333,15 @@ class Service extends Controller
                                                                             
                                                                     if ($ind->detail_type == 'Upload') {
                                                                         $modal .= '
-                                                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailImage' . $ind->service_d_id . '">
-                                                                                <i class="fa fa-eye"></i> ' . $ind->attribute . '
-                                                                            </button>';
-                                                                        
+                                                                        <button type="button" class="btn btn-success btn-sm" 
+                                                                            onclick="showModal(' . $ind->service_d_id . ', \'' . $ind->attribute . '\', \'' . strtolower(pathinfo($ind->unique_data, PATHINFO_EXTENSION)) . '\')">
+                                                                            <i class="fa fa-eye"></i> ' . $ind->attribute . '
+                                                                        </button>';
+                                                                   
+                                                                 
+                                                                         
                                                                         // Include the content of the modal directly here
-                                                                        $modal .= view('pic-regional.service.service_image_history', ['ind' => $ind])->render();
+                                                                        $modal .= view('pic-regional.service.service_image_history_new', ['ind' => $ind])->render();
                                                                     } else {
                                                                         $modal .= $ind->attribute;
                                                                     }

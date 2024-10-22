@@ -502,12 +502,12 @@ class Service extends Controller
                                                                             
                                                                     if ($ind->detail_type == 'Upload') {
                                                                         $modal .= '
-                                                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailImage' . $ind->service_d_id . '">
-                                                                                <i class="fa fa-eye"></i> ' . $ind->attribute . '
-                                                                            </button>';
-                                                                        
-                                                                        // Include the content of the modal directly here
-                                                                        $modal .= view('pic.service.service_image_history', ['ind' => $ind])->render();
+                                                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailImage' . $ind->service_d_id . '">
+                                                                            <i class="fa fa-eye"></i> ' . $ind->attribute . '
+                                                                        </button>';
+                                                                    
+                                                                    // Include the content of the modal directly here
+                                                                    $modal .= view('pic.service.service_image_history', ['ind' => $ind])->render();
                                                                     } else {
                                                                         $modal .= $ind->attribute;
                                                                     }
