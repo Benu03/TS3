@@ -384,7 +384,7 @@ class Service extends Controller
                
                 $modal = '
                 <div class="modal fade" id="vehicle' . $row->id . '" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style="max-width:1200px; max-height:1200px;">
+                    <div class="modal-dialog" style="max-width:1500px; max-height:1500px;">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title mr-4" id="myModalLabel">Detail (' . $row->nopol . ')</h4>
@@ -502,12 +502,15 @@ class Service extends Controller
                                                                             
                                                                     if ($ind->detail_type == 'Upload') {
                                                                         $modal .= '
-                                                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#DetailImage' . $ind->service_d_id . '">
+                                                                        <button type="button" class="btn btn-success btn-sm" 
+                                                                            onclick="showModal(' . $ind->service_d_id . ', \'' . $ind->attribute . '\', \'' . strtolower(pathinfo($ind->unique_data, PATHINFO_EXTENSION)) . '\')">
                                                                             <i class="fa fa-eye"></i> ' . $ind->attribute . '
                                                                         </button>';
-                                                                    
-                                                                    // Include the content of the modal directly here
-                                                                    $modal .= view('pic.service.service_image_history', ['ind' => $ind])->render();
+                                                                   
+                                                                 
+                                                                         
+                                                                        // Include the content of the modal directly here
+                                                                        $modal .= view('pic.service.service_image_history_new', ['ind' => $ind])->render();
                                                                     } else {
                                                                         $modal .= $ind->attribute;
                                                                     }
