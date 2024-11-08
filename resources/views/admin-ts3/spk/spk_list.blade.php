@@ -17,62 +17,40 @@
 
 
     <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box mb-3">
-        <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-tools"></i></span>
-        
-        <div class="info-box-content">
-            <span class="info-box-text">
-                PLAN
-            </span>
-            <span class="info-box-number">
-                {{ $countspkplan }} 
-            {{-- <small>Sudah Dipublikasikan</small> --}}
-            </span>
+        <div class="info-box mb-3" id="filter-plan">
+            <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-tools"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">PLAN</span>
+                <span class="info-box-number">{{ $countspkplan }}</span>
+            </div>
         </div>
-        <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
     </div>
-
+    
     <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box mb-3">
-        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-tools"></i></span>
-        
-        <div class="info-box-content">
-            <span class="info-box-text">
-                ON SCHEDULE
-            </span>
-            <span class="info-box-number">
-                {{ $countspkonchecldule }} 
-            {{-- <small>Sudah Dipublikasikan</small> --}}
-            </span>
+        <div class="info-box mb-3" id="filter-on-schedule">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-tools"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">ON SCHEDULE</span>
+                <span class="info-box-number">{{ $countspkonchecldule }}</span>
+            </div>
         </div>
-        <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
     </div>
-
+    
     <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box mb-3">
-        <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-tools"></i></span>
-        
-        <div class="info-box-content">
-            <span class="info-box-text">
-                SERVICE
-            </span>
-            <span class="info-box-number">
-                {{ $countspkservice }} 
-            {{-- <small>Sudah Dipublikasikan</small> --}}
-            </span>
+        <div class="info-box mb-3" id="filter-service">
+            <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-tools"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">SERVICE</span>
+                <span class="info-box-number">{{ $countspkservice }}</span>
+            </div>
         </div>
-        <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
+    </div>
+    
+    <div class="col-12 col-sm-6 col-md-3 ml-auto d-flex justify-content-end align-items-center">
+        <button id="refreshTable" class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Refresh</button>
     </div>
 
-              
-
-
+    <input type="hidden" id="filter-status">
 </div>
 
 <div class="clearfix"><hr></div>
@@ -247,102 +225,98 @@
 </form>
 
 
-
 <script type="text/javascript">
     $(document).ready(function() { 
-        fetch_data()
-        function fetch_data(){                    
-                $('#dataTable').DataTable({
-                    pageLength: 10,
-                    lengthChange: true,
-                    bFilter: true,
-                    destroy: true,
-                    processing: true,
-                    serverSide: true,
-                    oLanguage: {
-                        sZeroRecords: "Tidak Ada Data",
-                        sSearch: "Pencarian _INPUT_",
-                        sLengthMenu: "_MENU_",
-                        sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                        sInfoEmpty: "0 data",
-                        oPaginate: {
-                            sNext: "<i class='fa fa-angle-right'></i>",
-                            sPrevious: "<i class='fa fa-angle-left'></i>"
-                        }
-                    },
-                    ajax: {
-                        url:"{{  asset('admin-ts3/get-spk-list') }}",
-                        type: "GET"
-                             
-                    },
-                    columns: [
-                        { 
-                            data: 'check', 
-                            name: 'check', 
-                            className: "text-center",
-                            orderable: false, 
-                            searchable: false
-                        },
-                        {
-                            name: 'source',
-                            data: 'source'
-                        },
-                        {
-                            name: 'nopol',
-                            data: 'nopol'
-                        },
-                        {
-                            name: 'tgl_last_service',
-                            data: 'tgl_last_service'
-                        },
-                        {
-                            name: 'branch',
-                            data: 'branch'
-                        },
-                        {
-                            name: 'status_service',
-                            data: 'status_service'
-                        },
-                        {
-                            name: 'tanggal_schedule',
-                            data: 'tanggal_schedule'
-                        },
-                        {
-                            name: 'bengkel_name',
-                            data: 'bengkel_name'
-                        },
-                        {
-                            name: 'tanggal_service',
-                            data: 'tanggal_service'
-                        },
-                        {
-                            data: 'action', 
-                            name: 'action', 
-                            className: "text-center",
-                            orderable: false, 
-                            searchable: false
-                           
-                        },
-                    ]
-                });
-            }         
-    });
+        var table;  // Deklarasikan `table` sebagai variabel global
 
-       // Edit button click event
-       $('body').on('click', '.spklistdetail', function () {
+        fetch_data();
+
+        // Fungsi untuk memuat DataTables
+        function fetch_data(){                    
+            table = $('#dataTable').DataTable({
+                pageLength: 10,
+                lengthChange: true,
+                bFilter: true,
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                oLanguage: {
+                    sZeroRecords: "Tidak Ada Data",
+                    sSearch: "Pencarian _INPUT_",
+                    sLengthMenu: "_MENU_",
+                    sInfo: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                    sInfoEmpty: "0 data",
+                    oPaginate: {
+                        sNext: "<i class='fa fa-angle-right'></i>",
+                        sPrevious: "<i class='fa fa-angle-left'></i>"
+                    }
+                },
+                ajax: {
+                    url: "{{ asset('admin-ts3/get-spk-list') }}",
+                    type: "GET",
+                    data: function(d) {
+          
+                        d.status_service = $('#filter-status').val(); 
+                    }
+                },
+                columns: [
+                    { 
+                        data: 'check', 
+                        name: 'check', 
+                        className: "text-center",
+                        orderable: false, 
+                        searchable: false
+                    },
+                    { name: 'source', data: 'source' },
+                    { name: 'nopol', data: 'nopol' },
+                    { name: 'tgl_last_service', data: 'tgl_last_service' },
+                    { name: 'branch', data: 'branch' },
+                    { name: 'status_service', data: 'status_service' },
+                    { name: 'tanggal_schedule', data: 'tanggal_schedule' },
+                    { name: 'bengkel_name', data: 'bengkel_name' },
+                    { name: 'tanggal_service', data: 'tanggal_service' },
+                    { 
+                        data: 'action', 
+                        name: 'action', 
+                        className: "text-center",
+                        orderable: false, 
+                        searchable: false
+                    }
+                ]
+            });
+        }
+
+        $('#filter-plan').click(function() {
+            $('#filter-status').val('PLANING');  // Set filter status
+            table.draw();  // Redraw table untuk menerapkan filter
+        });
+
+        // Klik filter On Schedule
+        $('#filter-on-schedule').click(function() {
+            $('#filter-status').val('ONSCHEDULE');  // Set filter status
+            table.draw();  // Redraw table untuk menerapkan filter
+        });
+
+        // Klik filter Service
+        $('#filter-service').click(function() {
+            $('#filter-status').val('SERVICE');  // Set filter status
+            table.draw();  // Redraw table untuk menerapkan filter
+        });
+
+        $('#refreshTable').click(function() {
+            $('#filter-status').val('');  // Set filter status
+            table.draw();  // Redraw table untuk menerapkan filter
+        });
+
+
+        // Edit button click event
+        $('body').on('click', '.spklistdetail', function () {
             var id = $(this).data('id');
-            $.get("{{  asset('admin-ts3/get-spk-list-detail') }}" + '/' + id, 
+            $.get("{{ asset('admin-ts3/get-spk-list-detail') }}" + '/' + id, 
             function (data) {
                 console.log(data);
                 $('#nopol').text(data.nopol);
-          
-                if (data.source == 'Group') {
-                    $('#source').text(data.source);
-                } else {
-                    $('#source').text('');
-                }
-
-
+                $('#source').text(data.source === 'Group' ? data.source : '');
                 $('#spk_no').text(data.spk_no);
                 $('#norangka').text(data.norangka);
                 $('#nomesin').text(data.nomesin);
@@ -359,8 +333,10 @@
                 $('#remark').text(data.remark);
                 $('#remark_ts3').text(data.remark_ts3);
                 $('#spkListdetail').modal('show');
-            })
+            });
         });
+    });
+</script>
 
-    </script>
+
 

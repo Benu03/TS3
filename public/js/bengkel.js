@@ -30,7 +30,7 @@ $(document).ready(function () {
         }
 
         if (selectedpekerjaan.has(pekerjaanId)) {
-            swal("Error", "Pekerjaan Usdah ada.", "error");
+            swal("Error", "Pekerjaan Sudah ada.", "error");
             return;
         }
 

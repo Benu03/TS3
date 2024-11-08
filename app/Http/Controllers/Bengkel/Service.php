@@ -94,132 +94,233 @@ class Service extends Controller
             'mekanik' 	   => 'required',
             ]);
 
-        $service_no = 'MVM-'.$request->nopol.'-'.date("Ymd");
+     
         $bengkel 	= DB::connection('ts3')->table('mst.mst_bengkel')->where('pic_bengkel',Session()->get('username'))->first();
-
+        $service_no = 'MVM-'.$request->nopol.'-'.date("Ymd");
 
         try {
             DB::beginTransaction();
-            $service_id =   DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->insertGetId([
-                'mvm_spk_d_id'   => $request->id,
-                'tanggal_service'	=> $request->tanggal_service,
-                'nama_driver'	=> $request->nama_driver,
-                'last_km'	=> $request->last_km,
-                'mekanik'	=> $request->mekanik,
-                'created_date'    => date("Y-m-d h:i:sa"),
-                'user_created'     => $request->session()->get('username'),
-                'service_no'	=> $service_no,
-                'remark_driver' => $request->remark_driver,
-                'pic_branch' => $request->pic_branch
-            ]); 
 
-           
-        
-                // Mengolah pekerjaan_data
-            foreach ($request->pekerjaan_data as $data) {
-                // Mengurai data JSON
-                $parsedData = json_decode($data, true);
+            $pekerjaanData = json_decode($request->pekerjaan_data[0], true); 
+            
+            if (isset($pekerjaanData['id']) && $pekerjaanData['id'] === 'NO SERVICE') {
+                $noService = $pekerjaanData['id'];
+              
+                $service_id =   DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->insertGetId([
+                    'mvm_spk_d_id'   => $request->id,
+                    'tanggal_service'	=> $request->tanggal_service,
+                    'nama_driver'	=> $request->nama_driver,
+                    'last_km'	=> $request->last_km,
+                    'mekanik'	=> $request->mekanik,
+                    'created_date'    => date("Y-m-d h:i:sa"),
+                    'user_created'     => $request->session()->get('username'),
+                    'service_no'	=> $service_no,
+                    'remark_driver' => $request->remark_driver,
+                    'pic_branch' => $request->pic_branch,
+                    'status' => 'NO SERVICE'
+                ]); 
+
+
+                $uploadedFilenames = [];
+    
+                foreach($request->upload_data as $key => $data){
+    
+                    $destinationPath =storage_path('data/service/'.date("Y").'/'.date("m").'/').$service_no;
+                    $parsedData = json_decode($data, true);
+                    
+                    $uploadedFilenames[] = $parsedData['filename'];
+                    $dataupload = [
+                        'mvm_service_vehicle_h_id' => $service_id,
+                        'detail_type' => 'Upload',
+                        'unique_data' => $parsedData['filename'],
+                        'value_data' => $parsedData['remark'],
+                        'source'    => $destinationPath,
+                        'created_date'    => date("Y-m-d h:i:sa"),
+                        'user_created'     => $request->session()->get('username')
+                    ];
+                    DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($dataupload);
+                }
+    
+                $allFiles = File::files($destinationPath);
+    
+                foreach ($allFiles as $file) {
+                    if (!in_array($file->getFilename(), $uploadedFilenames)) {
+                        File::delete($file->getPathname());
+                    }
+                }
+    
+                $allFiles = File::files($destinationPath);
+    
+                foreach ($allFiles as $file) {
+                    if (!in_array($file->getFilename(), $uploadedFilenames)) {
+                        File::delete($file->getPathname());
+                    }
+                }
+             
+    
+                DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$request->id)->update([
+                    'tanggal_service'	=> $request->tanggal_service,
+                    'status_service'   => 'NO SERVICE',
+                    'updated_at'    => date("Y-m-d h:i:sa"),
+                    'update_by'     => $request->session()->get('username')
+                ]);  
                 
-                $datajobs = [
+                DB::connection('ts3')->table('mst.mst_vehicle')->where('nopol',$request->nopol)->update([
+                    'tgl_last_service'   => $request->tanggal_service,
+                    'nama_stnk'   => $request->nama_stnk,
+                    'last_km'   =>  $request->last_km,
+                    'updated_at'    => date("Y-m-d h:i:sa"),
+                    'update_by'     => $request->session()->get('username')
+                ]); 
+    
+    
+                // DB::connection('ts3')->table('mvm.mvm_gps_process')->where('nopol',$request->nopol)->where('status','pemasangan')->whereNull('service_no')->update([
+                //     'status' => 'service',
+                //     'service_no' => $service_no
+                  
+                // ]); 
+    
+    
+                $datahis = [
                     'mvm_service_vehicle_h_id' => $service_id,
-                    'detail_type' => 'Pekerjaan',
-                    'unique_data' => $parsedData['id'],
-                    'value_data' => $parsedData['remark'],
-                    'source' => 'mst_price_service (Jasa)',
-                    'created_date' => date("Y-m-d H:i:s"), // Menggunakan H untuk jam 24-jam
-                    'user_created' => $request->session()->get('username')
+                    'mst_bengkel_id' => $bengkel->id,
+                    'pic_branch' => $request->pic_branch
                 ];
-
-                // Menyimpan data pekerjaan ke database
-                DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datajobs);
-            }
-
-
-            foreach ($request->part_data as $key => $data) {
-
-                $parsedData = json_decode($data, true);
+                DB::connection('ts3')->table('mvm.mvm_service_history')->insert($datahis);
                 
     
-                $datapart = [
-                    'mvm_service_vehicle_h_id' => $service_id,
-                    'detail_type' => 'Spare Part',
-                    'unique_data' => $parsedData['id'], // Mengambil ID dari JSON
-                    'value_data' =>  $parsedData['remark'], // Mengambil nilai part berdasarkan key
-                    'source' => 'mst_price_service (Part)',
-                    'created_date' => date("Y-m-d H:i:s"), // Menggunakan H untuk jam 24-jam
-                    'user_created' => $request->session()->get('username')
-                ];
-
-
-                DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datapart);
             }
-
-            $uploadedFilenames = [];
-
-            foreach($request->upload_data as $key => $data){
-
-                $destinationPath =storage_path('data/service/'.date("Y").'/'.date("m").'/').$service_no;
-                $parsedData = json_decode($data, true);
-                
-                $uploadedFilenames[] = $parsedData['filename'];
-                $dataupload = [
-                    'mvm_service_vehicle_h_id' => $service_id,
-                    'detail_type' => 'Upload',
-                    'unique_data' => $parsedData['filename'],
-                    'value_data' => $parsedData['remark'],
-                    'source'    => $destinationPath,
+            else {
+             
+                $service_id =   DB::connection('ts3')->table('mvm.mvm_service_vehicle_h')->insertGetId([
+                    'mvm_spk_d_id'   => $request->id,
+                    'tanggal_service'	=> $request->tanggal_service,
+                    'nama_driver'	=> $request->nama_driver,
+                    'last_km'	=> $request->last_km,
+                    'mekanik'	=> $request->mekanik,
                     'created_date'    => date("Y-m-d h:i:sa"),
-                    'user_created'     => $request->session()->get('username')
-                ];
-                DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($dataupload);
-            }
-
-            $allFiles = File::files($destinationPath);
-
-            foreach ($allFiles as $file) {
-                if (!in_array($file->getFilename(), $uploadedFilenames)) {
-                    File::delete($file->getPathname());
-                }
-            }
-
-            $allFiles = File::files($destinationPath);
-
-            foreach ($allFiles as $file) {
-                if (!in_array($file->getFilename(), $uploadedFilenames)) {
-                    File::delete($file->getPathname());
-                }
-            }
-         
-
-            DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$request->id)->update([
-                'tanggal_service'	=> $request->tanggal_service,
-                'status_service'   => 'SERVICE',
-                'updated_at'    => date("Y-m-d h:i:sa"),
-                'update_by'     => $request->session()->get('username')
-            ]);  
+                    'user_created'     => $request->session()->get('username'),
+                    'service_no'	=> $service_no,
+                    'remark_driver' => $request->remark_driver,
+                    'pic_branch' => $request->pic_branch
+                ]); 
+    
             
-            DB::connection('ts3')->table('mst.mst_vehicle')->where('nopol',$request->nopol)->update([
-                'tgl_last_service'   => $request->tanggal_service,
-                'nama_stnk'   => $request->nama_stnk,
-                'last_km'   =>  $request->last_km,
-                'updated_at'    => date("Y-m-d h:i:sa"),
-                'update_by'     => $request->session()->get('username')
-            ]); 
+                    // Mengolah pekerjaan_data
+                foreach ($request->pekerjaan_data as $data) {
+                    // Mengurai data JSON
+                    $parsedData = json_decode($data, true);
+                    
+                    $datajobs = [
+                        'mvm_service_vehicle_h_id' => $service_id,
+                        'detail_type' => 'Pekerjaan',
+                        'unique_data' => $parsedData['id'],
+                        'value_data' => $parsedData['remark'],
+                        'source' => 'mst_price_service (Jasa)',
+                        'created_date' => date("Y-m-d H:i:s"), // Menggunakan H untuk jam 24-jam
+                        'user_created' => $request->session()->get('username')
+                    ];
+    
+                    // Menyimpan data pekerjaan ke database
+                    DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datajobs);
+                }
+    
+    
+                foreach ($request->part_data as $key => $data) {
+    
+                    $parsedData = json_decode($data, true);
+                    
+        
+                    $datapart = [
+                        'mvm_service_vehicle_h_id' => $service_id,
+                        'detail_type' => 'Spare Part',
+                        'unique_data' => $parsedData['id'], // Mengambil ID dari JSON
+                        'value_data' =>  $parsedData['remark'], // Mengambil nilai part berdasarkan key
+                        'source' => 'mst_price_service (Part)',
+                        'created_date' => date("Y-m-d H:i:s"), // Menggunakan H untuk jam 24-jam
+                        'user_created' => $request->session()->get('username')
+                    ];
+    
+    
+                    DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($datapart);
+                }
+    
+    
+                $uploadedFilenames = [];
+    
+                foreach($request->upload_data as $key => $data){
+    
+                    $destinationPath =storage_path('data/service/'.date("Y").'/'.date("m").'/').$service_no;
+                    $parsedData = json_decode($data, true);
+                    
+                    $uploadedFilenames[] = $parsedData['filename'];
+                    $dataupload = [
+                        'mvm_service_vehicle_h_id' => $service_id,
+                        'detail_type' => 'Upload',
+                        'unique_data' => $parsedData['filename'],
+                        'value_data' => $parsedData['remark'],
+                        'source'    => $destinationPath,
+                        'created_date'    => date("Y-m-d h:i:sa"),
+                        'user_created'     => $request->session()->get('username')
+                    ];
+                    DB::connection('ts3')->table('mvm.mvm_service_vehicle_d')->insert($dataupload);
+                }
+    
+                $allFiles = File::files($destinationPath);
+    
+                foreach ($allFiles as $file) {
+                    if (!in_array($file->getFilename(), $uploadedFilenames)) {
+                        File::delete($file->getPathname());
+                    }
+                }
+    
+                $allFiles = File::files($destinationPath);
+    
+                foreach ($allFiles as $file) {
+                    if (!in_array($file->getFilename(), $uploadedFilenames)) {
+                        File::delete($file->getPathname());
+                    }
+                }
+             
+    
+                DB::connection('ts3')->table('mvm.mvm_spk_d')->where('id',$request->id)->update([
+                    'tanggal_service'	=> $request->tanggal_service,
+                    'status_service'   => 'SERVICE',
+                    'updated_at'    => date("Y-m-d h:i:sa"),
+                    'update_by'     => $request->session()->get('username')
+                ]);  
+                
+                DB::connection('ts3')->table('mst.mst_vehicle')->where('nopol',$request->nopol)->update([
+                    'tgl_last_service'   => $request->tanggal_service,
+                    'nama_stnk'   => $request->nama_stnk,
+                    'last_km'   =>  $request->last_km,
+                    'updated_at'    => date("Y-m-d h:i:sa"),
+                    'update_by'     => $request->session()->get('username')
+                ]); 
+    
+    
+                DB::connection('ts3')->table('mvm.mvm_gps_process')->where('nopol',$request->nopol)->where('status','pemasangan')->whereNull('service_no')->update([
+                    'status' => 'service',
+                    'service_no' => $service_no
+                  
+                ]); 
+    
+    
+                $datahis = [
+                    'mvm_service_vehicle_h_id' => $service_id,
+                    'mst_bengkel_id' => $bengkel->id,
+                    'pic_branch' => $request->pic_branch
+                ];
+                DB::connection('ts3')->table('mvm.mvm_service_history')->insert($datahis);
+            }
+
+          
+
+            
+          
 
 
-            DB::connection('ts3')->table('mvm.mvm_gps_process')->where('nopol',$request->nopol)->where('status','pemasangan')->whereNull('service_no')->update([
-                'status' => 'service',
-                'service_no' => $service_no
-              
-            ]); 
 
-
-            $datahis = [
-                'mvm_service_vehicle_h_id' => $service_id,
-                'mst_bengkel_id' => $bengkel->id,
-                'pic_branch' => $request->pic_branch
-            ];
-            DB::connection('ts3')->table('mvm.mvm_service_history')->insert($datahis);
 
             DB::commit();
         }
@@ -244,7 +345,10 @@ class Service extends Controller
             'remark' => 'required|string',
         ]);
     
+
         $service_no = 'MVM-' . $request->nopol . '-' . date("Ymd");
+
+
         $uploadedFiles = [];
 
         foreach ($request->file('file') as $file) {

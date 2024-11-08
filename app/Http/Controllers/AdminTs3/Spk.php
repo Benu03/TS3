@@ -73,8 +73,20 @@ class Spk extends Controller
 
         
         if ($request->ajax()) {
-        $spkservice = DB::connection('ts3')->table('mvm.v_spk_detail')->where('spk_status','ONPROGRESS')
-            ->wherein('status_service',['PLANING', 'ONSCHEDULE','SERVICE'])->orderByRaw('tanggal_schedule')->get();
+           
+            $status_service = $request->input('status_service');
+
+       $spkserviceQuery = DB::connection('ts3')->table('mvm.v_spk_detail')
+            ->where('spk_status', 'ONPROGRESS')
+            ->whereIn('status_service', ['PLANING', 'ONSCHEDULE', 'SERVICE'])
+            ->orderByRaw('tanggal_schedule');
+        
+        Log::info($status_service);
+        if ($status_service) {
+            $spkserviceQuery->where('status_service', $status_service);
+        }
+
+        $spkservice = $spkserviceQuery->get();
         return DataTables::of($spkservice)->addColumn('action', function($row){
                 if($row->status_service != 'SERVICE')
                 {
