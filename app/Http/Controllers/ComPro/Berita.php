@@ -113,7 +113,7 @@ class Berita extends Controller
         // $berita = DB::connection('ts3')->table('berita')->where('status_berita','Publish')->orderBy('id_berita', 'DESC')->get();
         $model  = new Berita_model();
         $read   = $model->read($slug_berita);
-  
+        
 
         if(!$read)
         {
