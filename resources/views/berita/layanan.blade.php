@@ -25,7 +25,7 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Layanan')->
          
       </div>
        
-      @if($read->sop_layanan != null)
+      @if($berita->sop_layanan != null)
       <div class="container">
          <h5 class="mb-4 font-weight-bold">
              Jaringan layanan service kunjung kami, tersebar di beberapa lokasi di wilayah Indonesia, antara lain:
