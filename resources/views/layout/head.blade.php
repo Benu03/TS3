@@ -51,6 +51,10 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
   top: 0;
 
 }
+.custom-margin-berita {
+    margin-right: 90px;
+}
+
 </style>
 
 
