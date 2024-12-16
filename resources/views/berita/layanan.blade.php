@@ -71,7 +71,7 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Layanan')->
       
 
 
-            <div class="container">
+            {{-- <div class="container">
      
             <div class="row mb-4">
                <div class="col-lg-12">
@@ -138,7 +138,7 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Layanan')->
                   </div>
                </div>
          </div>
-         </div>
+         </div> --}}
      
 
        @endif
