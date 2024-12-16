@@ -60,5 +60,8 @@ $site_config = DB::connection('ts3')->table('cp.konfigurasi')->first();
 
 <?php echo $site_config->metatext ?>
 </head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <body>

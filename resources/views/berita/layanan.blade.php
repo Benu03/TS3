@@ -65,7 +65,8 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Layanan')->
       </select>
 
 
-      <div id="mapNetworks" style="width: 100%; height: 500px; margin-bottom: 20px;"></div>
+      {{-- <div id="mapNetworks" style="width: 100%; height: 500px; margin-bottom: 20px;"></div> --}}
+      <div id="map" style="width: 100%; height: 500px; margin-bottom: 20px;"></div>
 
       
 
@@ -175,11 +176,11 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Layanan')->
       <br><br>
       </section>
       <div class="clearfix"><br><br></div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnbnII95BOkJDnZr3u4DFsWZiaSwFjXRM"></script>
+
+
 <script>
    let map, markers = [];
 
-   // Data Semua Titik Lokasi
    const locations = [
        { lat: -6.186486, lng: 106.834091, title: "Jakarta Pusat", address: "Jl. Merdeka No. 1, Jakarta Pusat" },
        { lat: -6.261493, lng: 106.810600, title: "Jakarta Selatan", address: "Jl. Sudirman No. 2, Jakarta Selatan" },
@@ -187,88 +188,96 @@ $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Layanan')->
        { lat: -6.238270, lng: 107.005042, title: "Bekasi", address: "Jl. Ahmad Yani No. 4, Bekasi" },
        { lat: -7.250445, lng: 112.768845, title: "Surabaya", address: "Jl. Gubernur Suryo No. 5, Surabaya" },
        { lat: -7.966620, lng: 112.632632, title: "Malang", address: "Jl. Ijen No. 6, Malang" },
-       // Pulau Kalimantan
        { lat: -0.472448, lng: 117.144128, title: "Balikpapan", address: "Jl. Soekarno Hatta No. 7, Balikpapan" },
        { lat: -0.322533, lng: 117.578508, title: "Banjarmasin", address: "Jl. A. Yani No. 9, Banjarmasin" },
        { lat: 1.145207, lng: 109.334868, title: "Pontianak", address: "Jl. Alian No. 5, Pontianak" },
-       // Pulau Sumatra
        { lat: 3.595194, lng: 98.672221, title: "Medan", address: "Jl. Merdeka No. 10, Medan" },
        { lat: 5.466732, lng: 100.360168, title: "Padang", address: "Jl. Ahmad Yani No. 11, Padang" },
        { lat: 1.671087, lng: 104.202817, title: "Palembang", address: "Jl. Raya Palembang No. 15, Palembang" },
-       // Pulau Sulawesi
        { lat: -0.949954, lng: 119.878724, title: "Makassar", address: "Jl. Losari No. 13, Makassar" },
        { lat: 0.594269, lng: 122.626142, title: "Manado", address: "Jl. Sam Ratulangi No. 8, Manado" },
        { lat: -0.548272, lng: 122.982297, title: "Gorontalo", address: "Jl. Sultan Botutihe No. 3, Gorontalo" }
    ];
 
-   // Custom Icon dengan ukuran yang disesuaikan
-   const customIcon = {
-       url: "https://ts3.co.id/assets/upload/image/2.png", // URL gambar pin
-       scaledSize: new google.maps.Size(32, 32), // Menyesuaikan ukuran ikon (width, height)
-       origin: new google.maps.Point(0, 0), // Titik asal ikon
-       anchor: new google.maps.Point(16, 32) // Menentukan titik anchor untuk penempatan marker
-   };
+   const customIcon = L.icon({
+       iconUrl: 'https://ts3.co.id/assets/upload/image/2.png',
+       iconSize: [32, 32],
+       iconAnchor: [16, 32],
+       popupAnchor: [0, -32]
+   });
 
-   // Inisialisasi Peta dan Semua Titik Lokasi
+
    function initMap() {
-       const initialLocation = { lat: -2.600029, lng: 118.015776 };
-       map = new google.maps.Map(document.getElementById("mapNetworks"), {
-           center: initialLocation,
-           zoom: 5
-       });
+
+       map = L.map('map').setView([ -2.600029, 118.015776 ], 5); // Pusat Indonesia
+
+       // Menambahkan layer OpenStreetMap
+       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+         //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+         'Streets': L.tileLayer('https://{s}.tile.streets.org/{z}/{x}/{y}.png')
+       }).addTo(map);
 
        // Tambahkan Semua Marker
        locations.forEach(location => {
-           const marker = new google.maps.Marker({
-               position: { lat: location.lat, lng: location.lng },
-               map: map,
-               title: location.title,
-               icon: customIcon
+           const marker = L.marker([location.lat, location.lng], { icon: customIcon }).addTo(map);
+           marker.bindPopup(`
+               <div style="display: flex; align-items: center;">
+                   <img src="https://ts3.co.id/assets/upload/image/2.png" alt="Location Icon" style="width: 50px; height: 50px; margin-right: 10px;">
+                   <div>
+                       <h5>${location.title}</h5>
+                       <p>${location.address}</p>
+                   </div>
+               </div>
+           `);
+
+           marker.on('click', function() {
+               map.setZoom(8);  
+               map.setView([location.lat, location.lng], 8); 
+               marker.openPopup();  
            });
 
-           const infoWindow = new google.maps.InfoWindow({
-               content: `
-                   <div style="display: flex; align-items: center;">
-                       <img src="https://ts3.co.id/assets/upload/image/2.png" alt="Location Icon" style="width: 30px; height: 30px; margin-right: 10px;">
-                       <div>
-                           <h5>${location.title}</h5>
-                           <p>${location.address}</p>
-                       </div>
-                   </div>
-               `
-           });
-           marker.addListener('click', function() {
-               infoWindow.open(map, marker);
-           });
 
            markers.push(marker);
        });
+
+
    }
 
-   document.getElementById("locationSelect").addEventListener("change", function () {
-       const selected = this.value.split(",");
-       const address = this.options[this.selectedIndex].getAttribute('data-address');
-       if (selected.length === 2) {
-           const newLocation = { lat: parseFloat(selected[0]), lng: parseFloat(selected[1]) };
-           map.setCenter(newLocation);
-           map.setZoom(12);
 
-           const tempInfoWindow = new google.maps.InfoWindow({
-               content: `<div style="display: flex; align-items: center;">
-                       <img src="https://ts3.co.id/assets/upload/image/2.png" alt="Location Icon" style="width: 30px; height: 30px; margin-right: 10px;">
-                       <div><h5>${this.options[this.selectedIndex].text}</h5><p>${address}</p></div></div>`
-           });
-
-           tempInfoWindow.setPosition(newLocation);
-           tempInfoWindow.open(map);
+   function changeLocation(value) {
+       if (value === "") {
+           // Jika value kosong, reset peta ke pusat dan tampilkan semua marker
+           map.setView([ -2.600029, 118.015776 ], 5); // Kembali ke posisi pusat Indonesia
+           markers.forEach(marker => marker.addTo(map)); // Menambahkan semua marker ke peta
        } else {
-  
-           map.setCenter({ lat: -2.600029, lng: 118.015776 });
-           map.setZoom(5);
+           const selectedLocation = locations.find(location => `${location.lat},${location.lng}` === value);
 
-           markers.forEach(marker => marker.setMap(map)); 
+           if (selectedLocation) {
+               const newLocation = { lat: selectedLocation.lat, lng: selectedLocation.lng };
+               map.setView(newLocation, 12);
+               
+             
+               const tempPopup = L.popup()
+                   .setLatLng(newLocation)
+                   .setContent(`
+                       <div style="display: flex; align-items: center;">
+                           <img src="https://ts3.co.id/assets/upload/image/2.png" alt="Location Icon" style="width: 30px; height: 30px; margin-right: 10px;">
+                           <div><h5>${selectedLocation.title}</h5><p>${selectedLocation.address}</p></div>
+                       </div>
+                   `)
+                   .openOn(map);
+           }
        }
+   }
+
+   // Event listener untuk dropdown
+   document.getElementById('locationSelect').addEventListener('change', function() {
+       const selectedValue = this.value;
+       changeLocation(selectedValue); 
    });
+
+
+
 
    window.onload = initMap;
 </script>
