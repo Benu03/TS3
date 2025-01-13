@@ -19,12 +19,50 @@ class Home extends Controller
     {
         
     	$site_config   =  DB::connection('ts3')->table('cp.konfigurasi')->first();
-        $video          = DB::connection('ts3')->table('cp.video')->orderBy('id_video','DESC')->first();
+        // $video          = DB::connection('ts3')->table('cp.video')->orderBy('id_video','DESC')->first();
     	$slider         = DB::connection('ts3')->table('cp.galeri')->where('jenis_galeri','Homepage')->limit(5)->orderBy('id_galeri', 'DESC')->get();
         $layanan        = DB::connection('ts3')->table('cp.berita')->where(array('jenis_berita'=>'Layanan','status_berita'=>'Publish'))->limit(3)->orderBy('urutan', 'ASC')->get();
         $news           = new Berita_model();
         $berita         = $news->home();
 
+
+
+         
+        $bengkels = DB::connection('ts3')
+        ->table('cp.temp_bengkel')
+        ->whereNotNull('LATITUDE')
+        ->whereNotNull('LONGITUDE')
+        ->get();
+    
+        foreach ($bengkels as $bengkel) {
+            $provinsi = $bengkel->PROVINSI;
+            $kota = $bengkel->KOTA;
+            
+         
+            if (!isset($locations[$provinsi])) {
+                $locations[$provinsi] = [];
+            }
+        
+            // Tambahkan bengkel ke dalam daftar kota di provinsi
+            $locations[$provinsi][] = [
+                'name'    => $kota,
+                'gmap'    => "{$bengkel->LATITUDE},{$bengkel->LONGITUDE}",
+                'address' => $bengkel->ALAMAT,
+            ];
+            }
+            $locations2 = DB::connection('ts3')
+            ->table('cp.temp_bengkel')
+            ->whereNotNull('LATITUDE')
+            ->whereNotNull('LONGITUDE')
+            ->get()
+            ->map(function ($bengkel) {
+                return [
+                    'lat'     => (float) $bengkel->LATITUDE,
+                    'lng'     => (float) $bengkel->LONGITUDE,
+                    'title'   => $bengkel->KOTA,
+                    'address' => $bengkel->ALAMAT,
+                ];
+            });
 
         $data = array(  'title'         => $site_config->namaweb,
                         'deskripsi'     => $site_config->namaweb.' - '.$site_config->tagline,
@@ -34,7 +72,9 @@ class Home extends Controller
                         // 'berita'        => $berita,
                         // 'beritas'       => $berita,
                         'layanan'       => $layanan,
-                        'video'         => $video,
+                        // 'video'         => $video,
+                        'locations'   => $locations,
+                        'locations2'   => $locations2,
                         'content'       => 'home/index'
                     );
         return view('layout/wrapper',$data);
