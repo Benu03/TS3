@@ -99,8 +99,7 @@
             map = L.map('map', {
             center: [-2.600029, 118.015776], // Pusat Indonesia
             zoom: 5, // Level zoom awal
-            minZoom: 4, // Set batas zoom keluar (lebih kecil)
-            maxZoom: 15 // Set batas zoom masuk (lebih besar)
+          
         });
       
              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -111,27 +110,21 @@
                iconCreateFunction: function(cluster) {
                   const markersInCluster = cluster.getAllChildMarkers();
                   const markerCount = markersInCluster.length;
-
+                  
+                 
                   const size = Math.min(40 + (markerCount * 2), 80);  // Maksimal ukuran 80px
                   const radius = size / 2;
 
-                  // Fungsi untuk menghasilkan warna acak
-                  function getRandomColor() {
-                        return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-                  }
-
-                  const randomColor = getRandomColor(); // Dapatkan warna acak
-
-                  // Membuat ikon untuk cluster
-                  return L.divIcon({
-                        html: `<div style="background-color: ${randomColor}; border-radius: 50%; width: ${size}px; height: ${size}px; line-height: ${size}px; text-align: center; color: white; font-size: 14px;">${markerCount}</div>`,
-                        className: 'leaflet-markercluster-custom',
-                        iconSize: [size, size],
-                        iconAnchor: [radius, radius],
-                        popupAnchor: [0, -radius]
-                  });
-               }
-            });
+                        // Membuat ikon untuk cluster
+                        return L.divIcon({
+                           html: `<div style="background-color: #6dcbd3; border-radius: 50%; width: ${size}px; height: ${size}px; line-height: ${size}px; text-align: center; color: white; font-size: 16px;">${markerCount}</div>`,
+                           className: 'leaflet-markercluster-custom',
+                           iconSize: [size, size],
+                           iconAnchor: [radius, radius],
+                           popupAnchor: [0, -radius]
+                        });
+                     }
+               });
 
 
 
@@ -151,7 +144,7 @@
                  `);
       
                  marker.on('click', function() {
-                     map.setView([location.lat, location.lng], 8); 
+                     map.setView([location.lat, location.lng], 16); 
                      marker.openPopup();  
                  });
       
@@ -161,7 +154,7 @@
              });
 
              map.addLayer(markersCluster);
-
+             
                if (map.getZoom() <= 8) {
                      markers.forEach(marker => marker.setOpacity(0));
                   }
@@ -189,7 +182,7 @@
       
                  if (selectedLocation) {
                      const newLocation = { lat: selectedLocation.lat, lng: selectedLocation.lng };
-                     map.setView(newLocation, 12);
+                     map.setView(newLocation, 20);
       
                      const tempPopup = L.popup()
                          .setLatLng(newLocation)
