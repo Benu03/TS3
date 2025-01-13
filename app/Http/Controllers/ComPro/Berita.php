@@ -64,6 +64,45 @@ class Berita extends Controller
         $berita = $model->read($slug_berita);
         $layanan = DB::connection('ts3')->table('cp.berita')->where(array('jenis_berita' => 'Layanan','status_berita' => 'Publish'))->orderBy('urutan', 'ASC')->get();
 
+    
+        $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Layanan')->orderBy('id_heading','DESC')->first();
+               
+       
+        $bengkels = DB::connection('ts3')
+        ->table('cp.temp_bengkel')
+        ->whereNotNull('LATITUDE')
+        ->whereNotNull('LONGITUDE')
+        ->get();
+    
+        foreach ($bengkels as $bengkel) {
+            $provinsi = $bengkel->PROVINSI;
+            $kota = $bengkel->KOTA;
+            
+         
+            if (!isset($locations[$provinsi])) {
+                $locations[$provinsi] = [];
+            }
+        
+            // Tambahkan bengkel ke dalam daftar kota di provinsi
+            $locations[$provinsi][] = [
+                'name'    => $kota,
+                'gmap'    => "{$bengkel->LATITUDE},{$bengkel->LONGITUDE}",
+                'address' => $bengkel->ALAMAT,
+            ];
+        }
+        $locations2 = DB::connection('ts3')
+        ->table('cp.temp_bengkel')
+        ->whereNotNull('LATITUDE')
+        ->whereNotNull('LONGITUDE')
+        ->get()
+        ->map(function ($bengkel) {
+            return [
+                'lat'     => (float) $bengkel->LATITUDE,
+                'lng'     => (float) $bengkel->LONGITUDE,
+                'title'   => $bengkel->KOTA,
+                'address' => $bengkel->ALAMAT,
+            ];
+        });
         if(!$berita)
         {
             return redirect('berita');
@@ -75,6 +114,9 @@ class Berita extends Controller
                         'site'      => $site,
                         'berita'    => $berita,
                         'layanan'   => $layanan,
+                        'bg'   => $bg,
+                        'locations'   => $locations,
+                        'locations2'   => $locations2,
                         'content'   => 'berita/layanan'
                     );
         return view('layout/wrapper',$data);
