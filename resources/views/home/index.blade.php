@@ -153,12 +153,12 @@
               </div>
 
 
-              <div class="row" style="margin-top: 60px;">
-               <div class="col-lg-12">
+                     <div class="row" style="margin-top: 60px;">
+                     <div class="col-lg-12">
                                  <h2 class="mb-4 font-weight-bold text-center">Jaringan Kami</h2>
-                           <h5 class="mb-4 font-weight-bold">
-                              Jaringan layanan service kunjung kami, tersebar di beberapa lokasi di wilayah Indonesia, antara lain:
-                        </h5>
+                              <h5 class="mb-4 font-weight-bold">
+                                 Jaringan layanan service kunjung kami, tersebar di beberapa lokasi di wilayah Indonesia, antara lain:
+                              </h5>
                            <select id="locationSelect" class="form-control" style="margin-bottom: 20px;">
                               <option value="">Pilih Kota</option>
                               <?php foreach ($locations as $provinsi => $cities): ?>
@@ -171,8 +171,15 @@
                                  </optgroup>
                               <?php endforeach; ?>
                            </select>
-                     
-                           <div id="map" style="width: 100%; height: 500px; margin-bottom: 20px;"></div>
+
+
+                           {{-- <div id="map" style="width: 100%; height: 500px; margin-bottom: 20px;"></div> --}}
+                           <div class="custom-card" style ="margin-bottom: 20px;">
+                              
+                              <div class="card-body">
+                                <div id="map" style="width: 100%; height: 500px;"></div>
+                              </div>
+                            </div>
 
                         </div>
                         </div>
@@ -191,7 +198,7 @@
             </div>
             </section>
           
-           <script>
+   <script>
          let map, markers = [];
          const locations2 = @json($locations2);
        

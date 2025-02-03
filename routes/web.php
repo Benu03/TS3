@@ -59,7 +59,8 @@ Route::get('berita/kategori/{par1}', 'App\Http\Controllers\ComPro\Berita@kategor
 Route::get('berita/sop-layanan/{par1}', 'App\Http\Controllers\ComPro\Berita@sop_layanan');
 
 
-
+Route::get('academy', 'App\Http\Controllers\ComPro\Home@academy');
+Route::get('jaringan', 'App\Http\Controllers\ComPro\Home@jaringan');
 
 // download
 Route::get('download', 'App\Http\Controllers\ComPro\Download@index');
