@@ -38,7 +38,7 @@
                   <!-- Thumbnail Image with YouTube Video -->
                   <div class="ratio" style="--bs-aspect-ratio: 56.25%; height: 300px;">
                      <iframe 
-                        src="https://www.youtube.com/embed/RUcdo617_Co?rel=0&autoplay=0&mute=0" 
+                        src="https://www.youtube.com/embed/wtwxGHaszr4?si=RW5OtOkEdwzngVlD" 
                         frameborder="0" 
                         allowfullscreen 
                         class="w-100 h-100">
