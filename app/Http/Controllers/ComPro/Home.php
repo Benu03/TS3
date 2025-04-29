@@ -175,7 +175,7 @@ class Home extends Controller
     public function jaringan()
     {
         $site_config   = DB::connection('ts3')->table('cp.konfigurasi')->first();
-        $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Jaringan')->orderBy('id_heading','DESC')->first();
+        $bg   = DB::connection('ts3')->table('cp.heading')->where('halaman','Kontak')->orderBy('id_heading','DESC')->first();
    
         $bengkels = DB::connection('ts3')
         ->table('cp.temp_bengkel')

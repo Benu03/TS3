@@ -7,7 +7,7 @@ class Branch_model extends Model
 {
 
 
-    public function GetBranchTemp($username)
+    public static function GetBranchTemp($username)
     {
     	$query = DB::connection('ts3')->table('tmp.tmp_branch')
                 ->where('user_upload', $username)->get();
