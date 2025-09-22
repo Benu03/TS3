@@ -1,35 +1,86 @@
 <!--Slider Start-->
 
 <style>
-   .owl-carousel .item {
+/* Slider utama */
+#home-slider .item {
   display: flex;
-  align-items: center;   /* center vertical */
-  justify-content: center; /* center horizontal */
-  height: 100px; /* tinggi area slider, bisa disesuaikan */
+  justify-content: center;
+  align-items: center;
+  height: 300px; /* tinggi area slider, bisa disesuaikan */
+  background: #f8f9fa; /* biar tidak kosong kalau gambar kecil */
 }
 
-.owl-carousel .item img {
-  max-height: 80px; /* biar gambar tidak terlalu besar */
+#home-slider .item img {
+  max-height: 200px;
+  width: auto;
   object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Client slider */
+.client-slide .item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px; /* kotak logo lebih seragam */
+}
+
+.client-slide .item img {
+  max-height: 80px;
+  object-fit: contain;
+  width: auto;
+}
+
+/* Tombol navigasi slider utama */
+#home-slider.owl-theme .owl-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+#home-slider.owl-theme .owl-nav button.owl-prev,
+#home-slider.owl-theme .owl-nav button.owl-next {
+  background: rgba(0,0,0,0.4) !important;
+  color: #fff !important;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  pointer-events: auto;
+}
+
+#home-slider.owl-theme .owl-nav button.owl-prev:hover,
+#home-slider.owl-theme .owl-nav button.owl-next:hover {
+  background: rgba(0,0,0,0.8) !important;
 }
 
 </style>
-         <section id="home-slider" class="owl-carousel owl-theme wf100">
-            <?php foreach($slider as $slider) { ?>
-            <div class="item">
-               <div class="slider-caption h3slider">
-                  <div class="container">
-                     <?php if($slider->status_text=="Ya") { ?>
-                     <strong>{{ strip_tags($slider->isi) }}</strong>
-                     <h1>{{ $slider->judul_galeri }}</h1>
-                     <a href="{{ $slider->website }}">Baca detail</a>
-                     <?php } ?>
-                  </div>
-               </div>
-               <img src="{{ asset('assets/upload/image/'.$slider->gambar) }}" alt=""> 
-            </div>
-            <?php } ?>
-         </section>
+
+<section id="home-slider" class="owl-carousel owl-theme wf100">
+    @foreach($slider as $s)
+        <div class="item">
+            <img src="{{ asset('assets/upload/image/'.$s->gambar) }}" alt="{{ $s->judul_galeri }}"> 
+
+            @if($s->status_text == "Ya")
+                <div class="slider-caption h3slider">
+                    <div class="container text-center">
+                        <strong>{{ strip_tags($s->isi) }}</strong>
+                        <h1>{{ $s->judul_galeri }}</h1>
+                        @if($s->website)
+                            <a href="{{ $s->website }}" target="_blank" class="btn btn-primary">Baca detail</a>
+                        @endif
+                    </div>
+                </div>
+            @endif
+        </div>
+    @endforeach
+</section>
+
          <!--Slider End--> 
          <!--Service Area Start-->
          <section class="donation-join wf100">
@@ -92,79 +143,9 @@
               <div class="section-text align-center mbr-fonts-style display-5">
             
               <div class="row">
-            
-              {{-- <div id="gallery" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                <div class="carousel-item active" data-interval="1500">
-                    <div class="row">
-                        <div class="col text-center mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/pnm.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/polytron.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/mbm.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/btpn_syariah.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/phapros.png') }}"  alt="Image 1"/>
-                        </div>
-
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/brother.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                       
-                    </div>
-                </div>
-            
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col text-center mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/glory.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/helmut.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/distambun.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/spj.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                        <div class="col mr-1">
-                        <img class="rounded mx-auto d-block img-thumbnail  border border-0" src="{{ asset('assets/upload/client/uns.png') }}"  alt="Image 1"/>
-                        </div>
-            
-                      
-                     </div>
-                  </div>
-                  </div>
-            
-                  <a class="carousel-control-prev" href="#gallery" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                  </a>
-            
-                  <a class="carousel-control-next" href="#gallery" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                  </a>
-              </div> --}}
-
+     
               <div class="container mt-4">
-                  <div class="owl-carousel owl-theme">
+                  <div class="owl-carousel owl-theme client-slide">
                      <div class="item">
                            <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/pnm.png') }}" alt="PNM"/>
                      </div>
@@ -260,9 +241,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+
 <script>
 $(document).ready(function(){
-  $(".owl-carousel").owlCarousel({
+  $("#home-slider").owlCarousel({
+      items:1,
+      loop:true,
+      autoplay:true,
+      autoplayTimeout:4000,
+      autoplayHoverPause:true,
+      nav:true,
+      dots:true
+  });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+  $(".client-slide").owlCarousel({
       loop:true,
       margin:20,
       autoplay:true,
@@ -277,7 +273,7 @@ $(document).ready(function(){
 });
 </script>
           
-   <script>
+<script>
          let map, markers = [];
          const locations2 = @json($locations2);
        
