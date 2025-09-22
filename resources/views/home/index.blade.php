@@ -1,4 +1,19 @@
 <!--Slider Start-->
+
+<style>
+   .owl-carousel .item {
+  display: flex;
+  align-items: center;   /* center vertical */
+  justify-content: center; /* center horizontal */
+  height: 100px; /* tinggi area slider, bisa disesuaikan */
+}
+
+.owl-carousel .item img {
+  max-height: 80px; /* biar gambar tidak terlalu besar */
+  object-fit: contain;
+}
+
+</style>
          <section id="home-slider" class="owl-carousel owl-theme wf100">
             <?php foreach($slider as $slider) { ?>
             <div class="item">
@@ -78,7 +93,7 @@
             
               <div class="row">
             
-              <div id="gallery" class="carousel slide" data-ride="carousel">
+              {{-- <div id="gallery" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                 <div class="carousel-item active" data-interval="1500">
                     <div class="row">
@@ -100,6 +115,10 @@
             
                         <div class="col mr-1">
                         <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/phapros.png') }}"  alt="Image 1"/>
+                        </div>
+
+                        <div class="col mr-1">
+                        <img class="rounded mx-auto d-block img-thumbnail border border-0" src="{{ asset('assets/upload/client/brother.png') }}"  alt="Image 1"/>
                         </div>
             
                        
@@ -142,9 +161,47 @@
                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
                       <span class="sr-only">Next</span>
                   </a>
-              </div>
+              </div> --}}
 
-             
+              <div class="container mt-4">
+                  <div class="owl-carousel owl-theme">
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/pnm.png') }}" alt="PNM"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/polytron.png') }}" alt="Polytron"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/mbm.png') }}" alt="MBM"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/btpn_syariah.png') }}" alt="BTPN Syariah"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/phapros.png') }}" alt="Phapros"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/brother.png') }}" alt="Brother"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/glory.png') }}" alt="Glory"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/helmut.png') }}" alt="Helmut"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/distambun.png') }}" alt="Distambun"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/spj.png') }}" alt="SPJ"/>
+                     </div>
+                     <div class="item">
+                           <img class="rounded img-thumbnail border-0" src="{{ asset('assets/upload/client/uns.png') }}" alt="UNS"/>
+                     </div>
+                  </div>
+               </div>
+
+                           
           
 
 
@@ -197,6 +254,28 @@
 
             </div>
             </section>
+
+            
+<!-- Tambahkan JS Owl Carousel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $(".owl-carousel").owlCarousel({
+      loop:true,
+      margin:20,
+      autoplay:true,
+      autoplayTimeout:1500,
+      autoplayHoverPause:false,
+      responsive:{
+          0:{ items:2 },
+          600:{ items:4 },
+          1000:{ items:6 }
+      }
+  });
+});
+</script>
           
    <script>
          let map, markers = [];
@@ -317,5 +396,5 @@
          });
       
          window.onload = initMap;
-      </script>
+</script>
       
